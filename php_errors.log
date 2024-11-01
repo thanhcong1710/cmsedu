@@ -1,0 +1,1 @@
+[04-Jan-2019 17:46:15 Asia/Bangkok] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 69632 bytes) in /home/ada_staging/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php on line 123

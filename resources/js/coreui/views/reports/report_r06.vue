@@ -1,0 +1,407 @@
+<template>
+  <div class="animated fadeIn apax-form">
+    <loader :active="processing" :spin="spin" :text="text" :duration="duration"/>
+    <div class="row">
+      <div class="col-12">
+        <b-card header>
+          <div slot="header">
+            <i class="fa fa-filter"></i>
+            <b class="uppercase">Bộ lọc</b>
+          </div>
+          <div class="content-detail">
+            <div class="row">
+              <div class="col-md-3">
+                <multiselect
+                  placeholder="Chọn trung tâm"
+                  select-label="Chọn một trung tâm"
+                  v-model="searchData.listBranchs"
+                  :options="resource.branchs"
+                  label="name"
+                  :close-on-select="false"
+                  :hide-selected="true"
+                  :multiple="true"
+                  :searchable="true"
+                  track-by="id"
+                  @select="onSelectBranch"
+                >
+                  <span slot="noResult">Không tìm thấy trung tâm phù hợp</span>
+                </multiselect>
+              </div>
+              <div class="col-md-3">
+                <input
+                  class="search-field form-control filter-input"
+                  v-model="searchData.keyword"
+                  placeholder="Tìm học sinh theo: Tên, Mã CRM"
+                  @input="validate_keyword()"
+                >
+                <i class="mx-input-min-icon fa fa-search"></i>
+              </div>
+              <div class="col-md-3">
+                <date-picker
+                  style="width:100%;"
+                  v-model="searchData.dateRange"
+                  :lang="datepickerOptions.lang"
+                  format="YYYY-MM-DD"
+                  :not-before="datepickerOptions.minDate"
+                  range
+                  placeholder="Chọn thời gian tìm kiếm"
+                ></date-picker>
+              </div>
+              <div class="col-md-3">
+                <select  class="search-field form-control" v-model="searchData.contract_type">
+                  <option value="0">Loại hợp đồng</option>
+                  <option value="1">Mới</option>
+                  <option value="2">Tái phí</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <select class="form-control" v-model="searchData.source_id" >
+                  <option value="">Chọn nguồn từ</option>
+                  <option :value="source.id" v-for="(source, i) in sources_list" :key="i">{{ source.name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div slot="footer" class="text-center">
+            <button class="apax-btn full detail" @click="search()">
+              <i class="fa fa-search"></i> Tìm Kiếm
+            </button>
+            <button class="apax-btn full reset" @click="clearSearch()">
+              <i class="fa fa-refresh"></i> Lọc Lại
+            </button>
+            <button class="apax-btn full warning" @click="backList()">
+              <i class="fa fa-sign-out"></i> Thoát
+            </button>
+            <button
+              class="apax-btn full print"
+              @click="exportExcel()"
+            >
+              <i class="fa fa-file-excel-o"></i> Xuất Báo Cáo
+            </button>
+          </div>
+        </b-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <b-card header>
+          <div slot="header">
+            <i class="fa fa-file-text"></i>
+            <strong>BÁO CÁO DOANH THU NGUỒN - Tổng số: {{pagination.total}}</strong>
+          </div>
+
+          <div class="table-responsive scrollable">
+            <table
+              id="apax-printing-students-list"
+              class="table table-striped table-bordered apax-table"
+            >
+              <thead>
+                <tr class="text-sm">
+                  <th>STT</th>
+                  <th>Trung tâm</th>
+                  <th>Họ tên học sinh</th>
+                  <th>Mã Cyber</th>
+                  <th>Ngày sinh</th>
+                  <th>Tên phụ huynh</th>
+                  <th>Số điện thoại</th>
+                  <th>Người tạo</th>
+                  <th>Ngày mua gói phí</th>
+                  <th>Tên gói phí</th>
+                  <th>Nguồn</th>
+                  <th>Nguồn chi tiết</th>
+                  <th>Loại hợp đồng</th>
+                  <th>Giá trị gói phí</th>
+                  <th>Số tiền đã đóng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in dataReport" :key="index">
+                  <td>{{ index + 1 + ((pagination.cpage - 1) * pagination.limit) }}</td>
+                  <td>{{ item.branch_name }}</td>
+                  <td>{{ item.student_name }}</td>
+                  <td>{{ item.accounting_id }}</td>
+                  <td>{{ item.date_of_birth }}</td>
+                  <td>{{ item.gud_name1 }}</td>
+                  <td>{{ item.gud_mobile1 }}</td>
+                  <td>{{ item.creator_name }}</td>
+                  <td>{{ item.date_create_contract }}</td>
+                  <td>{{ item.tuition_fee_name }}</td>
+                  <td>{{ item.source_name }}</td>
+                  <td>{{ item.source_detail }}</td>
+                  <td>{{ item.contract_type }}</td>
+                  <td>{{item.must_charge | formatMoney}}</td>
+                  <td>{{item.total_charged | formatMoney}}</td>
+                </tr>
+              </tbody>
+              <tr>
+                <td colspan="13"><b>Tổng</b></td>
+                <td>{{summary.must_charge | formatMoney}}</td>
+                <td>{{summary.total_charged | formatMoney}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="text-center paging">
+            <nav aria-label="Page navigation">
+              <paging
+                :rootLink="pagination.url"
+                :id="pagination.id"
+                :listStyle="pagination.style"
+                :customClass="pagination.class"
+                :firstPage="pagination.spage"
+                :previousPage="pagination.ppage"
+                :nextPage="pagination.npage"
+                :lastPage="pagination.lpage"
+                :currentPage="pagination.cpage"
+                :pagesItems="pagination.total"
+                :pagesLimit="pagination.limit"
+                :pageList="pagination.pages"
+                :routing="changePage"
+              ></paging>
+            </nav>
+            <select
+              class="form-control limit-selection"
+              v-model="pagination.limit"
+              @change="search()"
+            >
+              <option
+                v-for="(item, index) in pagination.limitSource"
+                :value="item"
+                :key="index"
+              >{{ item }}</option>
+            </select>
+          </div>
+        </b-card>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import DatePicker from "vue2-datepicker";
+import paging from "../../components/Pagination";
+import u from "../../utilities/utility";
+import axios from "axios";
+import saveAs from "file-saver";
+import Multiselect from "vue-multiselect";
+import loader from "../../components/Loading";
+
+export default {
+  name: "Report02b",
+  components: {
+    DatePicker,
+    paging,
+    axios,
+    saveAs,
+    Multiselect,
+    loader
+  },
+  data() {
+    const model = {
+      session: u.session(),
+      searchData: {
+        name: "",
+        dateRange: "",
+        listBranchs: "",
+        keyword: "",
+        listCms: "",
+        listProducts: "",
+        type:-1,
+        source_id:'',
+        contract_type:0,
+      },
+      sources_list:[],
+      resource: {
+        branchs: [],
+        cms: [],
+        products: [],
+      },
+      datepickerOptions: {
+        closed: true,
+        value: "",
+        minDate: "2022-06-01",
+        lang: {
+          days: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+          months: [
+            "Tháng 1",
+            "Tháng 2",
+            "Tháng 3",
+            "Tháng 4",
+            "Tháng 5",
+            "Tháng 6",
+            "Tháng 7",
+            "Tháng 8",
+            "Tháng 9",
+            "Tháng 10",
+            "Tháng 11",
+            "Tháng 12"
+          ],
+          pickers: ["", "", "7 ngày trước", "30 ngày trước"]
+        }
+      },
+      dataReport: [],
+      pagination: {
+        url: "/api/reports/r06",
+        id: "",
+        style: "line",
+        class: "",
+        spage: 1,
+        ppage: 1,
+        npage: 0,
+        lpage: 1,
+        cpage: 1,
+        total: 0,
+        limit: 20,
+        limitSource: [10, 20, 30, 40, 50],
+        pages: []
+      },
+      summary:{},
+      processing: false,
+      spin: "mini",
+      duration: 500,
+      text: "Đang tải dữ liệu..."
+    };
+    return model;
+  },
+  created() {
+    const session = u.session().user;
+    let selectionList = session.branches;
+    if (session.regions && session.regions.length) {
+      selectionList = session.regions.concat(selectionList);
+    }
+    if (session.zones && session.zones.length) {
+      selectionList = session.zones.concat(selectionList);
+    }
+    this.resource.branchs = selectionList;
+    // this.searchData.listBranchs = session.branches[0];
+    this.searchData.dateRange = new Date();
+    this.resource.products = u.session().info.products;
+    u.g(`/api/cm/branch/${session.branches[0].id}?status=1`)
+      .then(response => {
+        this.resource.cms = response;
+      });
+    this.search();
+     u.g(`/api/sources`)
+      .then(response => {
+        this.sources_list = response
+      })
+  },
+  methods: {
+    search(a) {
+      this.processing = true
+      const data = this.getParamsSearch()
+      const link = "/api/reports/r06"
+      u.p(link, data, 1)
+        .then(response => {
+          this.dataReport = response.list;
+          this.pagination.spage = response.paging.spage;
+          this.pagination.ppage = response.paging.ppage;
+          this.pagination.npage = response.paging.npage;
+          this.pagination.lpage = response.paging.lpage;
+          this.pagination.cpage = response.paging.cpage;
+          this.pagination.total = response.paging.total;
+          this.pagination.limit = response.paging.limit;
+          this.processing = false;
+          this.summary = response.summary
+        })
+        .catch(e => {
+          u.log("Exeption", e)
+          this.processing = false
+        })
+    },
+    exportExcel() {
+      this.processing = true
+      var params = this.getParamsSearch()
+      var urlApi = "/api/export/report_r06"
+      var tokenKey = u.token()
+      u.g(urlApi, params, 1, 1)
+        .then(response => {
+          saveAs(response, "BÁO CÁO DOANH THU NGUỒN.xlsx");
+          this.processing = false;
+        })
+        .catch(e => {
+          this.processing = false;
+        });
+    },
+    getParamsSearch() {
+      const ids = [];
+      const cmids = [];
+      const pids = [];
+      this.searchData.listBranchs = u.is.obj(this.searchData.listBranchs)
+        ? [this.searchData.listBranchs]
+        : this.searchData.listBranchs;
+      if (this.searchData.listBranchs.length) {
+        this.searchData.listBranchs.map(item => {
+          ids.push(item.id);
+        });
+      }
+      if (this.searchData.listCms.length) {
+        this.searchData.listCms.map(item => {
+          cmids.push(item.id);
+        });
+      }
+      if (this.searchData.listProducts.length) {
+        this.searchData.listProducts.map(item => {
+          pids.push(item.id);
+        });
+      }
+      const from_date = this.searchData.dateRange!='' && this.searchData.dateRange[0] ?`${u.dateToString(this.searchData.dateRange[0])}`:''
+      const to_date = this.searchData.dateRange!='' && this.searchData.dateRange[1] ?`${u.dateToString(this.searchData.dateRange[1])}`:''
+      const data = {
+        scope: ids,
+        cms: cmids,
+        limit: this.pagination.limit,
+        page: this.pagination.cpage,
+        date: this.getDate(this.searchData.dateRange),
+        keyword: this.searchData.keyword.trim(),
+        type: this.searchData.type,
+        products: pids,
+        from: from_date,
+        to: to_date,
+        source_id: this.searchData.source_id,
+        contract_type: this.searchData.contract_type
+      };
+      return data;
+    },
+    clearSearch() {
+      location.reload();
+    },
+    changePage(link) {
+      const info = link
+        .toString()
+        .substr(this.pagination.url.length)
+        .split("/");
+      const page = info.length > 1 ? info[1] : 1;
+      this.pagination.cpage = parseInt(page);
+      this.search();
+    },
+    getDate(date) {
+      let day =
+        date instanceof Date && !isNaN(date.valueOf()) ? date : new Date();
+      if (day instanceof Date && !isNaN(day.valueOf())) {
+        var year = day.getFullYear();
+        var month = (day.getMonth() + 1).toString();
+        var formatedMonth = month.length === 1 ? "0" + month : month;
+        return `${year}-${formatedMonth}`;
+      }
+      return "";
+    },
+    backList() {
+      this.$router.push("/forms");
+    },
+    validate_keyword() {
+      this.searchData.keyword = this.searchData.keyword.replace(/[~`!#$%^&*()=+{}[,\]./<>?;'\\:"|\t]/gi, '');
+    },
+    onSelectBranch(data) {
+      u.g(`/api/cm/branch/${data.id}?status=1`)
+        .then(response => {
+          this.resource.cms = response;
+        });
+    },
+  }
+};
+</script>
+<style scoped>
+  .form-control.limit-selection {
+    width: 60px !important;
+  }
+</style>

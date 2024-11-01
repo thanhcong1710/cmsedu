@@ -1,0 +1,72 @@
+<template>
+  <div>
+    <slot v-bind="{ state, actions }" />
+  </div>
+</template>
+
+<script>
+import u from '../../../../utilities/utility'
+import ListMixin from '../mixin/list'
+
+export default {
+  mixins: [ListMixin],
+  data () {
+    return { students: [], allowImport: false }
+  },
+  computed: {
+    state () {
+      return { students: this.students, allowImport: this.allowImport }
+    },
+    actions () {
+      return {
+        importStudent     : this.importStudent,
+        changeFile        : this.changeFile,
+        deleteStudent     : this.deleteStudent,
+        getTemplate       : this.getTemplate,
+        getClassNameForRow: this.getClassNameForRow,
+      }
+    }
+  },
+
+  methods: {
+    importStudent () {
+      u.apax.$emit('apaxLoading', true)
+      u.p(`/api/student-temp/import?${new Date().getTime()}`, { students: this.students }).then((response) => {
+        // this.students    = response.data
+        // this.allowImport = false
+        u.apax.$emit('apaxLoading', false)
+        this.$router.push("/student-temp?"+new Date().getTime())
+      })
+    },
+    validateFile () {
+      const formData = new FormData()
+      formData.append('file', this.file)
+      u.apax.$emit('apaxLoading', true)
+      u.p(`/api/student-temp/validate-import?${new Date().getTime()}`, formData).then((response) => {
+        this.students    = response.data
+        this.allowImport = response.allow_import
+        u.apax.$emit('apaxLoading',false)
+      })
+    },
+    changeFile (event) {
+      this.file = _.get(event, 'target.files[0]')
+      this.validateFile()
+    },
+    getTemplate () {
+      u.apax.$emit('apaxLoading', true)
+      u.getFile(`/api/student-temp/template?${new Date().getTime()}`).then(() => {
+        u.apax.$emit('apaxLoading', false)
+      })
+    },
+    getClassNameForRow (student) {
+      if (_.get(student, 'message.error.length'))
+        return 'import-row-error'
+
+      if (_.get(student, 'message.warning.length'))
+        return 'import-row-warning'
+
+      return null
+    },
+  },
+}
+</script>

@@ -1,0 +1,9 @@
+build:
+ tags: 
+  - cms-runner
+ script:
+  - find ./ -name \*.json -exec sed -i "s+gitlab.com/eGroup/Ada-System.git+${GIT_LOGIN}@gitlab.com/eGroup/Ada-System.git+g" {} +;
+  - echo "$STAGING_ENV" >> .env
+  - composer install
+  - npm install
+  - npm build
