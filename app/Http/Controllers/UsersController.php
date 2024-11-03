@@ -1769,7 +1769,7 @@ class UsersController extends Controller
                                     <p>1. Tài khoản CRM:</p>
                                     <p>- Tài khoản đăng nhập: <b>{$row[0]}</b></p>
                                     <p>- Mật khẩu: <b>@12345678</b></p>
-                                    <p>- Link đăng nhập: <a href='https://account.cmsedu.vn'>https://account.cmsedu.vn</a></p> 
+                                    <p>- Link đăng nhập: <a href='https://account.logiclab.vn'>https://account.logiclab.vn</a></p> 
                                     <p> Link hướng dẫn: <a href='https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing'>https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing</a></p>
                                     <br>
                                     <p>2. Tài khoản LMS:</p>
@@ -1795,7 +1795,7 @@ class UsersController extends Controller
                                   </head>
                                   <body>
                                   <strong>Dear {$row[1]},</strong><br/><br/>
-                                  <strong>Hệ thống CRM gửi anh/ chị Thông tin đăng nhập <a href='https://account.cmsedu.vn/'>https://account.cmsedu.vn/</a></strong><br/><br/>
+                                  <strong>Hệ thống CRM gửi anh/ chị Thông tin đăng nhập <a href='https://account.logiclab.vn/'>https://account.logiclab.vn/</a></strong><br/><br/>
                                   <i>Username:</i> <b>{$row[0]}</b><br/>
                                   <i>Password:</i> <b>@12345678</b><br/>
                                   <i>Link hướng dẫn: <a href='https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing'>https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing</a></i>
@@ -3044,7 +3044,7 @@ class UsersController extends Controller
                                   </head>
                                   <body>
                                   <strong>Dear {$request->name},</strong><br/><br/>
-                                  <strong>Hệ thống CRM gửi anh/ chị Thông tin đăng nhập <a href='https://account.cmsedu.vn/'>https://account.cmsedu.vn/</a></strong><br/><br/>
+                                  <strong>Hệ thống CRM gửi anh/ chị Thông tin đăng nhập <a href='https://account.logiclab.vn/'>https://account.logiclab.vn/</a></strong><br/><br/>
                                   <i>Username:</i> <b>{$user->hrm_id}</b><br/>
                                   <i>Password:</i> <b>{$defaultPassword}</b><br/>
                                   <i>Link hướng dẫn: <a href='https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing'>https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing</a></i>
