@@ -45,6 +45,7 @@ class CyberAPI extends Model
 
   private function callAPI(Request $request)
   {
+    return null;
 //    if(APP_ENV !== 'product'){
 //       return null;
 //    }
