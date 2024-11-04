@@ -491,9 +491,9 @@ class AuthenticationController extends Controller
     public function switchSystem(Request $request){
       $key ="CMS@abcd1234";
       if(APP_ENV === "product"){
-        $tmp_link = "https://account.cmsedu.vn/#/single-sign-on/";
+        $tmp_link = "https://account.logiclab.vn/#/single-sign-on/";
       }else{
-        $tmp_link = "https://stg-account.cmsedu.vn/#/single-sign-on/";
+        $tmp_link = "https://stg-account.logiclab.vn/#/single-sign-on/";
       }
       $data = $tmp_link.$request->users_data->hrm_id."/".md5($key.$request->users_data->hrm_id);
       $code = APICode::SUCCESS;
@@ -503,9 +503,9 @@ class AuthenticationController extends Controller
     }
     public function getLoginRedirect(){
         if(env('APP_ENV', 'staging')=='product'){
-            $data = 'https://account.cmsedu.vn/#/login';
+            $data = 'https://account.logiclab.vn/#/login';
         }else{
-            $data = 'https://stg-account.cmsedu.vn/#/login';
+            $data = 'https://stg-account.logiclab.vn/#/login';
         }
         $response = new Response;
         $code = APICode::SUCCESS;

@@ -297,7 +297,7 @@ class TeachersController extends Controller
         <p>1. Tài khoản CRM:</p>
         <p>- Tài khoản đăng nhập: <b>$user->hrm_id</b></p>
         <p>- Mật khẩu: <b>@12345678</b></p>
-        <p>- Link đăng nhập: <a href='https://account.cmsedu.vn'>https://account.cmsedu.vn</a></p> 
+        <p>- Link đăng nhập: <a href='https://account.logiclab.vn'>https://account.logiclab.vn</a></p> 
         <p> Link hướng dẫn: <a href='https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing'>https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing</a></p>
         <br>
         <p>2. Tài khoản LMS:</p>
