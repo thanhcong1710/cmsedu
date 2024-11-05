@@ -70,7 +70,7 @@ class LMSAPIController
             FROM branches AS b 
             WHERE b.id=$branch_id");
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -105,7 +105,7 @@ class LMSAPIController
             FROM branches AS b 
             WHERE b.id=$branch_id");
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -142,7 +142,7 @@ class LMSAPIController
                 LEFT JOIN term_teacher_branch AS tb ON tb.teacher_id=t.id AND tb.status=1
             WHERE t.id=$teacher_id");
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -179,7 +179,7 @@ class LMSAPIController
                 LEFT JOIN term_teacher_branch AS tb ON tb.teacher_id=t.id AND tb.status=1
             WHERE t.id=$teacher_id");
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -215,7 +215,7 @@ class LMSAPIController
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -249,7 +249,7 @@ class LMSAPIController
             "Authorization:$token",
         ];
         $resp = $this->callAPI($url, $method, $params, $header, 0, false);
-        if($resp->status=='SUCCESS' && isset($resp->result->classSeq)){
+        if(data_get($resp, 'status')=='SUCCESS' && isset($resp->result->classSeq)){
             u::query("UPDATE classes SET id_lms= '".$resp->result->classSeq."' WHERE id=$class_id");
         }
     }
@@ -263,7 +263,7 @@ class LMSAPIController
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -318,7 +318,7 @@ class LMSAPIController
             WHERE c.id=$contract_id");
         if($student_info && !in_array($student_info->coupon,['CN00-M027-02-01','C00-M027-02-01','C00-M027-02-02'])){
             $token = self::getTokenLMS();
-            if($token->status=='SUCCESS'){
+            if(data_get($token, 'status')=='SUCCESS'){
                 $token=$token->result->accessToken;
             }else{
                 $token= "error";
@@ -349,7 +349,7 @@ class LMSAPIController
                 "Authorization:$token",
             ];
             $resp = $this->callAPI($url, $method, $params, $header, 0, false);
-            if($resp->status=='SUCCESS' && isset($resp->result->stuSeq)){
+            if(data_get($resp, 'status')=='SUCCESS' && isset($resp->result->stuSeq)){
                 u::query("UPDATE students SET id_lms= '".$resp->result->stuSeq."' WHERE id=$student_info->student_id");
             }
         }
@@ -368,7 +368,7 @@ class LMSAPIController
             WHERE c.student_id=$student_id AND c.class_id IS NOT NULL ORDER BY c.count_recharge DESC,c.id DESC  LIMIT 1");
         if($student_info && !in_array($student_info->coupon,['CN00-M027-02-01','C00-M027-02-01'])){
             $token = self::getTokenLMS();
-            if($token->status=='SUCCESS'){
+            if(data_get($token, 'status')=='SUCCESS'){
                 $token=$token->result->accessToken;
             }else{
                 $token= "error";
@@ -462,7 +462,7 @@ class LMSAPIController
             WHERE c.student_id=$student_id AND c.class_id IS NOT NULL ORDER BY c.count_recharge DESC,c.id DESC  LIMIT 1");
         if($student_info && !in_array($student_info->coupon,['CN00-M027-02-01','C00-M027-02-01'])){
             $token = self::getTokenLMS();
-            if($token->status=='SUCCESS'){
+            if(data_get($token, 'status')=='SUCCESS'){
                 $token=$token->result->accessToken;
             }else{
                 $token= "error";
@@ -509,7 +509,7 @@ class LMSAPIController
 
     public function updateListStudent($page){
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -557,7 +557,7 @@ class LMSAPIController
 
     public function updateListClass($page){
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -607,7 +607,7 @@ class LMSAPIController
 
     public function updateListTeacher($page){
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -658,7 +658,7 @@ class LMSAPIController
     public function updateInfoStudentLMSNoneCRMId(){
         $students = u::query("SELECT * FROM lms_students WHERE is_process=0 AND stuId=''");
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
@@ -704,7 +704,7 @@ class LMSAPIController
                 ( SELECT count( id ) FROM contracts WHERE student_id = s.id AND class_id IS NOT NULL AND STATUS != 7 )=0
                 AND is_process=0  AND l.stuStat!='SS003'");
         $token = self::getTokenLMS();
-        if($token->status=='SUCCESS'){
+        if(data_get($token, 'status')=='SUCCESS'){
             $token=$token->result->accessToken;
         }else{
             $token= "error";
