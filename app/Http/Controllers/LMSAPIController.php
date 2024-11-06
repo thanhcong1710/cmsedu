@@ -16,7 +16,6 @@ class LMSAPIController
     private function callAPI($url, $method, $params, $header, $is_api = true, $is_utf8 = false)
     {
         $resp = null;
-        return $resp;
         $response = new Response();
         $data = null;
         $log = new LogExternalRequest();
