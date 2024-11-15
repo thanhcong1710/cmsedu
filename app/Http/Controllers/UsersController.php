@@ -2988,10 +2988,10 @@ class UsersController extends Controller
            $error_code = 1;
         }
 
-        if ($email && !strpos($email,'cmsedu.vn')){
-            $msg = 'Email không phải của CMS EDU';
-            $error_code = 1;
-        }
+        // if ($email && !strpos($email,'cmsedu.vn')){
+        //     $msg = 'Email không phải của CMS EDU';
+        //     $error_code = 1;
+        // }
         $data = [
             'error_code' =>$error_code,
             'message' =>$msg
