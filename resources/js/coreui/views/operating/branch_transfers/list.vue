@@ -339,7 +339,7 @@
                 location.reload()
             },
             canAdd() {
-                return [55,56,'999999999'].indexOf(u.session().user.role_id)!=-1
+                return [55,56,686868,676767,'999999999'].indexOf(u.session().user.role_id)!=-1
             },
             checkAction() {  
                 return [56,58,84,686868,676767,'999999999'].indexOf(u.session().user.role_id)!=-1
