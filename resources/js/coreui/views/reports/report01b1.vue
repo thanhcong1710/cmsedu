@@ -429,7 +429,6 @@ export default {
       this.$router.push("/forms");
     },
     onSelectBranch(data) {
-      this.searchData.listBranchs = "";
       u.g(`/api/ec/branch/${data.id}?status=1`)
         .then(response => {
           this.resource.ecs = response;
