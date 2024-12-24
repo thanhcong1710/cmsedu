@@ -11,8 +11,9 @@
                                     <span class="logo"><img src="/images/print-logo.png" /></span>
                                 </div>
                                 <div class="h-right">
-                                    <h4>CÔNG TY CỔ PHẦN GIÁO DỤC TƯ DUY VÀ SÁNG TẠO QUỐC TẾ CMS</h4>
-                                    <p><i class="fa fa-map-marker"></i> Tầng 4, 21T2 Hapulico Complex, 01 Nguyễn Huy Tưởng, Phường Thanh Xuân Trung, Quận Thanh Xuân, Thành phố Hà Nội, Việt Nam</p>
+                                    <h4>CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</h4>
+                                    <p><i class="fa fa-map-marker"></i> Lô B1.1, Số 2 đường Đặng Thai Mai , Phường Quảng An, Quận Tây Hồ, 
+     Thành phố Hà Nội, Việt Nam.</p>
                                 </div>
                             </div>
                             <div class="print-content">
@@ -224,13 +225,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <span>Hình thức đóng:</span>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="flex-box">
+                                                <span class="label"><input type="checkbox" disabled /><i></i>&nbsp;&nbsp; Tiền mặt</span>
+                                                <span class="label"><input type="checkbox" disabled /><i></i>&nbsp;&nbsp; Chuyển khoản</span>
+                                                <span class="label"><input type="checkbox" disabled /><i></i>&nbsp;&nbsp; Quẹt thẻ ATM/Visa/Master card</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <span>Nay, tôi làm đơn này kính mong Ban Giám đốc Trung tâm cho cháu: {{student.name}} được nhập học tại {{contract.branch_name}}. </span>
                                     </div>
                                     <div class="col-sm-12">
-                                        <span>Tôi cam kết thực hiện theo đúng theo nội quy nhập học tại Trung tâm trong thời gian con học tại Trung tâm.</span>
+                                        <span>Tôi cam kết thực hiện theo đúng theo "Nội quy nhập học" tại Trung tâm trong thời gian con học tại Trung tâm. Tôi đồng ý cho CMS sử dụng thông tin và hình ảnh của con tôi cho các tài liệu truyền thông với điều kiện CMS sẽ không gây bất cứ ảnh hưởng nào cho cháu.</span>
                                     </div>
                                     <div class="col-sm-6"></div>
                                     <div class="col-sm-6 center" >
@@ -247,8 +260,9 @@
                                     <span class="logo"><img src="/images/print-logo.png" /></span>
                                 </div>
                                 <div class="h-right">
-                                   <h4>CÔNG TY CỔ PHẦN GIÁO DỤC TƯ DUY VÀ SÁNG TẠO QUỐC TẾ CMS</h4>
-                                    <p><i class="fa fa-map-marker"></i> Tầng 4, 21T2 Hapulico Complex, 01 Nguyễn Huy Tưởng, Phường Thanh Xuân Trung, Quận Thanh Xuân, Thành phố Hà Nội, Việt Nam</p>
+                                   <h4>CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</h4>
+                                    <p><i class="fa fa-map-marker"></i> Lô B1.1, Số 2 đường Đặng Thai Mai , Phường Quảng An, Quận Tây Hồ, 
+     Thành phố Hà Nội, Việt Nam.</p>
                                     <!-- <p><i class="fa fa-phone"></i>(+84) 24 7356 8806 &nbsp;&nbsp;<i class="fa fa-envelope"></i> cms@cmsedu.vn &nbsp;&nbsp;<i class="fa fa-globe"></i> www.cmsedu.vn</p> -->
                                     
                                 </div>
@@ -345,7 +359,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <span class="test-line">Thông tin hóa đơn:</span>
+                                        <div class="input-line">
+                                            <span class="input-line">Thông tin hóa đơn:</span>
+                                            <i class="doted"></i>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -360,13 +377,24 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="input-line">
-                                            <span class="label">Hình thức đóng:</span>
-                                            <i class="doted"></i>
-                                        </div>
+                                    <div class="col-sm-3">
+                                        <span>Hình thức đóng:</span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span><input type="checkbox" />&nbsp;&nbsp; Tiền mặt</span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span><input type="checkbox" />&nbsp;&nbsp; Chuyển khoản</span>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <span><input type="checkbox" />&nbsp;&nbsp; Quẹt thẻ ATM/Visa/Master card</span>
                                     </div>
                                 </div>
+                                <p>+	Tiền mặt: Liên phiếu thu tiền có đủ chữ ký của Trưởng chi nhánh, đóng dấu trung tâm CMS và dấu “Đã thu tiền”.</p>
+                                <p>+	Chuyển khoản:</p>
+                                <p>Tên công ty: CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</p>
+                                <p>Số TK: 79806789 </p>
+                                <p>Ngân hàng: Ngân hàng Techcombank</p>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="input-line">
@@ -392,8 +420,21 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="">
-                                            <span class="label" v-for="(item, index) in sources" v-bind:key="index">
-                                                <input type="checkbox" />&nbsp;&nbsp; {{item.name}}
+                                            Nguồn khách hàng:&nbsp;&nbsp;
+                                            <span class="label">
+                                                <input type="checkbox" />&nbsp;&nbsp; Website
+                                            </span>
+                                            <span class="label">
+                                                <input type="checkbox" />&nbsp;&nbsp; Facebook
+                                            </span>
+                                            <span class="label">
+                                                <input type="checkbox" />&nbsp;&nbsp; Bạn bè
+                                            </span>
+                                            <span class="label">
+                                                <input type="checkbox" />&nbsp;&nbsp; Thư của Trung tâm
+                                            </span>
+                                            <span class="label">
+                                                <input type="checkbox" />&nbsp;&nbsp; Tờ rơi
                                             </span>
                                         </div>
                                     </div>
@@ -404,7 +445,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="italic">Lưu ý: Ngoài thông tin học sinh thì những thông tin của phụ huynh được đánh dấu * là bắt buộc</p>
                                 <div class="row">
                                     <div class="col-sm-6 center">
                                         <strong>Tư vấn viên</strong>
@@ -420,200 +460,48 @@
                             <div style="height:450px"></div>
                             <!-- END FORM -->
                             <!-- BEGIN RULES -->
-                            <div v-if="contract.created_at<'2021-04-01 00:00:00'">
-                                <div class="print-header">
-                                    <div class="h-left">
-                                        <span class="logo"><img src="/images/print-logo.png" /></span>    
-                                    </div>
-                                    <div class="h-right">
-                                        <h4>CÔNG TY CỔ PHẦN GIÁO DỤC TƯ DUY VÀ SÁNG TẠO QUỐC TẾ CMS</h4>
-                                    <p><i class="fa fa-map-marker"></i> Tầng 4, 21T2 Hapulico Complex, 01 Nguyễn Huy Tưởng, Phường Thanh Xuân Trung, Quận Thanh Xuân, Thành phố Hà Nội, Việt Nam</p>
-                                    <!-- <p><i class="fa fa-phone"></i>(+84) 24 7356 8806 &nbsp;&nbsp;<i class="fa fa-envelope"></i> cms@cmsedu.vn &nbsp;&nbsp;<i class="fa fa-globe"></i> www.cmsedu.vn</p> -->
-                                    </div>
-                                </div>
-                                <div class="print-content">
-                                    <h2 class="title sub">NỘI QUY NHẬP HỌC TẠI TRUNG TÂM</h2>
-                                    <strong class="italic">(Áp dụng từ 01/08/2020)</strong>
-                                    <table class="table table-bordered tbl-rules">
-                                        <tbody>
-                                            <tr>
-                                                <td style="width:200px;"><strong>I. Quy định chung</strong></td>
-                                                <td><ol><li>Thời lượng chương trình: 01 buổi/tuần. Số lượng học sinh tối đa/lớp là 16 học sinh đối với chương trình Ucrea,  Bright IG và Black Hole;</li>
-                                                <li>Học sinh phải đi học đúng giờ, nếu đi muộn 15 phút sau giờ học chính thức, học sinh sẽ phải chờ đến tiết thứ 2 mới được vào lớp;</li>
-                                                <li>Để đảm bảo hiệu quả trong lớp học, học sinh phải sử dụng sách bản quyền do CMS cung cấp, không sử dụng sách photo;</li>
-                                                <li>Phụ huynh không vào lớp học trong giờ học. Trong trường hợp muốn trao đổi hay góp ý với giáo viên, phụ huynh vui lòng liên hệ trước với chuyên viên CSKH;</li>
-                                                <li>Trong trường hợp xảy ra các sự kiện bất khả kháng (dịch bệnh, thời tiết xấu,...) có công lệnh của Bộ giáo dục hoặc có thông báo nghỉ của CMS, trung tâm sẽ tổ chức lớp học bù và thông báo tới quý phụ huynh;</li>
-                                                <li>Phí ghi danh trả 1 lần: 500.000 VNĐ/1 học viên.</li>
-                                                <li>Quý phụ huynh vui lòng hoàn thành học phí đúng thời hạn yêu cầu;</li></ol>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>II. Quy định về lớp học </strong></td>
-                                                <td><p style="margin-bottom:0px">Thời gian mở lớp:</p>
-                                                <p style="margin-bottom:0px">-	Đối với chương trình Ucrea: Khai giảng hàng tháng</p>
-                                                <p style="margin-bottom:0px">-	Chương trình Bright IG và Black Hole: Khai giảng hàng quý.</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>III. Chuyển lớp (cùng TT hoặc giữa các TT trong hệ thống CMS)</strong></td>
-                                                <td><ol><li>Học sinh được yêu cầu đổi lớp hoặc trung tâm học 01 lần trong suốt khóa học (áp dụng cho khóa học từ 06 tháng trở lên). CMS sẽ thực hiện yêu cầu chuyển lớp nếu có một lớp phù hợp hiện còn chỗ trống;</li>
-                                                <li>Thời điểm chuyển lớp:  PH đăng ký Phiếu chuyển lớp, CMS sẽ sắp xếp lớp học phù hợp và chuyển lớp cho HS vào đầu tháng sau (sau khi HS kết thúc sách đang học)</li>
-                                                <li>Chuyển TT/địa điểm học: CMS sẽ chuyển cho HS nếu Trung tâm PH yêu cầu có lớp phù hợp.</li></ol>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>IV. Tổ chức học bù</strong></td>
-                                                <td><ol style="margin-bottom: 0px;"><li>Điều kiện: PH thông báo nghỉ học cho CMS trước 04 tiếng trước khi lớp học bắt đầu</li>
-                                                <p style="margin-bottom:0px">-	Số buổi học bù tối đa: 02 buổi/ 1 level (3 tháng)</p>
-                                                <p style="margin-bottom:0px">-	Thời lượng học bù: 60 phút/ buổi</p>
-                                                <p style="margin-bottom:0px">-	Sắp xếp lịch học bù: CMS sẽ liên hệ với PH để sắp xếp thời gian phù hợp cho HS và Giáo viên. Nếu HS không đến đúng lịch đã thỏa thuận, HS sẽ mất quyền được học bù buổi học đó.</p>
-                                                </ol>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="margin150"></div>
-                                <div style="height:10px"></div>
-                                <div class="print-header">
-                                    <div class="h-left">
-                                        <span class="logo"><img src="/images/print-logo.png" /></span>
-                                    </div>
-                                    <div class="h-right">
-                                        <h4>CÔNG TY CỔ PHẦN GIÁO DỤC TƯ DUY VÀ SÁNG TẠO QUỐC TẾ CMS</h4>
-                                    <p><i class="fa fa-map-marker"></i> Tầng 4, 21T2 Hapulico Complex, 01 Nguyễn Huy Tưởng, Phường Thanh Xuân Trung, Quận Thanh Xuân, Thành phố Hà Nội, Việt Nam</p>
-                                    <!-- <p><i class="fa fa-phone"></i>(+84) 24 7356 8806 &nbsp;&nbsp;<i class="fa fa-envelope"></i> cms@cmsedu.vn &nbsp;&nbsp;<i class="fa fa-globe"></i> www.cmsedu.vn</p> -->
-                                    </div>
-                                </div>
-                                <div class="print-content">
-                                    <div style="height:50px"></div>
-                                    <table class="table table-bordered tbl-rules">
-                                        <tbody>
-                                            <tr>
-                                                <td style="width:200px;"><strong>V. Bảo lưu học phí</strong></td>
-                                                <td><ol style="margin-bottom: 0px;"><li>HS được bảo lưu 01 lần trong suốt quá trình học tại CMS</li>
-                                                <li>Chỉ áp dụng cho khóa học 6 tháng trở lên</li>
-                                                <li>Thời gian bảo lưu: </li>
-                                                <p style="margin-bottom:0px">-	Với HS học chưa quá 50% thời lượng khóa học: Gói 6 tháng được bảo lưu tối đa 4 buổi, gói 12 tháng trở lên được bảo lưu tối đa 8 buổi.</p>
-                                                <p style="margin-bottom:0px">-	Với HS học quá 50% thời lượng khóa học: chỉ được bảo lưu với gói 12 tháng trở lên và thời gian bảo lưu tối đa 4 buổi.</p>
-                                                <li>KH bảo lưu từ 5 buổi trở lên, sau bảo lưu mất quyền rút phí, chuyển phí. Thủ tục quay lại học: PH liên hệ với CSKH trước 10 ngày để sắp xếp phù hợp</li>
-                                                <li>Thời gian bảo lưu không có tính lũy kế.</li>
-                                                </ol>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="width:200px;"><strong>VI. Đặt cọc, chuyển phí</strong></td>
-                                                <td><ol><li>Chỉ áp dụng cho khóa học 06 tháng trở lên</li>
-                                                <li>PH chỉ được chuyển phí từ buổi đầu tiên của tháng. Trường hợp HS không thể sắp xếp theo lịch học bình thường để hết quý trước đó. Trung tâm hỗ trợ sắp xếp để HS học với lớp khác có cùng lộ trình đến hết quý hoặc sắp xếp lịch học riêng với Giáo viên tối đa 02 buổi (60 phút/buổi) trong vòng 01 tháng.</li>
-                                                <li>Đặt cọc: </li>
-                                                <p style="margin-bottom:0px">-	Quý phụ huynh cần đặt cọc tối thiểu 1.000.000 VNĐ.</p>
-                                                <p style="margin-bottom:0px">-	Thời gian hoàn thành học phí: 14 ngày (kể cả thứ 7, chủ nhật). Nếu sau 14 ngày PH không hoàn phí thì sẽ không được áp dụng chương trình ưu đãi tại thời điểm đặt cọc</p>
-                                                <p style="margin-bottom:0px">-	Sau 60 ngày kể từ ngày đặt cọc PH không hoàn thiện học phí thì số tiền đặt cọc sẽ không còn giá trị sử dụng và không được hoàn lại.</p>
-                                                <li>CMS không hoàn lại tiền cọc đã đóng, tuy nhiên Phụ huynh được lựa chọn chuyển cọc cho người khác, và CMS sẽ không áp dụng khấu trừ phí ghi danh của phụ huynh chuyển cọc. Học sinh nhận chuyển cọc phải là học sinh mới (chưa đăng ký/ đặt cọc tại CMS trước đây), đồng thời sẽ hưởng các chương trình ưu đãi tại thời điểm đăng ký mới</li>
-                                                <li>Chuyển phí:</li>
-                                                <p style="margin-bottom:0px">-	TH học sinh chưa đi học: số học phí được chuyển nhượng được tính bằng 100% giá trị học phí</p>
-                                                <p style="margin-bottom:0px">-	TH học sinh đã đi học: học phí đã học được tính tròn đầu sách. Số học phí còn lại của level sau khi trừ phí ghi danh sẽ được chuyển nhượng toàn bộ cho HS khác. HS nhận chuyển phí phải là học sinh mới (chưa đăng ký/ đặt cọc tại CMS trước đây) hoặc trường hợp là anh/chị/em ruột. Không áp dụng phí chuyển đổi đối với phụ huynh muốn chuyển học phí cho anh/chị/em ruột của học sinh đang theo học tại các hệ thống trung tâm của CMS. Học bổng của gói đóng không có giá trị chuyển nhượng.</p>
-                                                <p style="margin-bottom:0px">-	Giá trị học phí còn lại được quy đổi thành số tiền theo giá trị gốc của gói học phí; </p>
-                                                </ol>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="margin200"></div>
-                                <div style="height:20px"></div>
-                                <div class="print-header">
-                                    <div class="h-left">
-                                        <span class="logo"><img src="/images/print-logo.png" /></span>    
-                                    </div>
-                                    <div class="h-right">
-                                        <h4>CÔNG TY CỔ PHẦN GIÁO DỤC TƯ DUY VÀ SÁNG TẠO QUỐC TẾ CMS</h4>
-                                    <p><i class="fa fa-map-marker"></i> Tầng 4, 21T2 Hapulico Complex, 01 Nguyễn Huy Tưởng, Phường Thanh Xuân Trung, Quận Thanh Xuân, Thành phố Hà Nội, Việt Nam</p>
-                                    <!-- <p><i class="fa fa-phone"></i>(+84) 24 7356 8806 &nbsp;&nbsp;<i class="fa fa-envelope"></i> cms@cmsedu.vn &nbsp;&nbsp;<i class="fa fa-globe"></i> www.cmsedu.vn</p> -->
-                                    </div>
-                                </div>
-                                <div class="print-content">
-                                    <div style="height:50px"></div>
-                                    <table class="table table-bordered tbl-rules">
-                                        <tbody>
-                                            <tr>
-                                                <td style="width:200px;"></td>
-                                                <td><ol> <p style="margin-bottom:0px;margin-left:-20px;">6.  Rút phí:</p>
-                                                <p style="margin-bottom:0px">Từ 01/12/2019, CMS không áp dụng chính sách rút phí. Đối với các trường hợp rút phí đóng thừa hoặc rút phí đối với các học sinh trước ngày 01/12/2019, việc rút phí sẽ được tính như sau:</p>
-                                                <p style="margin-bottom:0px">-	TH rút phí do đóng thừa: KH được nhận lại phần phí thừa sau khi khấu trừ đồng thời 2% phí quẹt thẻ tín dụng, 3.3% phí trả góp nếu kỳ hạn 6 tháng, 8.3% phí trả góp với kỳ hạn 12 tháng (nếu có)</p>
-                                                <p style="margin-bottom:0px">-	TH rút phí đối với học sinh đăng ký trước ngày 01/12/2019: KH được nhận lại 70% học phí còn lại sau khi khấu trừ đồng thời 2% phí quẹt thẻ tín dụng, 3.3% phí trả góp nếu kỳ hạn 6 tháng, 8.3% phí trả góp với kỳ hạn 12 tháng (nếu có).</p></ol>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>VII. Quy định về đảm bảo an toàn cho học sinh</strong></td>
-                                                <td><ol><li>Phụ huynh học sinh lưu ý: </li>
-                                                <p style="margin-bottom:0px">-	Đăng ký người đưa/ đón HS từ buổi học đầu tiên</p>
-                                                <p style="margin-bottom:0px">-	Người đưa/ đón HS phải đưa/đón HS ở địa điểm quy định của Trung tâm, đồng thời ký vào phiếu xác nhận đón trả HS.</p>
-                                                <li>Phụ huynh cần đưa đón con đúng giờ. Trường hợp 15 phút sau giờ tan lớp, phụ huynh chưa thu xếp đến đón con, phụ huynh cần gọi điện thông báo qua hotline của TT. Thời gian đón con không muộn quá 30 phút từ lúc tan ca học;</li>
-                                                <li>Trong trường hợp phụ huynh không lên được TT, cần người hỗ trợ đưa đón tại tầng 01 tòa nhà, PH có thể gọi nhờ chuyên viên của CMS qua số hotline Trung tâm.</li>
-                                                <li>Sau khi phụ huynh đón con thì Trung tâm sẽ không chịu trách nhiệm về an toàn của con.</li></ol>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>VIII.   Sử dụng hình ảnh trong lớp học</strong></td>
-                                                <td><p>Đồng ý cho Trung tâm sử dụng mọi hình ảnh của học sinh học tại trung tâm vào mục đích giáo dục và hoạt động của trung tâm.</p></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="row">
-                                        <div class="col-sm-6"></div>
-                                        <div class="col-sm-6 center">
-                                            <span>......., ngày</span><span class="dot-line">......</span><span>tháng </span><span class="dot-line">......</span><span>năm</span><span class="dot-line">........</span>
-                                        </div>
-                                        <div class="col-sm-6 center">
-                                        </div>
-                                        <div class="col-sm-6 center">
-                                            <p class="center">Phụ huynh học sinh xác nhận đã đọc kỹ và cam kết thực hiện (Ký và ghi rõ họ tên)</p>
-                                        </div>
-                                    </div>
-                                    <div class="margin150"></div>
-                                </div>
-                            </div>
-                            <div class="contract_new" v-else>
+                            
+                            <div class="contract_new">
                                 <div class="print-header">
                                     <div class="h-left">
                                         <span class="logo"><img src="/images/print-logo.png" /></span>   
                                     </div>
                                     <div class="h-right">
-                                       <h4>CÔNG TY CỔ PHẦN GIÁO DỤC TƯ DUY VÀ SÁNG TẠO QUỐC TẾ CMS</h4>
-                                    <p><i class="fa fa-map-marker"></i> Tầng 4, 21T2 Hapulico Complex, 01 Nguyễn Huy Tưởng, Phường Thanh Xuân Trung, Quận Thanh Xuân, Thành phố Hà Nội, Việt Nam</p>
+                                       <h4>CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</h4>
+                                    <p><i class="fa fa-map-marker"></i> Lô B1.1, Số 2 đường Đặng Thai Mai , Phường Quảng An, Quận Tây Hồ, 
+     Thành phố Hà Nội, Việt Nam.</p>
                                     <!-- <p><i class="fa fa-phone"></i>(+84) 24 7356 8806 &nbsp;&nbsp;<i class="fa fa-envelope"></i> cms@cmsedu.vn &nbsp;&nbsp;<i class="fa fa-globe"></i> www.cmsedu.vn</p> -->
                                     </div>
                                 </div>
                                 <div class="print-content">
                                     <h2 class="title sub">NỘI QUY NHẬP HỌC TẠI CMS</h2>
-                                    <strong class="italic">(Áp dụng từ ngày 01/12/2022)</strong>
+                                    <strong class="italic">(Áp dụng từ ngày 01/01/2025)</strong>
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <p><b>I. Quy định chung</b></p>
                                             <p>1.	Thời lượng chương trình: 01 buổi/tuần.</p> 
-                                            <p>2.	Số lượng Học sinh (HS) tối đa/lớp: </p>
+                                            <p>2.	Thời lượng chương trình một tháng = 04 buổi. Số buổi học đăng ký 6 tháng = 24 buổi. Số buổi học đăng ký 12 tháng = 48 buổi</p> 
+                                            <p>3.	Số lượng Học sinh (HS) tối đa/lớp: </p>
                                             <p>- 12 HS/lớp với lớp Ucrea Level 2; </p>
                                             <p>- 16 HS/lớp với các Level còn lại của chương trình Ucrea</p>
                                             <p>- 18 HS/lớp với chương trình Bright IG (IG), Black Hole (BH).</p>
-                                            <p>3.	Để đảm bảo hiệu quả giờ học, HS phải đi học đúng giờ. </p>
-                                            <p>4.	HS phải sử dụng sách & tài liệu bản quyền do CMS cung cấp.</p>
-                                            <p>5.	Trong trường hợp cần thiết, Phụ Huynh (PH) trao đổi trực tiếp với giáo viên phụ trách lớp hoặc các bộ phận liên quan tại Trung tâm (TT) để được hỗ trợ.</p>
-                                            <p>6.	Thời gian mở lớp:</p>
+                                            <p>4.	Để đảm bảo hiệu quả giờ học, HS phải đi học đúng giờ. </p>
+                                            <p>5.	HS phải sử dụng sách & tài liệu bản quyền do CMS cung cấp.</p>
+                                            <p>6.	Trong trường hợp cần thiết, Phụ Huynh (PH) trao đổi trực tiếp với giáo viên phụ trách lớp hoặc các bộ phận liên quan tại Trung tâm (TT) để được hỗ trợ.</p>
+                                            <p>7.	Thời gian mở lớp mới:</p>
                                             <p>- Chương trình Ucrea: Khai giảng hàng tháng</p>
                                             <p>- Chương trình Bright IG và Black Hole: Khai giảng hàng quý.</p>
-                                            <p>7.	HS vào học giữa chương trình:</p>
-                                            <p>- HS IG, BH được phép vào học từ đầu sách tháng 2,3 của quý.</p>
+                                            <p>8.	HS vào học giữa chương trình IG, BH được phép vào học từ đầu sách tháng 2,3 của quý.</p>
                                             <p><b>II. Quy định đặt cọc</b></p>
-                                            <p>1. Số tiền đặt cọc tối thiểu: 10% giá trị gói học phí nhưng không thấp hơn 1.000.000 VNĐ.</p>
-                                            <p>2. Thời gian hoàn thành học phí: 14 ngày (kể cả thứ 7, chủ nhật) hoặc theo chương trình ưu đãi hiện hành.</p>
+                                            <p>1. Số tiền đặt cọc tối thiểu: 20% giá trị gói học phí nhưng không thấp hơn 1.000.000 VNĐ.</p>
+                                            <p>2. Thời gian hoàn thành học phí: 7 ngày (kể cả thứ 7, chủ nhật) hoặc theo chương trình ưu đãi hiện hành.</p>
                                             <p>3. Trong vòng 60 ngày, PH được quyền chuyển toàn bộ số tiền đóng cọc ban đầu cho HS khác, HS nhận chuyển cọc là HS mới (chưa đặt cọc/đóng phí tại CMS) hoặc là anh/chị/em ruột và được nhận các chương trình ưu đãi tại thời điểm đăng ký mới.</p>
                                             <p>4. Sau 60 ngày kể từ ngày đặt cọc PH không hoàn thiện học phí thì số tiền đặt cọc tối thiểu sẽ không còn giá trị sử dụng và không được hoàn lại. Nếu số tiền PH đặt cọc vượt quá số tiền cọc tối thiểu, số tiền chênh lệch so với tiền cọc tối thiểu chỉ được phép chuyển cho HS mới.</p>
                                             <p>5. HS nhận cọc được phép chuyển phí.</p>
                                             <p><b>III. Quy định chuyển phí</b></p>
-                                            <p>1.	Với HS chưa đi học: HS được chuyển nhượng toàn bộ học phí đã nộp.</p>
-                                            <p>2.	Với HS đã đi học: số học phí được chuyển nhượng bằng số phí còn lại (sau khi tính tròn đầu sách và quy đổi theo giá tại thời điểm mua) trừ một triệu đồng (phí chuyển nhượng)và các chi phí ngân hàng phát sinh (quẹt thẻ, trả góp,…).</p>
-                                            <p>3.	HS nhận chuyển phí là HS mới (chưa đặt cọc/đóng phí tại CMS) hoặc là anh/chị/em ruột. Không áp dụng phí chuyển với PH muốn chuyển học phí cho anh/chị/em ruột của HS đang theo học tại hệ thống TT CMS. Chuyển phí chỉ chuyển tiền không chuyển thời lượng học</p>
+                                            <p>1.	Với HS chưa đi học: Số học phí được chuyển nhượng bằng toàn bộ số học phí đã nộp trừ 1.000.000 VNĐ (phí chuyển nhượng) và các chi phí ngân hàng phát sinh bao gồm phí quẹt thẻ, phí trả góp... (nếu có).</p>
+                                            <p>2.	Với HS đã đi học: Số học phí được chuyển nhượng bằng số phí còn lại (sau khi tính tròn đầu sách) trừ 1.000.000 VNĐ (phí chuyển nhượng) và các chi phí ngân hàng phát sinh bao gồm phí quẹt thẻ, phí trả góp… (nếu có).</p>
+                                            <p>3.	HS nhận chuyển phí là HS mới (chưa đặt cọc/đóng phí tại CMS) hoặc là anh/chị/em ruột. Không áp dụng phí chuyển với PH muốn chuyển học phí cho anh/chị/em ruột của HS đang theo học tại hệ thống TT CMS. Chuyển phí chỉ chuyển tiền không chuyển thời lượng học. HS nhận chuyển phí (trừ trường hợp anh/chị/em ruột) sẽ phải đóng thêm tiền cho tròn gói phí và không được nhận chương trình khuyến mãi đặc biệt áp dụng tại thời điểm đăng ký</p>
                                             <p>4.	HS đã nhận chuyển phí không được chuyển phí cho HS khác</p>
                                             <p>5.	Học bổng chỉ có giá trị chuyển nhượng với trường hợp anh, chị, em ruột.</p>
                                             <p>6.	CMS không áp dụng chính sách rút phí</p>
@@ -631,15 +519,15 @@
                                             <p>2. Chuyển TT: PH có nhu cầu chuyển TT làm phiếu đăng ký chuyển TT, yêu cầu chuyển TT được duyệt khi có xác nhận của TT chuyển đi và TT tiếp nhận học sinh. Chuyển TT chỉ áp dụng với các trường hợp HS đã đóng đủ học phí.</p>
                                             
                                             <p><b>VI. Quy định Bảo lưu.</b></p>
-                                            <p>1. PH có nhu cầu bảo lưu làm đơn bảo lưu; đơn bảo lưu chỉ được tính là hợp lệ khi có chữ ký xác nhận của PH; trong trường hợp PH không hoàn thiện đơn bảo lưu, yêu cầu bảo lưu bị hủy và CMS vẫn tiếp tục tính phí cho HS.</p>
+                                            <p>1. Thủ tục bảo lưu</p>
+                                            <p>- PH có nhu cầu bảo lưu làm đơn bảo lưu. Đơn bảo lưu chỉ được tính là hợp lệ khi có chữ ký xác nhận của PH.</p>
+                                            <p>- Trong trường hợp PH không hoàn thiện đơn bảo lưu, yêu cầu bảo lưu bị hủy và CMS vẫn tiếp tục tính phí cho HS.</p>
                                             <p>2. Thời hạn bảo lưu:</p>
-                                            <p>- Học sinh mua gói phí 12 tháng trở lên: bảo lưu tối đa 01 lần.</p>
-                                            <p>- Thời gian bảo lưu 01 lần tối đa là 06 tháng. Sau thời gian bảo lưu học sinh không quay lại học, CMS sẽ tiếp tục tính số phí còn lại đến hết gói phí. </p>
-                                            <p>+ Bảo lưu giữ chỗ: tối đa 04 buổi và trong 01 đầu sách. </p>
-                                            <p>- Bảo lưu không giữ chỗ: Từ 05 buổi trở lên đến 06 tháng.</p>
+                                            <p>- CMS cho phép đăng ký bảo lưu đối với HS mua gói học phí 12 tháng trở lên</p>
+                                            <p>- Thời gian bảo lưu 01 lần: Bảo lưu giữ chỗ (tối đa 04 buổi và trong 01 đầu sách); Bảo lưu không giữ chỗ (từ 05 buổi đến tối đa 3 tháng).</p>
+                                            <p>- Trong trường hợp PH muốn gia hạn bảo lưu hoặc có đề xuất khác, PH cần liên hệ TT tối thiểu 7 ngày trước ngày kết thúc bảo lưu để được tư vấn và hỗ trợ. Sau thời gian bảo lưu mà HS không quay lại học, CMS sẽ tiếp tục tính số phí còn lại đến hết gói phí. - CMS không giới hạn số lần gia hạn bảo lưu, tuy nhiên tại thời điểm HS quay lại học nếu quá độ tuổi học của CMS thì sẽ không được CMS hoàn trả số học phí còn lại của gói phí.</p>
                                             <p>- Học sinh quay lại học tính từ đầu sách mới. </p>
                                             <p><b>VII. Quy định về đảm bảo an toàn cho học sinh</b></p>
-                                            <p>1.	PHHS lưu ý: </p>
                                             <p>- Đăng ký người đưa/ đón HS từ buổi học đầu tiên</p>
                                             <p>Người đưa/ đón HS phải đưa/đón HS ở địa điểm quy định của Trung tâm, đồng thời ký vào Phiếu đón trả HS. PH cần đưa đón con đúng giờ. Thời gian đón con không muộn quá 30 phút từ lúc tan ca học. Trường hợp quá 30 phút sau giờ tan lớp, phụ huynh chưa thu xếp đến đón con, phụ huynh cần gọi điện thông báo qua hotline của TT.</p>
                                            
