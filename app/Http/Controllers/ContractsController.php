@@ -1253,9 +1253,8 @@ class ContractsController extends Controller
         $list_contracts_query = "SELECT
         c.*,
         u1.full_name contract_ec_name,
-        CONCAT(u1.hrm_id, '-', u1.username) contract_ec_code,
         CONCAT(u3.full_name, ' - ', u3.username) contract_cm_name,
-        CONCAT(u1.hrm_id, '-', u1.username) contract_ec_code,
+        CONCAT(u1.hrm_id) contract_ec_code,
         u1.full_name contract_ec_name,
         IF(c.type IN (1,2,4,7,8) AND c.status IN (1,2,4,5) AND c.enrolment_start_date IS NULL, 1, 0) editable_program,
         IF(c.type <= 4 AND c.status > 0 AND c.status < 7 AND c.enrolment_start_date IS NULL, 1, 0) editable_start_date,

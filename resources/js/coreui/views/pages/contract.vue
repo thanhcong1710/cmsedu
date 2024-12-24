@@ -200,11 +200,9 @@
                                 <h3>IV. ĐĂNG KÝ KHÓA HỌC</h3>
                                 <div class="border">
                                     <div class="row">
-                                        <div class="col-sm-4">
-                                            <span>Khóa học đăng ký:</span>
-                                        </div>
                                         <div class="col-sm-12">
                                             <div class="flex-box">
+                                                <span>Khóa học đăng ký: &nbsp;&nbsp;</span>
                                                 <span class="label"><input type="checkbox" :checked="is_ucrea" disabled /><i></i>&nbsp;&nbsp; Ucrea</span>
                                                 <span class="label"><input type="checkbox" :checked="is_bright" disabled /><i></i>&nbsp;&nbsp; Bright IG</span>
                                                 <span class="label"><input type="checkbox" :checked="is_blkhole" disabled /><i></i>&nbsp;&nbsp; Black Hole</span>
@@ -226,11 +224,9 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-4">
-                                            <span>Hình thức đóng:</span>
-                                        </div>
                                         <div class="col-sm-12">
                                             <div class="flex-box">
+                                                <span>Hình thức đóng: &nbsp;&nbsp;</span>
                                                 <span class="label"><input type="checkbox" disabled /><i></i>&nbsp;&nbsp; Tiền mặt</span>
                                                 <span class="label"><input type="checkbox" disabled /><i></i>&nbsp;&nbsp; Chuyển khoản</span>
                                                 <span class="label"><input type="checkbox" disabled /><i></i>&nbsp;&nbsp; Quẹt thẻ ATM/Visa/Master card</span>
@@ -268,17 +264,16 @@
                                 </div>
                             </div>
                             <div class="print-content">
-                                <div style="height:50px"></div>
-                                <hr/>
+                                
                                 <h3>II. XÁC NHẬN TỪ TRUNG TÂM</h3>
                                 <div class="row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-5">
                                         <div class="input-line">
                                             <span class="label">Tư vấn viên:</span>
                                             {{contract.contract_ec_name}}
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <div class="input-line">
                                             <span class="label">Mã TVV:</span>
                                             {{contract.contract_ec_code}}
@@ -377,24 +372,18 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-3">
-                                        <span>Hình thức đóng:</span>
-                                    </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-12">
+                                        <span>Hình thức đóng:&nbsp;&nbsp;</span>
                                         <span><input type="checkbox" />&nbsp;&nbsp; Tiền mặt</span>
-                                    </div>
-                                    <div class="col-sm-2">
                                         <span><input type="checkbox" />&nbsp;&nbsp; Chuyển khoản</span>
-                                    </div>
-                                    <div class="col-sm-5">
                                         <span><input type="checkbox" />&nbsp;&nbsp; Quẹt thẻ ATM/Visa/Master card</span>
                                     </div>
                                 </div>
-                                <p>+	Tiền mặt: Liên phiếu thu tiền có đủ chữ ký của Trưởng chi nhánh, đóng dấu trung tâm CMS và dấu “Đã thu tiền”.</p>
-                                <p>+	Chuyển khoản:</p>
-                                <p>Tên công ty: CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</p>
-                                <p>Số TK: 79806789 </p>
-                                <p>Ngân hàng: Ngân hàng Techcombank</p>
+                                <p style="margin-bottom: 0px;">+	Tiền mặt: Liên phiếu thu tiền có đủ chữ ký của Trưởng chi nhánh, đóng dấu trung tâm CMS và dấu “Đã thu tiền”.</p>
+                                <p style="margin-bottom: 0px;">+	Chuyển khoản:</p>
+                                <p style="margin-bottom: 0px;">Tên công ty: CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</p>
+                                <p style="margin-bottom: 0px;">Số TK: 79806789 </p>
+                                <p style="margin-bottom: 0px;">Ngân hàng: Ngân hàng Techcombank</p>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="input-line">
@@ -457,6 +446,7 @@
                                 </div>
                             </div>
                             <div class="margin200"></div>
+                            <div style="height:65px"></div>
                             <div style="height:450px"></div>
                             <!-- END FORM -->
                             <!-- BEGIN RULES -->
