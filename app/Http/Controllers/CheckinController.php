@@ -821,11 +821,11 @@ class CheckinController extends Controller
             $mobile2 = trim($data->dien_thoai_phu_huynh_2);
 
             $dataStd = u::first("SELECT COUNT(s.id) existed FROM students s WHERE (s.`gud_mobile1` = '{$mobile}' OR s.`gud_mobile2` = '{$mobile}') AND s.checked!=2 $and");
-            if ($dataStd->existed >= 1){
-                $dataStd->existed = 1;
-                $detail = u::first("SELECT (SELECT b.name FROM branches b WHERE b.id = s.`branch_id`) AS branch_name FROM students s WHERE (s.`gud_mobile1` = '{$mobile}' OR s.`gud_mobile2` = '{$mobile}') AND s.checked!=2 $and");
-                $message = "Số điện thoại phụ huynh đã có ở: {$detail->branch_name}, hãy nhập số điện thoại khác.";
-            }
+            // if ($dataStd->existed >= 1){
+            //     $dataStd->existed = 1;
+            //     $detail = u::first("SELECT (SELECT b.name FROM branches b WHERE b.id = s.`branch_id`) AS branch_name FROM students s WHERE (s.`gud_mobile1` = '{$mobile}' OR s.`gud_mobile2` = '{$mobile}') AND s.checked!=2 $and");
+            //     $message = "Số điện thoại phụ huynh đã có ở: {$detail->branch_name}, hãy nhập số điện thoại khác.";
+            // }
             if ($mobile2){
                 $dataStd = u::first("SELECT COUNT(s.id) existed FROM students s WHERE (s.`gud_mobile1` = '{$mobile2}' OR s.`gud_mobile2` = '{$mobile2}') AND s.checked!=2 $and");
                 
