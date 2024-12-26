@@ -18,9 +18,9 @@ use function GuzzleHttp\json_decode;
 
 class Mail
 {
-    private $email = 'noreply@cmsedu.vn';
+    private $email = 'noreply.website@logiclab.vn';
     private $email_name = 'CMS';
-    private $password = "xiab jcqq hndj eagd";
+    private $password = "snjw bqoy phwr lhbz";
     private $port = 587;
     private $host = 'smtp.gmail.com';
     private $charSet = 'utf-8';
