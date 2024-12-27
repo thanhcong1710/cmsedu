@@ -388,7 +388,7 @@ export default {
       const tuition_id = this.filter.tuition_fee ? parseInt(this.filter.tuition_fee, 10) : -1
     },
     print(item) {
-        window.open(`/print/chargefee/${item.id}`,'_blank')
+        window.open(`/print/chargefee/${item.tmp_id}`,'_blank')
     }
  	}
 
