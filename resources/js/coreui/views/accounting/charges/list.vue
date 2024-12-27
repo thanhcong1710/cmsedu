@@ -29,7 +29,7 @@
                         >
                         </search>
                       </div>
-                      <div class="col-sm-3">
+                      <!-- <div class="col-sm-3">
                         <div class="form-group">
                           <label class="filter-label control-label">Hình Thức Đóng Phí</label><br/>
                           <p class="input-group-addon filter-lbl"><i v-b-tooltip.hover title="Lọc theo hình thức đóng phí 1 hay nhiều lần" class="fa fa-telegram"></i></p>
@@ -81,14 +81,14 @@
                             <option :value="tuition_fee.id" v-for="(tuition_fee, ind) in list.tuition_fees" :key="ind">{{ tuition_fee.name }}</option>
                           </select>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div slot="footer" class="text-center">
+          <!-- <div slot="footer" class="text-center">
             <router-link to="/charges/add-charge">
               <button type="button" class="apax-btn full reset">
                 <i class="fa fa-plus"></i> Thêm mới phiếu thu
@@ -97,10 +97,10 @@
             <button @click="listCharged(0)" class="apax-btn full edit"><i class="fa fa-list"></i> {{html.buttons.default}}</button>
             <button @click="listCharged(1)" class="apax-btn full detail"><i class="fa fa-slack"></i> {{html.buttons.waitcharged}}</button>
             <button @click="listCharged(2)" class="apax-btn full print"><i class="fa fa-angellist"></i> {{html.buttons.charged}}</button>
-            <!-- <button @click="extract" class="btn btn-success">
+            <button @click="extract" class="btn btn-success">
               <i class="fa fa-file-word-o"></i> Trích xuất
-            </button> -->
-          </div>
+            </button>
+          </div> -->
         </b-card>
       </div>
     </div>

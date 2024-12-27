@@ -55,6 +55,7 @@ export default new Router({
     Page.print_branch_transfer,
     Page.print_tuition_transfer,
     Page.print_tuition_withdraw,
+    Page.print_chargefee,
     Page.import_std,
     Page.import_user,
     Page.print_feedback,

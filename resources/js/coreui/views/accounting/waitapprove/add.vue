@@ -148,19 +148,19 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">Tổng tiền đã thu</label>
-                  <input class="form-control" type="text" readonly v-model="total_charge">
+                  <input class="form-control" type="text" readonly :value="formatAmount(item.tmp_total_charged)">
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">Số tiền thu</label>
-                  <input class="form-control" type="text" v-model="charge_amount">
+                  <input class="form-control" type="text" readonly :value="formatAmount(item.tmp_charge_amount)">
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">Công nợ</label>
-                  <input class="form-control" type="text" readonly v-model="dept_amount">
+                  <input class="form-control" type="text" readonly :value="formatAmount(item.tmp_debt_amount)">
                 </div>
               </div>
               <div :class="html.class.payload">
@@ -181,7 +181,7 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">Phương thức đóng phí</label>
-                  <select class="form-control" v-model="item.method" @change="selectMethod">
+                  <select class="form-control" v-model="item.tmp_method" readonly >
                     <option value="0">Tiền mặt</option>
                     <option value="1">Chuyển khoản</option>
                     <option value="2">Quẹt thẻ tín dụng</option>
@@ -191,7 +191,7 @@
               <div class="col-md-3">
                 <div class="form-group" v-show="showNote">
                   <label class="control-label">Ghi chú</label>
-                  <textarea class="form-control" rows="1" v-model="item.note"></textarea>
+                  <textarea class="form-control" rows="1" v-model="item.tmp_note"  readonly ></textarea>
                 </div>
                 <div class="form-group" v-show="showBank">
                   <label class="control-label">Ngân hàng</label>
@@ -204,15 +204,13 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">Ngày thu phí</label><br/>
-                  <datePicker
-                    id="charge-date"
-                    class="form-control calendar"
-                    :value="charge_date"
-                    v-model="charge_date"
-                    :placeholder="defaultDate"
-                    lang="en-US"
-                  >
-                  </datePicker>
+                  <textarea class="form-control" rows="1" v-model="item.tmp_charge_date"  readonly ></textarea>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Trạng thái</label><br/>
+                  <input class="form-control" type="text" readonly :value="item.tmp_status== 1 ? 'Đã duyệt' : (item.tmp_status==2 ? 'Từ chối duyệt' : 'Chờ duyệt')">
                 </div>
               </div>
             </div>
@@ -222,18 +220,12 @@
             </div>
           </b-modal>
           <div slot="footer">
-            <apaxButton
-              :markup="html.markup.save"
-              :disabled="html.disable.save"
-              :onClick="saveForm"
-              ><i class="fa fa-save"></i> Lưu
-            </apaxButton>
-            <!-- <apaxButton
-              :markup="html.markup.reset"
-              :disabled="html.disable.reset"
-              :onClick="resetForm"
-              ><i class="fa fa-ban"></i> Hủy
-            </apaxButton> -->
+            <b-button v-if="checkViewAction()" @click="save(2)" variant="primary" class="float-right">
+                <i class="fa fa-close" /> Từ Chối
+            </b-button>
+            <b-button v-if="checkViewAction()" @click="save(1)" class="float-right" variant="success" style="margin-right: 5px;">
+                <i class="fa fa-check" /> Phê Duyệt
+            </b-button>
             <apaxButton
               :onClick="exitForm"
               ><i class="fa fa-share-square-o"></i> Thoát
@@ -358,6 +350,13 @@ export default {
   },
 
   methods: {
+    checkViewAction(){
+        if(this.item.tmp_status==0 && [84,'999999999'].indexOf(u.session().user.role_id)> -1){
+            return true
+        }else {
+            return false
+        }
+    },
     formatAmount: (num) => num && num >= 1000 ? u.currency(num, 'đ') : '0đ',
     formatTime: (inputtime) => inputtime ? moment(inputtime).format('YYYY/MM/DD - HH:mm:ss') : '',
     start() {
@@ -365,7 +364,7 @@ export default {
         this.banks = response
       }).catch(e => u.log('Exeption', e))
       this.showNote = true
-      u.g(`/api/waitcharges/${this.$route.params.id}`).then((response) => {
+      u.g(`/api/waitapprove/${this.$route.params.id}`).then((response) => {
         this.item = null
         this.item = response
         this.cache.item = response
@@ -467,7 +466,6 @@ export default {
         this.loading2 = true
         u.p('/api/charges/add', data)
         .then((response) => {
-          console.log(response)
           if (response && response.done) {
             this.loading1 = false
             this.loading2 = false
@@ -483,7 +481,7 @@ export default {
             this.loading2 = false
             this.html.class.modal = 'modal-danger'
             this.html.variant = 'danger'
-            this.html.message = response.mes ? response.mes : 'Không kết nối được với máy chủ, bản ghi thu phí chưa được lưu!'
+            this.html.message = 'Không kết nối được với máy chủ, bản ghi thu phí chưa được lưu!'
             this.modal = true
             this.html.disable.save = false
           }
@@ -504,7 +502,26 @@ export default {
       this.dept_amount = this.formatAmount(debt)
     },
     exitForm() {
-      this.$router.push('/waitcharges')
+      this.$router.push('/waitapprove')
+    },
+    save(status){
+      u.p('/api/waitapprove/approve', {
+        status:status,
+        id: this.$route.params.id
+      })
+        .then((response) => {
+          if (response ) {
+            this.loading1 = false
+            this.loading2 = false
+            this.completed = true
+            const msg = status ==1 ?`Phê duyệt bản ghi thu phí thành công` : 'Từ chối duyệt bản ghi thu phí thành công'
+            this.html.class.modal = 'modal-success'
+            this.html.variant = 'success'
+            this.html.message = msg
+            this.modal = true
+            // this.html.disable.save = true
+          } 
+        }).catch(e => u.log('Exeption', e))
     }
   }
 

@@ -271,12 +271,17 @@ const waitcharges = {
   url : '/waitcharges',
   icon: 'fa fa-money',
 }
+const waitapprove = {
+  name: 'Duyệt Đóng Phí',
+  url : '/waitapprove',
+  icon: 'fa fa-check',
+}
 
 const accounting = {
   name    : 'Kế Toán',
   url     : '/accounting',
   icon    : 'fa fa-usd',
-  children: [charges, waitcharges],
+  children: [charges, waitcharges,waitapprove],
 }
 
 // Reports items defination

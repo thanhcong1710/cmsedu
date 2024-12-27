@@ -158,7 +158,12 @@ const routers = u.load({
       p: '/import/reserve',
       n: 'Import Reserve',
       f: 'import_reserve'
-    }
+    },
+    print_chargefee: {
+      p: '/print/chargefee/:id',
+      n: 'Phiếu thu',
+      f: 'chargefee',
+    },
   }
 })
 

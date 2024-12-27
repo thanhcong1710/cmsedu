@@ -129,6 +129,10 @@ Route::post('payment/bycontract','PaymentController@getPaymentByContract')->midd
 /** Start Waitcharges Router ========================================================================================================= */
 Route::get('waitcharges/list/{pagination}/{search}/{sort}', 'WaitchargesController@list')->middleware('Authentication');
 Route::get('waitcharges/{id}', 'WaitchargesController@detail')->middleware('Authentication');
+Route::get('waitapprove/list/{pagination}/{search}/{sort}', 'WaitchargesController@listApprove')->middleware('Authentication');
+Route::get('waitapprove/{id}', 'WaitchargesController@detailApprove')->middleware('Authentication');
+Route::post('waitapprove/approve', 'ChargesController@approveCharge')->middleware('Authentication');
+Route::get('waitapprove/print/{id}', 'WaitchargesController@detailPrint')->middleware('Authentication');
 /** End Waitcharges Router =========================================================================================================== */
 
 /** Start Enrolments Router ========================================================================================================= */

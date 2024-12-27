@@ -98,7 +98,7 @@
         </div>
         <b-card header>
           <div slot="header">
-            <i class="fa fa-list"></i> <b class="uppercase">Danh sách chờ đóng phí</b>
+            <i class="fa fa-list"></i> <b class="uppercase">Danh sách chờ duyệt đóng phí</b>
           </div>
           <div v-show="action.loading" class="ajax-load content-loading">
             <div class="load-wrapper">
@@ -115,23 +115,33 @@
                     <th >STT</th>
                     <th>Tên học sinh</th>
                     <th>Mã CMS</th>
-                    <th>Phân Loại</th>
+                    <th>Trung tâm</th>
                     <th>Sản phẩm</th>
                     <th>Gói phí</th>
-                    <th>EC</th>
-                    <th>Số tiền còn phải đóng</th>
+                    <th>Số tiền đã đóng</th>
+                    <th>Người tạo</th>
+                    <th>Trạng thái</th>
+                    <th>Người duyệt</th>
+                    <th>Thao tác</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(item, ind) in items" :key="ind">
-                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện thu phí`" class="link-me" :to="`${url.page}${item.id}`">{{ind + 1}}</router-link></td>
-                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện thu phí`" class="link-me" :to="`${url.page}${item.id}`">{{item.student_name}}</router-link></td>
-                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện thu phí`" class="link-me" :to="`${url.page}${item.id}`">{{item.student_crm_id}}</router-link></td>
-                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện thu phí`" class="link-me" :to="`${url.page}${item.id}`">{{item.type|contractType}}</router-link></td>
-                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện thu phí`" class="link-me" :to="`${url.page}${item.id}`">{{item.product_name}}</router-link></td>
-                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện thu phí`" class="link-me" :to="`${url.page}${item.id}`">{{item.tuition_fee_name}}</router-link></td>
-                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện thu phí`" class="link-me" :to="`${url.page}${item.id}`">{{item.ec_name}}</router-link></td>
-                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện thu phí`" class="link-me" :to="`${url.page}${item.id}`">{{formatAmount(item.debt_amount)}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{ind + 1}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{item.student_name}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{item.student_crm_id}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{item.branch_name}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{item.product_name}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{item.tuition_fee_name}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{formatAmount(item.charge_amount)}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{item.creator_name}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{item.approve_status==1 ? 'Đã duyệt' : ( item.approve_status==2 ? 'Từ chối duyệt' : 'Chưa duyệt')}}</router-link></td>
+                    <td><router-link v-b-tooltip.hover :title="`Nhấp vào để thực hiện duyệt thu phí`" class="link-me" :to="`${url.page}${item.tmp_id}`">{{item.approver_name}}</router-link></td>
+                    <td> 
+                     <span class="apax-btn print" @click="print(item)">
+                      <i v-b-tooltip.hover title="Nhấp vào để in bản ghi" class="fa fa-print"></i>
+                    </span>
+                    </td>
                   </tr>
                   </tbody>
                 </table>
@@ -221,9 +231,9 @@ export default {
         tuition_fee: ''
       },
       url: {
-        page: '/waitcharges/',
-        api: '/api/waitcharges/',
-        load: '/api/waitcharges/list/'
+        page: '/waitapprove/',
+        api: '/api/waitapprove/',
+        load: '/api/waitapprove/list/'
       },
       cache: {
         branch: 0,
@@ -376,8 +386,10 @@ export default {
       const payload_id = this.filter.payload ? parseInt(this.filter.payload, 10) : -1
       const product_id = this.filter.product ? parseInt(this.filter.product, 10) : -1
       const tuition_id = this.filter.tuition_fee ? parseInt(this.filter.tuition_fee, 10) : -1
+    },
+    print(item) {
+        window.open(`/print/chargefee/${item.id}`,'_blank')
     }
-
  	}
 
 }

@@ -17,6 +17,16 @@ import u from '../../utilities/utility'
 const routers = u.load({
   name: 'accounting',
   pages: {
+    waitapprove_list: {
+      p: '/waitapprove',
+      f: 'waitapprove/list',
+      n: 'Danh Sách Chờ Duyệt Phí'
+    },
+    waitapprove_add: {
+      p: '/waitapprove/:id',
+      f: 'waitapprove/add',
+      n: 'Thông tin Phiếu Thu Chờ Duyệt'
+    },
     waitcharge_list: {
       p: '/waitcharges',
       f: 'waitcharges/list',
@@ -68,6 +78,8 @@ export default {
       routers.charge_add,
       routers.charge_edit,
       routers.charge_detail,
+      routers.waitapprove_list,
+      routers.waitapprove_add,
     ]
   }
 }

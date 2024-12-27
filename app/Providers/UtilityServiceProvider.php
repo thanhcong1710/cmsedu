@@ -2963,6 +2963,67 @@ class UtilityServiceProvider extends ServiceProvider
         }
         return $data;
     }
+
+    public static function convertNumberToWords($number) {
+        $number = str_replace([',', '.'], '', $number); // Loại bỏ dấu phân cách
+        $number = (int)$number; // Đảm bảo là kiểu số nguyên
+    
+        if ($number == 0) {
+            return 'Không đồng';
+        }
+    
+        $words = [
+            0 => 'không',
+            1 => 'một',
+            2 => 'hai',
+            3 => 'ba',
+            4 => 'bốn',
+            5 => 'năm',
+            6 => 'sáu',
+            7 => 'bảy',
+            8 => 'tám',
+            9 => 'chín',
+        ];
+    
+        $units = ['', 'nghìn', 'triệu', 'tỷ', 'nghìn tỷ', 'triệu tỷ'];
+    
+        $numberString = strrev((string)$number);
+        $chunks = str_split($numberString, 3);
+    
+        $result = [];
+        foreach ($chunks as $i => $chunk) {
+            $chunk = strrev($chunk); // Đảo ngược để xử lý từng nhóm 3 số
+            $chunkLength = strlen($chunk);
+            $chunkWords = [];
+    
+            for ($j = 0; $j < $chunkLength; $j++) {
+                $digit = $chunk[$j];
+                $position = $chunkLength - $j - 1;
+    
+                if ($digit != '0') {
+                    if ($position == 1 && $digit == '1') {
+                        $chunkWords[] = 'mười';
+                    } elseif ($position == 1 && $digit == '5') {
+                        $chunkWords[] = 'lăm';
+                    } elseif ($position == 2) {
+                        $chunkWords[] = $words[$digit] . ' trăm';
+                    } else {
+                        $chunkWords[] = $words[$digit];
+                    }
+                } elseif ($position == 1 && !empty($chunkWords)) {
+                    $chunkWords[] = 'lẻ';
+                }
+            }
+    
+            if (!empty($chunkWords)) {
+                $result[] = implode(' ', $chunkWords) . ' ' . $units[$i];
+            }
+        }
+    
+        $result = array_reverse($result);
+        return ucfirst(trim(implode(' ', $result))) . ' đồng';
+    }
+    
 }
 
 $constants = [

@@ -180,12 +180,6 @@ class ChargesController extends Controller
         return $newinfo->end_date;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
@@ -195,101 +189,158 @@ class ChargesController extends Controller
         if (!$session = $request->users_data) {
             return $response->formatResponse($code, $data);
         }
-        $post = $request->input();
-        $contract_id = (int)$post['contract_id'];
-        $tuition_fee_ids = isset($post['tuition_fee_ids']) ? $post['tuition_fee_ids'] ?: [] : [];
-        $contract_info = self::getContractForChargeNew($contract_id, $tuition_fee_ids);
-        if (!$contract_info) {
-            // Không tìm thấy contract để payment
-            return $response->formatResponse($code, $data);
-        }
-
-        $uid = $session->id;
-        $data = (Object)[];
         $code = APICode::SUCCESS;
         $post = $request->input();
-        $save = $post['update'];
-        $must_charge = (int)$post['must_charge'];
-        $amount = (int)$save['charge_amount'];
-        $total = (int)$save['total_charged'];
-        $count = (int)$post['charge_time'];
-        $debt = (int)$save['debt_amount'];
-        $payload = (int)$post['payload'];
-        $method = (int)$save['method'];
-        $date = $save['charge_date'];
-        $note = $save['note'];
-        $oldAmount = isset($post['old_amount']) ? $post['old_amount'] : 0;
-        $accounting_id = isset($save['payment_code']) ? $save['payment_code'] : null;
-        $isEdit = $request->is_edit == 1;
-        if ($method == 2 && (int)$note) {
-            $bank = u::first("SELECT CONCAT(name, '(', alias, ')') label FROM banks WHERE id = $note");
-            $note = $bank->label;
+        $checkExit =u::first("SELECT id FROM tmp_payment where contract_id=".(int)$post['contract_id']." AND status=0");
+        if($checkExit) {
+            $data = [
+              'done' => false,
+              'mes' =>'Tồn tại phiếu thu chờ duyệt không thể thêm mới'
+            ];
+        }else {
+          DB::table('tmp_payment')->insert(
+            [
+                'contract_id' =>(int)$post['contract_id'],
+                'charge_amount' => data_get($post, 'update.charge_amount'),
+                'debt_amount' => data_get($post, 'update.debt_amount'),
+                'total_charged' => data_get($post, 'update.total_charged'),
+                'charge_date' => data_get($post, 'update.charge_date'),
+                'method' => data_get($post, 'update.method'),
+                'note' => data_get($post, 'update.note'),
+                'meta_data' => json_encode($post),
+                'created_at' => date('Y-m-d H:i:s'),
+                'creator_id' => $session->id,
+                'status' => 0
+            ]
+          );
+            $data = [
+              'done' => true
+            ];
         }
-        $type = 1;
-        $timestamp = time();
-        $hash = md5("$must_charge$total$amount$debt$count$method$timestamp");
-        $payment_info = self::upsertPayment($contract_id, $accounting_id, $method, $payload, $must_charge, $amount, $total, $debt,
-            $hash, $count, $type, $note, $date, $uid, $isEdit);
-
-        $payment_id = $payment_info->id;
-        $contract_status = $debt > 0 ? ($contract_info->status == 6 ? 6 : 2) : ($contract_info->status == 6 ? 6 : 3);
-
-//        $ra = (int)$contract_info->receivable;
-        $mc = (int)$contract_info->must_charge;
-//        $pt = (int)$contract_info->passed_trial;
-        $ts = (int)$contract_info->total_sessions;
-//        $tp = (int)$contract_info->tuition_fee_price;
-//         giá của một buổi học
-        $sp = (int)$ts !== 0 ? $mc / $ts : 0;
-        $new_real_sessions = (int)$sp !== 0 ? round($total / $sp) : 0;
-        $ok_real_sessions = $ts < $new_real_sessions ? (int)$ts : (int)$new_real_sessions;
-        $new_type = $contract_info->type == 4 ? 3 : $contract_info->type;
-        $isRecharge = $contract_info->count_recharge > 0 || $contract_info->type == 7;
-        $new_type = $isRecharge ? ($debt <= 0 ? 2 : 7) : $new_type;
-        $real_sessions = $ok_real_sessions - (($contract_info->relation_contract_id) ? (int)$contract_info->relation_left_sessions : 0);
-        $reservable_sessions = self::getMaxNumberOfReservesSessions($contract_info, $debt > 0);
-        $reservable = $reservable_sessions > $contract_info->reserved_sessions ? 1 : 0;
-        $enrolment_last_date = self::calcEnrolmentLastDateByContract($contract_info, $real_sessions, $date);
-
-        //Thu full phí  mới đk cộng học bổng
-        $summary_sessions = $debt==0 ? $real_sessions + $contract_info->bonus_sessions : $real_sessions;
-
-        if(($contract_info->product_id==5 || $contract_info->product_id==101) && $debt==0){
-          $contract_status=7;
-          $contract_info->count_recharge = -100;
-        }
-        $update_contract_data = (Object)[
-            'id' => $contract_id,
-            'status' => $contract_status,
-            'type' => $new_type,
-            'total_charged' => $total,
-            'reserved_sessions' => (int)$contract_info->relation_reserved_sessions,
-            'reservable_sessions' => $reservable_sessions > 0 ? $reservable_sessions : 'NULL',
-            'real_sessions' => $real_sessions,
-            'summary_sessions'=> $summary_sessions,
-            'debt_amount' => $debt,
-            'editor_id' => $uid,
-            'payment_id' => $payment_id,
-            'updated_at' => date("Y-m-d H:i:s"),
-            'enrolment_last_date' => $enrolment_last_date,
-            'reservable' => $reservable,
-            'action'=>'charge_fee_'.$payment_id,
-            'count_recharge'=>$contract_info->count_recharge
-        ];
-
-        u::updateContract($update_contract_data);
-        //self::updateSaleReport($isEdit ? $amount - $oldAmount ?: 0 : $amount, $contract_info);
-        $data->done = true;
-        $apax_log_payment = u::first("SELECT count(id) AS total FROM apax_log_payment WHERE contract_id= $contract_id");
-        if($apax_log_payment->total==0){ 
-          $sms_info = u::first("SELECT s.gud_mobile1,s.name AS student_name, (SELECT name FROM branches WHERE id= c.branch_id) AS branch_name, (SELECT name FROM products WHERE id= c.product_id) AS product_name 
-            FROM contracts AS c LEFT JOIN students AS s ON s.id=c.student_id WHERE c.id=$contract_id");
-          $sms_phone=$sms_info->gud_mobile1;
-          $sms_content="CMSEdu TB Quy phu huynh da nop ".number_format($amount)." dong cho hoc sinh $sms_info->student_name - CT ".u::convert_name($sms_info->product_name).". Hotline CSKH 1800646805.";
-          $sms =new Sms();
-          $sms->sendSms($sms_phone,$sms_content,2,0,1);
-        }
+        
         return $response->formatResponse($code, $data);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function approveCharge(Request $request)
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $data = null;
+        $code = APICode::PERMISSION_DENIED;
+        $response = new Response();
+        if (!$session = $request->users_data) {
+            return $response->formatResponse($code, $data);
+        }
+        $code = APICode::SUCCESS;
+        $input = $request->input();
+        $tmp_status = data_get($input,'status');
+        $tmp_id = data_get($input,'id');
+        $uid = $session->id;
+        $tmp_info= u::first("SELECT * FROM tmp_payment WHERE id=$tmp_id");
+        if( $tmp_status== 1 && $tmp_info) {
+          $post = json_decode(data_get($tmp_info,'meta_data'),true);
+          $contract_id = (int)$post['contract_id'];
+          $tuition_fee_ids = isset($post['tuition_fee_ids']) && $post['tuition_fee_ids'] ?: [] ;
+          $contract_info = self::getContractForChargeNew($contract_id, $tuition_fee_ids);
+          if (!$contract_info) {
+              // Không tìm thấy contract để payment
+              return $response->formatResponse($code, $data);
+          }
+          $data = (Object)[];
+          $save = $post['update'];
+          $must_charge = (int)$post['must_charge'];
+          $amount = (int)$save['charge_amount'];
+          $total = (int)$save['total_charged'];
+          $count = (int)$post['charge_time'];
+          $debt = (int)$save['debt_amount'];
+          $payload = (int)$post['payload'];
+          $method = (int)$save['method'];
+          $date = $save['charge_date'];
+          $note = $save['note'];
+          $oldAmount = isset($post['old_amount']) ? $post['old_amount'] : 0;
+          $accounting_id = isset($save['payment_code']) ? $save['payment_code'] : null;
+          $isEdit = $request->is_edit == 1;
+          if ($method == 2 && (int)$note) {
+              $bank = u::first("SELECT CONCAT(name, '(', alias, ')') label FROM banks WHERE id = $note");
+              $note = $bank->label;
+          }
+          $type = 1;
+          $timestamp = time();
+          $hash = md5("$must_charge$total$amount$debt$count$method$timestamp");
+          $payment_info = self::upsertPayment($contract_id, $accounting_id, $method, $payload, $must_charge, $amount, $total, $debt,
+              $hash, $count, $type, $note, $date, $uid, $isEdit);
+
+          $payment_id = $payment_info->id;
+          $contract_status = $debt > 0 ? ($contract_info->status == 6 ? 6 : 2) : ($contract_info->status == 6 ? 6 : 3);
+
+  //        $ra = (int)$contract_info->receivable;
+          $mc = (int)$contract_info->must_charge;
+  //        $pt = (int)$contract_info->passed_trial;
+          $ts = (int)$contract_info->total_sessions;
+  //        $tp = (int)$contract_info->tuition_fee_price;
+  //         giá của một buổi học
+          $sp = (int)$ts !== 0 ? $mc / $ts : 0;
+          $new_real_sessions = (int)$sp !== 0 ? round($total / $sp) : 0;
+          $ok_real_sessions = $ts < $new_real_sessions ? (int)$ts : (int)$new_real_sessions;
+          $new_type = $contract_info->type == 4 ? 3 : $contract_info->type;
+          $isRecharge = $contract_info->count_recharge > 0 || $contract_info->type == 7;
+          $new_type = $isRecharge ? ($debt <= 0 ? 2 : 7) : $new_type;
+          $real_sessions = $ok_real_sessions - (($contract_info->relation_contract_id) ? (int)$contract_info->relation_left_sessions : 0);
+          $reservable_sessions = self::getMaxNumberOfReservesSessions($contract_info, $debt > 0);
+          $reservable = $reservable_sessions > $contract_info->reserved_sessions ? 1 : 0;
+          $enrolment_last_date = self::calcEnrolmentLastDateByContract($contract_info, $real_sessions, $date);
+
+          //Thu full phí  mới đk cộng học bổng
+          $summary_sessions = $debt==0 ? $real_sessions + $contract_info->bonus_sessions : $real_sessions;
+
+          if(($contract_info->product_id==5 || $contract_info->product_id==101) && $debt==0){
+            $contract_status=7;
+            $contract_info->count_recharge = -100;
+          }
+          $update_contract_data = (Object)[
+              'id' => $contract_id,
+              'status' => $contract_status,
+              'type' => $new_type,
+              'total_charged' => $total,
+              'reserved_sessions' => (int)$contract_info->relation_reserved_sessions,
+              'reservable_sessions' => $reservable_sessions > 0 ? $reservable_sessions : 'NULL',
+              'real_sessions' => $real_sessions,
+              'summary_sessions'=> $summary_sessions,
+              'debt_amount' => $debt,
+              'editor_id' => $uid,
+              'payment_id' => $payment_id,
+              'updated_at' => date("Y-m-d H:i:s"),
+              'enrolment_last_date' => $enrolment_last_date,
+              'reservable' => $reservable,
+              'action'=>'charge_fee_'.$payment_id,
+              'count_recharge'=>$contract_info->count_recharge
+          ];
+
+          u::updateContract($update_contract_data);
+          //self::updateSaleReport($isEdit ? $amount - $oldAmount ?: 0 : $amount, $contract_info);
+          $data->done = true;
+          $apax_log_payment = u::first("SELECT count(id) AS total FROM apax_log_payment WHERE contract_id= $contract_id");
+          if($apax_log_payment->total==0){ 
+            $sms_info = u::first("SELECT s.gud_mobile1,s.name AS student_name, (SELECT name FROM branches WHERE id= c.branch_id) AS branch_name, (SELECT name FROM products WHERE id= c.product_id) AS product_name 
+              FROM contracts AS c LEFT JOIN students AS s ON s.id=c.student_id WHERE c.id=$contract_id");
+            $sms_phone=$sms_info->gud_mobile1;
+            $sms_content="CMSEdu TB Quy phu huynh da nop ".number_format($amount)." dong cho hoc sinh $sms_info->student_name - CT ".u::convert_name($sms_info->product_name).". Hotline CSKH 1800646805.";
+            $sms =new Sms();
+            $sms->sendSms($sms_phone,$sms_content,2,0,1);
+          }
+          return $response->formatResponse($code, $data);
+        } else{
+          u::query("UPDATE tmp_payment SET status = $tmp_status, approved_at = '".date('Y-m-d H:i:s')."', approver_id =$uid WHERE id=$tmp_id");
+          $data = (Object)[];
+          $data->done = true;
+          return $response->formatResponse($code, $data);
+        }
+        
     }
 
     private function updateSaleReport($amount, $contract_info)
