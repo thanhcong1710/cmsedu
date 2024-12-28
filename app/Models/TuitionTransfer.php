@@ -1452,7 +1452,7 @@ class TuitionTransfer extends Model
                 <p>Trân trọng cảm ơn!</p>";
             $mail->sendSingleMail($to, $subject, $body,[$arr_mail_from->gdtt,$arr_mail_from->cskh]);
         }elseif($transfer_info->status==4){
-            $to = array('address' => 'ketoan@cmsedu.vn', 'name' => 'ketoan@cmsedu.vn');
+            $to = array('address' => 'nnquang@logiclab.vn', 'name' => 'nnquang@logiclab.vn');
             $subject = "[CRM] Yêu cầu phê duyệt chuyển phí của bé $transfer_info->from_student_name";
             $body = "<p>Kính gửi: Kế toán HO </p>
                 <p>Hệ thống CRM xin thông báo: Anh/chị đã nhận được yêu cầu <strong>chuyển phí</strong> của bé <strong>$transfer_info->from_student_name</strong> $transfer_info->from_branch_name chuyển phí sang bé <strong>$transfer_info->to_student_name</strong> $transfer_info->to_branch_name</p>
@@ -1470,7 +1470,7 @@ class TuitionTransfer extends Model
                 <p>Lý do từ chối: $comment</p>
                 <p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.cmsedu.vn/'>crm.cmsedu.vn</a> để xem chi tiết.</p>
                 <p>Trân trọng cảm ơn!</p>";
-            $mail->sendSingleMail($to, $subject, $body,['ketoan@cmsedu.vn',$arr_mail_from->cskh,$transfer_info->creator_email]);
+            $mail->sendSingleMail($to, $subject, $body,['nnquang@logiclab.vn',$arr_mail_from->cskh,$transfer_info->creator_email]);
         }elseif($transfer_info->status==6){
             $to = array('address' => $arr_mail_from->gdtt, 'name' => $arr_mail_from->gdtt);
             $subject = "[CRM] Kế toán HO đã đồng ý tiếp nhận yêu cầu chuyển phí của bé $transfer_info->from_student_name";
@@ -1478,7 +1478,7 @@ class TuitionTransfer extends Model
                     <p>Hệ thống CRM xin thông báo: Yêu cầu <strong>chuyển phí</strong> của bé <strong>$transfer_info->from_student_name</strong> $transfer_info->from_branch_name chuyển phí sang bé <strong>$transfer_info->to_student_name</strong> $transfer_info->to_branch_name đã được tiếp nhận và phê duyệt!</p>
                     <p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.cmsedu.vn/'>crm.cmsedu.vn</a> để xem chi tiết.</p>
                 <p>Trân trọng cảm ơn!</p>";
-            $mail->sendSingleMail($to, $subject, $body,['ketoan@cmsedu.vn',$arr_mail_from->cskh,$transfer_info->creator_email]);
+            $mail->sendSingleMail($to, $subject, $body,['nnquang@logiclab.vn',$arr_mail_from->cskh,$transfer_info->creator_email]);
         }
     }
     public static function getMaxNumberOfReservesSessions($contract, $isDebt)

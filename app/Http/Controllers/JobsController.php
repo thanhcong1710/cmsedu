@@ -347,7 +347,7 @@ class JobsController extends Controller
                   <p>Sales Hub gửi thông tin khách checkin ngày ".date('d/m/Y')." chi tiết file đính kèm</p>
                 ";
         $file_attack = (object)array('url'=>'static/doc/xls/'.$file_name,'name'=>'File_dinh_kem_salehubs_'.date('d_m_Y').'.xlsx');
-        $mail->sendSingleMail($to, $subject, $body,[$arr_send['cskh'],$arr_send['ecl'],$arr_send['ecl_1'],'mai.huynh@cmsedu.vn','anh.nguyen9@cmsedu.vn','nga.tran1@cmsedu.vn','anh.dam@cmsedu.vn',$cc1],[$file_attack]);
+        $mail->sendSingleMail($to, $subject, $body,[$arr_send['cskh'],$arr_send['ecl'],$arr_send['ecl_1'],$cc1],[$file_attack]);
         // unlink(FOLDER . DS .'doc/xls/'.$file_name);
       }
     }
@@ -356,65 +356,41 @@ class JobsController extends Controller
   public static function getEmail($branch_id){
     $result =array();
     switch ($branch_id) {
+      case 14:
+        $result =array(
+          'cskh'=>'cskh.th@logiclab.vn',
+          'gdtt'=>'dndiem@logiclab.vn',
+          'ecl'=>'',
+          'ecl_1'=> ''
+        );
+        break;
       case 1:
         $result =array(
-          'cskh'=>'cskh.hapulico@cmsedu.vn',
-          'gdtt'=>'',
-          'ecl'=>'',
-          'ecl_1'=> ''
-        );
-        break;
-      case 2:
-        $result =array(
-          'cskh'=>'cskh.mydinh@cmsedu.vn',
-          'gdtt'=>'linhltd@cmsedu.vn',
-          'ecl'=>'',
-          'ecl_1'=> ''
-        );
-        break;
-      case 3:
-        $result =array(
-          'cskh'=>'cskh.trungkinh@cmsedu.vn',
-          'gdtt'=>'',
+          'cskh'=>'cskh.hdt@logiclab.vn',
+          'gdtt'=>'anhdang.hdt@logiclab.vn',
           'ecl'=>'',
           'ecl_1'=> ''
         );
         break;
       case 4:
         $result =array(
-          'cskh'=>'cskh.timescity@cmsedu.vn',
-          'gdtt'=>'',
+          'cskh'=>'cskh.tc@logiclab.vn',
+          'gdtt'=>'haihanguyen.tc@logic.vn',
           'ecl'=>'',
           'ecl_1'=> ''
         );
         break;
       case 5:
         $result =array(
-          'cskh'=>'cskh.phohue@cmsedu.vn',
-          'gdtt'=>'linh.nguyen1@cmsedu.vn',
+          'cskh'=>'cskh.ph@logiclab.vn',
+          'gdtt'=>'linhnguyen.ph@logiclab.vn',
           'ecl'=>'',
           'ecl_1'=> ''
         );
         break;
       case 6:
         $result =array(
-        'cskh'=>'cskh.thuykhue@cmsedu.vn',
-        'gdtt'=>'',
-        'ecl'=>'',
-        'ecl_1'=> ''
-        );
-        break;
-      case 7:
-        $result =array(
-        'cskh'=>'cskh.phamvandong@cmsedu.vn',
-        'gdtt'=>'',
-        'ecl'=>'',
-        'ecl_1'=> ''
-        );
-        break;
-      case 8:
-        $result =array(
-          'cskh'=>'cskh.kimlien@cmsedu.vn',
+          'cskh'=>'cskh.tk@logiclab.vn',
           'gdtt'=>'',
           'ecl'=>'',
           'ecl_1'=> ''
@@ -422,53 +398,9 @@ class JobsController extends Controller
         break;
       case 9:
         $result =array(
-          'cskh'=>'cskh.nguyenvancu@cmsedu.vn',
-          'gdtt'=>'xuangdtt@cmsedu.vn',
-          'ecl'=>'thao.tran1@cmsedu.vn',
-          'ecl_1'=> ''
-        );
-        break;
-      case 10:
-        $result =array(
-          'cskh'=>'cskh.halong@cmsedu.vn',
-          'gdtt'=>'',
-          'ecl'=>'',
-          'ecl_1'=> ''
-        );
-        break;
-      case 12:
-        $result =array(
-          'cskh'=>'cskh.nguyenthithap@cmsedu.vn',
-          'gdtt'=>'',
-          'ecl'=>'',
-          'cc1'=>'',
-          'ecl_1'=> '',
-        );
-        break;
-      case 13:
-        $result =array(
-          'cskh'=>'cskh.hado@cmsedu.vn',
-          'gdtt'=>'',
-          'ecl'=>'',
-          'cc1'=>'',
-          'ecl_1'=> ''
-        );
-        break;
-      case 17:
-        $result =array(
-          'cskh'=>'cskh.thanhhoa@cmsedu.vn',
-          'gdtt'=>'mai.hoang@cmsedu.vn',
-          'ecl'=>'',
-          'cc1'=>'',
-          'ecl_1'=> ''
-        );
-        break;
-      case 18:
-        $result =array(
-        'cskh'=>'',
-        'gdtt'=>'',
+        'cskh'=>'cskh.nvc@logiclab.vn',
+        'gdtt'=>'bichphan.nvc@logiclab.vn',
         'ecl'=>'',
-        'cc1'=>'',
         'ecl_1'=> ''
         );
         break;
@@ -564,23 +496,13 @@ class JobsController extends Controller
 
           $mail = new Mail();
           $arr_send = self::getEmail($branch->id);
-          // if($branch->zone_id==1 || $branch->zone_id==3){
-          //   $to =  array('address' => 'nga.tran1@cmsedu.vn', 'name' =>'nga.tran1@cmsedu.vn');
-          //   $arr_cc = [ 'mai.huynh@cmsedu.vn',$arr_send['gdtt'],$arr_send['ecl'],$arr_send['ecl_1']];
-          // }else{
-          //   $to =  array('address' => 'mai.huynh@cmsedu.vn', 'name' =>'mai.huynh@cmsedu.vn');
-          //   $arr_cc = ['nga.tran1@cmsedu.vn',$arr_send['gdtt'],$arr_send['ecl'],$arr_send['ecl_1']];
-          // }
           $to = array('address' => $arr_send['gdtt'], 'name' =>$arr_send['gdtt']);
-          $arr_cc =['nga.tran1@cmsedu.vn','anh.dam@cmsedu.vn',$arr_send['ecl'],$arr_send['ecl_1']];
+          $arr_cc =[$arr_send['ecl'],$arr_send['ecl_1']];
           $subject = "[CRM] THÔNG TIN KHÁCH SALES HUB LÊN GÓI PHÍ TẠI TRUNG TÂM - ".$branch->name;
           $body = "<p>Thông tin khách sales hub lên gói phí tại trung tâm - $branch->name ngày ".date('d/m/Y')." chi tiết file đính kèm</p>";
           $file_attack = (object)array('url'=>'static/doc/xls/'.$file_name,'name'=>"File_dinh_kem_salehubs_$branch->id".date('d_m_Y').'.xlsx');
           
-          // $to =  array('address' => 'thanhcong1710@gmail.com', 'name' =>'thanhcong1710@gmail.com');
-          // $arr_cc=['dat.nguyen@cmsedu.vn'];
           $mail->sendSingleMail($to, $subject, $body, $arr_cc,[$file_attack]);
-          // unlink(FOLDER . DS .'doc/xls/'.$file_name);
         }
       }
     }
@@ -683,16 +605,13 @@ class JobsController extends Controller
               $arr_send_from = self::getEmail($branch->id);
               $arr_send_to = self::getEmail($tmp_branch->id);
               $to =  array('address' => $arr_send_from['gdtt'], 'name' =>$arr_send_from['gdtt']);
-              $arr_cc = [$arr_send_from['ecl'],$arr_send_from['ecl_1'],$arr_send_to['ecl'],$arr_send_to['ecl_1'],$arr_send_to['gdtt'],'ketoan@cmsedu.vn'];
+              $arr_cc = [$arr_send_from['ecl'],$arr_send_from['ecl_1'],$arr_send_to['ecl'],$arr_send_to['ecl_1'],$arr_send_to['gdtt'],'nnquang@logiclab.vn'];
               
               $subject = "[CRM] THÔNG TIN KHÁCH BÁN CHÉO LÊN GÓI PHÍ TẠI TRUNG TÂM - ".$tmp_branch->name;
               $body = "<p>Thông tin khách bán chéo lên gói phí tại trung tâm - $tmp_branch->name ngày ".date('d/m/Y')." chi tiết file đính kèm</p>";
               $file_attack = (object)array('url'=>'static/doc/xls/'.$file_name,'name'=>"File_dinh_kem_ban_cheo_$tmp_branch->id".date('d_m_Y').'.xlsx');
               
-              // $to =  array('address' => 'thanhcong1710@gmail.com', 'name' =>'thanhcong1710@gmail.com');
-              // $arr_cc=['dat.nguyen@cmsedu.vn'];
               $mail->sendSingleMail($to, $subject, $body, $arr_cc,[$file_attack]);
-              // unlink(FOLDER . DS .'doc/xls/'.$file_name);
             }
           }
         }
@@ -842,18 +761,12 @@ class JobsController extends Controller
               $mail = new Mail();
               $arr_send = self::getEmail($branch->id);
               $to =  array('address' => $arr_send['cskh'], 'name' =>$arr_send['cskh']);
-              $arr_cc = [$arr_send['gdtt'],'dat.nguyen@cmsedu.vn','qlcl@cmsedu.vn','loan.pham@cmsedu.vn'];
+              $arr_cc = [$arr_send['gdtt']];
               
               $subject = "[CRM] THÔNG TIN HỌC SINH CÓ NGÀY HẾT PHÍ TRONG THÁNG $report_month TẠI TRUNG TÂM ".$branch->name;
               $body = "<p>Thông tin học sinh hết phí trong tháng $report_month tại trung tâm - $branch->name chi tiết file đính kèm</p>";
               $file_attack = (object)array('url'=>'static/doc/xls/'.$file_name,'name'=>"File_ds_hs_het_phi_$branch->id".date('d_m_Y').'.xlsx');
               
-              // $to =  array('address' => 'thanhcong1710@gmail.com', 'name' =>'thanhcong1710@gmail.com');
-              // $arr_cc=['dat.nguyen@cmsedu.vn'];
-              // $arr_from =array(
-              //   'email'=> 'taituc@cmsedu.vn',
-              //   'password'=>'cms@1234'
-              // );
               $mail->sendSingleMail($to, $subject, $body, $arr_cc,[$file_attack]);
             }
       }
@@ -988,15 +901,13 @@ class JobsController extends Controller
               $mail = new Mail();
               $arr_send = self::getEmail($branch->id);
               $to =  array('address' => $arr_send['cskh'], 'name' =>$arr_send['cskh']);
-              $arr_cc = [$arr_send['gdtt'],'dat.nguyen@cmsedu.vn','qlcl@cmsedu.vn','loan.pham@cmsedu.vn'];
+              $arr_cc = [$arr_send['gdtt']];
               
               $subject = "[CRM] DANH SÁCH TÁI PHÍ THÁNG $report_month TẠI TRUNG TÂM ".$branch->name;
               $body = "<p>Thông tin học sinh tái phí trong tháng $report_month tại trung tâm - $branch->name chi tiết file đính kèm</p>
               <p>Nếu có bất kỳ vấn đề gì liên quan đến danh sách tái tục vui lòng phản hồi vào luồng mail này.</p>";
               $file_attack = (object)array('url'=>'static/doc/xls/'.$file_name,'name'=>"File_ds_hs_tai_phi_$branch->id".date('d_m_Y').'.xlsx');
               
-              // $to =  array('address' => 'thanhcong1710@gmail.com', 'name' =>'thanhcong1710@gmail.com');
-              // $arr_cc=['dat.nguyen@cmsedu.vn'];
               $arr_from =array(
                 'email'=> 'taituc@cmsedu.vn',
                 'password'=>'cms@1234'
@@ -1106,7 +1017,7 @@ class JobsController extends Controller
                 <p>Sales Hub gửi thông tin khách checkin ngày ".date('d/m/Y')." chi tiết file đính kèm</p>
               ";
       $file_attack = (object)array('url'=>'static/doc/xls/'.$file_name,'name'=>'File_dinh_kem_salehubs_'.date('d_m_Y').'.xlsx');
-      $mail->sendSingleMail($to, $subject, $body,[$arr_send['cskh'],$arr_send['ecl'],$arr_send['ecl_1'],'mai.huynh@cmsedu.vn','anh.nguyen9@cmsedu.vn','nga.tran1@cmsedu.vn','anh.dam@cmsedu.vn',$cc1],[$file_attack]);
+      $mail->sendSingleMail($to, $subject, $body,[$arr_send['cskh'],$arr_send['ecl'],$arr_send['ecl_1'],$cc1],[$file_attack]);
       // unlink(FOLDER . DS .'doc/xls/'.$file_name);
     }
     return true;
@@ -1200,7 +1111,7 @@ class JobsController extends Controller
           $mail = new Mail();
           $arr_send = self::getEmail($branch->id);
           $to = array('address' => $arr_send['gdtt'], 'name' =>$arr_send['gdtt']);
-          $arr_cc =[$arr_send['cskh'],'anh.dam@cmsedu.vn', 'phuong.tran1@cmsedu.vn'];
+          $arr_cc =[$arr_send['cskh']];
           $subject = "[CRM] DANH SÁCH HỌC SINH KHÔNG ĐIỂM DANH TẠI TRUNG TÂM - ".$branch->name;
           $body = "<p>Danh sách học sinh không điểm danh tại trung tâm - $branch->name ngày ".date('d/m/Y')." chi tiết file đính kèm</p>";
           $file_attack = (object)array('url'=>'static/doc/xls/'.$file_name,'name'=>"File_dinh_kem_salehubs_$branch->id".date('d_m_Y').'.xlsx');

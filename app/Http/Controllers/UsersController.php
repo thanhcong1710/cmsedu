@@ -2998,7 +2998,7 @@ class UsersController extends Controller
         ];
 
         if ($error_code == 0){
-            $username = strtoupper(str_replace("@cmsedu.vn","",$email));
+            $username = strtoupper(str_replace("@logiclab.vn","",$email));
             $branch = [];
             if ($request->role_id == 84){
                 $all = Branch::all();

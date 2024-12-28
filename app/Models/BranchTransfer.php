@@ -1028,7 +1028,7 @@ class BranchTransfer extends Model
           <p>Trân trọng cảm ơn!</p>";
       $mail->sendSingleMail($to, $subject, $body,[$arr_mail_to->gdtt,$arr_mail_to->cskh,$arr_mail_from->cskh,$transfer_info->creator_email]);
     }elseif($transfer_info->status==5){
-      $to = array('address' => 'ketoan@cmsedu.vn', 'name' => 'ketoan@cmsedu.vn');
+      $to = array('address' => 'nnquang@logiclab.vn', 'name' => 'nnquang@logiclab.vn');
       $subject = "[CRM] Yêu cầu phê duyệt chuyển trung tâm của bé $transfer_info->student_name";
       $body = "<p>Kính gửi:  Kế toán HO</p>
           <p>Hệ thống CRM xin thông báo: Anh/chị đã nhận được yêu cầu <strong>chuyển trung tâm</strong> của bé <strong>$transfer_info->student_name</strong> $transfer_info->from_branch_name chuyển trung tâm sang $transfer_info->to_branch_name</p>
@@ -1046,7 +1046,7 @@ class BranchTransfer extends Model
           <p>Lý do từ chối: $comment</p>
           <p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.cmsedu.vn/'>crm.cmsedu.vn</a> để xem chi tiết.</p>
           <p>Trân trọng cảm ơn!</p>";
-      $mail->sendSingleMail($to, $subject, $body,['ketoan@cmsedu.vn',$arr_mail_to->gdtt,$arr_mail_to->cskh,$arr_mail_from->cskh,$transfer_info->creator_email]);
+      $mail->sendSingleMail($to, $subject, $body,['nnquang@logiclab.vn',$arr_mail_to->gdtt,$arr_mail_to->cskh,$arr_mail_from->cskh,$transfer_info->creator_email]);
     }elseif($transfer_info->status==6){
       $to = array('address' => $arr_mail_from->gdtt, 'name' => $arr_mail_from->gdtt);
       $subject = "[CRM] Kế toán HO đã đồng ý tiếp nhận yêu cầu chuyển trung tâm của bé $transfer_info->student_name";
@@ -1054,7 +1054,7 @@ class BranchTransfer extends Model
 					<p>Hệ thống CRM xin thông báo: Yêu cầu <strong>chuyển trung tâm</strong> của bé <strong>$transfer_info->student_name</strong>  $transfer_info->from_branch_name chuyển trung tâm sang $transfer_info->to_branch_name đã được tiếp nhận và phê duyệt!</p>
 					<p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.cmsedu.vn/'>crm.cmsedu.vn</a> để xem chi tiết.</p>
           <p>Trân trọng cảm ơn!</p>";
-      $mail->sendSingleMail($to, $subject, $body,['ketoan@cmsedu.vn',$arr_mail_to->gdtt,$arr_mail_to->cskh,$arr_mail_from->cskh,$transfer_info->creator_email]);
+      $mail->sendSingleMail($to, $subject, $body,['nnquang@logiclab.vn',$arr_mail_to->gdtt,$arr_mail_to->cskh,$arr_mail_from->cskh,$transfer_info->creator_email]);
     }
   }
   public static function callCyberContract($contract_id, $user_id,$act){
