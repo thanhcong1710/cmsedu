@@ -322,6 +322,7 @@ class ChargesController extends Controller
           ];
 
           u::updateContract($update_contract_data);
+          u::query("UPDATE tmp_payment SET status = $tmp_status, approved_at = '".date('Y-m-d H:i:s')."', approver_id =$uid WHERE id=$tmp_id");
           //self::updateSaleReport($isEdit ? $amount - $oldAmount ?: 0 : $amount, $contract_info);
           $data->done = true;
           $apax_log_payment = u::first("SELECT count(id) AS total FROM apax_log_payment WHERE contract_id= $contract_id");
