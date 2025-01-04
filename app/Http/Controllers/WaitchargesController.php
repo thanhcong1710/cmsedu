@@ -359,7 +359,7 @@ class WaitchargesController extends Controller
         $data = u::first("SELECT '' AS text_1,c.code AS contract_code, c.debt_amount, tp.charge_amount,tp.method,
             s.gud_name1,s.address, s.name,
             (SELECT number_of_months FROM tuition_fee WHERE id = c.tuition_fee_id) AS number_of_months,
-            (SELECT name FROM products WHERe id=c.product_id) AS product_name,
+            (SELECT name FROM products WHERe id=c.product_id) AS product_name, tp.note,
             '' AS text_2, '' AS text_amount, '' AS text_amount_words,'' AS text_3,'' AS text_debt_amount
           FROM tmp_payment AS tp
             LEFT JOIN contracts AS c ON tp.contract_id=c.id
