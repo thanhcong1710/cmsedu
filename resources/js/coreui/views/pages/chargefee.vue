@@ -3,7 +3,7 @@
         <div id="apax-printing-contract">
             <div class="print-box">
                 <div class="container">
-                    <div class="print-body">
+                    <div class="print-body print-container">
                         <div class="inner">
                             <!-- BEGIN FORM -->
                             <div class="print-header">
@@ -28,7 +28,7 @@
                                 <div class="row">
                                     <div class="col-sm-8"></div>
                                     <div class="col-sm-4" >
-                                        <p style="margin-bottom:0px">Số phiếu: C09.24.PTH0009</p>
+                                        <!-- <p style="margin-bottom:0px">Số phiếu: C09.24.PTH0009</p> -->
                                         <p style="margin-bottom:0px">Nợ TK: {{contract.text_debt_amount}}</p>
                                         <p style="margin-bottom:0px">Có TK: {{contract.text_amount}}</p>
                                     </div>
@@ -49,7 +49,7 @@
                                     <div class="col-sm-12">
                                         <div class="input-line">
                                             <span class="label"><b>Lý do nộp:</b></span>
-                                            {{contract.text_2}}
+                                            {{contract.note}}
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -87,7 +87,7 @@
                                         <p class="center">(Ký, họ tên, đóng dấu)</p>
                                     </div>
                                     <div class="col-sm-4">
-                                        <div class="center">Giám đốc TT</div>
+                                        <div class="center">Người lập biểu</div>
                                         <p class="center">(Ký, họ tên)</p>
                                     </div>
                                     <div class="col-sm-4">
@@ -196,5 +196,41 @@
     margin-bottom: 0px;
     font-size: 14px;
     line-height: 18px;
+}
+@page {
+    size: A5;
+    margin: 10mm;
+    }
+    body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    }
+    #apax-printing-detail .print-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+@media print {
+    @page {
+    size: A5;
+    margin: 10mm;
+    }
+    body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    }
+    #apax-printing-detail .print-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
 }
 </style>

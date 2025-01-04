@@ -191,13 +191,13 @@ class ChargesController extends Controller
         }
         $code = APICode::SUCCESS;
         $post = $request->input();
-        $checkExit =u::first("SELECT id FROM tmp_payment where contract_id=".(int)$post['contract_id']." AND status=0");
-        if($checkExit) {
-            $data = [
-              'done' => false,
-              'mes' =>'Tồn tại phiếu thu chờ duyệt không thể thêm mới'
-            ];
-        }else {
+        // $checkExit =u::first("SELECT id FROM tmp_payment where contract_id=".(int)$post['contract_id']." AND status=0");
+        // if($checkExit) {
+        //     $data = [
+        //       'done' => false,
+        //       'mes' =>'Tồn tại phiếu thu chờ duyệt không thể thêm mới'
+        //     ];
+        // }else {
           DB::table('tmp_payment')->insert(
             [
                 'contract_id' =>(int)$post['contract_id'],
@@ -216,7 +216,7 @@ class ChargesController extends Controller
             $data = [
               'done' => true
             ];
-        }
+        // }
         
         return $response->formatResponse($code, $data);
     }
