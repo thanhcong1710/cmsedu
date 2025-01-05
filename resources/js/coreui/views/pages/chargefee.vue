@@ -24,15 +24,7 @@
                             <div class="print-content">
                                 <h2 class="title" style="margin-bottom:0px">PHIẾU THU TIỀN HỌC</h2>
                                 <p style="text-align: center;margin-bottom: 20px">{{contract.text_1}}</p>
-
-                                <div style="display: flex">
-                                    <div class="h-left" style="width: 70%"></div>
-                                    <div class="h-right" style="width: 30%" >
-                                        <!-- <p style="margin-bottom:0px">Số phiếu: C09.24.PTH0009</p> -->
-                                        <p style="margin-bottom:0px">Nợ TK: {{contract.text_debt_amount}}</p>
-                                        <p style="margin-bottom:0px">Có TK: {{contract.text_amount}}</p>
-                                    </div>
-                                </div>
+                                
                                 <div>
                                     <div>
                                         <div class="input-line">
