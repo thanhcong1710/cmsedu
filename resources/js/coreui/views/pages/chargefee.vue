@@ -25,77 +25,78 @@
                                 <h2 class="title" style="margin-bottom:0px">PHIẾU THU TIỀN HỌC</h2>
                                 <p style="text-align: center;margin-bottom: 20px">{{contract.text_1}}</p>
 
-                                <div class="row">
-                                    <div class="col-sm-8"></div>
-                                    <div class="col-sm-4" >
+                                <div style="display: flex">
+                                    <div class="h-left" style="width: 70%"></div>
+                                    <div class="h-right" style="width: 30%" >
                                         <!-- <p style="margin-bottom:0px">Số phiếu: C09.24.PTH0009</p> -->
                                         <p style="margin-bottom:0px">Nợ TK: {{contract.text_debt_amount}}</p>
                                         <p style="margin-bottom:0px">Có TK: {{contract.text_amount}}</p>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
+                                <div>
+                                    <div>
                                         <div class="input-line">
                                             <span class="label"><b>Người nộp:</b></span>
                                             {{contract.gud_name1}}
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div>
                                         <div class="input-line">
                                             <span class="label"><b>Địa chỉ:</b></span>
                                             {{contract.address}}
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div >
                                         <div class="input-line">
                                             <span class="label"><b>Lý do nộp:</b></span>
                                             {{contract.note}}
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div>
                                         <div class="input-line">
                                             <span class="label"><b>Số tiền:</b></span>
                                             {{contract.text_amount}}
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div>
                                         <div class="input-line">
                                             <span class="label"><b>Bằng chữ:</b></span>
                                             {{contract.text_amount_words}}
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div>
                                         <div class="input-line">
                                             <span class="label"><b>HTTT:</b></span>
                                             {{contract.text_3}}
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div>
                                         <div class="input-line">
                                             <span class="label"><b>Kèm theo:</b></span>
                                             <i class="doted"></i>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-6"></div>
-                                    <div class="col-sm-6" >
+                                <div style="display: flex">
+                                    <div class="h-left" style="width: 50%"></div>
+                                    <div class="h-right" style="width: 50%" >
                                         <span class="dot-line">..........</span><span>, ngày</span><span class="dot-line">..........</span><span>tháng </span><span class="dot-line">..........</span><span>năm</span><span class="dot-line">...........</span>
                                     </div>
-                                    <div class="col-sm-4">
+                                </div>
+                                <div style="display: flex">
+                                    <div class="h-left" style="width: 33%">
                                         <div class="center">Giám đốc TT</div>
                                         <p class="center">(Ký, họ tên, đóng dấu)</p>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="h-left" style="width: 33%">
                                         <div class="center">Người lập biểu</div>
                                         <p class="center">(Ký, họ tên)</p>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="h-right" style="width: 34%">
                                         <div class="center">Người nộp tiền</div>
                                         <p class="center">(Ký, họ tên)</p>
                                     </div>
                                 </div>
-                                <br>
                             </div>
                             
                             
