@@ -95,7 +95,6 @@
                                         <p class="center">(Ký, họ tên)</p>
                                     </div>
                                 </div>
-                                <div class="margin300"></div>
                                 <br>
                             </div>
                             
@@ -200,6 +199,7 @@
 @page {
     size: A5;
     margin: 10mm;
+    size: landscape; 
     }
     body {
     font-family: Arial, sans-serif;
@@ -218,6 +218,7 @@
     @page {
     size: A5;
     margin: 10mm;
+    size: landscape; 
     }
     body {
     font-family: Arial, sans-serif;
