@@ -166,7 +166,7 @@
               <div :class="html.class.payload">
                 <div class="form-group">
                   <label class="control-label">Hình thức đóng phí</label>
-                  <select class="form-control" readonly v-model="item.payload">
+                  <select class="form-control" v-model="item.payload">
                     <option value="0">1 lần</option>
                     <option value="1">Nhiều lần</option>
                   </select>
@@ -461,7 +461,9 @@ export default {
           total_charged: total_charged,
           charge_date: this.moment(this.charge_date).format('YYYY-MM-DD'),
           method: this.item.method,
-          note: this.item.note ? this.item.note : ''
+          note: this.item.note ? this.item.note : '',
+          charge_time: this.item.charge_time,
+          payload: this.item.payload
         }
         this.loading1 = true
         this.loading2 = true

@@ -207,6 +207,8 @@ class ChargesController extends Controller
                 'charge_date' => data_get($post, 'update.charge_date'),
                 'method' => data_get($post, 'update.method'),
                 'note' => data_get($post, 'update.note'),
+                'charge_time' => data_get($post, 'update.charge_time'),
+                'payload' => data_get($post, 'update.payload'),
                 'meta_data' => json_encode($post),
                 'created_at' => date('Y-m-d H:i:s'),
                 'creator_id' => $session->id,
@@ -237,6 +239,38 @@ class ChargesController extends Controller
             return $response->formatResponse($code, $data);
         }
         $code = APICode::SUCCESS;
+        if (data_get($request, 'status') ==3){
+          $tmp_id = data_get($request,'id');
+          $tmp_info= u::first("SELECT * FROM tmp_payment WHERE id=$tmp_id");
+          $meta_data = json_decode(data_get($tmp_info,'meta_data'), true);
+          $meta_data["update"] = [
+            "charge_amount"=> data_get($request, 'charge_amount'),
+            "debt_amount"=>  data_get($request, 'debt_amount'),
+            "total_charged"=> data_get($request, 'total_charged'),
+            "charge_date"=> data_get($request, 'charge_date'),
+            "method"=> data_get($request, 'method'),
+            "note"=> data_get($request, 'note'),
+          ];
+          DB::table('tmp_payment')->where('id',data_get($request,'id'))->update(
+            [
+                "charge_amount"=> data_get($request, 'charge_amount'),
+                "debt_amount"=>  data_get($request, 'debt_amount'),
+                "total_charged"=> data_get($request, 'total_charged'),
+                "charge_date"=> data_get($request, 'charge_date'),
+                "method"=> data_get($request, 'method'),
+                "note"=> data_get($request, 'note'),
+                "payload"=> data_get($request, 'payload'),
+                "charge_time"=> data_get($request, 'charge_time'),
+                'meta_data' => json_encode($meta_data),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'updator_id' => $session->id,
+            ]
+          );
+            $data = [
+              'done' => true
+            ];
+            return $response->formatResponse($code, $data);
+        }
         $input = $request->input();
         $tmp_status = data_get($input,'status');
         $tmp_id = data_get($input,'id');

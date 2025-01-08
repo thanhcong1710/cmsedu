@@ -137,7 +137,7 @@
               <div v-show="loading2" class="loading-text cssload-loader">Đang xử lý dữ liệu, xin vui lòng chờ trong chốc lát...</div>
             </div>
           </div>
-          <div id="charge-information" class="content-detail">
+          <div id="charge-information" class="content-detail" v-if="!checkViewAction()">
             <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
@@ -215,6 +215,86 @@
               </div>
             </div>
           </div>
+          <div id="charge-information" class="content-detail" v-else>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Số tiền phải đóng</label>
+                  <input class="form-control" type="text" readonly :value="formatAmount(must_charge)">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Tổng tiền đã thu</label>
+                  <input class="form-control" type="text" readonly v-model="total_charge">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Số tiền thu</label>
+                  <input class="form-control" type="text" v-model="charge_amount">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Công nợ</label>
+                  <input class="form-control" type="text" readonly v-model="dept_amount">
+                </div>
+              </div>
+              <div :class="html.class.payload">
+                <div class="form-group">
+                  <label class="control-label">Hình thức đóng phí</label>
+                  <select class="form-control" v-model="item.payload">
+                    <option value="0">1 lần</option>
+                    <option value="1">Nhiều lần</option>
+                  </select>
+                </div>
+              </div>
+              <div :class="html.class.charge_time">
+                <div class="form-group">
+                  <label class="control-label">Lần đóng</label>
+                  <input class="form-control" type="text" :disabled="html.disable.charge_time" v-model="item.charge_time">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Phương thức đóng phí</label>
+                  <select class="form-control" v-model="item.method" @change="selectMethod">
+                    <option value="0">Tiền mặt</option>
+                    <option value="1">Chuyển khoản</option>
+                    <option value="2">Quẹt thẻ tín dụng</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group" v-show="showNote">
+                  <label class="control-label">Ghi chú</label>
+                  <textarea class="form-control" rows="1" v-model="item.note"></textarea>
+                </div>
+                <div class="form-group" v-show="showBank">
+                  <label class="control-label">Ngân hàng</label>
+                  <select class="form-control" v-model="item.note" @change="selectBank">
+                    <option value="">Chọn ngân hàng quẹt thẻ</option>
+                    <option v-for="(bank, index) in banks" :key="index" :value="bank.id">{{ `${bank.name} (${bank.alias})` }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Ngày thu phí</label><br/>
+                  <datePicker
+                    id="charge-date"
+                    class="form-control calendar"
+                    :value="charge_date"
+                    v-model="charge_date"
+                    :placeholder="defaultDate"
+                    lang="en-US"
+                  >
+                  </datePicker>
+                </div>
+              </div>
+            </div>
+          </div>
           <b-modal title="THÔNG BÁO" :class="html.class.modal" v-model="modal" @ok="closeModal" :ok-variant="html.variant">
             <div v-html="html.message">
             </div>
@@ -225,6 +305,9 @@
             </b-button>
             <b-button v-if="checkViewAction()" @click="save(1)" class="float-right" variant="success" style="margin-right: 5px;">
                 <i class="fa fa-check" /> Phê Duyệt
+            </b-button>
+             <b-button v-if="checkViewAction()" @click="save(3)" class="float-right" variant="success" style="margin-right: 5px;">
+                <i class="fa fa-save" /> Lưu thay đổi
             </b-button>
             <apaxButton
               :onClick="exitForm"
@@ -371,17 +454,18 @@ export default {
         this.cache.student = response.student_id
         const dept = parseInt(response.debt_amount) === 0 && parseInt(response.charge_time) === 1 ? parseInt(response.must_charge) : parseInt(response.debt_amount)
         this.item.debt_amount = dept
-        this.item.note = ''
+        this.item.note = this.item.tmp_note
+        this.item.method = this.item.tmp_method
+        this.total_charge = this.formatAmount(this.item.tmp_total_charged)
         this.dept_amount = this.formatAmount(dept)
-        this.item.method = 0
-        this.charge_amount = 0
+        this.charge_amount = this.formatAmount(this.item.tmp_charge_amount)
+        this.charge_date = this.item.tmp_charge_date
         if (this.item.payload === 1) {
           this.html.class.payload = 'col-md-2'
           this.html.class.charge_time = 'col-md-1'
           this.html.disable.charge_time = false
         }
         this.must_charge = response.must_charge
-        this.total_charge = this.formatAmount(response.total_charged)
         this.html.class.ready = 'apax-show-detail'
         this.html.class.description = 'content-ready'
         this.loading1 = false
@@ -460,7 +544,7 @@ export default {
           total_charged: total_charged,
           charge_date: this.moment(this.charge_date).format('YYYY-MM-DD'),
           method: this.item.method,
-          note: this.item.note ? this.item.note : ''
+          note: this.item.note ? this.item.note : '',
         }
         this.loading1 = true
         this.loading2 = true
@@ -505,23 +589,44 @@ export default {
       this.$router.push('/waitapprove')
     },
     save(status){
-      u.p('/api/waitapprove/approve', {
-        status:status,
-        id: this.$route.params.id
-      })
-        .then((response) => {
-          if (response ) {
-            this.loading1 = false
-            this.loading2 = false
-            this.completed = true
-            const msg = status ==1 ?`Phê duyệt bản ghi thu phí thành công` : 'Từ chối duyệt bản ghi thu phí thành công'
-            this.html.class.modal = 'modal-success'
-            this.html.variant = 'success'
-            this.html.message = msg
-            this.modal = true
-            // this.html.disable.save = true
-          } 
-        }).catch(e => u.log('Exeption', e))
+      if(status ==3){
+        const total_charged_num = u.fmc(this.total_charge)
+        const charge_num = u.fmc(this.charge_amount)
+        u.p('/api/waitapprove/approve', {
+          status:status,
+          id: this.$route.params.id,
+          charge_amount: charge_num.n,
+          charge_time : parseInt(this.item.charge_time),
+          debt_amount: parseInt(this.item.debt_amount),
+          total_charged: total_charged_num.n,
+          charge_date: this.moment(this.charge_date).format('YYYY-MM-DD'),
+          method: this.item.method,
+          note: this.item.note ? this.item.note : '',
+          payload: this.item.payload
+        })
+          .then((response) => {
+            alert("Cập nhật thành công");
+            location.reload();
+          }).catch(e => u.log('Exeption', e))
+      }else{
+        u.p('/api/waitapprove/approve', {
+          status:status,
+          id: this.$route.params.id
+        })
+          .then((response) => {
+            if (response ) {
+              this.loading1 = false
+              this.loading2 = false
+              this.completed = true
+              const msg = status ==1 ?`Phê duyệt bản ghi thu phí thành công` : 'Từ chối duyệt bản ghi thu phí thành công'
+              this.html.class.modal = 'modal-success'
+              this.html.variant = 'success'
+              this.html.message = msg
+              this.modal = true
+              // this.html.disable.save = true
+            } 
+          }).catch(e => u.log('Exeption', e))
+      }
     }
   }
 
