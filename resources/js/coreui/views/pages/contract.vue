@@ -17,7 +17,6 @@
                                 </div>
                             </div>
                             <div class="print-content">
-                                <h2 class="title">PHIẾU ĐĂNG KÝ NHẬP HỌC</h2>
                                 <h3>I. THÔNG TIN HỌC SINH</h3>
                                 <div class="row" style="margin-top:20px;">
                                     <div class="col-sm-7">
@@ -64,7 +63,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="input-line">
-                                            <span class="label">Trung tâm con đã từng theo học về toán tư duy (nếu có):</span>
+                                            <span class="label">Trung tâm con đã từng theo học về bồi dưỡng kỹ năng (nếu có):</span>
                                             <i class="doted"></i>
                                         </div>
                                     </div>
@@ -160,20 +159,20 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
                                         <div class="flex-box">
                                             <span>Thời gian liên lạc:</span>
-                                            <span><input type="checkbox" />&nbsp;&nbsp; Ngày thường</span>
-                                            <span><input type="checkbox" />&nbsp;&nbsp; Cuối tuần</span>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4">
                                         <div class="input-line">
                                             <span class="label">Giờ:</span>
                                             <i class="doted"></i>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
+                                        <div class="flex-box"> 
+                                            <span><input type="checkbox" />&nbsp;&nbsp; Ngày thường</span>
+                                            <span><input type="checkbox" />&nbsp;&nbsp; Cuối tuần</span>
+                                        </div>
                                         <div class="flex-box">
                                             <span><input type="checkbox" />&nbsp;&nbsp; Giờ hành chính</span>
                                             <span><input type="checkbox" />&nbsp;&nbsp; Ngoài giờ hành chính</span>
@@ -239,11 +238,11 @@
                                         <span>Nay, tôi làm đơn này kính mong Ban Giám đốc Trung tâm cho cháu: {{student.name}} được nhập học tại {{contract.branch_name}}. </span>
                                     </div>
                                     <div class="col-sm-12">
-                                        <span>Tôi cam kết thực hiện theo đúng theo "Nội quy nhập học" tại Trung tâm trong thời gian con học tại Trung tâm. Tôi đồng ý cho CMS sử dụng thông tin và hình ảnh của con tôi cho các tài liệu truyền thông với điều kiện CMS sẽ không gây bất cứ ảnh hưởng nào cho cháu.</span>
+                                        <span>Tôi cam kết thực hiện theo đúng “Nội quy nhập học” trong thời gian con học tại Trung tâm. Tôi đồng ý cho CMS sử dụng thông tin và hình ảnh của con tôi cho các tài liệu truyền thông với điều kiện CMS sẽ không gây bất cứ ảnh hưởng nào cho cháu.</span>
                                     </div>
                                     <div class="col-sm-6"></div>
                                     <div class="col-sm-6 center" >
-                                        <span>Hà Nội, ngày</span><span class="dot-line">..........</span><span>tháng </span><span class="dot-line">..........</span><span>năm</span><span class="dot-line">...........</span>
+                                        <span>.........., ngày</span><span class="dot-line">..........</span><span>tháng </span><span class="dot-line">..........</span><span>năm</span><span class="dot-line">...........</span>
                                         <div class="center">Phụ huynh</div>
                                         <p class="center">(Ký và ghi rõ họ, tên)</p>
                                     </div>
@@ -289,7 +288,7 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="input-line">
-                                            <span class="label">Mã học viên:</span>
+                                            <span class="label">Mã học sinh:</span>
                                             {{student.cms_id}}
                                         </div>
                                     </div>
@@ -311,20 +310,6 @@
                                         <div class="input-line">
                                             <span class="label">Học phí sau ưu đãi:</span>
                                             {{contract.must_charge | formatMoney}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="input-line">
-                                            <span class="label">Số buổi theo gói phí:</span>
-                                            {{contract.real_sessions}} buổi
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="input-line">
-                                            <span class="label">Số buổi tặng:</span>
-                                            {{contract.bonus_sessions}} buổi
                                         </div>
                                     </div>
                                 </div>
@@ -464,8 +449,7 @@
                                     </div>
                                 </div>
                                 <div class="print-content">
-                                    <h2 class="title sub">NỘI QUY NHẬP HỌC TẠI CMS</h2>
-                                    <strong class="italic">(Áp dụng từ ngày 01/01/2025)</strong>
+                                    <h2 class="title sub" style="font-size: 24px">NỘI QUY NHẬP HỌC TẠI CMS (Áp dụng từ ngày 01/01/2025)</h2>
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <p><b>I. Quy định chung</b></p>
@@ -484,8 +468,8 @@
                                             <p>8.	HS vào học giữa chương trình IG, BH được phép vào học từ đầu sách tháng 2,3 của quý.</p>
                                             <p><b>II. Quy định đặt cọc</b></p>
                                             <p>1. Số tiền đặt cọc tối thiểu: 20% giá trị gói học phí nhưng không thấp hơn 1.000.000 VNĐ.</p>
-                                            <p>2. Thời gian hoàn thành học phí: 7 ngày (kể cả thứ 7, chủ nhật) hoặc theo chương trình ưu đãi hiện hành.</p>
-                                            <p>3. Trong vòng 60 ngày, PH được quyền chuyển toàn bộ số tiền đóng cọc ban đầu cho HS khác, HS nhận chuyển cọc là HS mới (chưa đặt cọc/đóng phí tại CMS) hoặc là anh/chị/em ruột và được nhận các chương trình ưu đãi tại thời điểm đăng ký mới.</p>
+                                            <p>2. Thời gian hoàn thành học phí: 07 ngày (không bao gồm thứ 7, chủ nhật và các ngày nghỉ lễ) theo gói phí tại thời điểm đặt cọc hoặc theo chương trình ưu đãi hiện hành.</p>
+                                            <p>3. Trong vòng 60 ngày, PH được quyền chuyển toàn bộ số tiền đặt cọc ban đầu cho HS khác, HS nhận chuyển cọc là HS mới (chưa đặt cọc/đóng phí tại CMS) hoặc là anh/chị/em ruột và được nhận các chương trình ưu đãi tại thời điểm đăng ký mới.</p>
                                             <p>4. Sau 60 ngày kể từ ngày đặt cọc PH không hoàn thiện học phí thì số tiền đặt cọc tối thiểu sẽ không còn giá trị sử dụng và không được hoàn lại. Nếu số tiền PH đặt cọc vượt quá số tiền cọc tối thiểu, số tiền chênh lệch so với tiền cọc tối thiểu chỉ được phép chuyển cho HS mới.</p>
                                             <p>5. HS nhận cọc được phép chuyển phí.</p>
                                             <p><b>III. Quy định chuyển phí</b></p>
