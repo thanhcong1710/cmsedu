@@ -412,21 +412,11 @@ export default {
     checkingOnClick() {
       const charge_num = u.fmc(this.charge_amount)
       this.charge_amount = charge_num.s
-      // if (parseInt(this.item.method, 10) === 2 && this.item.note !== '') {
-      //   if (charge_num.n > 1000) {
-      //     this.html.disable.save = false
-      //   } else {
-      //     this.html.disable.save = true
-      //   }
-      // } else if (parseInt(this.item.method, 10) === 2 && this.item.note === '') {
-      //   this.html.disable.save = true
-      // } else if (parseInt(this.item.method, 10) != 2) {
-      //   if (charge_num.n > 1000) {
-      //     this.html.disable.save = false
-      //   } else {
-      //     this.html.disable.save = true
-      //   }
-      // }
+      if (charge_num.n > 1000) {
+        this.html.disable.save = false
+      } else {
+        this.html.disable.save = true
+      }
     },
     saveForm() {
       const charge_num = u.fmc(this.charge_amount)
