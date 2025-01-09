@@ -390,14 +390,14 @@ export default {
       }).catch(e => u.log('Exeption', e))
     },
     selectMethod() {
-      if (parseInt(this.item.method, 0) === 2) {
-        this.showNote = false
-        this.showBank = true
-      } else {
-        this.showNote = true
-        this.showBank = false
-        this.item.note = ''
-      }
+      // if (parseInt(this.item.method, 0) === 2) {
+      //   this.showNote = false
+      //   this.showBank = true
+      // } else {
+      //   this.showNote = true
+      //   this.showBank = false
+      //   this.item.note = ''
+      // }
     },
     selectBank() {
       if (this.item && parseInt(this.item.method,10) === 2 && this.item.note !== '') {
@@ -412,21 +412,21 @@ export default {
     checkingOnClick() {
       const charge_num = u.fmc(this.charge_amount)
       this.charge_amount = charge_num.s
-      if (parseInt(this.item.method, 10) === 2 && this.item.note !== '') {
-        if (charge_num.n > 1000) {
-          this.html.disable.save = false
-        } else {
-          this.html.disable.save = true
-        }
-      } else if (parseInt(this.item.method, 10) === 2 && this.item.note === '') {
-        this.html.disable.save = true
-      } else if (parseInt(this.item.method, 10) != 2) {
-        if (charge_num.n > 1000) {
-          this.html.disable.save = false
-        } else {
-          this.html.disable.save = true
-        }
-      }
+      // if (parseInt(this.item.method, 10) === 2 && this.item.note !== '') {
+      //   if (charge_num.n > 1000) {
+      //     this.html.disable.save = false
+      //   } else {
+      //     this.html.disable.save = true
+      //   }
+      // } else if (parseInt(this.item.method, 10) === 2 && this.item.note === '') {
+      //   this.html.disable.save = true
+      // } else if (parseInt(this.item.method, 10) != 2) {
+      //   if (charge_num.n > 1000) {
+      //     this.html.disable.save = false
+      //   } else {
+      //     this.html.disable.save = true
+      //   }
+      // }
     },
     saveForm() {
       const charge_num = u.fmc(this.charge_amount)
@@ -441,12 +441,6 @@ export default {
         this.html.class.modal = 'modal-danger'
         this.html.variant = 'danger'
         this.html.message = 'Số tiền đóng phí không thể lẻ dưới 1000đ.'
-        this.modal = true
-        this.html.disable.save = true
-      } else if (parseInt(this.item.method, 10) === 2 && this.item.note === '') {
-        this.html.class.modal = 'modal-danger'
-        this.html.variant = 'danger'
-        this.html.message = 'Vui lòng chọn ngân hàng thanh toán trên thẻ tín dụng.'
         this.modal = true
         this.html.disable.save = true
       } else {
