@@ -289,7 +289,7 @@ class ChargesController extends Controller
           $save = $post['update'];
           $must_charge = (int)$post['must_charge'];
           $amount = (int)$save['charge_amount'];
-          $total = $amount + (int)$contract_info['total_charged'];
+          $total = $amount + (int)$contract_info->total_charged;
           $count = (int)$post['charge_time'];
           $debt = $must_charge - $total;
           $payload = (int)$post['payload'];
