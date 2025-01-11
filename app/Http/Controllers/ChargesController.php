@@ -299,10 +299,10 @@ class ChargesController extends Controller
           $oldAmount = isset($post['old_amount']) ? $post['old_amount'] : 0;
           $accounting_id = isset($save['payment_code']) ? $save['payment_code'] : null;
           $isEdit = $request->is_edit == 1;
-          if ($method == 2 && (int)$note) {
-              $bank = u::first("SELECT CONCAT(name, '(', alias, ')') label FROM banks WHERE id = $note");
-              $note = $bank->label;
-          }
+          // if ($method == 2 && (int)$note) {
+          //     $bank = u::first("SELECT CONCAT(name, '(', alias, ')') label FROM banks WHERE id = $note");
+          //     $note = $bank->label;
+          // }
           $type = 1;
           $timestamp = time();
           $hash = md5("$must_charge$total$amount$debt$count$method$timestamp");
