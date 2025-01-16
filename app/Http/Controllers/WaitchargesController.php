@@ -244,7 +244,7 @@ class WaitchargesController extends Controller
       $search = json_decode($request->search);
       $session = $request->users_data;
       $branches = $search->branch ? (int)$search->branch : $session->branches_ids;
-      $where = "AND c.branch_id IN ($branches) AND c.debt_amount > 0 AND c.status IN (1,2,4,6)";
+      $where = "AND c.branch_id IN ($branches)";
       if ($search->product != '') {
         $where.= " AND c.product_id = ".(int)$search->product;
       }
