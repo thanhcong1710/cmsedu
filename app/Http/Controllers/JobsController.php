@@ -1137,39 +1137,39 @@ class JobsController extends Controller
         if(isset($student_info) && $student_info){
           u::query("UPDATE contracts SET `status`=7, `action`= 'update_data_by_reopen' WHERE student_id= $student_info->id AND status!=7");
           
-          $contract_in_class= u::first("SELECT * FROM contracts WHERE student_id= $student_info->id AND status!=7 AND class_id IS NOT NULL");
-          if($contract_in_class){
-            $bonus_sessions = data_get( $contract_in_class, 'bonus_sessions') > 0 ? data_get( $contract_in_class, 'bonus_sessions') : 0;
-            $bonus_sessions = $bonus_sessions >  data_get( $contract, 'so_buoi_con_lai') ? 0 : $bonus_sessions;
-            u::updateContract((object)array(
-              'id'         => $contract_in_class->id,
-              'updated_at' => date('Y-m-d H:i:s'),
-              'action'      => "update_data_by_reopen",
-              'enrolment_start_date' => data_get( $contract, 'ngay_hieu_luc'),
-              'summary_sessions' => data_get( $contract, 'so_buoi_con_lai'),
-              'bonus_sessions' => $bonus_sessions,
-              'real_sessions' => data_get( $contract, 'so_buoi_con_lai') - $bonus_sessions,
-              'total_charged' => data_get( $contract, 'so_tien_con_lai'),
-            ));
-            u::query("UPDATE contracts SET `status`=7, `action`= 'update_data_by_reopen' WHERE student_id= $student_info->id AND status!=7 AND id != $contract_in_class->id");
-            $status_proess = 1;
-          } else {
-            $contract_curr= u::first("SELECT * FROM contracts WHERE student_id= $student_info->id AND status!=7 ORDER BY count_recharge LIMIT 1");
-            if($contract_curr){
-              $bonus_sessions = data_get( $contract_curr, 'bonus_sessions') > 0 ? data_get( $contract_curr, 'bonus_sessions') : 0;
-              $bonus_sessions = $bonus_sessions >  data_get( $contract, 'so_buoi_con_lai') ? 0 : $bonus_sessions;
-              u::updateContract((object)array(
-                'id'         => $contract_curr->id,
-                'updated_at' => date('Y-m-d H:i:s'),
-                'action'      => "update_data_by_reopen",
-                'summary_sessions' => data_get( $contract, 'so_buoi_con_lai'),
-                'bonus_sessions' => $bonus_sessions,
-                'real_sessions' => data_get( $contract, 'so_buoi_con_lai') - $bonus_sessions,
-                'total_charged' => data_get( $contract, 'so_tien_con_lai'),
-              ));
-              u::query("UPDATE contracts SET `status`=7, `action`= 'update_data_by_reopen' WHERE student_id= $student_info->id AND status!=7 AND id != $contract_curr->id");
-              $status_proess = 1;
-            } else {
+          // $contract_in_class= u::first("SELECT * FROM contracts WHERE student_id= $student_info->id AND status!=7 AND class_id IS NOT NULL");
+          // if($contract_in_class){
+          //   $bonus_sessions = data_get( $contract_in_class, 'bonus_sessions') > 0 ? data_get( $contract_in_class, 'bonus_sessions') : 0;
+          //   $bonus_sessions = $bonus_sessions >  data_get( $contract, 'so_buoi_con_lai') ? 0 : $bonus_sessions;
+          //   u::updateContract((object)array(
+          //     'id'         => $contract_in_class->id,
+          //     'updated_at' => date('Y-m-d H:i:s'),
+          //     'action'      => "update_data_by_reopen",
+          //     'enrolment_start_date' => data_get( $contract, 'ngay_hieu_luc'),
+          //     'summary_sessions' => data_get( $contract, 'so_buoi_con_lai'),
+          //     'bonus_sessions' => $bonus_sessions,
+          //     'real_sessions' => data_get( $contract, 'so_buoi_con_lai') - $bonus_sessions,
+          //     'total_charged' => data_get( $contract, 'so_tien_con_lai'),
+          //   ));
+          //   u::query("UPDATE contracts SET `status`=7, `action`= 'update_data_by_reopen' WHERE student_id= $student_info->id AND status!=7 AND id != $contract_in_class->id");
+          //   $status_proess = 1;
+          // } else {
+          //   $contract_curr= u::first("SELECT * FROM contracts WHERE student_id= $student_info->id AND status!=7 ORDER BY count_recharge LIMIT 1");
+          //   if($contract_curr){
+          //     $bonus_sessions = data_get( $contract_curr, 'bonus_sessions') > 0 ? data_get( $contract_curr, 'bonus_sessions') : 0;
+          //     $bonus_sessions = $bonus_sessions >  data_get( $contract, 'so_buoi_con_lai') ? 0 : $bonus_sessions;
+          //     u::updateContract((object)array(
+          //       'id'         => $contract_curr->id,
+          //       'updated_at' => date('Y-m-d H:i:s'),
+          //       'action'      => "update_data_by_reopen",
+          //       'summary_sessions' => data_get( $contract, 'so_buoi_con_lai'),
+          //       'bonus_sessions' => $bonus_sessions,
+          //       'real_sessions' => data_get( $contract, 'so_buoi_con_lai') - $bonus_sessions,
+          //       'total_charged' => data_get( $contract, 'so_tien_con_lai'),
+          //     ));
+          //     u::query("UPDATE contracts SET `status`=7, `action`= 'update_data_by_reopen' WHERE student_id= $student_info->id AND status!=7 AND id != $contract_curr->id");
+          //     $status_proess = 1;
+          //   } else {
               $last_contract_withdraw = u::first("SELECT * FROM contracts WHERE student_id= $student_info->id AND status=7 ORDER BY count_recharge DESC LIMIT 1");
               if ($last_contract_withdraw){
                 u::updateContract((object)array(
@@ -1186,13 +1186,12 @@ class JobsController extends Controller
                   'enrolment_start_date' => null,
                   'enrolment_end_date' => null,
                   'enrolment_last_date' => null,
-                  'total_charged' => data_get( $contract, 'so_tien_con_lai'),
                 ));
                 $status_proess = 1;
               }
             }
-          }
-        }
+          // }
+        // }
       } 
       u::query("UPDATE tmp_update_contract SET status = $status_proess WHERE id= $contract->id");
       echo $contract->id."/";

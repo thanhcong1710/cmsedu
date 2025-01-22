@@ -19,8 +19,6 @@
                             <br>
                             <br>
                             <br>
-                            <br>
-                            <br>
                             <div class="print-content">
                                 <h2 class="title">ĐƠN BẢO LƯU HỌC PHÍ</h2>
                                 <div class="row">

@@ -638,7 +638,7 @@ class ReservesController extends Controller
         'note' => $data->note,
         'branch_name' => trim(str_replace("Trung tâm", "", $data->branch_name)),
         'before_reserve_start_date' => date('d/m/Y',strtotime($meta_data->start_date)),
-        'before_reserve_end_date' =>date('d/m/Y',strtotime($meta_data->before_reserve_end_date)),
+        'before_reserve_end_date' =>date('d/m/Y',strtotime($meta_data->old_enrol_end_date)),
         'created_at' =>date('d/m/Y',strtotime($data->created_at)),
         'total_fee' => $data->total_fee,
         'done_sessions' => $meta_data->total_session - $meta_data->number_of_session_reserved,
