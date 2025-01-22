@@ -11,10 +11,9 @@
                                     <span class="logo"><img src="/images/print-logo.png" /></span>
                                 </div>
                                 <div class="h-right">
-                                   <h4>CÔNG TY CỔ PHẦN GIÁO DỤC TƯ DUY VÀ SÁNG TẠO QUỐC TẾ CMS</h4>
-                                    <p><i class="fa fa-map-marker"></i> Tầng 4, 21T2 Hapulico Complex, 01 Nguyễn Huy Tưởng, Phường Thanh Xuân Trung, Quận Thanh Xuân, Thành phố Hà Nội, Việt Nam</p>
-                                    <!-- <p><i class="fa fa-phone"></i>(+84) 24 7356 8806 &nbsp;&nbsp;<i class="fa fa-envelope"></i> cms@cmsedu.vn &nbsp;&nbsp;<i class="fa fa-globe"></i> www.cmsedu.vn</p> -->
-                                </div>
+                                    <h4>CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</h4>
+                                    <p><i class="fa fa-map-marker"></i> Lô B1.1, Số 2 đường Đặng Thai Mai , Phường Quảng An, Quận Tây Hồ, 
+     Thành phố Hà Nội, Việt Nam.</p>
                             </div>
                             <br>
                             <br>
