@@ -196,7 +196,6 @@
                                     </div>
                                 </div>
                                 <br>
-                                <h3>IV. ĐĂNG KÝ KHÓA HỌC</h3>
                                 <div class="border">
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -233,12 +232,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h3>IV. ĐĂNG KÝ KHÓA HỌC</h3>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <span>Nay, tôi làm đơn này kính mong Ban Giám đốc Trung tâm cho cháu: {{student.name}} được nhập học tại {{contract.branch_name}}. </span>
                                     </div>
                                     <div class="col-sm-12">
-                                        <span>Tôi cam kết thực hiện theo đúng “Nội quy nhập học” trong thời gian con học tại Trung tâm. Tôi đồng ý cho CMS sử dụng thông tin và hình ảnh của con tôi cho các tài liệu truyền thông với điều kiện CMS sẽ không gây bất cứ ảnh hưởng nào cho cháu.</span>
+                                        <span>Tôi cam kết thực hiện theo đúng “Nội quy nhập học” trong thời gian con học tại Trung tâm. Tôi đồng ý cho Logic Lab sử dụng thông tin và hình ảnh của con tôi cho các tài liệu truyền thông với điều kiện Logic Lab sẽ không gây bất cứ ảnh hưởng nào cho cháu.</span>
                                     </div>
                                     <div class="col-sm-6"></div>
                                     <div class="col-sm-6 center" >
@@ -364,7 +364,7 @@
                                         <span><input type="checkbox" />&nbsp;&nbsp; Quẹt thẻ ATM/Visa/Master card</span>
                                     </div>
                                 </div>
-                                <p style="margin-bottom: 0px;">+	Tiền mặt: Liên phiếu thu tiền có đủ chữ ký của Trưởng chi nhánh, đóng dấu trung tâm CMS và dấu “Đã thu tiền”.</p>
+                                <p style="margin-bottom: 0px;">+	Tiền mặt: Liên phiếu thu tiền có đủ chữ ký của Trưởng chi nhánh, đóng dấu trung tâm LogicLab và dấu “Đã thu tiền”.</p>
                                 <p style="margin-bottom: 0px;">+	Chuyển khoản:</p>
                                 <p style="margin-bottom: 0px;">Tên công ty: CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</p>
                                 <p style="margin-bottom: 0px;">Số TK: 79806789 </p>
@@ -449,7 +449,7 @@
                                     </div>
                                 </div>
                                 <div class="print-content">
-                                    <h2 class="title sub" style="font-size: 24px">NỘI QUY NHẬP HỌC TẠI CMS (Áp dụng từ ngày 01/01/2025)</h2>
+                                    <h2 class="title sub" style="font-size: 24px">NỘI QUY NHẬP HỌC TẠI LOGIC LAB (Áp dụng từ ngày 01/01/2025)</h2>
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <p><b>I. Quy định chung</b></p>
@@ -460,34 +460,35 @@
                                             <p>- 16 HS/lớp với các Level còn lại của chương trình Ucrea</p>
                                             <p>- 18 HS/lớp với chương trình Bright IG (IG), Black Hole (BH).</p>
                                             <p>4.	Để đảm bảo hiệu quả giờ học, HS phải đi học đúng giờ. </p>
-                                            <p>5.	HS phải sử dụng sách & tài liệu bản quyền do CMS cung cấp.</p>
+                                            <p>5.	HS phải sử dụng sách & tài liệu bản quyền do LogicLab cung cấp.</p>
                                             <p>6.	Trong trường hợp cần thiết, Phụ Huynh (PH) trao đổi trực tiếp với giáo viên phụ trách lớp hoặc các bộ phận liên quan tại Trung tâm (TT) để được hỗ trợ.</p>
                                             <p>7.	Thời gian mở lớp mới:</p>
                                             <p>- Chương trình Ucrea: Khai giảng hàng tháng</p>
                                             <p>- Chương trình Bright IG và Black Hole: Khai giảng hàng quý.</p>
                                             <p>8.	HS vào học giữa chương trình IG, BH được phép vào học từ đầu sách tháng 2,3 của quý.</p>
+                                            <p>8.	Sử dụng hình ảnh của HS trong hoạt động truyền thông trên fanpage của LogicLab.</p>
                                             <p><b>II. Quy định đặt cọc</b></p>
                                             <p>1. Số tiền đặt cọc tối thiểu: 20% giá trị gói học phí nhưng không thấp hơn 1.000.000 VNĐ.</p>
                                             <p>2. Thời gian hoàn thành học phí: 07 ngày (không bao gồm thứ 7, chủ nhật và các ngày nghỉ lễ) theo gói phí tại thời điểm đặt cọc hoặc theo chương trình ưu đãi hiện hành.</p>
-                                            <p>3. Trong vòng 60 ngày, PH được quyền chuyển toàn bộ số tiền đặt cọc ban đầu cho HS khác, HS nhận chuyển cọc là HS mới (chưa đặt cọc/đóng phí tại CMS) hoặc là anh/chị/em ruột và được nhận các chương trình ưu đãi tại thời điểm đăng ký mới.</p>
+                                            <p>3. Trong vòng 60 ngày, PH được quyền chuyển toàn bộ số tiền đặt cọc ban đầu cho HS khác, HS nhận chuyển cọc là HS mới (chưa đặt cọc/đóng phí tại LogicLab) hoặc là anh/chị/em ruột và được nhận các chương trình ưu đãi tại thời điểm đăng ký mới.</p>
                                             <p>4. Sau 60 ngày kể từ ngày đặt cọc PH không hoàn thiện học phí thì số tiền đặt cọc tối thiểu sẽ không còn giá trị sử dụng và không được hoàn lại. Nếu số tiền PH đặt cọc vượt quá số tiền cọc tối thiểu, số tiền chênh lệch so với tiền cọc tối thiểu chỉ được phép chuyển cho HS mới.</p>
                                             <p>5. HS nhận cọc được phép chuyển phí.</p>
                                             <p><b>III. Quy định chuyển phí</b></p>
                                             <p>1.	Với HS chưa đi học: Số học phí được chuyển nhượng bằng toàn bộ số học phí đã nộp trừ 1.000.000 VNĐ (phí chuyển nhượng) và các chi phí ngân hàng phát sinh bao gồm phí quẹt thẻ, phí trả góp... (nếu có).</p>
                                             <p>2.	Với HS đã đi học: Số học phí được chuyển nhượng bằng số phí còn lại (sau khi tính tròn đầu sách) trừ 1.000.000 VNĐ (phí chuyển nhượng) và các chi phí ngân hàng phát sinh bao gồm phí quẹt thẻ, phí trả góp… (nếu có).</p>
-                                            <p>3.	HS nhận chuyển phí là HS mới (chưa đặt cọc/đóng phí tại CMS) hoặc là anh/chị/em ruột. Không áp dụng phí chuyển với PH muốn chuyển học phí cho anh/chị/em ruột của HS đang theo học tại hệ thống TT CMS. Chuyển phí chỉ chuyển tiền không chuyển thời lượng học. HS nhận chuyển phí (trừ trường hợp anh/chị/em ruột) sẽ phải đóng thêm tiền cho tròn gói phí và không được nhận chương trình khuyến mãi đặc biệt áp dụng tại thời điểm đăng ký</p>
+                                            <p>3.	HS nhận chuyển phí là HS mới (chưa đặt cọc/đóng phí tại LogicLab) hoặc là anh/chị/em ruột. Không áp dụng phí chuyển với PH muốn chuyển học phí cho anh/chị/em ruột của HS đang theo học tại hệ thống TT LogicLab. Chuyển phí chỉ chuyển tiền không chuyển thời lượng học. HS nhận chuyển phí (trừ trường hợp anh/chị/em ruột) sẽ phải đóng thêm tiền cho tròn gói phí và không được nhận chương trình khuyến mãi đặc biệt áp dụng tại thời điểm đăng ký</p>
                                             <p>4.	HS đã nhận chuyển phí không được chuyển phí cho HS khác</p>
                                             <p>5.	Học bổng chỉ có giá trị chuyển nhượng với trường hợp anh, chị, em ruột.</p>
-                                            <p>6.	CMS không áp dụng chính sách rút phí</p>
+                                            <p>6.	LogicLab không áp dụng chính sách rút phí</p>
                                             
                                         </div>
                                         <div class="col-sm-6">
                                             <p><b>IV. Quy định học bù</b></p>
-                                            <p>1. Điều kiện: PH thông báo nghỉ học tới CMS trước 2-4 tiếng trước khi lớp học bắt đầu. </p>
+                                            <p>1. Điều kiện: PH thông báo nghỉ học tới LogicLab trước 2-4 tiếng trước khi lớp học bắt đầu. </p>
                                             <p>Số buổi học bù tối đa: 02 buổi/quý. Trường hợp HS nghỉ học nhưng PH không thông báo cho TT, HS sẽ mất phí buổi học đó và không được sắp xếp học bù.</p>
                                             <p>Trường hợp HS nghỉ ốm và có xác nhận của bệnh viện: HS sẽ được bù tất cả các buổi đã nghỉ.</p>
-                                            <p>2. Sắp xếp lịch học bù: CMS sẽ liên hệ với PH để sắp xếp thời gian phù hợp cho HS và Giáo viên, buổi học bù phải trước buổi học tuần tiếp theo. Nếu HS không đến đúng lịch đã thỏa thuận, HS sẽ mất quyền được học bù buổi học đó.</p>
-                                            <p>3. Trong trường hợp xảy ra các sự kiện bất khả kháng (dịch bệnh, thời tiết xấu,...) có công lệnh của Bộ giáo dục hoặc có thông báo nghỉ của CMS, TT sẽ tổ chức lớp học bù và thông báo tới PH.</p>
+                                            <p>2. Sắp xếp lịch học bù: LogicLab sẽ liên hệ với PH để sắp xếp thời gian phù hợp cho HS và Giáo viên, buổi học bù phải trước buổi học tuần tiếp theo. Nếu HS không đến đúng lịch đã thỏa thuận, HS sẽ mất quyền được học bù buổi học đó.</p>
+                                            <p>3. Trong trường hợp xảy ra các sự kiện bất khả kháng (dịch bệnh, thời tiết xấu,...) có công lệnh của Bộ giáo dục hoặc có thông báo nghỉ của LogicLab, TT sẽ tổ chức lớp học bù và thông báo tới PH.</p>
                                              <p><b>V. Quy định về chuyển lớp, chuyển Trung tâm</b></p>
                                             <p>1. Chuyển lớp: PH có nhu cầu chuyển lớp liên hệ với TT; TT xem xét tình trạng học tập hiện tại của HS, nếu có lớp phù hợp sẽ sắp xếp chuyển HS sang lớp mới. Số lần chuyển lớp: tối đa 2 lần/năm.</p>
                                             <p>2. Chuyển TT: PH có nhu cầu chuyển TT làm phiếu đăng ký chuyển TT, yêu cầu chuyển TT được duyệt khi có xác nhận của TT chuyển đi và TT tiếp nhận học sinh. Chuyển TT chỉ áp dụng với các trường hợp HS đã đóng đủ học phí.</p>
@@ -495,11 +496,11 @@
                                             <p><b>VI. Quy định Bảo lưu.</b></p>
                                             <p>1. Thủ tục bảo lưu</p>
                                             <p>- PH có nhu cầu bảo lưu làm đơn bảo lưu. Đơn bảo lưu chỉ được tính là hợp lệ khi có chữ ký xác nhận của PH.</p>
-                                            <p>- Trong trường hợp PH không hoàn thiện đơn bảo lưu, yêu cầu bảo lưu bị hủy và CMS vẫn tiếp tục tính phí cho HS.</p>
+                                            <p>- Trong trường hợp PH không hoàn thiện đơn bảo lưu, yêu cầu bảo lưu bị hủy và LogicLab vẫn tiếp tục tính phí cho HS.</p>
                                             <p>2. Thời hạn bảo lưu:</p>
-                                            <p>- CMS cho phép đăng ký bảo lưu đối với HS mua gói học phí 12 tháng trở lên</p>
+                                            <p>- LogicLab cho phép đăng ký bảo lưu đối với HS mua gói học phí 12 tháng trở lên</p>
                                             <p>- Thời gian bảo lưu 01 lần: Bảo lưu giữ chỗ (tối đa 04 buổi và trong 01 đầu sách); Bảo lưu không giữ chỗ (từ 05 buổi đến tối đa 3 tháng).</p>
-                                            <p>- Trong trường hợp PH muốn gia hạn bảo lưu hoặc có đề xuất khác, PH cần liên hệ TT tối thiểu 7 ngày trước ngày kết thúc bảo lưu để được tư vấn và hỗ trợ. Sau thời gian bảo lưu mà HS không quay lại học, CMS sẽ tiếp tục tính số phí còn lại đến hết gói phí. - CMS không giới hạn số lần gia hạn bảo lưu, tuy nhiên tại thời điểm HS quay lại học nếu quá độ tuổi học của CMS thì sẽ không được CMS hoàn trả số học phí còn lại của gói phí.</p>
+                                            <p>- Trong trường hợp PH muốn gia hạn bảo lưu hoặc có đề xuất khác, PH cần liên hệ TT tối thiểu 7 ngày trước ngày kết thúc bảo lưu để được tư vấn và hỗ trợ. Sau thời gian bảo lưu mà HS không quay lại học, LogicLab sẽ tiếp tục tính số phí còn lại đến hết gói phí. - LogicLab không giới hạn số lần gia hạn bảo lưu, tuy nhiên tại thời điểm HS quay lại học nếu quá độ tuổi học của LogicLab thì sẽ không được LogicLab hoàn trả số học phí còn lại của gói phí.</p>
                                             <p>- Học sinh quay lại học tính từ đầu sách mới. </p>
                                             <p><b>VII. Quy định về đảm bảo an toàn cho học sinh</b></p>
                                             <p>- Đăng ký người đưa/ đón HS từ buổi học đầu tiên</p>
@@ -521,7 +522,7 @@
                                         </div>
                                         <div class="col-sm-6 center">
                                             <p class="center"><b>Xác nhận của PH học sinh</b></p>
-                                            <p class="center">Tôi đã đọc và cam kết thực hiện nội quy nhập học của CMS Edu</p>
+                                            <p class="center">Tôi đã đọc và cam kết thực hiện nội quy nhập học của LogicLab</p>
                                             <p class="center"><i>(Ký và ghi rõ họ tên)</i></p>
                                         </div>
                                     </div>
