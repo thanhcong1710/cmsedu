@@ -3317,7 +3317,9 @@ class Report extends Model
                             r.done_session, r.summary_sessions,
                             s.gud_mobile1,s.gud_email1,
                             r.date_start AS enrolment_start_date,
-                            (SELECT  must_charge FROM contracts WHERE id=r.contract_id) AS must_charge
+                            (SELECT  must_charge FROM contracts WHERE id=r.contract_id) AS must_charge,
+                            s.address, (SELECT name FROM provinces WHERE id=s.province_id) AS province_name,
+                            (SELECT name FROM districts WHERE id=s.district_id) AS district_name
                         FROM
                             report_full_fee_active r
                             LEFT JOIN students s ON r.student_id = s.id
@@ -3392,7 +3394,9 @@ class Report extends Model
                             (SELECT name FROM branches WHERE id=c.branch_id LIMIT 1) AS branch_name,
                             (SELECT ins_name FROM teachers WHERE user_id=cls.teacher_id) AS teacher_name, c.enrolment_start_date,c.branch_id,c.product_id,c.id AS contract_id,c.class_id, c.enrolment_last_date, c.summary_sessions,
                              s.gud_mobile1,s.gud_email1, c.enrolment_start_date,
-                            c.must_charge
+                            c.must_charge,
+                            s.address, (SELECT name FROM provinces WHERE id=s.province_id) AS province_name,
+                            (SELECT name FROM districts WHERE id=s.district_id) AS district_name
                         FROM
                             contracts c
                             LEFT JOIN students s ON c.student_id = s.id

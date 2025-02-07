@@ -7220,6 +7220,9 @@ class ExelController extends Controller
                 $sheet->setCellValue('T5', 'Số điện thoại');
             }
             $sheet->setCellValue('U5', 'Số tiền phải đóng');
+            $sheet->setCellValue('V5', 'Tỉnh/Thành phố');
+            $sheet->setCellValue('X5', 'Quận/Huyện');
+            $sheet->setCellValue('W5', 'Địa chỉ');
             $sheet->getColumnDimension('A')->setWidth(30);
             $sheet->getColumnDimension('B')->setWidth(40);
             $sheet->getColumnDimension('C')->setWidth(0);
@@ -7241,6 +7244,9 @@ class ExelController extends Controller
             $sheet->getColumnDimension('S')->setWidth(30);
             $sheet->getColumnDimension('T')->setWidth(30);
             $sheet->getColumnDimension('U')->setWidth(30);
+            $sheet->getColumnDimension('V')->setWidth(30);
+            $sheet->getColumnDimension('X')->setWidth(30);
+            $sheet->getColumnDimension('W')->setWidth(30);
             ProcessExcel::styleCells($spreadsheet, "A1:N1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:N2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:N3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -7269,6 +7275,9 @@ class ExelController extends Controller
                 ProcessExcel::styleCells($spreadsheet, "T5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             }
             ProcessExcel::styleCells($spreadsheet, "U5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "X5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "V5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "W5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             for ($i = 0; $i < count($students) ; $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
@@ -7295,6 +7304,9 @@ class ExelController extends Controller
                     $sheet->setCellValue('T' . $x, "'".$students[$i]->gud_mobile1);
                 }
                 $sheet->setCellValue('U' . $x, $students[$i]->must_charge);
+                $sheet->setCellValue('X' . $x, $students[$i]->province_name);
+                $sheet->setCellValue('V' . $x, $students[$i]->district_name);
+                $sheet->setCellValue('W' . $x, $students[$i]->address);
                 $sheet->getRowDimension($x)->setRowHeight(23);
 
             }
