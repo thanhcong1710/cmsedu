@@ -7221,8 +7221,8 @@ class ExelController extends Controller
             }
             $sheet->setCellValue('U5', 'Số tiền phải đóng');
             $sheet->setCellValue('V5', 'Tỉnh/Thành phố');
-            $sheet->setCellValue('X5', 'Quận/Huyện');
-            $sheet->setCellValue('W5', 'Địa chỉ');
+            $sheet->setCellValue('W5', 'Quận/Huyện');
+            $sheet->setCellValue('X5', 'Địa chỉ');
             $sheet->getColumnDimension('A')->setWidth(30);
             $sheet->getColumnDimension('B')->setWidth(40);
             $sheet->getColumnDimension('C')->setWidth(0);
@@ -7304,9 +7304,9 @@ class ExelController extends Controller
                     $sheet->setCellValue('T' . $x, "'".$students[$i]->gud_mobile1);
                 }
                 $sheet->setCellValue('U' . $x, $students[$i]->must_charge);
-                $sheet->setCellValue('X' . $x, $students[$i]->province_name);
-                $sheet->setCellValue('V' . $x, $students[$i]->district_name);
-                $sheet->setCellValue('W' . $x, $students[$i]->address);
+                $sheet->setCellValue('V' . $x, $students[$i]->province_name);
+                $sheet->setCellValue('W' . $x, $students[$i]->district_name);
+                $sheet->setCellValue('X' . $x, $students[$i]->address);
                 $sheet->getRowDimension($x)->setRowHeight(23);
 
             }
