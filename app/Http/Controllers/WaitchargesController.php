@@ -360,12 +360,12 @@ class WaitchargesController extends Controller
             s.gud_name1,s.address, s.name,
             (SELECT number_of_months FROM tuition_fee WHERE id = c.tuition_fee_id) AS number_of_months,
             (SELECT name FROM products WHERe id=c.product_id) AS product_name, tp.note,
-            '' AS text_2, '' AS text_amount, '' AS text_amount_words,'' AS text_3,'' AS text_debt_amount
+            '' AS text_2, '' AS text_amount, '' AS text_amount_words,'' AS text_3,'' AS text_debt_amount, tp.charge_date
           FROM tmp_payment AS tp
             LEFT JOIN contracts AS c ON tp.contract_id=c.id
             LEFT JOIN students AS s ON c.student_id = s.id
           WHERE tp.id = $id");
-        $data->text_1 = "Ngày ".date('d').  " tháng ". date('m'). " năm ". date('Y');
+        $data->text_1 = "Ngày ".date('d',strtotime($data->charge_date)).  " tháng ". date('m',strtotime($data->charge_date)). " năm ". date('Y',strtotime($data->charge_date));
         $data->text_2 = "Thanh toán học phí khóa học ".$data->product_name." ".$data->number_of_months." tháng cho học viên ".$data->name;
         $data->text_debt_amount = number_format($data->debt_amount, 0, '', '.');
         $data->text_amount = number_format($data->charge_amount, 0, '', '.');
