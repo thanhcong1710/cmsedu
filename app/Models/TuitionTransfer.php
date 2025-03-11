@@ -315,14 +315,14 @@ class TuitionTransfer extends Model
             //         'contracts' => []
             //     ];
             // }
-            $resever_info_over = u::first("SELECT SUM(`session`) AS total FROM reserves WHERE student_id = $student_id AND status=2 AND is_reserved =0 AND end_date>= CURDATE()");
-            if ($resever_info_over->total > 5) {
-                $data = (object)[
-                    'has_error' => 1,
-                    'message' => "Học sinh đã thực hiện bảo lưu quá 5 buổi không được phép chuyển phí",
-                    'contracts' => []
-                ];
-            }
+            // $resever_info_over = u::first("SELECT SUM(`session`) AS total FROM reserves WHERE student_id = $student_id AND status=2 AND is_reserved =0 AND end_date>= CURDATE()");
+            // if ($resever_info_over->total > 5) {
+            //     $data = (object)[
+            //         'has_error' => 1,
+            //         'message' => "Học sinh đã thực hiện bảo lưu quá 5 buổi không được phép chuyển phí",
+            //         'contracts' => []
+            //     ];
+            // }
         }
         if ($data->has_error == 0) {
             $getContractsQuery = "SELECT 
