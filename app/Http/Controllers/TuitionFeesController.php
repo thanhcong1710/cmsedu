@@ -312,6 +312,9 @@ class TuitionFeesController extends Controller
                 if ($obj->p_name == "ACCELIUM"){
                     $dataNew['accelium'][] = $obj;
                 }
+                if ($obj->p_name == "Bricks4kidz"){
+                    $dataNew['bricks4kidz'][] = $obj;
+                }
             }
         }
         $response = new Response();
