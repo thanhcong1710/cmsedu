@@ -8492,7 +8492,7 @@ class ExelController extends Controller
             $sheet->getRowDimension('3')->setRowHeight(33);
             $sheet->getRowDimension('4')->setRowHeight(33);
             $sheet->getRowDimension('5')->setRowHeight(30);
-            $sheet->setCellValue('A3', trim($branch_name, ', '));
+            // $sheet->setCellValue('A3', trim($branch_name, ', '));
             $sheet->setCellValue('A4', 'Tính tới tháng: ' . substr($p->a, 0, 7));
 
             $sheet->setCellValue('A5', 'STT');

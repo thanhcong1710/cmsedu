@@ -4078,7 +4078,7 @@ class Report extends Model
                         (SELECT name FROM  tuition_fee WHERE id=sh.tuition_fee_id) AS tuition_fee_name,
                         (SELECT price FROM  tuition_fee WHERE id=sh.tuition_fee_id) AS price,
                         (SELECT name FROM branches WHERE id=sh.branch_id) AS branch_name,
-                        sh.must_charge,sh.total_charged,s.gud_mobile1,
+                        sh.must_charge,sh.total_charged,s.gud_mobile1,sh.count_recharge,sh.total_charged AS amount,
                         (SELECT name FROM sources WHERE id =s.source) AS source_name,
                         IF(sh.count_recharge=0,'Mới','Tái Phí') AS contract_type,
                         (SELECT name FROM source_detail WHERE id =s.source_detail) AS source_detail

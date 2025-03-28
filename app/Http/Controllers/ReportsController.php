@@ -2167,8 +2167,9 @@ class ReportsController extends Controller
             foreach($data->list AS $row){
                 $summary->must_charge += (int)$row->must_charge;
                 $summary->total_charged += (int)$row->total_charged;
-                $summary->ban_cheo += $row->count_recharge ==0 && $row->pre_branch ? (int)$row->amount/2 : 0;
-                $summary->thuc_thu += $row->count_recharge ==0 && $row->pre_branch ? (int)$row->amount/2 : (int)$row->amount;
+                // $summary->ban_cheo += $row->count_recharge ==0 && $row->pre_branch ? (int)$row->amount/2 : 0;
+                // $summary->thuc_thu += $row->count_recharge ==0 && $row->pre_branch ? (int)$row->amount/2 : (int)$row->amount;
+                $summary->thuc_thu += $row->amount;
             }
             $data->summary = $summary;
         }
