@@ -171,6 +171,13 @@
                                 <br/>
                               </template>
                             </div>
+                            <div v-if="index == 'bricks4kidz_preschool'">
+                              <template v-for="(bricks4kidz_preschool, acc) in fee">
+                                <input type="checkbox" :id="acc" :value="bricks4kidz_preschool.id" v-model="fee_ids_temp">
+                                <label>{{bricks4kidz_preschool.name}} </label>
+                                <br/>
+                              </template>
+                            </div>
                           </template>
                         </div>
                       </div>
