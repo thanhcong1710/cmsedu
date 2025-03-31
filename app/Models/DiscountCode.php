@@ -54,7 +54,7 @@ class DiscountCode extends Model
         return u::query($query);
     }
 
-    public function getAvailableDiscountCodesNew($roleId = 0, $feeId = 0, $zoneId = 0)
+    public function getAvailableDiscountCodesNew($roleId = 0, $feeId = 0, $zoneId = 0, $branchId = 0)
     {
         /*
         $query = "SELECT * FROM {$this->table} where status = 1 AND (CURRENT_DATE() BETWEEN start_date AND end_date)";
@@ -79,7 +79,8 @@ class DiscountCode extends Model
                 foreach ($data as $obj){
                     if ($price->price == $obj->price){
                         $feeIds = explode(',',$obj->fee_ids);
-                        if (in_array($feeId, $feeIds)){
+                        $arrBranch = explode(',',$obj->branch_id);
+                        if (in_array($feeId, $feeIds) && (!empty($arrBranch) ||  in_array($branchId, $arrBranch))){
                             $dataNew[] = $obj;
                         }
                     }

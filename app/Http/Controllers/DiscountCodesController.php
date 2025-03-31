@@ -166,7 +166,7 @@ class DiscountCodesController extends Controller
 
         if (!empty($user)) {
             $discountCode = new DiscountCode();
-            $data = $discountCode->getAvailableDiscountCodesNew($user->role_id, $feeId, $zoneId);
+            $data = $discountCode->getAvailableDiscountCodesNew($user->role_id, $feeId, $zoneId, $branchId);
             $code = APICode::SUCCESS;
         }
 
