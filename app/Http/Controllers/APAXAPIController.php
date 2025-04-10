@@ -9,6 +9,7 @@ use App\Models\Response;
 use App\Models\LogExternalRequest;
 use App\Providers\UtilityServiceProvider as u;
 use Illuminate\Support\Facades\DB;
+
 class APAXAPIController
 {
     private function callAPI($url, $method, $params, $header, $is_api = true)
