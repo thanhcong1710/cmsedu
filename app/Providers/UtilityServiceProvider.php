@@ -3023,6 +3023,27 @@ class UtilityServiceProvider extends ServiceProvider
         $result = array_reverse($result);
         return ucfirst(trim(implode(' ', $result))) . ' đồng';
     }
+
+    public static function getProductCheckin($type){
+        switch ($type) {
+            case 1:
+                $name = 'CMS';
+                break;
+            case 2:
+                $name = 'Accelium';
+                break;
+            case 3:
+                $name = 'Logicmath';
+                break;
+            case 4:
+                $name = 'Brick4kidz';
+                break;
+            default:
+                $name = 'CMS';
+                break;
+        }
+        return $name;
+    }
     
 }
 

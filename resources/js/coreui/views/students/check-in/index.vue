@@ -307,7 +307,7 @@
                   >{{item.checkin_at !='0000-00-00 00:00:00' ? item.checkin_at : ''}}</router-link>
                 </td>
                 <td>
-                  <span>{{item.type_product==2 ? 'Accelium' : 'CMS'}}</span>
+                  <span>{{ vshowProductCheckin(item.type_product)}}</span>
                 </td>
                 <td class="text-center">
                   <span>{{item.creator_name}}</span>
@@ -840,6 +840,18 @@
               return 'hidden'
             }
         // }
+      },
+      vshowProductCheckin(type){
+       if (type == 1)
+         return 'CMS'
+        else if (type == 2)
+         return 'Accelium'
+         else if (type == 3)
+         return 'Logicmath'
+       else if (type == 4)
+         return 'Brick4kidz'
+        else
+        return 'CMS'
       },
       vshowStatus(item){
         if (this.checked) return ''

@@ -320,7 +320,7 @@ class JobsController extends Controller
         $sheet->setCellValue('F' . $x, $list_data[$i]->checkin_date);
         $sheet->setCellValue('G' . $x, $list_data[$i]->checkin_time);
         $sheet->setCellValue('H' . $x, $list_data[$i]->creator_name);
-        $sheet->setCellValue('I' . $x, $list_data[$i]->type_product==2 ? 'Accelium' : 'CMS');
+        $sheet->setCellValue('I' . $x, u::getProductCheckin($list_data[$i]->type_product));
         $sheet->getRowDimension($x)->setRowHeight(23);
         ProcessExcel::styleCells($spreadsheet, "A$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
         ProcessExcel::styleCells($spreadsheet, "B$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
