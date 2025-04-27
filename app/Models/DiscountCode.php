@@ -77,7 +77,7 @@ class DiscountCode extends Model
 
             if ($data && $price){
                 foreach ($data as $obj){
-                    if ($price->price == $obj->price){
+                    if ($price->price == $obj->price || $obj->discount==0){
                         $feeIds = explode(',',$obj->fee_ids);
                         $arrBranch = explode(',',$obj->branch_id);
                         if (in_array($feeId, $feeIds) && (!empty($arrBranch) ||  in_array($branchId, $arrBranch))){
