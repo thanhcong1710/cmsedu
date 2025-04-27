@@ -359,47 +359,32 @@ class DashboardController extends Controller
             $branches = [$branch_id];
         }
         $id_branch = implode(',', $branches);
+        $whereBranch = config('app.branch_active');
 
         $query = "SELECT c.id AS contract_id,
-            c.type as contract_type,
-            c.total_charged,
-            c.must_charge,
-            c.total_discount,
-            c.debt_amount,
-            c.start_date,
-            c.end_date,
-            c.total_sessions,
-            c.real_sessions,
-            c.`status`,
-            c.payment_id,
-            c.after_discounted_fee,
-            c.discount_value,
-            c.tuition_fee_price,
-            c.done_sessions,
-            c.count_recharge,
-            c.reserved_sessions,
-            pd.name as product_name,
-            pr.name as program_name,
-            tf.name as tuition_fee_name,
-            p.total as total_amount_charged,
-            p.created_at as payment_date,
             s.`name`,
-            s.nick,
-            s.accounting_id,
             s.crm_id,
-            s.stu_id,
-            15 - x.dates AS left_dates
+            c.type as contract_type,
+            pd.name as product_name,
+            tf.name as tuition_fee_name,
+            c.tuition_fee_price,
+            c.total_charged AS total_amount_charged,
+            c.must_charge,
+            c.debt_amount,
+            x.dates,
+						x.charge_date AS payment_date
             FROM contracts AS c
             LEFT JOIN students AS s ON s.id = c.student_id
             LEFT JOIN branches AS br ON br.id = c.branch_id
             LEFT JOIN products AS pd ON pd.id = c.product_id
-            LEFT JOIN programs AS pr ON pr.id = c.program_id
             LEFT JOIN tuition_fee AS tf ON tf.id = c.tuition_fee_id
-            LEFT JOIN payment AS p ON c.payment_id = p.id
-            LEFT JOIN (SELECT c.id, TIMESTAMPDIFF(DAY,p.created_at,CURDATE()) AS dates FROM contracts AS c LEFT JOIN payment AS p ON c.payment_id = p.id WHERE c.type > 0 AND c.payload = 0 AND c.debt_amount > 0 AND c.payment_id > 0 AND c.branch_id IN ($id_branch) ) AS x ON x.id = c.id
-            WHERE c.type > 0 AND c.debt_amount > 0 AND c.payment_id > 0 AND c.branch_id IN ($id_branch) AND x.dates IS NOT NULL
-            GROUP BY s.id
-            ORDER BY x.dates DESC";
+            LEFT JOIN (
+              SELECT p.contract_id, TIMESTAMPDIFF(DAY,p.charge_date,CURDATE()) AS dates, p.charge_date
+                FROM contracts AS ct 
+                LEFT JOIN payment AS p ON p.contract_id = ct.id 
+                WHERE ct.debt_amount > 0 AND ct.branch_id IN ($id_branch) AND ct.branch_id IN ($whereBranch) AND p.id = (SELECT id FROM payment WHERE contract_id=ct.id ORDER BY charge_date DESC LIMIT 1)) AS x ON x.contract_id = c.id
+            WHERE c.type > 0 AND c.debt_amount > 0 AND c.total_charged > 0 AND c.`status`!=7 
+              AND c.branch_id IN ($id_branch) AND c.branch_id IN ($whereBranch) AND x.dates IS NOT NULL AND x.dates > 7 ";
 
         $students = u::query($query);
 
@@ -408,77 +393,26 @@ class DashboardController extends Controller
 
     public function getStudentRenew(Request $request, $month, $year)
     {
-        $from_date = date('Y-m-01', strtotime("$year-$month-01"));
-        $to_date = date('Y-m-t', strtotime("$year-$month-01"));
-
-        $where = '';
+        $renewed_month = "$year-".($month>9?$month:"0".$month);
 
         $branches = u::getBranchIds($request->users_data);
         $id_branch = implode(',', $branches);
+        $whereBranch = " AND b.id IN (".config('app.branch_active').") ";
 
-        $query = "
-            SELECT 
-                    ( 
-                        SELECT count(DISTINCT e.student_id) 
-                        FROM 
-                            enrolments AS e 
-                            LEFT JOIN contracts AS c ON e.contract_id = c.id 
-                            LEFT JOIN students AS s ON c.student_id = s.id 
-                            LEFT JOIN tuition_transfer AS tff ON tff.from_contract_id = c.id 
-                        WHERE 
-                            e.id IN ( 
-                                SELECT MAX( e.id ) 
-                                FROM enrolments AS e 
-                                    LEFT JOIN contracts AS c ON e.contract_id = c.id 
-                                    LEFT JOIN students AS s ON c.student_id = s.id 
-                                WHERE 
-                                    s.branch_id = c.branch_id 
-                                GROUP BY s.id 
-                            ) 
-                            AND e.last_date >= '$from_date' 
-                            AND e.last_date <= '$to_date' 
-                            AND tff.id IS NULL 
-                            AND s.branch_id = b.id
-                            AND c.type > 0
-                            AND c.status > 0 
-                    ) as resign_total, 
-                    ( 
-                        SELECT count(DISTINCT e.student_id) 
-                        FROM 
-                            enrolments AS e 
-                            LEFT JOIN contracts AS c ON e.contract_id = c.id 
-                            LEFT JOIN students AS s ON c.student_id = s.id 
-                            LEFT JOIN tuition_transfer AS tff ON tff.from_contract_id = c.id 
-                        WHERE 
-                            e.id IN ( 
-                                SELECT MAX( e.id ) 
-                                FROM 
-                                    enrolments AS e 
-                                    LEFT JOIN contracts AS c ON e.contract_id = c.id 
-                                    LEFT JOIN students AS s ON c.student_id = s.id 
-                                    WHERE s.branch_id = c.branch_id GROUP BY s.id 
-                                )
-                            AND c.type > 0
-                            AND c.status > 0 
-                            AND e.last_date >= '$from_date' 
-                            AND e.last_date <= '$to_date' 
-                            AND tff.id IS NULL 
-                            AND s.branch_id = b.id 
-                            AND e.final_last_date > '$to_date' 
-                    ) as recharged_total, 
-                    b.name as branch_name,
-                    b.id AS branch_id 
-            FROM branches as b 
-            WHERE b.status = 1 AND b.id in ($id_branch)        
-         ";
-        $data = DB::select(DB::raw($query));
+        $renewSql = "SELECT COUNT(r.id) FROM renews_report AS r LEFT JOIN students AS s ON s.id=r.student_id WHERE s.status>0 AND  r.`disabled` = 0 AND r.renewed_month = '$renewed_month' AND r.branch_id =b.id";
+        $resp = "SELECT
+                ($renewSql AND r.status>0) resign_total,
+                ($renewSql AND r.status=1) recharged_total,
+                b.name branch_name,
+                b.id AS branch_id
+            FROM branches b WHERE b.status = 1 AND b.id in ($id_branch)  $whereBranch";
+        $data = DB::select(DB::raw($resp));
         return $data;
     }
 
     public function getStudentRenewDetail(Request $request, $branch_id, $month, $year)
     {
-        $from_date = date('Y-m-01', strtotime("$year-$month-01"));
-        $to_date = date('Y-m-t', strtotime("$year-$month-01"));
+        $renewed_month = "$year-".($month>9?$month:"0".$month);
 
         $where = '';
 
@@ -491,61 +425,30 @@ class DashboardController extends Controller
         }
 
         $id_branch = implode(',', $branches);
-        $where .= " AND br.id in ($id_branch) ";
+        $where .= " AND r.branch_id in ($id_branch) ";
 
         $q = "SELECT
-            c.id AS contract_id,
-            s.id as student_id,
-            br.id AS branch_id,
             s.name AS student_name,
             s.nick AS nick,
             s.accounting_id,
-            s.stu_id,
-            pd.NAME AS product_name,
-            pr.NAME AS program_name,
+            s.crm_id,
+            p.NAME AS product_name,
             cl.cls_name AS class_name,
             s.type AS student_type,
-            e.last_date AS end_date,
+            r.last_date AS end_date,
             tf.name AS tuition_fee_name,
-            tf.price AS tuition_fee_price,
-            c.count_recharge AS recharge_time,
-            s.crm_id,
-            br.name AS branch_name,
-            CONCAT( u1.full_name, ' - ', u1.username ) AS ec_name,
-            CONCAT( u2.full_name, ' - ', u2.username ) AS cm_name,
-            IF ( e.final_last_date > '$to_date', c.must_charge , '' ) as must_charge,
-            IF ( e.final_last_date > '$to_date', 'Thành công', IF ( '$to_date' <= CURDATE( ), 'Thất bại', '' ) ) as success,
-            IF(DATE_ADD('$to_date', INTERVAL +20 DAY) > e.last_date, IF ( e.final_last_date > '$to_date', 0, 1), 0) AS soon
-          FROM
-            enrolments AS e 
-            LEFT JOIN contracts AS c ON e.contract_id = c.id 
-            LEFT JOIN students AS s ON c.student_id = s.id 
-            LEFT JOIN tuition_transfer AS tff ON tff.from_contract_id = c.id 
-            LEFT JOIN programs AS pr ON pr.id = c.program_id 
-            LEFT JOIN classes AS cl ON cl.program_id = pr.id 
-            LEFT JOIN products AS pd ON pd.id = c.product_id 
-            LEFT JOIN payment AS p ON p.contract_id = c.id 
-            LEFT JOIN branches AS br ON br.id = s.branch_id 
-            LEFT JOIN tuition_fee AS tf ON tf.id = c.tuition_fee_id 
-            LEFT JOIN users AS u1 ON u1.id = c.ec_id 
-            LEFT JOIN users AS u2 ON u2.id = c.cm_id 
-            WHERE
-                e.id IN (
-                    SELECT MAX( e.id ) 
-                    FROM enrolments AS e 
-                        LEFT JOIN contracts AS c ON e.contract_id = c.id 
-                        LEFT JOIN students AS s ON c.student_id = s.id 
-                    WHERE 
-                        s.branch_id = c.branch_id 
-                        AND s.branch_id IN( $branch_id ) GROUP BY s.id 
-                ) 
-                AND e.last_date >= '$from_date' 
-                AND e.last_date <= '$to_date' 
-                AND tff.id IS NULL 
-                AND c.type > 0
-                AND c.status > 0
-          GROUP BY s.id";
-
+            r.renew_amount AS tuition_fee_price,
+            CONCAT( u1.full_name, ' - ', u1.hrm_id ) AS ec_name,
+            CONCAT( u2.full_name, ' - ', u2.hrm_id ) AS cm_name,
+            IF ( r.status=1, 'Thành công', IF ( r.last_date <= CURDATE( ), 'Thất bại', '' ) ) as success
+          FROM renews_report AS r 
+            LEFT JOIN students AS s ON s.id=r.student_id 
+            LEFT JOIN products AS p ON p.id=r.product_id 
+            LEFT JOIN classes AS cl ON cl.id=r.class_id
+            LEFT JOIN users AS u1 ON u1.id=r.ec_id
+            LEFT JOIN users AS u2 ON u1.id=r.cm_id
+            LEFT JOIN tuition_fee AS tf ON tf.id=r.tuition_fee_id
+            WHERE s.status>0 AND  r.`disabled` = 0 AND r.renewed_month = '$renewed_month' $where";
         $recharges = u::query($q);
 
         return $recharges;
@@ -558,29 +461,24 @@ class DashboardController extends Controller
             $branches = [0];
         }
         $id_branch = implode(',', $branches);
+        $whereBranch = " AND b.id IN (".config('app.branch_active').") ";
+
+        $queryStudent = "SELECT COUNT(c.id)
+        FROM contracts AS c
+        LEFT JOIN students AS s ON s.id = c.student_id
+        LEFT JOIN (
+          SELECT p.contract_id, TIMESTAMPDIFF(DAY,p.charge_date,CURDATE()) AS dates, p.charge_date
+            FROM contracts AS ct 
+            LEFT JOIN payment AS p ON p.contract_id = ct.id 
+            WHERE ct.debt_amount > 0 AND ct.branch_id =b.id AND p.id = (SELECT id FROM payment WHERE contract_id=ct.id ORDER BY charge_date DESC LIMIT 1)) AS x ON x.contract_id = c.id
+        WHERE c.type > 0 AND c.debt_amount > 0 AND c.total_charged > 0 AND c.`status`!=7 
+          AND c.branch_id =b.id $whereBranch AND x.dates IS NOT NULL AND x.dates > 7 ";
 
         $query = "
-           
-                SELECT IF(t.branch_id IS NOT NULL, COUNT(*), 0)AS total_students, b.id AS branch_id, b.name AS branch_name
+                SELECT ($queryStudent) AS total_students, b.id AS branch_id, b.name AS branch_name
                 FROM
-                branches AS b LEFT JOIN
-                (
-                    SELECT 
-                        s.id AS student_id,
-                        br.id AS branch_id,
-                        br.name AS branch_name
-                    FROM contracts AS c
-                        LEFT JOIN students AS s ON s.id = c.student_id
-                        LEFT JOIN branches AS br ON br.id = c.branch_id
-                        LEFT JOIN products AS pd ON pd.id = c.product_id
-                        LEFT JOIN programs AS pr ON pr.id = c.program_id
-                        LEFT JOIN tuition_fee AS tf ON tf.id = c.tuition_fee_id
-                        LEFT JOIN payment AS p ON c.payment_id = p.id
-                        LEFT JOIN (SELECT c.id, TIMESTAMPDIFF(DAY,p.created_at,CURDATE()) AS dates FROM contracts AS c LEFT JOIN payment AS p ON c.payment_id = p.id WHERE c.type > 0 AND c.payload = 0 AND c.debt_amount > 0 AND c.payment_id > 0 AND c.branch_id IN ($id_branch) ) AS x ON x.id = c.id
-                    WHERE c.type > 0 AND c.debt_amount > 0 AND c.payment_id > 0 AND c.branch_id IN ($id_branch) AND x.dates IS NOT NULL
-                    GROUP BY s.id
-                ) AS t ON t.branch_id = b.id
-                WHERE b.id IN($id_branch)
+                branches AS b 
+                WHERE b.id IN($id_branch) $whereBranch
                 GROUP BY b.id
                
         ";
@@ -595,6 +493,7 @@ class DashboardController extends Controller
         $branches = u::getBranchIds($request->users_data);
         $id_branch = implode(',', $branches);
         $where .= " AND (r.branch_id in ($id_branch) OR '".$request->users_data->role_id."' = '999999999')";
+        $where .= " AND r.branch_id IN (".config('app.branch_active').") ";
         $date = date('Y-m-d',time()-24*3600);
         $report_month = date('Y-m',time()-24*3600);
         $q = "SELECT b.name AS branch_name, cl.cls_name AS cls_name, s.crm_id, s.name AS student_name,

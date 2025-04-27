@@ -241,5 +241,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+    'branch_active' => env('BRANCH_ACTIVE', '1,4,5,6,9,14') 
 
 ];

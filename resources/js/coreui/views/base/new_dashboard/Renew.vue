@@ -40,8 +40,7 @@
                     <thead>
                     <tr class="text-sm">
                         <th class="width-20">STT</th>
-                        <th class="width-50">Mã LMS</th>
-                        <th class="width-50">Mã Effect</th>
+                        <th class="width-50">Mã CRM</th>
                         <th class="width-50">Tên học sinh</th>
                         <th class="width-50">Sản phẩm</th>
                         <th class="width-50">Chương trình</th>
@@ -58,8 +57,7 @@
                     <tbody>
                     <tr v-for="(stu, index) in students" :key="index" :class="loadClass(stu)">
                         <td>{{index+1}}</td>
-                        <td>{{stu.stu_id}}</td>
-                        <td>{{stu.accounting_id}}</td>
+                        <td>{{stu.crm_id}}</td>
                         <td>{{stu.student_name}}</td>
                         <td>{{stu.product_name}}</td>
                         <td>{{stu.program_name}}</td>

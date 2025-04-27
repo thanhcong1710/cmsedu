@@ -29,34 +29,30 @@
                     <tr class="text-sm">
                         <th>STT</th>
                         <th>Tên học sinh</th>
-                        <th>Mã LMS</th>
-                        <th>Mã EFFECT</th>
+                        <th>Mã CRM</th>
                         <th>Gói sản phẩm</th>
-                        <th>Chương trình</th>
                         <th>Gói học phí</th>
                         <th>Giá niêm yết</th>
                         <th>Giá thực thu</th>
                         <th>Số đã đóng</th>
                         <th>Số công nợ</th>
                         <th>Ngày đóng</th>
-                        <th>Số ngày chờ hoàn phí</th>
+                        <th>Số ngày quá hạn</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr :class="loadClass(student)" v-for="(student, index) in students" :key="index">
                         <td>{{ index + 1}}</td>
                         <td>{{ student.name }}</td>
-                        <td>{{ student.stu_id }}</td>
-                        <td>{{ student.accounting_id }}</td>
+                        <td>{{ student.crm_id }}</td>
                         <td>{{ student.product_name }}</td>
-                        <td>{{ student.program_name }}</td>
                         <td>{{ student.tuition_fee_name }}</td>
                         <td>{{ student.tuition_fee_price | formatMoney }}</td>
                         <td>{{ student.must_charge | formatMoney }}</td>
                         <td>{{ student.total_amount_charged | formatMoney }}</td>
                         <td>{{ student.debt_amount | formatMoney }}</td>
                         <td>{{ student.payment_date | formatDate }}</td>
-                        <td>{{ student.left_dates }}</td>
+                        <td>{{ student.dates - 7 }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -131,8 +127,6 @@
             }
         },
         created() {
-            u.bus.$emit('CALL_ME', {test_param: 'test emit ok'})
-            this.o.d('CALLING', {test_calling: 'Calling golbal function ok'})
             u.a().get('api/dashboards/get-students-status-monthly-overview').then(response => {
                 this.branches = response.data
             })

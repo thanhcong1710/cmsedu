@@ -133,11 +133,11 @@ export default {
             })
 		}
 */
-        if(this.roles.renewlist){
-            u.a().get(`/api/dashboards/renew/${this.currentMonth}/2018/`).then(response => {
-                this.branchRenew = response.data
-            })
-		}
+        // if(this.roles.renewlist){
+        //     u.a().get(`/api/dashboards/renew/${this.currentMonth}/2018/`).then(response => {
+        //         this.branchRenew = response.data
+        //     })
+		// }
 
 		/*if(this.roles.topleader){
             u.a().get('/api/dashboards/topleadear/1/' + this.limit.bestLeader).then(response =>{
