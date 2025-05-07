@@ -214,7 +214,7 @@
                                                      <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label class="control-label" title="Người phụ trách">Level: <span class="text-danger"> (*)</span></label>
-                                                            <select class="form-control text-select" v-model="obj.class.level_id" :readonly="admin_edit_level">
+                                                            <select class="form-control text-select" v-model="obj.class.level_id" >
                                                                 <option value="" disabled>Chọn Level</option>
                                                                 <option :value="lv.id" v-for="(lv, index) in list.list_level" :key="index">{{lv.description}}</option>
                                                             </select>
