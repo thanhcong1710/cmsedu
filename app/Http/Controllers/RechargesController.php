@@ -1227,6 +1227,8 @@ class RechargesController extends Controller
           $current_contract = $contracts[0];
           foreach($contracts as $contract) {
             $contract->discount_code = DiscountCode::where('code' , '=', $contract->coupon)->first();
+            $voucherInfo= u::first("SELECT c.code FROM coupon_logs AS l LEFT JOIN coupons AS c ON c.id=l.coupon_id WHERE l.contract_id=".$contract->id);
+            $contract->voucher_code = data_get($voucherInfo, 'code','');
             if ($contract->id == $id) {
               $current_contract = $contract;
             } else {

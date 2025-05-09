@@ -236,6 +236,12 @@
                             <input class="form-control" :value="contract.coupon" type="text" readonly>
                           </div>
                         </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="control-label">Mã voucher</label>
+                            <input class="form-control" :value="contract.voucher_code" type="text" readonly>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="col-md-12 pad-no">

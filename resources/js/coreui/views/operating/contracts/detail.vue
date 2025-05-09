@@ -242,6 +242,12 @@
                             <input class="form-control" :value="contract.coupon" type="text" readonly>
                           </div>
                         </div>
+                        <div v-if="displayFeeInfo" class="col-md-6">
+                          <div class="form-group">
+                            <label class="control-label">Mã voucher</label>
+                            <input class="form-control" :value="contract.voucher_code" type="text" readonly>
+                          </div>
+                        </div>
                         <div v-else class="col-md-6">
                           <div class="form-group">
                             <label class="control-label">Lớp Học Mong Muốn</label>

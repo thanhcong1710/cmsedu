@@ -1285,6 +1285,8 @@ class ContractsController extends Controller
         if(!empty($contracts)){
             foreach ($contracts as $contract){
                 $contract->discount_code = DiscountCode::where('code', '=', $contract->coupon)->first();
+                $voucherInfo= u::first("SELECT c.code FROM coupon_logs AS l LEFT JOIN coupons AS c ON c.id=l.coupon_id WHERE l.contract_id=".$contract->id);
+                $contract->voucher_code = data_get($voucherInfo, 'code','');
                 $tmp_ec_id .=",".$contract->ec_id;
             }
         }
