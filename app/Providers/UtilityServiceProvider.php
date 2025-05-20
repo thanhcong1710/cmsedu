@@ -2965,10 +2965,10 @@ class UtilityServiceProvider extends ServiceProvider
     }
 
     public static function convertNumberToWords($number) {
-        $number = str_replace([',', '.'], '', $number); // Loại bỏ dấu phân cách
-        $number = (int)$number; // Đảm bảo là kiểu số nguyên
+        $number = str_replace([',', '.'], '', $number);
+        $number = (int)$number;
     
-        if ($number == 0) {
+        if ($number === 0) {
             return 'Không đồng';
         }
     
@@ -2987,41 +2987,62 @@ class UtilityServiceProvider extends ServiceProvider
     
         $units = ['', 'nghìn', 'triệu', 'tỷ', 'nghìn tỷ', 'triệu tỷ'];
     
-        $numberString = strrev((string)$number);
-        $chunks = str_split($numberString, 3);
-    
+        $chunks = array_reverse(str_split(str_pad($number, ceil(strlen($number)/3)*3, '0', STR_PAD_LEFT), 3));
         $result = [];
+    
         foreach ($chunks as $i => $chunk) {
-            $chunk = strrev($chunk); // Đảo ngược để xử lý từng nhóm 3 số
-            $chunkLength = strlen($chunk);
+            $hundreds = (int)$chunk[0];
+            $tens = (int)$chunk[1];
+            $unitsDigit = (int)$chunk[2];
+    
             $chunkWords = [];
     
-            for ($j = 0; $j < $chunkLength; $j++) {
-                $digit = $chunk[$j];
-                $position = $chunkLength - $j - 1;
+            $isFirstChunk = ($i == count($chunks) - 1); // nhóm ngoài cùng bên trái
     
-                if ($digit != '0') {
-                    if ($position == 1 && $digit == '1') {
-                        $chunkWords[] = 'mười';
-                    } elseif ($position == 1 && $digit == '5') {
+            // Trăm
+            if ($hundreds > 0) {
+                $chunkWords[] = $words[$hundreds] . ' trăm';
+            } elseif (!$isFirstChunk && ($tens > 0 || $unitsDigit > 0)) {
+                $chunkWords[] = 'không trăm';
+            }
+    
+            // Chục
+            if ($tens == 0 && $unitsDigit != 0) {
+                $chunkWords[] = 'lẻ';
+            } elseif ($tens == 1) {
+                $chunkWords[] = 'mười';
+            } elseif ($tens > 1) {
+                $chunkWords[] = $words[$tens] . ' mươi';
+            }
+    
+            // Đơn vị
+            if ($unitsDigit > 0) {
+                if ($tens == 0 || $tens == 1) {
+                    if ($unitsDigit == 5 && $tens >= 1) {
                         $chunkWords[] = 'lăm';
-                    } elseif ($position == 2) {
-                        $chunkWords[] = $words[$digit] . ' trăm';
                     } else {
-                        $chunkWords[] = $words[$digit];
+                        $chunkWords[] = $words[$unitsDigit];
                     }
-                } elseif ($position == 1 && !empty($chunkWords)) {
-                    $chunkWords[] = 'lẻ';
+                } else {
+                    if ($unitsDigit == 1) {
+                        $chunkWords[] = 'mốt';
+                    } elseif ($unitsDigit == 5) {
+                        $chunkWords[] = 'lăm';
+                    } else {
+                        $chunkWords[] = $words[$unitsDigit];
+                    }
                 }
             }
     
-            if (!empty($chunkWords)) {
+            if (!empty(array_filter([$hundreds, $tens, $unitsDigit]))) {
                 $result[] = implode(' ', $chunkWords) . ' ' . $units[$i];
             }
         }
     
-        $result = array_reverse($result);
-        return ucfirst(trim(implode(' ', $result))) . ' đồng';
+        $final = implode(' ', array_reverse($result));
+        $final = preg_replace('/\s+/', ' ', trim($final));
+    
+        return ucfirst($final) . ' đồng';
     }
 
     public static function getProductCheckin($type){
