@@ -2630,6 +2630,7 @@ class UtilityServiceProvider extends ServiceProvider
     
         $chunks = array_reverse(str_split(str_pad($number, ceil(strlen($number)/3)*3, '0', STR_PAD_LEFT), 3));
         $result = [];
+        $hasNonZeroChunk = false;
     
         foreach ($chunks as $i => $chunk) {
             $hundreds = (int)$chunk[0];
@@ -2638,18 +2639,18 @@ class UtilityServiceProvider extends ServiceProvider
     
             $chunkWords = [];
     
-            $isFirstChunk = ($i == count($chunks) - 1); // nhóm ngoài cùng bên trái
-    
             // Trăm
             if ($hundreds > 0) {
                 $chunkWords[] = $words[$hundreds] . ' trăm';
-            } elseif (!$isFirstChunk && ($tens > 0 || $unitsDigit > 0)) {
+            } elseif ($hasNonZeroChunk && ($tens > 0 || $unitsDigit > 0)) {
                 $chunkWords[] = 'không trăm';
             }
     
             // Chục
             if ($tens == 0 && $unitsDigit != 0) {
-                $chunkWords[] = 'lẻ';
+                if ($hasNonZeroChunk) {
+                    $chunkWords[] = 'lẻ';
+                }
             } elseif ($tens == 1) {
                 $chunkWords[] = 'mười';
             } elseif ($tens > 1) {
@@ -2677,6 +2678,7 @@ class UtilityServiceProvider extends ServiceProvider
     
             if (!empty(array_filter([$hundreds, $tens, $unitsDigit]))) {
                 $result[] = implode(' ', $chunkWords) . ' ' . $units[$i];
+                $hasNonZeroChunk = true;
             }
         }
     
@@ -2951,6 +2953,7 @@ class UtilityServiceProvider extends ServiceProvider
     
         $chunks = array_reverse(str_split(str_pad($number, ceil(strlen($number)/3)*3, '0', STR_PAD_LEFT), 3));
         $result = [];
+        $hasNonZeroChunk = false;
     
         foreach ($chunks as $i => $chunk) {
             $hundreds = (int)$chunk[0];
@@ -2959,18 +2962,18 @@ class UtilityServiceProvider extends ServiceProvider
     
             $chunkWords = [];
     
-            $isFirstChunk = ($i == count($chunks) - 1); // nhóm ngoài cùng bên trái
-    
             // Trăm
             if ($hundreds > 0) {
                 $chunkWords[] = $words[$hundreds] . ' trăm';
-            } elseif (!$isFirstChunk && ($tens > 0 || $unitsDigit > 0)) {
+            } elseif ($hasNonZeroChunk && ($tens > 0 || $unitsDigit > 0)) {
                 $chunkWords[] = 'không trăm';
             }
     
             // Chục
             if ($tens == 0 && $unitsDigit != 0) {
-                $chunkWords[] = 'lẻ';
+                if ($hasNonZeroChunk) {
+                    $chunkWords[] = 'lẻ';
+                }
             } elseif ($tens == 1) {
                 $chunkWords[] = 'mười';
             } elseif ($tens > 1) {
@@ -2998,13 +3001,14 @@ class UtilityServiceProvider extends ServiceProvider
     
             if (!empty(array_filter([$hundreds, $tens, $unitsDigit]))) {
                 $result[] = implode(' ', $chunkWords) . ' ' . $units[$i];
+                $hasNonZeroChunk = true;
             }
         }
     
         $final = implode(' ', array_reverse($result));
         $final = preg_replace('/\s+/', ' ', trim($final));
     
-        return ucfirst($final) . ' đồng';
+        return ucfirst($final);
     }
 
     public static function getProductCheckin($type){
