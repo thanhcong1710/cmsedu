@@ -2642,13 +2642,13 @@ class UtilityServiceProvider extends ServiceProvider
             // Trăm
             if ($hundreds > 0) {
                 $chunkWords[] = $words[$hundreds] . ' trăm';
-            } elseif ($hasNonZeroChunk && ($tens > 0 || $unitsDigit > 0)) {
+            } elseif (($tens > 0 || $unitsDigit > 0) && $i != count($chunks) - 1) {
                 $chunkWords[] = 'không trăm';
             }
     
             // Chục
             if ($tens == 0 && $unitsDigit != 0) {
-                if ($hasNonZeroChunk) {
+                if (!empty($chunkWords)) {
                     $chunkWords[] = 'lẻ';
                 }
             } elseif ($tens == 1) {
@@ -2677,7 +2677,7 @@ class UtilityServiceProvider extends ServiceProvider
             }
     
             if (!empty(array_filter([$hundreds, $tens, $unitsDigit]))) {
-                $result[] = implode(' ', $chunkWords) . ' ' . $units[$i];
+                $result[] = implode(' ', $chunkWords) . ($units[$i] ? ' ' . $units[$i] : '');
                 $hasNonZeroChunk = true;
             }
         }
@@ -2685,7 +2685,7 @@ class UtilityServiceProvider extends ServiceProvider
         $final = implode(' ', array_reverse($result));
         $final = preg_replace('/\s+/', ' ', trim($final));
     
-        return ucfirst($final);
+        return ucfirst($final) . ' đồng';
     }
     public static function calculatorSessions($start, $end, $holidays = [], $classdays = [], $onlyTotal = false) {
         $resp = (Object)[
@@ -2965,13 +2965,13 @@ class UtilityServiceProvider extends ServiceProvider
             // Trăm
             if ($hundreds > 0) {
                 $chunkWords[] = $words[$hundreds] . ' trăm';
-            } elseif ($hasNonZeroChunk && ($tens > 0 || $unitsDigit > 0)) {
+            } elseif (($tens > 0 || $unitsDigit > 0) && $i != count($chunks) - 1) {
                 $chunkWords[] = 'không trăm';
             }
     
             // Chục
             if ($tens == 0 && $unitsDigit != 0) {
-                if ($hasNonZeroChunk) {
+                if (!empty($chunkWords)) {
                     $chunkWords[] = 'lẻ';
                 }
             } elseif ($tens == 1) {
@@ -3000,7 +3000,7 @@ class UtilityServiceProvider extends ServiceProvider
             }
     
             if (!empty(array_filter([$hundreds, $tens, $unitsDigit]))) {
-                $result[] = implode(' ', $chunkWords) . ' ' . $units[$i];
+                $result[] = implode(' ', $chunkWords) . ($units[$i] ? ' ' . $units[$i] : '');
                 $hasNonZeroChunk = true;
             }
         }
@@ -3008,7 +3008,7 @@ class UtilityServiceProvider extends ServiceProvider
         $final = implode(' ', array_reverse($result));
         $final = preg_replace('/\s+/', ' ', trim($final));
     
-        return ucfirst($final);
+        return ucfirst($final) . ' đồng';
     }
 
     public static function getProductCheckin($type){
