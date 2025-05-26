@@ -2685,7 +2685,7 @@ class UtilityServiceProvider extends ServiceProvider
         $final = implode(' ', array_reverse($result));
         $final = preg_replace('/\s+/', ' ', trim($final));
     
-        return ucfirst($final) . ' đồng';
+        return ucfirst($final) ;
     }
     public static function calculatorSessions($start, $end, $holidays = [], $classdays = [], $onlyTotal = false) {
         $resp = (Object)[
