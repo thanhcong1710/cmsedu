@@ -586,7 +586,7 @@ class RechargesController extends Controller
 				p.`status` > 0 AND t.`status` > 0
 				AND (t.available_date <= CURDATE() AND t.expired_date >= CURDATE())
 				AND (t.branch_id LIKE '$id,%' OR t.branch_id LIKE '%,$id,%' OR t.branch_id LIKE '%,$id' OR t.branch_id = '$id' )
-				AND t.`id` NOT IN (SELECT GROUP_CONCAT(tuition_fee_id) FROM contracts WHERE student_id = $student_id GROUP BY tuition_fee_id HAVING COUNT(*) >3)";
+				AND t.`id` NOT IN (SELECT GROUP_CONCAT(tuition_fee_id) FROM contracts WHERE student_id = $student_id GROUP BY tuition_fee_id HAVING COUNT(*) >30)";
         $basedata = u::query($query);
         if ($basedata) {
           $products = [];
