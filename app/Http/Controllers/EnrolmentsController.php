@@ -681,7 +681,9 @@ class EnrolmentsController extends Controller
                         AND ((c.summary_sessions > 0 AND c.type IN (1,2,3,4,5,6,7)) OR ($c_type) OR c.type = 10)
 	                      AND ((c.total_charged > 0 AND c.type IN (1,2,3,4,5,6,7)) OR ($c_type) OR c.type = 10)
                         AND COALESCE(r.id, (r.start_date > CURDATE() OR r.end_date < CURDATE()), true)
-                        AND (s.id NOT IN (SELECT student_id FROM contracts WHERE `status` = 6 AND student_id IS NOT NULL GROUP BY student_id) OR ((SELECT enrolment_last_date FROM contracts WHERE `status` = 1 AND student_id = c.student_id AND id = c.id) <= CURDATE())) 
+                        AND ( c.product_id IN(102,103) OR
+                          (s.id NOT IN (SELECT student_id FROM contracts WHERE `status` = 6 AND student_id IS NOT NULL GROUP BY student_id) OR ((SELECT enrolment_last_date FROM contracts WHERE `status` = 1 AND student_id = c.student_id AND id = c.id) <= CURDATE())) 
+                        )
                         AND s.waiting_status=0
                     $pending_condition
                     $where ";
