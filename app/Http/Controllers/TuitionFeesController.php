@@ -114,12 +114,12 @@ class TuitionFeesController extends Controller
                 $relation_list[] = $igarten['id'];
             }
         }
-        if (count($brick_motos)) {
+        if ($brick_motos && count($brick_motos)) {
             foreach ($brick_motos as $brick_moto) {
                 $relation_list[] = $brick_moto['id'];
             }
         }
-        if (count($preschools)) {
+        if ($preschools && count($preschools)) {
             foreach ($preschools as $preschool) {
                 $relation_list[] = $preschool['id'];
             }
