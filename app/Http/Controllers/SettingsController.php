@@ -295,6 +295,8 @@ class SettingsController extends Controller
             $data->ucrea_tuitions = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE status > 0 AND product_id = 1");
             $data->bright_ig_tuitions = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE status > 0 AND product_id = 2");
             $data->black_hole_tuitions = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE status > 0 AND product_id = 3");
+            $data->b4k_brickmoto_tuitions = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE status > 0 AND product_id = 102"); 
+            $data->b4k_preschool_tuitions = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE status > 0 AND product_id = 103"); 
             $data->branches = $branches && count($branches) ? $branches : [];
             $data->products = $products && count($products) ? $products : [];
             $data->regions = $regions && count($regions) ? $regions : [];
