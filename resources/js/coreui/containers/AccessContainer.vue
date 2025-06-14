@@ -95,12 +95,12 @@
     <TheFooter>
       <!--footer-->
       <div>
-        Copyright <a href="https://crm.cmsedu.vn">&copy;CMS Edu</a>
+        Copyright <a href="https://logiclab.edu.vn/">&copy;Logiclab</a>
         <span class="ml-1"> 2018 all rights reserved.</span>
       </div>
       <div class="ml-auto">
-        <span class="mr-1">Powered by</span>
-        <a href="https://staging.cmsedu.vn">Ada Framework</a>
+        <!-- <span class="mr-1">Powered by</span>
+        <a href="https://staging.cmsedu.vn">Ada Framework</a> -->
       </div>
     </TheFooter>
     <b-modal

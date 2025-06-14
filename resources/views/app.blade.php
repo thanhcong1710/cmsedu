@@ -18,9 +18,9 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
 
-        <title>CMS - CRM System</title>
+        <title>LogicLab - CRM System</title>
 
-        <link rel="shortcut icon" href="img/favicon.png">
+        <link rel="shortcut icon" href="img/favicon.avif">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
