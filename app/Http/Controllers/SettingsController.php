@@ -333,6 +333,8 @@ class SettingsController extends Controller
           $data->black_hole_selected = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE product_id = 3 AND id IN (SELECT exchange_tuition_fee_id FROM tuition_fee_relation WHERE status > 0 AND tuition_fee_id = $tuition_id)");
           $data->bright_ig_selected = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE product_id = 2 AND id IN (SELECT exchange_tuition_fee_id FROM tuition_fee_relation WHERE status > 0 AND tuition_fee_id = $tuition_id)");
           $data->ucrea_selected = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE product_id = 1 AND id IN (SELECT exchange_tuition_fee_id FROM tuition_fee_relation WHERE status > 0 AND tuition_fee_id = $tuition_id)");
+          $data->b4k_brickmoto_selected = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE product_id = 102 AND id IN (SELECT exchange_tuition_fee_id FROM tuition_fee_relation WHERE status > 0 AND tuition_fee_id = $tuition_id)");
+          $data->b4k_preschool_selected = u::query("SELECT id, name, product_id, session, price, discount, receivable, available_date, expired_date, branch_id FROM tuition_fee WHERE product_id = 103 AND id IN (SELECT exchange_tuition_fee_id FROM tuition_fee_relation WHERE status > 0 AND tuition_fee_id = $tuition_id)");
         }
         return $response->formatResponse($code, $data);
     }
