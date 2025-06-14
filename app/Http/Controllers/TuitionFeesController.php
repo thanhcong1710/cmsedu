@@ -83,7 +83,7 @@ class TuitionFeesController extends Controller
         $tuition_fee->save();
         $tuition_fee_info = u::first("SELECT id FROM tuition_fee WHERE `name` = '".trim($request->name)."' AND `price` = '".trim($request->price)."' AND `branch_id` IN (".implode(',' , $request->branch_id).") AND `available_date` = DATE('".$request->available_date."') AND `expired_date` = DATE('".$request->expired_date."') ORDER BY id DESC LIMIT 0, 1");
         if ($tuition_fee_info) {
-            self::upsertTuitionFeesRelation($tuition_fee_info->id, $request->black_hole, $request->bright, $request->ucrea);
+            self::upsertTuitionFeesRelation($tuition_fee_info->id, $request->black_hole, $request->bright, $request->ucrea, $request->brick_moto, $request->preschool);
         }
 
 //        $cyberAPI = new CyberAPI();
@@ -97,7 +97,7 @@ class TuitionFeesController extends Controller
         return response()->json($tuition_fee);
     }
 
-    public function upsertTuitionFeesRelation($tuition_id, $cdis, $aprils, $igartens) {
+    public function upsertTuitionFeesRelation($tuition_id, $cdis, $aprils, $igartens, $brick_motos, $preschools) {
         $relation_list = [];
         if (count($cdis)) {
             foreach ($cdis as $cdi) {
@@ -112,6 +112,16 @@ class TuitionFeesController extends Controller
         if (count($igartens)) {
             foreach ($igartens as $igarten) {
                 $relation_list[] = $igarten['id'];
+            }
+        }
+        if (count($brick_motos)) {
+            foreach ($brick_motos as $brick_moto) {
+                $relation_list[] = $brick_moto['id'];
+            }
+        }
+        if (count($preschools)) {
+            foreach ($preschools as $preschool) {
+                $relation_list[] = $preschool['id'];
             }
         }
         $existed = u::query("SELECT exchange_tuition_fee_id FROM tuition_fee_relation WHERE tuition_fee_id = $tuition_id");
@@ -211,7 +221,7 @@ class TuitionFeesController extends Controller
         $tuition_fee->type = $request->type == null? 0:$request->type;
         $tuition_fee->accounting_id = $request->accounting_id;
         $tuition_fee->save();
-        self::upsertTuitionFeesRelation($id, $request->black_hole, $request->bright, $request->ucrea);
+        self::upsertTuitionFeesRelation($id, $request->black_hole, $request->bright, $request->ucrea, $request->brick_moto, $request->preschool);
 
 //        $cyberAPI = new CyberAPI();
 //        $cyberAPI->updateTuitionFee($tuition_fee, $request->editor_id);

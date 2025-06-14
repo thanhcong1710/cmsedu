@@ -270,6 +270,51 @@
                           />
                         </span>
                       </div>
+                      <div class="row">
+                        <span class="col-md-4 tline title-bold txt-right">Tương ứng BLACK HOLE</span>
+                        <span class="col-md-8 fline">
+                          <vue-select
+                            label="name"
+                            multiple
+                            :options="black_hole_tuitions"
+                            v-model="black_hole_selected"
+                            placeholder="Chọn gói phí BLACK HOLE tương ứng"
+                            :searchable="true"
+                            :on-change="selectCDItuition"
+                            language="en-US"
+                          />
+                        </span>
+                      </div>
+                      <div class="row">
+                        <span class="col-md-4 tline title-bold txt-right">Tương ứng Bricks4kidz - Brick Moto</span>
+                        <span class="col-md-8 fline">
+                          <vue-select
+                            label="name"
+                            multiple
+                            :options="b4k_brickmoto_tuitions"
+                            v-model="b4k_brickmoto_selected"
+                            placeholder="Chọn gói phí Bricks4kidz - Brick Moto tương ứng"
+                            :searchable="true"
+                            :on-change="selectB4KBrickmotoTuition"
+                            language="en-US"
+                          />
+                        </span>
+                      </div>
+                      <div class="row">
+                        <span class="col-md-4 tline title-bold txt-right">Tương ứng Bricks4kidz - PreSchool</span>
+                        <span class="col-md-8 fline">
+                          <vue-select
+                            label="name"
+                            multiple
+                            :options="b4k_preschool_tuitions"
+                            v-model="b4k_preschool_selected"
+                            placeholder="Chọn gói phí Bricks4kidz - PreSchool tương ứng"
+                            :searchable="true"
+                            :on-change="selectB4KPreSchoolTuition"
+                            language="en-US"
+                          />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -510,6 +555,10 @@ export default {
       bright_ig_selected : [],
       ucrea_tuitions     : [],
       ucrea_selected     : [],
+      b4k_brickmoto_tuitions: [],
+      b4k_brickmoto_selected: [],
+      b4k_preschool_tuitions: [],
+      b4k_preschool_selected: [],
       product_id         : '',
       id_filter          : '',
       name_filter        : '',
@@ -591,6 +640,8 @@ export default {
       this.ucrea_tuitions      = response.ucrea_tuitions
       this.bright_ig_tuitions  = response.bright_ig_tuitions
       this.black_hole_tuitions = response.black_hole_tuitions
+      this.b4k_brickmoto_tuitions = response.b4k_brickmoto_tuitions
+      this.b4k_preschool_tuitions = response.b4k_preschool_tuitions
     })
   },
   methods: {
@@ -702,6 +753,8 @@ export default {
           this.black_hole_selected = response.black_hole_selected
           this.bright_ig_selected  = response.bright_ig_selected
           this.ucrea_selected      = response.ucrea_selected
+          this.b4k_brickmoto_selected      = response.b4k_brickmoto_selected
+          this.b4k_preschool_selected      = response.b4k_preschool_selected
           setTimeout(() => {
             this.checking()
           }, 100)
@@ -716,6 +769,12 @@ export default {
     },
     selectUCREATuition (data) {
       this.ucrea_selected = data
+    },
+    selectB4KBrickmotoTuition (data) {
+      this.b4k_brickmoto_selected = data
+    },
+    selectB4KPreSchoolTuition (data) {
+      this.b4k_preschool_selected = data
     },
     check (id) {
       if (this.tuition_selected == id) return true
@@ -896,6 +955,8 @@ export default {
         p.black_hole       = this.black_hole_selected
         p.bright           = this.bright_ig_selected
         p.ucrea            = this.ucrea_selected
+        p.brick_moto       = this.b4k_brickmoto_selected
+        p.preschool        = this.b4k_preschool_selected
         p.name             = this.tuition.name
         p.session          = this.tuition.session
         p.number_of_months = parseInt(this.tuition.number_of_months)
