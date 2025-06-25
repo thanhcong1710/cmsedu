@@ -506,7 +506,7 @@ class SupportsController extends Controller
             $student->save();
             $lastInsertedId = $student->id;
             $cms_id = '2' . str_pad((string)$lastInsertedId, 7, '0', STR_PAD_LEFT);
-            $crm_id = "CMS$cms_id";
+            $crm_id = "LGL$cms_id";
             $cms_id = (int)$cms_id;
             u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
             u::query("UPDATE `customer_care` c SET c.`crm_id` ='$crm_id' WHERE c.`std_temp_id` IN (SELECT s.id FROM `student_temp` s WHERE s.`gud_mobile1` = '{}')");
@@ -561,7 +561,7 @@ class SupportsController extends Controller
                 $student->save();
                 $lastInsertedId_2 = $student->id;
                 $cms_id = '2' . str_pad((string)$lastInsertedId_2, 7, '0', STR_PAD_LEFT);
-                $crm_id = "CMS$cms_id";
+                $crm_id = "LGL$cms_id";
                 $cms_id = (int)$cms_id;
                 u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId_2");
                 u::query("UPDATE `customer_care` c SET c.`crm_id` ='$crm_id' WHERE c.`std_temp_id` IN (SELECT s.id FROM `student_temp` s WHERE s.`gud_mobile1` = '{}')");

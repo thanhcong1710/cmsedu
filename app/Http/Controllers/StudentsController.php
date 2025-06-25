@@ -579,7 +579,7 @@ class StudentsController extends Controller
             $avatar = ada()->upload($request->avatar, 'avatars/students');
             $file_attached = ada()->upload($request->attached_file);
             if ($request->sibling_id != '') {
-                $sib_id = (int)str_replace('CMS', '', $request->sibling_id);
+                $sib_id = (int)str_replace('LGL', '', $request->sibling_id);
                 $sib_cd = $sib_id - 20000000;
                 $sib = u::first("SELECT s.id FROM students s WHERE id = $sib_cd AND s.status >0");
                 $sibling_id = $sib && isset($sib->id) ? $sib->id : 0;
@@ -596,9 +596,9 @@ class StudentsController extends Controller
                 }
             } else {
                 $student = new Student();
-                $used_id = "CMS" . time();
+                $used_id = "LGL" . time();
                 $student->cms_id = 0;
-                $student->crm_id = "CMS" . time();
+                $student->crm_id = "LGL" . time();
                 $student->name = $request->name;
                 $student->gender = $request->gender;
                 $student->facebook = $request->facebook;
@@ -646,7 +646,7 @@ class StudentsController extends Controller
                 $student->save();
                 $lastInsertedId = $student->id;
                 $cms_id = '2' . str_pad((string)$lastInsertedId, 7, '0', STR_PAD_LEFT);
-                $crm_id = "CMS$cms_id";
+                $crm_id = "LGL$cms_id";
                 $cms_id = (int)$cms_id;
                 u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
                 if ($request->temp_id > 0){
@@ -1280,9 +1280,9 @@ class StudentsController extends Controller
         $code = APICode::SUCCESS;
         $response = new Response();
         if ($id) {
-            $data = u::query("SELECT CONCAT(`name`, ' - Mã CMS: ', cms_id) name, id , gud_mobile1 FROM students WHERE (id = '$id' OR cms_id = '$id' OR crm_id = 'CMS$id' OR crm_id = '$id')");// AND `status` > 0
+            $data = u::query("SELECT CONCAT(`name`, ' - Mã LGL: ', cms_id) name, id , gud_mobile1 FROM students WHERE (id = '$id' OR cms_id = '$id' OR crm_id = 'LGL$id' OR crm_id = '$id')");// AND `status` > 0
             $data = is_array($data) && count($data) ? $data[0] : $data;
-            $data = $data ? ($data->id==$student_id ? ['id' => '', 'name' => 'Mã CMS anh/chị em học cùng không hợp lệ.']:$data) : ['id' => '', 'name' => 'Không tìm thấy anh chị em học cùng với mã CMS vừa nhập.'];
+            $data = $data ? ($data->id==$student_id ? ['id' => '', 'name' => 'Mã LGL anh/chị em học cùng không hợp lệ.']:$data) : ['id' => '', 'name' => 'Không tìm thấy anh chị em học cùng với mã LGL vừa nhập.'];
         }
         return $response->formatResponse($code, $data);
     }
@@ -1676,7 +1676,7 @@ class StudentsController extends Controller
             $student->source = $request->source;
             $student->tracking = $request->tracking;
             if ($request->sibling_id) {
-                $sib_id = (int)str_replace('CMS', '', $request->sibling_id);
+                $sib_id = (int)str_replace('LGL', '', $request->sibling_id);
                 $sib_cd = $sib_id - 20000000;
                 $sib = u::first("SELECT s.id FROM students s WHERE id = $sib_cd AND s.status >0");
                 $student->sibling_id = $sib && isset($sib->id) ? $sib->id : 0;
