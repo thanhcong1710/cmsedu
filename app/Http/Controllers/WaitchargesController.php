@@ -370,7 +370,7 @@ class WaitchargesController extends Controller
         $data->text_debt_amount = number_format($data->debt_amount, 0, '', '.');
         $data->text_amount = number_format($data->charge_amount, 0, '', '.');
         $data->text_amount_words = u::convert_number_to_words($data->charge_amount)." đồng";
-        $data->text_3 = $data->method == 0 ? "Tiền mặt" : ( $data->method == 2 ? "Quẹt thẻ tín dụng" : "Chuyển khoản");
+        $data->text_3 = $data->method == 0 ? "Tiền mặt" : ( $data->method == 1 ? "Chuyển khoản" : ($data->method == 2 ? "Quẹt thẻ trả thẳng" : "Quẹt thẻ trả góp"));
       }
       return $response->formatResponse($code, $data);
     }

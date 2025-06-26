@@ -198,7 +198,8 @@
                   <select class="form-control" v-model="item.method" @change="selectMethod">
                     <option value="0">Tiền mặt</option>
                     <option value="1">Chuyển khoản</option>
-                    <option value="2">Quẹt thẻ tín dụng</option>
+                    <option value="2">Quẹt thẻ trả thẳng</option>
+                    <option value="3">Quẹt thẻ trả góp</option>
                   </select>
                 </div>
               </div>
