@@ -333,7 +333,6 @@ export default {
 
   created () {
     this.start()
-    this.item.type_fee =0 
   },
 
   watch: {
@@ -387,6 +386,7 @@ export default {
         this.item.note = ''
         this.dept_amount = this.formatAmount(dept)
         this.item.method = 0
+        this.item.type_fee =0 
         this.charge_amount = 0
         if (this.item.payload === 1) {
           this.html.class.payload = 'col-md-2'
