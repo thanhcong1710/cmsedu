@@ -368,7 +368,7 @@ class LMSAPIController
                 LEFT JOIN classes AS cl ON cl.id=c.class_id
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
                 LEFT JOIN branches AS b ON b.id=c.branch_id
-            WHERE c.student_id=$student_id AND c.class_id IS NOT NULL ORDER BY c.count_recharge DESC,c.id DESC  LIMIT 1");
+            WHERE c.student_id=$student_id AND c.product_id IN(1,2,3) AND c.class_id IS NOT NULL ORDER BY c.count_recharge DESC,c.id DESC  LIMIT 1");
         if($student_info && in_array($student_info->product_id,[1,2,3])){
             $token = self::getTokenLMS();
             if(data_get($token, 'status')=='SUCCESS'){
