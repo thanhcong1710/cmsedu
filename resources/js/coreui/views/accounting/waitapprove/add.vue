@@ -604,7 +604,8 @@ export default {
           charge_date: this.moment(this.charge_date).format('YYYY-MM-DD'),
           method: this.item.method,
           note: this.item.note ? this.item.note : '',
-          payload: this.item.payload
+          payload: this.item.payload,
+          type_fee: this.item.type_fee
         })
           .then((response) => {
             alert("Cập nhật thành công");

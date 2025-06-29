@@ -328,7 +328,8 @@ class WaitchargesController extends Controller
         tp.method AS tmp_method,
         tp.charge_amount AS tmp_charge_amount,
         tp.note AS tmp_note,
-        tp.status AS tmp_status
+        tp.status AS tmp_status,
+        tp.type_fee 
       FROM tmp_payment AS tp
         LEFT JOIN contracts AS c ON c.id=tp.contract_id
         LEFT JOIN students AS s ON c.student_id = s.id
