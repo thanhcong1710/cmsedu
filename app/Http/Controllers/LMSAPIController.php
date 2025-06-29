@@ -213,43 +213,45 @@ class LMSAPIController
             FROM classes AS cl
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
-        $token = self::getTokenLMS();
-        if(data_get($token, 'status')=='SUCCESS'){
-            $token=$token->result->accessToken;
-        }else{
-            $token= "error";
-        }
-        
-        if (ENVIRONMENT == 'product') {
-            $url = "https://lms-vn.cmsedu.net/api/v1/cntr/classRegAction.do";
-        } else {
-            $url = "https://lms-vn.cmsedu.net/api/v1/cntr/classRegAction.do";
-        }
-        $method = 'POST';
-        
-        if($class_info->is_trial==1){
-            $clsType = 'CT002';
-        }elseif($class_info->product_id==2){
-            $clsType = 'CT003';
-        }elseif($class_info->product_id==3){
-            $clsType = 'CT004';
-        }else{
-            $clsType = 'CT001';
-        }
-        $params = [
-            "clsNm" => $class_info->cls_name,
-            "clsTch" => $class_info->teacher_id_lms,
-            "clsLevel" => $class_info->level_name,
-            "clsStat" => $class_info->cls_iscancelled == 'no'? 'US001':'US002',
-            "clsType" => $clsType,
-            "cntrId" => $class_info->branch_id_lms,
-        ];
-        $header = [
-            "Authorization:$token",
-        ];
-        $resp = $this->callAPI($url, $method, $params, $header, 0, false);
-        if(data_get($resp, 'status')=='SUCCESS' && isset($resp->result->classSeq)){
-            u::query("UPDATE classes SET id_lms= '".$resp->result->classSeq."' WHERE id=$class_id");
+        if(in_array($class_info->product_id,[1,2,3])){
+            $token = self::getTokenLMS();
+            if(data_get($token, 'status')=='SUCCESS'){
+                $token=$token->result->accessToken;
+            }else{
+                $token= "error";
+            }
+            
+            if (ENVIRONMENT == 'product') {
+                $url = "https://lms-vn.cmsedu.net/api/v1/cntr/classRegAction.do";
+            } else {
+                $url = "https://lms-vn.cmsedu.net/api/v1/cntr/classRegAction.do";
+            }
+            $method = 'POST';
+            
+            if($class_info->is_trial==1){
+                $clsType = 'CT002';
+            }elseif($class_info->product_id==2){
+                $clsType = 'CT003';
+            }elseif($class_info->product_id==3){
+                $clsType = 'CT004';
+            }else{
+                $clsType = 'CT001';
+            }
+            $params = [
+                "clsNm" => $class_info->cls_name,
+                "clsTch" => $class_info->teacher_id_lms,
+                "clsLevel" => $class_info->level_name,
+                "clsStat" => $class_info->cls_iscancelled == 'no'? 'US001':'US002',
+                "clsType" => $clsType,
+                "cntrId" => $class_info->branch_id_lms,
+            ];
+            $header = [
+                "Authorization:$token",
+            ];
+            $resp = $this->callAPI($url, $method, $params, $header, 0, false);
+            if(data_get($resp, 'status')=='SUCCESS' && isset($resp->result->classSeq)){
+                u::query("UPDATE classes SET id_lms= '".$resp->result->classSeq."' WHERE id=$class_id");
+            }
         }
     }
     public function updateClassLMS($class_id,$pre_teacher_id=0)
@@ -261,46 +263,48 @@ class LMSAPIController
             FROM classes AS cl
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
-        $token = self::getTokenLMS();
-        if(data_get($token, 'status')=='SUCCESS'){
-            $token=$token->result->accessToken;
-        }else{
-            $token= "error";
-        }
-        
-        if (ENVIRONMENT == 'product') {
-            $url = "https://lms-vn.cmsedu.net/api/v1/cntr/classModAction.do";
-        } else {
-            $url = "https://lms-vn.cmsedu.net/api/v1/cntr/classModAction.do";
-        }
-        $method = 'POST';
-        if($class_info->is_trial==1){
-            $clsType = 'CT002';
-        }elseif($class_info->product_id==2){
-            $clsType = 'CT003';
-        }elseif($class_info->product_id==3){
-            $clsType = 'CT004';
-        }else{
-            $clsType = 'CT001';
-        }
-        $params = [
-            "clsNm" => $class_info->cls_name,
-            "prevClsTch" => $pre_teacher_id ? $class_info->pre_teacher_id_lms :$class_info->teacher_id_lms,
-            "clsTch" => $class_info->teacher_id_lms,
-            "clsLevel" => $class_info->level_name,
-            "clsStat" => $class_info->cls_iscancelled == 'no'? 'US001':'US002',
-            "clsType" => $clsType,
-            "cntrId" => $class_info->branch_id_lms,
-            "classSeq" =>(int)$class_info->id_lms
-        ];
-        $header = [
-            "Authorization:$token",
-        ];
-        $resp = $this->callAPI($url, $method, $params, $header, 0, false);
-        if($pre_teacher_id){
-            $list_student = u::query("SELECT student_id FROM contracts WHERE class_id=$class_id AND status!=7");
-            foreach($list_student AS $student){
-                self::updateStudentLMS($student->student_id);
+        if(in_array($class_info->product_id,[1,2,3])){
+            $token = self::getTokenLMS();
+            if(data_get($token, 'status')=='SUCCESS'){
+                $token=$token->result->accessToken;
+            }else{
+                $token= "error";
+            }
+            
+            if (ENVIRONMENT == 'product') {
+                $url = "https://lms-vn.cmsedu.net/api/v1/cntr/classModAction.do";
+            } else {
+                $url = "https://lms-vn.cmsedu.net/api/v1/cntr/classModAction.do";
+            }
+            $method = 'POST';
+            if($class_info->is_trial==1){
+                $clsType = 'CT002';
+            }elseif($class_info->product_id==2){
+                $clsType = 'CT003';
+            }elseif($class_info->product_id==3){
+                $clsType = 'CT004';
+            }else{
+                $clsType = 'CT001';
+            }
+            $params = [
+                "clsNm" => $class_info->cls_name,
+                "prevClsTch" => $pre_teacher_id ? $class_info->pre_teacher_id_lms :$class_info->teacher_id_lms,
+                "clsTch" => $class_info->teacher_id_lms,
+                "clsLevel" => $class_info->level_name,
+                "clsStat" => $class_info->cls_iscancelled == 'no'? 'US001':'US002',
+                "clsType" => $clsType,
+                "cntrId" => $class_info->branch_id_lms,
+                "classSeq" =>(int)$class_info->id_lms
+            ];
+            $header = [
+                "Authorization:$token",
+            ];
+            $resp = $this->callAPI($url, $method, $params, $header, 0, false);
+            if($pre_teacher_id){
+                $list_student = u::query("SELECT student_id FROM contracts WHERE class_id=$class_id AND status!=7");
+                foreach($list_student AS $student){
+                    self::updateStudentLMS($student->student_id);
+                }
             }
         }
     }
@@ -308,14 +312,14 @@ class LMSAPIController
     {
         $student_info = u::first("SELECT b.id_lms AS branch_id_lms,t.id_lms AS teacher_id_lms,cl.id_lms AS class_id_lms,
             DATE_FORMAT(s.created_at ,'%Y-%m-%d') AS student_created_at,s.name AS student_name,s.date_of_birth,s.gender,
-            c.enrolment_start_date,c.enrolment_last_date,s.accounting_id,c.student_id,s.crm_id,c.type,cl.is_trial,c.coupon
+            c.enrolment_start_date,c.enrolment_last_date,s.accounting_id,c.student_id,s.crm_id,c.type,cl.is_trial,c.coupon, c.product_id
             FROM contracts AS c
                 LEFT JOIN students AS s ON s.id=c.student_id 
                 LEFT JOIN classes AS cl ON cl.id=c.class_id
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
                 LEFT JOIN branches AS b ON b.id=c.branch_id
             WHERE c.id=$contract_id");
-        if($student_info && !in_array($student_info->coupon,['CN00-M027-02-01','C00-M027-02-01','C00-M027-02-02'])){
+        if($student_info && in_array($student_info->product_id,[1,2,3])){
             $token = self::getTokenLMS();
             if(data_get($token, 'status')=='SUCCESS'){
                 $token=$token->result->accessToken;
@@ -358,14 +362,14 @@ class LMSAPIController
         $student_info = u::first("SELECT b.id_lms AS branch_id_lms,t.id_lms AS teacher_id_lms,cl.id_lms AS class_id_lms,
             DATE_FORMAT(s.created_at ,'%Y-%m-%d') AS student_created_at,s.name AS student_name,s.date_of_birth,s.gender,
             c.enrolment_start_date,c.enrolment_last_date,s.accounting_id,c.status AS contract_status,s.id_lms,
-            (SELECT id_lms FROM classes WHERE id =$from_class_id) AS pre_class_id_lms,c.type,cl.is_trial,c.coupon
+            (SELECT id_lms FROM classes WHERE id =$from_class_id) AS pre_class_id_lms,c.type,cl.is_trial,c.coupon,c.product_id
             FROM contracts AS c
                 LEFT JOIN students AS s ON s.id=c.student_id 
                 LEFT JOIN classes AS cl ON cl.id=c.class_id
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
                 LEFT JOIN branches AS b ON b.id=c.branch_id
             WHERE c.student_id=$student_id AND c.class_id IS NOT NULL ORDER BY c.count_recharge DESC,c.id DESC  LIMIT 1");
-        if($student_info && !in_array($student_info->coupon,['CN00-M027-02-01','C00-M027-02-01'])){
+        if($student_info && in_array($student_info->product_id,[1,2,3])){
             $token = self::getTokenLMS();
             if(data_get($token, 'status')=='SUCCESS'){
                 $token=$token->result->accessToken;
