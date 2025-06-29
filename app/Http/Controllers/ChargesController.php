@@ -212,6 +212,7 @@ class ChargesController extends Controller
                 'meta_data' => json_encode($post),
                 'created_at' => date('Y-m-d H:i:s'),
                 'creator_id' => $session->id,
+                'type_fee'=>data_get($post, 'update.type_fee'),
                 'status' => 0
             ]
           );
@@ -250,12 +251,14 @@ class ChargesController extends Controller
             "charge_date"=> data_get($request, 'charge_date'),
             "method"=> data_get($request, 'method'),
             "note"=> data_get($request, 'note'),
+            "type_fee"=> data_get($request, 'type_fee'),
           ];
           DB::table('tmp_payment')->where('id',data_get($request,'id'))->update(
             [
                 "charge_amount"=> data_get($request, 'charge_amount'),
                 "debt_amount"=>  data_get($request, 'debt_amount'),
                 "total_charged"=> data_get($request, 'total_charged'),
+                "type_fee"=> data_get($request, 'type_fee'),
                 "charge_date"=> data_get($request, 'charge_date'),
                 "method"=> data_get($request, 'method'),
                 "note"=> data_get($request, 'note'),

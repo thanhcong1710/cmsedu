@@ -216,6 +216,15 @@
                   </datePicker>
                 </div>
               </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Loại</label>
+                  <select class="form-control" v-model="item.type_fee">
+                    <option value="0">Gói phí thường</option>
+                    <option value="1">Gói phí combo</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
           <b-modal title="THÔNG BÁO" :class="html.class.modal" v-model="modal" @ok="closeModal" :ok-variant="html.variant">
@@ -314,6 +323,7 @@ export default {
       dept_amount: 0,
       total_charge: 0,
       charge_amount: 0
+
     }
   },
 
@@ -323,6 +333,7 @@ export default {
 
   created () {
     this.start()
+    this.item.type_fee =0 
   },
 
   watch: {
@@ -448,7 +459,8 @@ export default {
           method: this.item.method,
           note: this.item.note ? this.item.note : '',
           charge_time: this.item.charge_time,
-          payload: this.item.payload
+          payload: this.item.payload,
+          type_fee: this.item.type_fee
         }
         this.loading1 = true
         this.loading2 = true

@@ -356,8 +356,8 @@ class WaitchargesController extends Controller
       if ($session = $request->users_data) {
         $data = (Object)[];
         $code = APICode::SUCCESS;
-        $data = u::first("SELECT '' AS text_1,c.code AS contract_code, c.debt_amount, tp.charge_amount,tp.method,
-            s.gud_name1,s.address, s.name,
+        $data = u::first("SELECT '' AS text_1,c.code AS contract_code, c.debt_amount, tp.charge_amount,tp.method,tp.type_fee,
+            s.gud_name1,s.address, s.name,s.id AS student_id,
             (SELECT number_of_months FROM tuition_fee WHERE id = c.tuition_fee_id) AS number_of_months,
             (SELECT name FROM products WHERe id=c.product_id) AS product_name, tp.note,
             '' AS text_2, '' AS text_amount, '' AS text_amount_words,'' AS text_3,'' AS text_debt_amount, tp.charge_date
@@ -368,9 +368,17 @@ class WaitchargesController extends Controller
         $data->text_1 = "Ngày ".date('d',strtotime($data->charge_date)).  " tháng ". date('m',strtotime($data->charge_date)). " năm ". date('Y',strtotime($data->charge_date));
         $data->text_2 = "Thanh toán học phí khóa học ".$data->product_name." ".$data->number_of_months." tháng cho học viên ".$data->name;
         $data->text_debt_amount = number_format($data->debt_amount, 0, '', '.');
-        $data->text_amount = number_format($data->charge_amount, 0, '', '.');
-        $data->text_amount_words = u::convert_number_to_words($data->charge_amount)." đồng";
         $data->text_3 = $data->method == 0 ? "Tiền mặt" : ( $data->method == 1 ? "Chuyển khoản" : ($data->method == 2 ? "Quẹt thẻ trả thẳng" : "Quẹt thẻ trả góp"));
+        if(data_get($data, 'type_fee') == 1){
+          $combo = u:: first("SELECT SUM(tp.charge_amount) AS total
+            FROM tmp_payment AS tp LEFT JOIN contracts AS c ON c.id=tp.contract_id 
+            WHERE c.student_id = ".data_get($data, 'student_id')." AND tp.charge_date = '".data_get($data, 'charge_date')."'");
+           $data->text_amount = number_format(data_get($combo, 'total'), 0, '', '.');
+           $data->text_amount_words = u::convert_number_to_words(data_get($combo, 'total'))." đồng";
+        }else{
+          $data->text_amount = number_format($data->charge_amount, 0, '', '.');
+          $data->text_amount_words = u::convert_number_to_words($data->charge_amount)." đồng";
+        }
       }
       return $response->formatResponse($code, $data);
     }

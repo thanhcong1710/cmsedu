@@ -295,6 +295,15 @@
                   </datePicker>
                 </div>
               </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">Loại</label>
+                  <select class="form-control" v-model="item.type_fee">
+                    <option value="0">Gói phí thường</option>
+                    <option value="1">Gói phí combo</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
           <b-modal title="THÔNG BÁO" :class="html.class.modal" v-model="modal" @ok="closeModal" :ok-variant="html.variant">
@@ -537,6 +546,7 @@ export default {
           charge_date: this.moment(this.charge_date).format('YYYY-MM-DD'),
           method: this.item.method,
           note: this.item.note ? this.item.note : '',
+          type_fee: this.item.type_fee
         }
         this.loading1 = true
         this.loading2 = true
