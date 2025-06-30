@@ -759,12 +759,12 @@ export default {
             if (student.st_last_date == null){
               resp.push(item)
             }
-            else
-            {
-              if (this.moment(item.cjrn_classdate).isAfter(student.st_last_date)){
-                resp.push(item)
-              }
-            }
+            // else
+            // {
+            //   if (this.moment(item.cjrn_classdate).isAfter(student.st_last_date)){
+            //     resp.push(item)
+            //   }
+            // }
           }
           return item
         })
