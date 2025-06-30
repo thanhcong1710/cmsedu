@@ -376,7 +376,7 @@ class RechargesController extends Controller
           $where.= $key1 ? " AND ((s.stu_id LIKE '%$key1%' OR s.cms_id LIKE '%$key1%' OR s.crm_id LIKE '%$key1%') AND " : " AND ((s.stu_id LIKE '%$keyword%' OR s.cms_id LIKE '%$keyword%' OR s.crm_id LIKE '%$keyword%') OR ";
           $where.= $key2 ? " s.name LIKE '$key2%' OR s.nick LIKE '$key2%' OR s.accounting_id LIKE '%$keyword%')" : ')';
           // $where.= " AND c.debt_amount = 0 AND ((s.type = 0 AND c.type IN (1, 2, 3, 5, 6) AND c.status >= 3) OR (s.type = 1 AND c.type > 0) OR (c.type = 4 AND s.type = 0 AND c.real_sessions > 0))";
-          $where.= " AND ((s.type = 0 AND ((c.type IN (1, 2, 5, 6, 8, 85, 86) AND c.status >= 3) OR (c.type IN (3, 4) AND c.real_sessions > 0))) OR (s.type = 1 AND c.type > 0) OR (c.must_charge = 0 AND c.total_charged>0) OR c.type = 10)
+          $where.= " AND ((s.type = 0 AND ((c.type IN (1, 2, 5, 6, 8, 85, 86)) OR (c.type IN (3, 4) AND c.real_sessions > 0))) OR (s.type = 1 AND c.type > 0) OR (c.must_charge = 0 AND c.total_charged>0) OR c.type = 10)
           AND c.id IN (SELECT id FROM contracts WHERE student_id = s.id AND `status` > 0 AND count_recharge > - 1 ORDER BY count_recharge DESC)";
           $query = "SELECT
             s.id AS student_id,
