@@ -211,7 +211,7 @@ class CheckinController extends Controller
         $unix_check_dublicate = md5($request->name . $request->gud_name1 . $request->gud_mobile1);
             $sibling_id = null;
             if (isset($request->sibling_id) && $request->sibling_id !='') {
-                $sib_id = (int)str_replace('CMS', '', $request->sibling_id);
+                $sib_id = (int)str_replace('LGL', '', $request->sibling_id);
                 $sib_cd = $sib_id - 20000000;
                 $sib = u::first("SELECT s.id FROM students s WHERE id = $sib_cd");
                 $sibling_id = $sib && isset($sib->id) ? $sib->id : null;
@@ -219,9 +219,9 @@ class CheckinController extends Controller
             {
             $uid = $request->users_data->id;
             $student = new Student();
-            $used_id = "CMS" . time();
+            $used_id = "LGL" . time();
             $student->cms_id = 0;
-            $student->crm_id = "CMS" . time();
+            $student->crm_id = "LGL" . time();
             $student->name = $request->firstname." ".($request->midname ? $request->midname." ":"").$request->lastname;
             $student->firstname = $request->firstname;
             $student->lastname = $request->lastname;
@@ -280,7 +280,7 @@ class CheckinController extends Controller
             $student->save();
             $lastInsertedId = $student->id;
             $cms_id = '2' . str_pad((string)$lastInsertedId, 7, '0', STR_PAD_LEFT);
-            $crm_id = "CMS$cms_id";
+            $crm_id = "LGL$cms_id";
             $cms_id = (int)$cms_id;
             u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
             u::query("UPDATE `customer_care` c SET c.`crm_id` ='$crm_id' WHERE c.`std_temp_id` IN (SELECT s.id FROM `student_temp` s WHERE s.`gud_mobile1` = '{}')");
@@ -548,9 +548,9 @@ class CheckinController extends Controller
 
     public function historyCare($crmId = 0){
         $status = [
-            6 => "Có con trong độ tuổi và có quan tâm đến CMS",
+            6 => "Có con trong độ tuổi và có quan tâm đến LGL",
             9 => "Có tín hiệu, Không nghe máy, dập máy",
-            4 =>  "Đến CMS ( làm bài test, tìm hiểu chương trình, tham gia sự kiện )",
+            4 =>  "Đến LGL ( làm bài test, tìm hiểu chương trình, tham gia sự kiện )",
             5 =>  "Đồng ý lịch hẹn lên trải nghiệm",
             2 =>  "Gọi chăm sóc khách hàng",
             1 =>  "Nhận góp ý từ khách hàng",
@@ -848,9 +848,9 @@ class CheckinController extends Controller
             $gud_name2 = u::explodeName(trim($data->ho_ten_phu_huynh_2));
             
             $student = new Student();
-            $used_id = "CMS" . time();
+            $used_id = "LGL" . time();
             $student->cms_id = 0;
-            $student->crm_id = "CMS" . time();
+            $student->crm_id = "LGL" . time();
             $student->name = trim($data->ho_ten_hoc_sinh);
             $student->firstname = $student_name->firstname;
             $student->lastname = $student_name->lastname;
@@ -887,7 +887,7 @@ class CheckinController extends Controller
             $student->save();
             $lastInsertedId = $student->id;
             $cms_id = '2' . str_pad((string)$lastInsertedId, 7, '0', STR_PAD_LEFT);
-            $crm_id = "CMS$cms_id";
+            $crm_id = "LGL$cms_id";
             $cms_id = (int)$cms_id;
             u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
             $region_id = 0;
@@ -1039,7 +1039,7 @@ class CheckinController extends Controller
             $uid = $creator_info ? $creator_info->id : 0;
             $student = new Student();
             $student->cms_id = 0;
-            $student->crm_id = "CMS" . time();
+            $student->crm_id = "LGL" . time();
             $student->name = $request->student_name;
             $tmp_student_name = u::explodeName($request->student_name);
             $student->firstname = $tmp_student_name->firstname;
@@ -1080,7 +1080,7 @@ class CheckinController extends Controller
             $student->save();
             $lastInsertedId = $student->id;
             $cms_id = '2' . str_pad((string)$lastInsertedId, 7, '0', STR_PAD_LEFT);
-            $crm_id = "CMS$cms_id";
+            $crm_id = "LGL$cms_id";
             $cms_id = (int)$cms_id;
             u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
             $region_id = 0;
