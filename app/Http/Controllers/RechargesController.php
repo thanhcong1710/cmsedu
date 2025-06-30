@@ -386,7 +386,7 @@ class RechargesController extends Controller
             LEFT JOIN term_student_user AS t ON t.student_id = s.id
             LEFT JOIN users AS u1 ON t.ec_id = u1.id
             LEFT JOIN users AS u2 ON u1.superior_id = u2.hrm_id
-            WHERE s.id > 0 AND c.debt_amount <= 0 $where GROUP BY s.id ORDER BY `name` ASC LIMIT 0, 10";
+            WHERE s.id > 0 $where GROUP BY s.id ORDER BY `name` ASC LIMIT 0, 10";
             $data = u::query($query);
           $code = APICode::SUCCESS;
         }
