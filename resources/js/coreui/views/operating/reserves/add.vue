@@ -685,7 +685,7 @@
             // if(u.session().user.role_id!='999999999'){
             //   this.data.temp.max_date = moment(enrolment.end_date_schedule).subtract(1, 'd').format('YYYY-MM-DD');
             // }else{
-              this.data.temp.max_date = moment(enrolment.end_date).subtract(1, 'd').format('YYYY-MM-DD');
+              this.data.temp.max_date = moment(enrolment.end_date_schedule).subtract(1, 'd').format('YYYY-MM-DD');
             // }
 
             let passed_session = 0;
