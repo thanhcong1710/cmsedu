@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Http\Controllers\TestingController as t;
+use App\Providers\UtilityServiceProvider as u;
 
 class Testing extends Command
 {
@@ -11,7 +12,7 @@ class Testing extends Command
      *
      * @var string
      */
-    protected $signature = 'ada:test {action} {--params=}';
+    protected $signature = 'ada:test';
 
     /**
      * The console command description.
@@ -36,14 +37,14 @@ class Testing extends Command
      * @return mixed
      */
     public function handle()
-    {   $this->output('OK FINE');
-        $action = $this->argument('action');
-        $options = $this->options();
-        $data = (Object)[];
-        $data->action = $action;
-        $data->options = $options;        
-        if (method_exists($this, $action)) {
-            self::$action($options['params']);
+    {   
+        $data = u::query("SELECT * FROM  students WHERe crm_id LIKE 'LGL%'");
+        foreach ($data AS $row){
+            $lastInsertedId = $row->id;
+            $lastCode = u::first("SELECT cms_id FROM students WHERE id < $lastInsertedId ORDER BY id DESC LIMIT 1");
+            $cms_id = (int)$lastCode+1;
+            $crm_id = "LGL".str_pad($cms_id, 8, '0', STR_PAD_LEFT);
+            u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
         }
     }
 
