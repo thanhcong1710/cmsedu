@@ -38,7 +38,7 @@ class Testing extends Command
      */
     public function handle()
     {   
-        $data = u::query("SELECT * FROM  students WHERe crm_id LIKE 'LGL%'");
+        $data = u::query("SELECT * FROM  students WHERe crm_id LIKE 'LGL%' AND id >103840");
         foreach ($data AS $row){
             $lastInsertedId = $row->id;
             $lastCode = u::first("SELECT cms_id FROM students WHERE id < $lastInsertedId ORDER BY id DESC LIMIT 1");
