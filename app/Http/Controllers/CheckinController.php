@@ -280,7 +280,7 @@ class CheckinController extends Controller
             $student->save();
             $lastInsertedId = $student->id;
             $lastCode = u::first("SELECT cms_id FROM students WHERE id < $lastInsertedId ORDER BY id DESC LIMIT 1");
-            $cms_id = (int)$lastCode+1;
+            $cms_id = (int)data_get($lastCode, 'cms_id')+1;
             $crm_id = "LGL".str_pad($cms_id, 8, '0', STR_PAD_LEFT);
             u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
             u::query("UPDATE `customer_care` c SET c.`crm_id` ='$crm_id' WHERE c.`std_temp_id` IN (SELECT s.id FROM `student_temp` s WHERE s.`gud_mobile1` = '{}')");
@@ -887,7 +887,7 @@ class CheckinController extends Controller
             $student->save();
             $lastInsertedId = $student->id;
             $lastCode = u::first("SELECT cms_id FROM students WHERE id < $lastInsertedId ORDER BY id DESC LIMIT 1");
-            $cms_id = (int)$lastCode+1;
+            $cms_id = (int)data_get($lastCode, 'cms_id')+1;
             $crm_id = "LGL".str_pad($cms_id, 8, '0', STR_PAD_LEFT);
             u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
             $region_id = 0;
@@ -1080,7 +1080,7 @@ class CheckinController extends Controller
             $student->save();
             $lastInsertedId = $student->id;
             $lastCode = u::first("SELECT cms_id FROM students WHERE id < $lastInsertedId ORDER BY id DESC LIMIT 1");
-            $cms_id = (int)$lastCode+1;
+            $cms_id = (int)data_get($lastCode, 'cms_id')+1;
             $crm_id = "LGL".str_pad($cms_id, 8, '0', STR_PAD_LEFT);
             u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
             $region_id = 0;
