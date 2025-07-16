@@ -579,6 +579,7 @@ class StudentsController extends Controller
             $avatar = ada()->upload($request->avatar, 'avatars/students');
             $file_attached = ada()->upload($request->attached_file);
             if ($request->sibling_id != '') {
+                $request->sibling_id = str_replace('CMS', '', $request->sibling_id);
                 $sib_id = (int)str_replace('LGL', '', $request->sibling_id);
                 $sib_cd = $sib_id - 20000000;
                 $sib = u::first("SELECT s.id FROM students s WHERE id = $sib_cd AND s.status >0");
@@ -1676,6 +1677,7 @@ class StudentsController extends Controller
             $student->source = $request->source;
             $student->tracking = $request->tracking;
             if ($request->sibling_id) {
+                $request->sibling_id = str_replace('CMS', '', $request->sibling_id);
                 $sib_id = (int)str_replace('LGL', '', $request->sibling_id);
                 $sib_cd = $sib_id - 20000000;
                 $sib = u::first("SELECT s.id FROM students s WHERE id = $sib_cd AND s.status >0");

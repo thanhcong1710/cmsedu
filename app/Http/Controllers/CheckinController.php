@@ -211,6 +211,7 @@ class CheckinController extends Controller
         $unix_check_dublicate = md5($request->name . $request->gud_name1 . $request->gud_mobile1);
             $sibling_id = null;
             if (isset($request->sibling_id) && $request->sibling_id !='') {
+                $request->sibling_id = str_replace('CMS', '', $request->sibling_id);
                 $sib_id = (int)str_replace('LGL', '', $request->sibling_id);
                 $sib_cd = $sib_id - 20000000;
                 $sib = u::first("SELECT s.id FROM students s WHERE id = $sib_cd");
