@@ -1,6 +1,6 @@
 <template>
   <div class="form-group">
-    <label class="control-label">Quận/Huyện</label>
+    <label class="control-label">Xã/Phường</label>
     <select
       class="form-control"
       v-model="localValue"
@@ -10,7 +10,7 @@
         :value="0"
         disabled
       >
-        Chọn Quận/Huyện
+        Chọn Xã/Phường
       </option>
       <option
         :value="district.id"

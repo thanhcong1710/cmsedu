@@ -7221,7 +7221,7 @@ class ExelController extends Controller
             }
             $sheet->setCellValue('U5', 'Số tiền phải đóng');
             $sheet->setCellValue('V5', 'Tỉnh/Thành phố');
-            $sheet->setCellValue('W5', 'Quận/Huyện');
+            $sheet->setCellValue('W5', 'Xã/Phường');
             $sheet->setCellValue('X5', 'Địa chỉ');
             $sheet->getColumnDimension('A')->setWidth(30);
             $sheet->getColumnDimension('B')->setWidth(40);

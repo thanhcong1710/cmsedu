@@ -176,9 +176,9 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label class="control-label">Quận/Huyện</label>
+                    <label class="control-label">Xã/Phường</label>
                     <select class="form-control" v-model="obj.student.district_id">
-                      <option value="" disabled>Chọn Quận/Huyện</option>
+                      <option value="" disabled>Chọn Xã/Phường</option>
                       <option :value="district.id" v-for="(district, index) in html.data.district.list" :key="index">{{ district.name }}</option>
                     </select>
                   </div>

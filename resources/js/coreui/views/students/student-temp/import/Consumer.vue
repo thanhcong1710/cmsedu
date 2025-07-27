@@ -74,7 +74,7 @@
                     Tỉnh/TP
                   </th>
                   <th rowspan="2">
-                    Quận/Huyện
+                    Xã/Phường
                   </th>
                   <th rowspan="2">
                     Địa chỉ

@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label class="control-label" v-b-tooltip.hover title="Thông tin Quận Huyện của học viên">Quận/Huyện</label>
+                    <label class="control-label" v-b-tooltip.hover title="Thông tin Quận Huyện của học viên">Xã/Phường</label>
                     <input class="form-control" type="text" v-model="obj.student.district_name" name="district_name" v-bind:readonly="true">
                   </div>
                 </div>

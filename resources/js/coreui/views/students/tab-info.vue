@@ -80,7 +80,7 @@
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label class="control-label">Quận/Huyện</label>
+                <label class="control-label">Xã/Phường</label>
                 <input class="form-control" type="text" :value="data.district_name" readonly>
               </div>
             </div>

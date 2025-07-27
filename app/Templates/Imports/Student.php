@@ -35,7 +35,7 @@ class Student implements TemplateInterface
             ['name' => "Số điện thoại", 'width' => 20, 'value' => '03389459404'],
             ['name' => "Tên thường gọi", 'width' => 10, 'value' => 'A Pháo'],
             ['name' => "Mã Tỉnh/Thành phố", 'width' => 20, 'value' => '24'],
-            ['name' => "Mã Quận/Huyện", 'width' => 20, 'value' => '24.01'],
+            ['name' => "Mã Xã/Phường", 'width' => 20, 'value' => '24.01'],
             ['name' => "Địa chỉ", 'width' => 20, 'value' => 'Nam Từ Liêm, Hà Nội'],
             ['name' => "Đối tượng khách hàng\n(0 = Thường, 1 = VIP)", 'width' => 15, 'value' => 1],
             ['name' => "FaceBook", 'width' => 20, 'value' => 'hotboycongnghe'],

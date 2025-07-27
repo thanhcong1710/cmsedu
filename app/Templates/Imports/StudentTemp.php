@@ -53,7 +53,7 @@ class StudentTemp implements TemplateInterface
                 ]
             ],
             ['name' => "Tỉnh/Thành phố", 'width' => 20, 'value' => '24'],
-            ['name' => "Quận/Huyện", 'width' => 20, 'value' => '24.01'],
+            ['name' => "Xã/Phường", 'width' => 20, 'value' => '24.01'],
             ['name' => "Địa chỉ", 'width' => 20, 'value' => 'Nam Từ Liêm, Hà Nội'],
             ['name' => "Từ nguồn", 'width' => 20, 'value' => 'Google'],
             ['name' => "Ghi chú", 'width' => 30, 'value' => 'Trường hợp đặc biệt'],

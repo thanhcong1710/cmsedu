@@ -98,7 +98,7 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label class="control-label" v-b-tooltip.hover title="Thông tin Quận Huyện của học viên">Quận/Huyện <span class="text-danger"> (*)</span></label>
+                    <label class="control-label" v-b-tooltip.hover title="Thông tin Quận Huyện của học viên">Xã/Phường <span class="text-danger"> (*)</span></label>
                     <select class="form-control" v-model="obj.student.district_id"
                             name="district_id" v-validate data-vv-rules="required">
                       <option value="">Chọn quận/huyện</option>
@@ -106,7 +106,7 @@
                     </select>
                     <span v-show="errors.has('district_id')" class="error-inform line">
                       <i v-show="errors.has('district_id')" class="fa fa-warning"></i>
-                      <span v-show="errors.has('district_id')" class="error help is-danger">Quận/Huyện là bắt buộc!</span>
+                      <span v-show="errors.has('district_id')" class="error help is-danger">Xã/Phường là bắt buộc!</span>
                     </span>
                   </div>
                 </div>
