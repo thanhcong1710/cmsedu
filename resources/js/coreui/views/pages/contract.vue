@@ -448,8 +448,87 @@
                                     <!-- <p><i class="fa fa-phone"></i>(+84) 24 7356 8806 &nbsp;&nbsp;<i class="fa fa-envelope"></i> cms@cmsedu.vn &nbsp;&nbsp;<i class="fa fa-globe"></i> www.cmsedu.vn</p> -->
                                     </div>
                                 </div>
-                                <div class="print-content">
-                                    <h2 class="title sub" style="font-size: 24px">NỘI QUY NHẬP HỌC TẠI LOGIC LAB (Áp dụng từ ngày 01/01/2025)</h2>
+                                <div class="print-content" v-if="contract.product_id > 100">
+                                    <h2 class="title sub" style="font-size: 24px">NỘI QUY NHẬP HỌC BRICK4KIDz TẠI LOGIC LAB (Áp dụng từ ngày 24/4/2025)</h2>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p><b>I. Quy định chung</b></p>
+                                            <p>1.	Thời lượng chương trình: 01 buổi/tuần hoặc 02 buổi/tuần tùy theo quy định chương trình học.</p> 
+                                            <p>2.	Thời lượng chương trình một tháng :</p>
+                                            <p>+ Đối với lộ trình 04 buổi/tháng. Số buổi học đăng ký 6 tháng: 24 buổi. Số buổi học đăng ký 12 tháng: 48 buổi</p> 
+                                            <p>+ Đối với lộ trình 08 buổi/tháng. Số buổi học đăng ký 6 tháng: 48 buổi. Số buổi học đăng ký 12 tháng: 96 buổi</p>
+                                            <p>3.	Số lượng Học sinh (HS) tối đa/lớp: </p>
+                                            <p>- 10 HS/lớp với chương trình Pre-School</p>
+                                            <p>- 15 HS/lớp với chương trình từ Brick Motor trở lên</p>
+                                            <p>4.	Để đảm bảo hiệu quả giờ học, HS phải đi học đúng giờ. </p>
+                                            <p>5.	Trong trường hợp cần thiết, Phụ Huynh (PH) trao đổi trực tiếp với giáo viên phụ trách lớp hoặc các bộ phận liên quan tại Trung tâm (TT) để được hỗ trợ.</p>
+                                            <p>6.	Thời gian mở lớp mới: hàng tháng, tối thiểu 05 học sinh/lớp sẽ tiến hành khai giảng</p>
+                                            <p>7.	HS được phép vào học giữa chương trình và tính theo số buổi học kể từ ngày bắt đầu. Mỗi bài học là 1 chủ đề riêng rẽ có tính kế thừa và phát triển.</p>
+                                            <p>8.	Sử dụng hình ảnh của HS trong hoạt động truyền thông và quảng cáo của LogicLab.</p>
+                                            <p><b>II. Quy định đặt cọc</b></p>
+                                            <p>1. Số tiền đặt cọc tối thiểu: 20% giá trị gói học phí nhưng không thấp hơn 1.000.000 VNĐ.</p>
+                                            <p>2. Thời gian hoàn thành học phí: 07 ngày (không bao gồm thứ 7, chủ nhật và các ngày nghỉ lễ) theo gói phí tại thời điểm đặt cọc hoặc theo chương trình ưu đãi hiện hành.</p>
+                                            <p>3. Trong vòng 60 ngày, PH được quyền chuyển toàn bộ số tiền đặt cọc ban đầu cho HS khác, HS nhận chuyển cọc là HS mới (chưa đặt cọc/đóng phí tại LogicLab) hoặc là anh/chị/em ruột và được nhận các chương trình ưu đãi tại thời điểm đăng ký mới.</p>
+                                            <p>4. Sau 60 ngày kể từ ngày đặt cọc PH không hoàn thiện học phí thì số tiền đặt cọc tối thiểu sẽ không còn giá trị sử dụng và không được hoàn lại. Nếu số tiền PH đặt cọc vượt quá số tiền cọc tối thiểu, số tiền chênh lệch so với tiền cọc tối thiểu chỉ được phép chuyển cho HS mới.</p>
+                                            <p>5. HS nhận cọc được phép chuyển phí.</p>
+                                            <p>6. LogicLab không áp dụng chính sách rút cọc.</p>
+                                            <p><b>III. Quy định chuyển phí</b></p>
+                                            <p>1.	Với HS chưa đi học: Số học phí được chuyển nhượng bằng toàn bộ số học phí đã nộp trừ 1.000.000 VNĐ (phí chuyển nhượng) và các chi phí ngân hàng phát sinh bao gồm phí quẹt thẻ, phí trả góp... (nếu có).</p>
+                                            <p>2.	Với HS đã đi học: Số học phí được chuyển nhượng bằng số phí còn lại (sau khi tính tròn đầu sách) trừ 1.000.000 VNĐ (phí chuyển nhượng) và các chi phí ngân hàng phát sinh bao gồm phí quẹt thẻ, phí trả góp… (nếu có).</p>
+                                            <p>3.	HS nhận chuyển phí là HS mới (chưa đặt cọc/đóng phí tại LogicLab) hoặc là anh/chị/em ruột. Không áp dụng phí chuyển với PH muốn chuyển học phí cho anh/chị/em ruột của HS đang theo học tại hệ thống TT LogicLab. Chuyển phí chỉ chuyển tiền không chuyển thời lượng học. HS nhận chuyển phí (trừ trường hợp anh/chị/em ruột) sẽ phải đóng thêm tiền cho tròn gói phí và không được nhận chương trình khuyến mãi đặc biệt áp dụng tại thời điểm đăng ký</p>
+                                            <p>4.	HS đã nhận chuyển phí không được chuyển phí cho HS khác</p>
+                                            <p>5.	Học bổng chỉ có giá trị chuyển nhượng với trường hợp anh, chị, em ruột.</p>
+                                            <p>6.	LogicLab không áp dụng chính sách rút phí</p>
+                                            
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p><b>IV. Quy định học bù</b></p>
+                                            <p>1. Điều kiện: PH thông báo nghỉ học tới LogicLab trước 2-4 tiếng trước khi lớp học bắt đầu. </p>
+                                            <p>Số buổi học bù tối đa: 02 buổi/quý. Trường hợp HS nghỉ học nhưng PH không thông báo cho TT, HS sẽ mất phí buổi học đó và không được sắp xếp học bù.</p>
+                                            <p>Trường hợp HS nghỉ ốm và có xác nhận của bệnh viện: HS sẽ được bù tất cả các buổi đã nghỉ.</p>
+                                            <p>2. Sắp xếp lịch học bù: LogicLab sẽ liên hệ với PH để sắp xếp thời gian phù hợp cho HS và Giáo viên, buổi học bù phải trước buổi học tuần tiếp theo. Nếu HS không đến đúng lịch đã thỏa thuận, HS sẽ mất quyền được học bù buổi học đó.</p>
+                                            <p>3. Trong trường hợp xảy ra các sự kiện bất khả kháng (dịch bệnh, thời tiết xấu,...) có công lệnh của Bộ giáo dục hoặc có thông báo nghỉ của LogicLab, TT sẽ tổ chức lớp học bù và thông báo tới PH.</p>
+                                             <p><b>V. Quy định về chuyển lớp, chuyển Trung tâm</b></p>
+                                            <p>1. Chuyển lớp: PH có nhu cầu chuyển lớp liên hệ với TT; TT xem xét tình trạng học tập hiện tại của HS, nếu có lớp phù hợp sẽ sắp xếp chuyển HS sang lớp mới. Số lần chuyển lớp: tối đa 2 lần/năm.</p>
+                                            <p>2. Chuyển TT: PH có nhu cầu chuyển TT làm phiếu đăng ký chuyển TT, yêu cầu chuyển TT được duyệt khi có xác nhận của TT chuyển đi và TT tiếp nhận học sinh. Chuyển TT chỉ áp dụng với các trường hợp HS đã đóng đủ học phí.</p>
+                                            
+                                            <p><b>VI. Quy định Bảo lưu.</b></p>
+                                            <p>1. Thủ tục bảo lưu</p>
+                                            <p>- PH có nhu cầu bảo lưu làm đơn bảo lưu. Đơn bảo lưu chỉ được tính là hợp lệ khi có chữ ký xác nhận của PH.</p>
+                                            <p>- Trong trường hợp PH không hoàn thiện đơn bảo lưu, yêu cầu bảo lưu bị hủy và LogicLab vẫn tiếp tục tính phí cho HS.</p>
+                                            <p>2. Thời hạn bảo lưu:</p>
+                                            <p>- Logic Lab cho phép đăng ký bảo lưu đối với HS mua gói học phí 06 tháng trở lên.</p>
+                                            <p>- Thời gian bảo lưu 02 lần: Bảo lưu giữ chỗ (tối đa 04 buổi và trong 01 tháng); Bảo lưu không giữ chỗ (từ 05 buổi đến tối đa 3 tháng).</p>
+                                            <p>- Trong trường hợp PH muốn gia hạn bảo lưu hoặc có đề xuất khác, PH cần liên hệ TT tối thiểu 7 ngày trước ngày kết thúc bảo lưu để được tư vấn và hỗ trợ. Sau thời gian bảo lưu mà HS không quay lại học, LogicLab sẽ tiếp tục tính số phí còn lại đến hết gói phí. - LogicLab không giới hạn số lần gia hạn bảo lưu, tuy nhiên tại thời điểm HS quay lại học nếu quá độ tuổi học của LogicLab thì sẽ không được LogicLab hoàn trả số học phí còn lại của gói phí.</p>
+                                            <p>- Học sinh quay lại học tính từ đầu tháng mới. </p>
+                                            <p><b>VII. Quy định về đảm bảo an toàn cho học sinh</b></p>
+                                            <p>- Đăng ký người đưa/ đón HS từ buổi học đầu tiên</p>
+                                            <p>- Người đưa/ đón HS phải đưa/đón HS ở địa điểm quy định của TT, đồng thời ký vào Phiếu đón trả HS. PH cần đưa đón con đúng giờ. Thời gian đón con không muộn quá 20 phút từ lúc tan ca học. Trường hợp quá 20 phút sau giờ tan lớp, PH chưa thu xếp đến đón con, PH cần gọi điện thông báo qua hotline của TT</p>
+                                           
+                                           
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-sm-6"></div>
+                                        <div class="col-sm-6 center">
+                                            <span>......., ngày</span><span class="dot-line">......</span><span>tháng </span><span class="dot-line">......</span><span>năm</span><span class="dot-line">........</span>
+                                        </div>
+                                        <div class="col-sm-6 center">
+                                            <p class="center"><b>Thay mặt BLĐ công ty</b></p>
+                                            <p class="center">GĐTT</p>
+                                            <p class="center"><i>(Ký, đóng dấu TT)</i></p>
+                                        </div>
+                                        <div class="col-sm-6 center">
+                                            <p class="center"><b>Xác nhận của PH học sinh</b></p>
+                                            <p class="center">Tôi đã đọc và cam kết thực hiện nội quy nhập học của LogicLab</p>
+                                            <p class="center"><i>(Ký và ghi rõ họ tên)</i></p>
+                                        </div>
+                                    </div>
+                                    <div class="margin150"></div>
+                                </div>
+                                <div class="print-content" v-else>
+                                    <h2 class="title sub" style="font-size: 24px">NỘI QUY NHẬP HỌC LOGICMATH TẠI LOGIC LAB (Áp dụng từ ngày 24/04/2025)</h2>
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <p><b>I. Quy định chung</b></p>
@@ -466,13 +545,14 @@
                                             <p>- Chương trình Ucrea: Khai giảng hàng tháng</p>
                                             <p>- Chương trình Bright IG và Black Hole: Khai giảng hàng quý.</p>
                                             <p>8.	HS vào học giữa chương trình IG, BH được phép vào học từ đầu sách tháng 2,3 của quý.</p>
-                                            <p>8.	Sử dụng hình ảnh của HS trong hoạt động truyền thông trên fanpage của LogicLab.</p>
+                                            <p>9.	Sử dụng hình ảnh của HS trong hoạt động truyền thông, quảng cáo của LogicLab.</p>
                                             <p><b>II. Quy định đặt cọc</b></p>
                                             <p>1. Số tiền đặt cọc tối thiểu: 20% giá trị gói học phí nhưng không thấp hơn 1.000.000 VNĐ.</p>
                                             <p>2. Thời gian hoàn thành học phí: 07 ngày (không bao gồm thứ 7, chủ nhật và các ngày nghỉ lễ) theo gói phí tại thời điểm đặt cọc hoặc theo chương trình ưu đãi hiện hành.</p>
                                             <p>3. Trong vòng 60 ngày, PH được quyền chuyển toàn bộ số tiền đặt cọc ban đầu cho HS khác, HS nhận chuyển cọc là HS mới (chưa đặt cọc/đóng phí tại LogicLab) hoặc là anh/chị/em ruột và được nhận các chương trình ưu đãi tại thời điểm đăng ký mới.</p>
                                             <p>4. Sau 60 ngày kể từ ngày đặt cọc PH không hoàn thiện học phí thì số tiền đặt cọc tối thiểu sẽ không còn giá trị sử dụng và không được hoàn lại. Nếu số tiền PH đặt cọc vượt quá số tiền cọc tối thiểu, số tiền chênh lệch so với tiền cọc tối thiểu chỉ được phép chuyển cho HS mới.</p>
                                             <p>5. HS nhận cọc được phép chuyển phí.</p>
+                                            <p>6. Không áp dụng chính sách rút cọc.</p>
                                             <p><b>III. Quy định chuyển phí</b></p>
                                             <p>1.	Với HS chưa đi học: Số học phí được chuyển nhượng bằng toàn bộ số học phí đã nộp trừ 1.000.000 VNĐ (phí chuyển nhượng) và các chi phí ngân hàng phát sinh bao gồm phí quẹt thẻ, phí trả góp... (nếu có).</p>
                                             <p>2.	Với HS đã đi học: Số học phí được chuyển nhượng bằng số phí còn lại (sau khi tính tròn đầu sách) trừ 1.000.000 VNĐ (phí chuyển nhượng) và các chi phí ngân hàng phát sinh bao gồm phí quẹt thẻ, phí trả góp… (nếu có).</p>
@@ -504,7 +584,7 @@
                                             <p>- Học sinh quay lại học tính từ đầu sách mới. </p>
                                             <p><b>VII. Quy định về đảm bảo an toàn cho học sinh</b></p>
                                             <p>- Đăng ký người đưa/ đón HS từ buổi học đầu tiên</p>
-                                            <p>Người đưa/ đón HS phải đưa/đón HS ở địa điểm quy định của Trung tâm, đồng thời ký vào Phiếu đón trả HS. PH cần đưa đón con đúng giờ. Thời gian đón con không muộn quá 30 phút từ lúc tan ca học. Trường hợp quá 30 phút sau giờ tan lớp, phụ huynh chưa thu xếp đến đón con, phụ huynh cần gọi điện thông báo qua hotline của TT.</p>
+                                            <p>- Người đưa/ đón HS phải đưa/đón HS ở địa điểm quy định của TT, đồng thời ký vào Phiếu đón trả HS. PH cần đưa đón con đúng giờ. Thời gian đón con không muộn quá 20 phút từ lúc tan ca học. Trường hợp quá 20 phút sau giờ tan lớp, PH chưa thu xếp đến đón con, PH cần gọi điện thông báo qua hotline của TT</p>
                                            
                                            
                                         </div>
