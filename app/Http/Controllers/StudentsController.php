@@ -1677,10 +1677,7 @@ class StudentsController extends Controller
             $student->source = $request->source;
             $student->tracking = $request->tracking;
             if ($request->sibling_id) {
-                $request->sibling_id = str_replace('CMS', '', $request->sibling_id);
-                $sib_id = (int)str_replace('LGL', '', $request->sibling_id);
-                $sib_cd = $sib_id - 20000000;
-                $sib = u::first("SELECT s.id FROM students s WHERE id = $sib_cd AND s.status >0");
+                $sib = u::first("SELECT s.id FROM students s WHERE (id = '".$request->sibling_id."' OR crm_id = '".$request->sibling_id."') AND s.status >0");
                 $student->sibling_id = $sib && isset($sib->id) ? $sib->id : 0;
             } else {
                 $student->sibling_id = '';
