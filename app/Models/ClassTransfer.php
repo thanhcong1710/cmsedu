@@ -1276,7 +1276,7 @@ class ClassTransfer extends Model
         $transfer_data = u::calcTransferTuitionFeeV2($st->tuition_fee_id, $tmp_class_transfer->amount_transferred, $st->branch_id, $st->product_id, (int) $total_sessions);
         $tmp_class_transfer->amount_exchange = isset($transfer_data->transfer_amount) ? $transfer_data->transfer_amount:0;
         $tmp_class_transfer->session_transferred = $st->summary_sessions - $done_sessions_total;
-        $tmp_class_transfer->session_exchange = isset($transfer_data->sessions) ? ($st->summary_sessions - $st->real_sessions + $transfer_data->sessions) : ($st->summary_sessions - $done_sessions_total);
+        $tmp_class_transfer->session_exchange = (int)data_get($transfer_data, 'sessions') > 0 ? ($st->summary_sessions - $st->real_sessions + $transfer_data->sessions) : ($st->summary_sessions - $done_sessions_total);
         $tmp_class_transfer->from_branch_id = $from_info->branch_id;
         $tmp_class_transfer->to_branch_id = $from_info->branch_id;
         $from_semester_info = u::first("SELECT product_id FROM semesters WHERE id = $from_info->semester_id");
@@ -1370,7 +1370,7 @@ class ClassTransfer extends Model
         $total_sessions = $done_sessions_total > $st->real_sessions ? 0 : $st->real_sessions - $done_sessions_total;
         $transfer_data = u::calcTransferTuitionFeeV2($st->tuition_fee_id, $amount_transferred, $st->branch_id, $st->product_id, (int) $total_sessions);
         $st->left_sessions = $st->summary_sessions - $done_sessions_total >0 ? $st->summary_sessions - $done_sessions_total : 0 ;
-        $session_exchange = isset($transfer_data->sessions) ? ($st->summary_sessions - $st->real_sessions + $transfer_data->sessions) : ($st->summary_sessions - $done_sessions_total);
+        $session_exchange = (int)data_get($transfer_data, 'sessions') > 0 ? ($st->summary_sessions - $st->real_sessions + $transfer_data->sessions) : ($st->summary_sessions - $done_sessions_total);
         if($total_sessions>0 && $transfer_data->code != APICode::SUCCESS){
           $st->is_valid = 0;
           $st->reason = $transfer_data->message;
