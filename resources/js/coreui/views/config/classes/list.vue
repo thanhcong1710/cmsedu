@@ -1143,21 +1143,23 @@
                 }
                 const maxNumberOfDaysInWeek = parseInt(_.get(this, 'cache.product.max_number_of_days_in_week'))
                 const minNumberOfDaysInWeek = parseInt(_.get(this, 'cache.product.min_number_of_days_in_week'))
-                if((maxNumberOfDaysInWeek || minNumberOfDaysInWeek)&& session.is_trial != 1 && this.session.user.role_id != 999999999 ){
-                    const numberOfWeekdays = parseInt(_.get(session, 'weekdays.length'),10)
-                    if(maxNumberOfDaysInWeek && maxNumberOfDaysInWeek === minNumberOfDaysInWeek && maxNumberOfDaysInWeek !== numberOfWeekdays){
-                        alert(`Bắt buộc phải chọn ${maxNumberOfDaysInWeek} ngày học trong tuần`)
-                        return false
-                    }
-                    if(((maxNumberOfDaysInWeek && numberOfWeekdays > maxNumberOfDaysInWeek)
-                       || (minNumberOfDaysInWeek && numberOfWeekdays < minNumberOfDaysInWeek)) ){
-                        alert(`Số ngày học trong tuần phải lớn hơn hoặc bằng ${minNumberOfDaysInWeek} và nhỏ hơn hoặc bằng ${maxNumberOfDaysInWeek}`)
-                        return false
-                    }
-                }else if(!(session.weekdays.length == 1 || (session.weekdays.length > 1 && session.is_trial == 1)) && this.session.user.role_id != 999999999){
-                    alert("Bắt buộc phải chọn 1 ngày học trong tuần")
-                    return false
-                }else if(session.class_name == ''){
+                // if((maxNumberOfDaysInWeek || minNumberOfDaysInWeek)&& session.is_trial != 1 && this.session.user.role_id != 999999999 ){
+                //     const numberOfWeekdays = parseInt(_.get(session, 'weekdays.length'),10)
+                //     if(maxNumberOfDaysInWeek && maxNumberOfDaysInWeek === minNumberOfDaysInWeek && maxNumberOfDaysInWeek !== numberOfWeekdays){
+                //         alert(`Bắt buộc phải chọn ${maxNumberOfDaysInWeek} ngày học trong tuần`)
+                //         return false
+                //     }
+                //     if(((maxNumberOfDaysInWeek && numberOfWeekdays > maxNumberOfDaysInWeek)
+                //        || (minNumberOfDaysInWeek && numberOfWeekdays < minNumberOfDaysInWeek)) ){
+                //         alert(`Số ngày học trong tuần phải lớn hơn hoặc bằng ${minNumberOfDaysInWeek} và nhỏ hơn hoặc bằng ${maxNumberOfDaysInWeek}`)
+                //         return false
+                //     }
+                // }
+                // else if(!(session.weekdays.length == 1 || (session.weekdays.length > 1 && session.is_trial == 1)) && this.session.user.role_id != 999999999){
+                //     alert("Bắt buộc phải chọn 1 ngày học trong tuần")
+                //     return false
+                // }
+                if(session.class_name == ''){
                     alert("Tên lớp học không để trống")
                     return false
                 }else if(session.room_id == ''){
