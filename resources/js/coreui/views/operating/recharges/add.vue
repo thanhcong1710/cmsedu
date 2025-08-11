@@ -1130,6 +1130,18 @@ export default {
       this.html.dom.disabled.customer_type = false
       this.data.customer_type = 2
       this.html.dom.disabled.tuition_fee = false
+      if (this.product) {
+        u.p('/api/get-start-date-by-product', {
+          product_id : this.product,
+          student_id : this.data.student
+        })
+        .then(response => {
+          if (response.latest_date) {
+            this.data.start_date = this.moment(response.latest_date).add(1, 'days').format('YYYY-MM-DD')
+            this.data.previous_date = this.moment(this.data.start_date).format('YYYY-MM-DD')
+          } 
+        }).catch(e => console.log(e));
+      }
       if (this.receive) {
         u.set(this.html.dom.display, {
           tuition_fee: 'display',

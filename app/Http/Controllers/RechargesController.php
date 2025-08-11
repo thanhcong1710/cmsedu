@@ -1727,4 +1727,41 @@ class RechargesController extends Controller
         'message' => $message,
       ];
     }
+  public function getStartDateByProduct(Request $request){
+    $student_id = data_get($request, 'student_id');
+    $product_id = data_get($request, 'product_id');
+    if($product_id > 100){
+      $cond = " AND product_id > 100";
+    } else {
+      $cond = " AND product_id <= 100";
+    }
+
+    $latest_contract_info = u::first("SELECT 
+                id, 
+                start_date, 
+                end_date, 
+                count_recharge, 
+                COALESCE(enrolment_last_date, enrolment_last_date) latest_date,
+                `status`
+              FROM contracts 
+              WHERE student_id = $student_id 
+                AND count_recharge >= 0 
+                AND status >= 0 $cond
+                ORDER BY count_recharge DESC limit 1");
+    $latest_date = date('Y-m-d');
+    if ($latest_contract_info && isset($latest_contract_info->latest_date)) {
+      $latest_date = $latest_contract_info->latest_date;
+    } elseif (isset($latest_contract_info->end_date) && isset($latest_contract_info->status) && $latest_contract_info->status > 0) {
+      $latest_date = $latest_contract_info->end_date;
+    }
+    $m = $latest_date && $latest_date != '0000-00-00' ? new \Moment\Moment($latest_date) : date('Y-m-d');
+    $latest_date = $latest_date && $latest_date != '0000-00-00' ? $m->format('Y-m-d') : date('Y-m-d');
+    $data = (object)[
+      'latest_date' => $latest_date,
+      'latest_contract' => $latest_contract_info
+    ];
+    $response = new Response();
+    $code = APICode::SUCCESS;
+    return $response->formatResponse($code, $data);
+  }
 }
