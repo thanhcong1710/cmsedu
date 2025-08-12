@@ -22,7 +22,7 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
 
-        $pageSize = $request->pageSize == null?5: $request->pageSize;
+        $pageSize = $request->pageSize == null?20: $request->pageSize;
         $products = Product::paginate($pageSize);
         return response()->json($products);
     }
