@@ -185,7 +185,7 @@ class SettingsController extends Controller
         $role_id = $session->role_id;
         $branches = $session->branches_ids;
         $where = "id > 0 AND status > 0";
-        if ($role_id < 86868686 && !($request->all)) {
+        if ($role_id <= 86868686 && !($request->all)) {
           $where.= " AND id IN ($branches)";
         }
         $query = "SELECT id, `name` FROM branches WHERE $where";
