@@ -179,7 +179,7 @@ const ca = (act = '') => {
 
 const authorized = roleId => {
   const role = isNullOrUndefined(roleId) ? session().user.role_id : roleId
-  return role > RBC;
+  return role >= RBC;
 }
 
 const role = (id = 0) => {
