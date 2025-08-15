@@ -726,7 +726,7 @@
     methods: {
       onlyCSLeader(){
         if (this.checked) return 'hidden'
-        if (u.session().user.role_id == 56 || u.session().user.role_id == 55  || u.session().user.role_id == 999999999 || u.session().user.role_id == 69 || u.session().user.role_id == 99)
+        if (u.session().user.role_id == 56 || u.session().user.role_id == 686868 || u.session().user.role_id == 55  || u.session().user.role_id == 999999999 || u.session().user.role_id == 69 || u.session().user.role_id == 99)
           return ''
         else
           return 'hidden'
@@ -739,7 +739,7 @@
         // if ((u.session().user.role_id == 80 || u.session().user.role_id == 81) && creator_id != u.session().user.id){
         //   return 'hidden'
         // }
-        let roles = [55,56,999999999,68,69,99,81,80]
+        let roles = [55,56,999999999,68,69,99,81,80,686868]
         let uid  = parseInt(u.session().user.role_id)
         if (roles.includes(uid))
         {
