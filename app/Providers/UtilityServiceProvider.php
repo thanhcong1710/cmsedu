@@ -1539,7 +1539,7 @@ class UtilityServiceProvider extends ServiceProvider
                                     $resp->transfer_amount = $transfer_amount;
                                     $resp->single_price = round($new_single_price / 1000) * 1000;
                                 }
-                                if ($same_mode && $transfer_sessions) {
+                                if ($same_mode && $transfer_sessions || 1==1) {
                                     $resp->sessions = $transfer_sessions;
                                 }
                                 $resp->code = APICode::SUCCESS;
