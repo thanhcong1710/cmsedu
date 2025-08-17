@@ -1202,7 +1202,7 @@ class TuitionTransfer extends Model
                                 'om_id' => $om_id,
                                 // 'enrolment_real_sessions' => $data_received_data->left_sessions,
                                 'relation_contract_id' => $data_received_data->transfered_contract_id,
-                                'product_id' => $data_received_data->product_id,
+                                'product_id' => $data_received_data->product_id  ==100 ? 1 : $data_received_data->product_id,
                                 'tuition_fee_id' => $data_received_data->tuition_fee_id,
                                 'program_label' => NULL,
                                 'nick' => $to_student_info->nick,

@@ -430,7 +430,7 @@ class ClassTransfer extends Model
         $newContract->relation_contract_id = NULL;
 
         $newContract->branch_id = $transfer->to_branch_id;
-        $newContract->product_id = $transfer->to_product_id == 100 ? 1 : $transfer->to_product_id;
+        $newContract->product_id = $transfer->to_product_id;
         $newContract->program_id = $transfer->to_program_id;
 
         if ($contract->type) {
