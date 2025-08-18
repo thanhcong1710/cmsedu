@@ -820,7 +820,7 @@
       },
       vshowConvert(){
         if (this.checked) return 'hidden'
-        if (u.session().user.role_id == 56 || u.session().user.role_id == 55 || u.session().user.role_id == 999999999){
+        if (u.session().user.role_id == 56 || u.session().user.role_id == 686868 || u.session().user.role_id == 55 || u.session().user.role_id == 999999999){
           return ''
         }
         else{

@@ -741,7 +741,7 @@ export default {
       let lastDate = new Date(v)
       let currentDate = new Date()
 
-      if (lastDate <= currentDate && (this.session.user.role_id == 55 || this.session.user.role_id == 56))
+      if (lastDate <= currentDate && (this.session.user.role_id == 55 || this.session.user.role_id == 686868 || this.session.user.role_id == 56))
         return true
       else
         return false
