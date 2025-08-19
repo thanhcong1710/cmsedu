@@ -493,7 +493,7 @@ class AuthenticationController extends Controller
       if(APP_ENV === "product"){
         $tmp_link = "https://account.logiclab.vn/#/single-sign-on/";
       }else{
-        $tmp_link = "https://stg-account.logiclab.vn/#/single-sign-on/";
+        $tmp_link = "https://dev-account.logiclab.vn/#/single-sign-on/";
       }
       $data = $tmp_link.$request->users_data->hrm_id."/".md5($key.$request->users_data->hrm_id);
       $code = APICode::SUCCESS;
@@ -502,10 +502,10 @@ class AuthenticationController extends Controller
       return $response->formatResponse($code, $data);
     }
     public function getLoginRedirect(){
-        if(env('APP_ENV', 'staging')=='product'){
+        if(env('APP_ENV')=='product'){
             $data = 'https://account.logiclab.vn/#/login';
         }else{
-            $data = 'https://stg-account.logiclab.vn/#/login';
+            $data = 'https://dev-account.logiclab.vn/#/login';
         }
         $response = new Response;
         $code = APICode::SUCCESS;
