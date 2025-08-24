@@ -102,11 +102,11 @@ class CheckinController extends Controller
         }
         $ec = "SELECT t.`user_id` as ec_id,u.`full_name` as ec_name FROM `term_user_branch` t 
                     JOIN `users` u ON u.id = t.`user_id`
-                    WHERE t.`branch_id` = (SELECT s.branch_id FROM `students` s WHERE s.id = $id) AND (u.status=1 OR u.id =$data->ec_id) AND t.`role_id` IN (68,69,676767)";
+                    WHERE t.`branch_id` = (SELECT s.branch_id FROM `students` s WHERE s.id = $id) AND (u.status=1 OR u.id =".(int)$data->ec_id.") AND t.`role_id` IN (68,69,676767)";
         $dataEc = u::query($ec);
         $cs = "SELECT t.`user_id` as cm_id,u.`full_name` as cm_name FROM `term_user_branch` t 
                     JOIN `users` u ON u.id = t.`user_id`
-                    WHERE t.`branch_id` = (SELECT s.branch_id FROM `students` s WHERE s.id = $id) AND (u.status=1 OR u.id =$data->cm_id) AND t.`role_id` IN (55,56)";
+                    WHERE t.`branch_id` = (SELECT s.branch_id FROM `students` s WHERE s.id = $id) AND (u.status=1 OR u.id =".(int)$data->cm_id.") AND t.`role_id` IN (55,56)";
         $dataCs = u::query($cs);
         return response()->json(['data' =>['student' =>$data,'ec' =>$dataEc,'cs' =>$dataCs]]);
     }
