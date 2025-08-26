@@ -981,3 +981,5 @@ Route::get('update_api_lms/{type}', 'LMSAPIController@updateLms');
 Route::get('lms/get_list_student', 'LMSAPIController@getListStudent');
 
 Route::post('/get-start-date-by-product','RechargesController@getStartDateByProduct')->middleware('Authentication');
+
+Route::post('/students/get-attendance','StudentsController@getAttendance')->middleware('Authentication');

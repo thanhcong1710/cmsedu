@@ -2370,4 +2370,21 @@ class StudentsController extends Controller
         u::query("UPDATE students SET file_kt='$tmp' WHERE id=$student_id");
         return $response->formatResponse($code, "ok");
     }
+
+    public function getAttendance (Request $request){
+        $student_id = $request->student_id;
+        $type_product = $request->type_product;
+        $cond = "";
+        if ($type_product ==1){
+            $cond  = " AND a.product_id < 100";
+        }elseif($type_product ==2){
+            $cond  = " AND a.product_id > 100";
+        }
+        $code = APICode::SUCCESS;
+        $response = new Response();
+        $attendances= u::query("SELECT a.attendance_date,(SELECT cls_name FROM classes WHERE id=a.class_id) AS cls_name,
+                        a.note,a.status,(SELECT CONCAT(full_name,hrm_id) FROM users WHERE id=a.creator_id) AS creator_name     
+                    FROM attendances AS a WHERE a.student_id=$student_id $cond ORDER BY a.attendance_date DESC");
+        return $response->formatResponse($code, $attendances);
+    }
 }

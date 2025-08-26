@@ -89,7 +89,7 @@
                         <taball :list="tabs.all" />
                       </div>
                       <div :class="html.dom.tab.current === 12 ? 'active' : ''" class="tab-pane tab-content-detail" id="tab-12" role="tabpanel">
-                        <tabattendances :list="tabs.attendances" />
+                        <tabattendances :data="student" :list="tabs.attendances" />
                       </div>
                       <div :class="html.dom.tab.current === 13 ? 'active' : ''" class="tab-pane tab-content-detail" id="tab-13" role="tabpanel">
                         <tabupload :list="tabs.upload" />

@@ -5,6 +5,16 @@
         <i class="fa fa-calendar-check-o"></i> <b class="uppercase">Lịch sử điểm danh</b>
       </div>
       <div class="panel">
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="control-label">Loại khóa học</label>
+              <select v-model="type_product" class="form-control" @change="loadAttendance">
+                <option :value="0">Tất cả</option>
+                <option :value="1">Logic Math</option>
+                <option :value="2">Bricks4kidz</option>
+              </select>
+          </div>
+        </div>
         <div class="table-responsive scrollable">
           <table class="table table-bordered table-striped apax-table">
             <thead>
@@ -18,7 +28,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in list" :key="index">
+              <tr v-for="(item, index) in list_student_attendance" :key="index">
                 <td>{{index+1}}</td>
                 <td>{{ item.attendance_date }} </td>
                 <td>{{ item.cls_name }}</td>
@@ -35,7 +45,8 @@
 </template>
 
 <script>
-  import u from '../../utilities/utility'
+  import { data } from 'jquery';
+import u from '../../utilities/utility'
 
   export default {
     props: {
@@ -46,18 +57,37 @@
       tuition: {
         type: Object,
         default: null
+      },
+      data: {
+        type: Object,
+        default: null
       }
     },
     watch: {
-      student(data) {
-
+      data(data) {
+        this.loadAttendance();
       }
     },
     data() {
-      return {}
+      return {
+        type_product: 0,
+        list_student_attendance: [],
+      }
     },
-    created() {},
-    methods: {},
+    created() {
+      
+    },
+    methods: {
+      loadAttendance(){
+        u.p(`/api/students/get-attendance`,{ 
+          student_id: this.data.id,
+          type_product: this.type_product
+        }).then(response => {
+          this.list_student_attendance = response;
+          console.log(this.list_student_attendance);
+        })
+      }
+    },
     components: {},
     filters:{
       genStatusAttendance(status){
