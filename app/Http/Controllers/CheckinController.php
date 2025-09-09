@@ -1086,7 +1086,7 @@ class CheckinController extends Controller
             u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
             $region_id = 0;
             $zone_id = 0;
-            $ec_info = u::first("SELECT id,(SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1) AS role_id FROM users AS u WHERE u.hrm_id='$request->ec_hrm'");
+            $ec_info = u::first("SELECT id,(SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1 LIMIT 1) AS role_id FROM users AS u WHERE u.hrm_id='$request->ec_hrm'");
             $cs_info = u::first("SELECT user_id FROM term_user_branch WHERE branch_id=$request->branch_id AND role_id=56 AND status=1");
             $ec_id = $ec_info ? (int) $ec_info->id : 0 ;
             $cs_id = $cs_info ? (int) $cs_info->user_id : 0;
@@ -1125,11 +1125,11 @@ class CheckinController extends Controller
     }
     public function updateCheckinByLead(Request $request){
         $student = Student::find($request->crm_student_id);
-        $creator_info = u::first("SELECT u.id, (SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1) AS role_id,
+        $creator_info = u::first("SELECT u.id, (SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1 LIMIT 1) AS role_id,
                 (SELECT branch_id FROM term_user_branch WHERE user_id=u.id AND `status`= 1 LIMIT 1) AS branch_id 
             FROM users AS u WHERE u.hrm_id='$request->updator_hrm'");
         if(!$creator_info){
-            $creator_info = u::first("SELECT u.id, (SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1) AS role_id, 
+            $creator_info = u::first("SELECT u.id, (SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1 LIMIT 1) AS role_id, 
                     (SELECT branch_id FROM term_user_branch WHERE user_id=u.id AND `status`= 1 LIMIT 1) AS branch_id
                 FROM users AS u WHERE u.hrm_id='$student->creator_id'");
         }
@@ -1175,7 +1175,7 @@ class CheckinController extends Controller
     }
     public function updateStudentInfoByLead(Request $request)
     {
-        $creator_info = u::first("SELECT u.id, (SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1) AS role_id FROM users AS u WHERE u.hrm_id='$request->updator_hrm'");
+        $creator_info = u::first("SELECT u.id, (SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1  LIMIT 1) AS role_id FROM users AS u WHERE u.hrm_id='$request->updator_hrm'");
         $uid = $creator_info ? $creator_info->id : 0;
         $old_student = u::first("SELECT s.* FROM students s WHERE s.id = $request->crm_id AND s.status >0");
         $student = Student::find($request->crm_id);
@@ -1217,7 +1217,7 @@ class CheckinController extends Controller
     {
         $list_student = explode(',',$request->list_student_crm);
         foreach($list_student AS $student_id){
-            $creator_info = u::first("SELECT u.id, (SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1) AS role_id FROM users AS u WHERE u.hrm_id='$request->updator_hrm'");
+            $creator_info = u::first("SELECT u.id, (SELECT role_id FROM term_user_branch WHERE user_id=u.id AND `status`=1  LIMIT 1) AS role_id FROM users AS u WHERE u.hrm_id='$request->updator_hrm'");
             $uid = $creator_info ? $creator_info->id : 0;
             $old_student = u::first("SELECT s.* FROM students s WHERE s.id = $student_id AND s.status >0");
             $student = Student::find($student_id);
