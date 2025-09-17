@@ -682,11 +682,10 @@ class TuitionTransfer extends Model
                     $receiver_contract->transfered_contract_id = $contract->contract_id;
                     $receiver_contract->reservable_sessions = $contract->reservable_sessions;
                     $receiver_contract->reserved_sessions = $contract->reserved_sessions;
-                    $receiver_contract->product_id = isset($transfer_to_contract->product_id) ? $transfer_to_contract->product_id: $sibling_product;
+                    $receiver_contract->product_id = isset($transfer_to_contract->product_id) && $transfer_to_contract->product_id!=100 ? $transfer_to_contract->product_id: $sibling_product;
                     $receiver_contract->program_id = isset($transfer_to_contract->program_id) ? $transfer_to_contract->program_id : 0;
                     $sibling_product_info = u::first("SELECT `name` FROM products WHERE id=$sibling_product");
-                    $receiver_contract->product_name = isset($transfer_to_contract->product_name)? $transfer_to_contract->product_name :($sibling_product_info?$sibling_product_info->name:'');
-
+                    $receiver_contract->product_name = isset($transfer_to_contract->product_name) && $transfer_to_contract->product_id!=100 ? $transfer_to_contract->product_name :($sibling_product_info?$sibling_product_info->name:'');
                     if ($i == 0 && $contract->class_id) {
                         $done_sessions_info = u::calSessions($contract->start_date, date('Y-m-d', strtotime($transfer_date . " -1 days")), $merged_holi_day, $class_days);
                         $tmp_done_sessions_info = u::calSessions($contract->start_date, date('Y-m-d', strtotime("-1 days")), $merged_holi_day, $class_days);
