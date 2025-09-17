@@ -56,11 +56,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('jobsSendSms:command')->cron('* * * * *');
         $schedule->command('processdata:command')->dailyAt('2:00'); 
         $schedule->command('sendcheckin:command')->dailyAt('14:00'); 
-        $schedule->command('sendMailAttendances:command')->dailyAt('10:00'); 
-        $schedule->command('sendMailCreateContractSalehub:command')->dailyAt('8:00'); 
-        $schedule->command('sendMailCreateContractTransferCheckin:command')->dailyAt('22:00'); 
-        $schedule->command('sendMailRenew:command')->cron('0 8 1 * *');
-        $schedule->command('sendCheckinSaleHub:command')->cron('0 * * * *');
+        // $schedule->command('sendMailAttendances:command')->dailyAt('10:00'); 
+        // $schedule->command('sendMailCreateContractSalehub:command')->dailyAt('8:00'); 
+        // $schedule->command('sendMailCreateContractTransferCheckin:command')->dailyAt('22:00'); 
+        // $schedule->command('sendMailRenew:command')->cron('0 8 1 * *');
+        // $schedule->command('sendCheckinSaleHub:command')->cron('0 * * * *');
     }
 
     /**

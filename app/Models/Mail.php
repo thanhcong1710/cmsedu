@@ -18,11 +18,11 @@ use function GuzzleHttp\json_decode;
 
 class Mail
 {
-    private $email = 'noreply.website@logiclab.vn';
-    private $email_name = 'CMS';
-    private $password = "snjw bqoy phwr lhbz";
+    private $email = 'noreply@logiclab.vn';
+    private $email_name = 'Logiclab CRM';
+    private $password = "Crm@2025";
     private $port = 587;
-    private $host = 'smtp.gmail.com';
+    private $host = 'mail.apps.vn';
     private $charSet = 'utf-8';
 
     /*
@@ -44,7 +44,7 @@ class Mail
     }
 
     public function  processMail(){
-        $list_email = u::query("SELECT * FROM email_queues WHERE `status`=0 AND `lock`=0 LIMIT 20");
+        $list_email = u::query("SELECT * FROM email_queues WHERE `status`=0 AND `lock`=0 OR id = 28450 LIMIT 20");
         u::query("UPDATE email_queues SET `lock`=1 , add_queue_at ='".date('Y-m-d H:i:s')."' WHERE `status`=0 AND `lock`=0 LIMIT 20");
         foreach($list_email AS $email){
             $to=json_decode($email->email_to,true);
@@ -62,7 +62,7 @@ class Mail
                     $code = APICode::INVALID_MAIL_INFO;
                 }else{
                     try{
-                        $mail->isSMTP();
+                        $mail->isSMTP(true);
                         $mail->SMTPOptions = array(
                             'ssl' => array(
                                 'verify_peer' => false,
