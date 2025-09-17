@@ -44,7 +44,7 @@ class Mail
     }
 
     public function  processMail(){
-        $list_email = u::query("SELECT * FROM email_queues WHERE `status`=0 AND `lock`=0 OR id = 28450 LIMIT 20");
+        $list_email = u::query("SELECT * FROM email_queues WHERE `status`=0 AND `lock`=0 LIMIT 20");
         u::query("UPDATE email_queues SET `lock`=1 , add_queue_at ='".date('Y-m-d H:i:s')."' WHERE `status`=0 AND `lock`=0 LIMIT 20");
         foreach($list_email AS $email){
             $to=json_decode($email->email_to,true);
