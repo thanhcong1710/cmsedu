@@ -288,25 +288,25 @@ class TeachersController extends Controller
         $lsmAPI = new LMSAPIController();
         $lsmAPI->createTeacherLMS($teacher->id);
 
-        $mail = new Mail();
-        $to = array('address' => $request->email, 'name' => $request->ins_name);
-        $subject = "[CRM] THÔNG TIN TÀI KHOẢN";
-        $body = "<p>Kính gửi: $request->ins_name</p>
-        <p>CMS gửi tới anh/chị thông tin tài khoản:</p>
-        <br>
-        <p>1. Tài khoản CRM:</p>
-        <p>- Tài khoản đăng nhập: <b>$user->hrm_id</b></p>
-        <p>- Mật khẩu: <b>@12345678</b></p>
-        <p>- Link đăng nhập: <a href='https://account.logiclab.vn'>https://account.logiclab.vn</a></p> 
-        <p> Link hướng dẫn: <a href='https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing'>https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing</a></p>
-        <br>
-        <p>2. Tài khoản LMS:</p>
-        <p>- Tài khoảng đăng nhập: <b>$user->username</b></p>
-        <p>- Mật khẩu: <b>@12345678</b></p>
-        <p>- Link đăng nhập: <a href='https://lms-vn.cmsedu.net'>https://lms-vn.cmsedu.net</a></p>
-        <br>
-        <p>Trân trọng cảm ơn!</p>";
-        $mail->sendSingleMail($to, $subject, $body);
+        // $mail = new Mail();
+        // $to = array('address' => $request->email, 'name' => $request->ins_name);
+        // $subject = "[CRM] THÔNG TIN TÀI KHOẢN";
+        // $body = "<p>Kính gửi: $request->ins_name</p>
+        // <p>CMS gửi tới anh/chị thông tin tài khoản:</p>
+        // <br>
+        // <p>1. Tài khoản CRM:</p>
+        // <p>- Tài khoản đăng nhập: <b>$user->hrm_id</b></p>
+        // <p>- Mật khẩu: <b>@12345678</b></p>
+        // <p>- Link đăng nhập: <a href='https://account.logiclab.vn'>https://account.logiclab.vn</a></p> 
+        // <p> Link hướng dẫn: <a href='https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing'>https://drive.google.com/drive/folders/1XO-3nVOd-4FrYCh_0xkFV7MK8I1IXPDt?usp=sharing</a></p>
+        // <br>
+        // <p>2. Tài khoản LMS:</p>
+        // <p>- Tài khoảng đăng nhập: <b>$user->username</b></p>
+        // <p>- Mật khẩu: <b>@12345678</b></p>
+        // <p>- Link đăng nhập: <a href='https://lms-vn.cmsedu.net'>https://lms-vn.cmsedu.net</a></p>
+        // <br>
+        // <p>Trân trọng cảm ơn!</p>";
+        // $mail->sendSingleMail($to, $subject, $body);
         
         return response()->json($teacher);
     }
