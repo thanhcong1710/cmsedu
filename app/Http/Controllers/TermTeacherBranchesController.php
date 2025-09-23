@@ -191,7 +191,7 @@ class TermTeacherBranchesController extends Controller
               </head>
               <body>
               <strong>Dear : Mr/ Ms ".strtoupper($termTeacher->teacher->ins_name)."</strong><br/><br/>
-              <strong>CRM Login Details <a href='http://crm.cmsedu.vn/'>http://crm.cmsedu.vn/</a></strong><br/><br/>
+              <strong>CRM Login Details <a href='https://crm.logiclab.vn/'>https://crm.logiclab.vn/</a></strong><br/><br/>
               <i>Username:</i> <b>".strtoupper($userNameTmp[0])."</b><br/>
               <i>Password:</i> <b>@12345678</b><br/><br/>
               <i>APAX English Support Mail:</i> <a href='mailto:erp.cmsedu.vn'>erp.cmsedu.vn</a><br/><br/>

@@ -239,7 +239,7 @@ class PendingsController extends Controller
                     
                     <p>Anh/ Chị vui lòng đăng nhập vào hệ thống CRM để phê duyệt yêu cầu.</p>
                     
-                    <p>Hoặc truy cập link: <a href='http://crm.cmsedu.vn'>crm.cmsedu.vn</a> để xem chi tiết yêu cầu</p>
+                    <p>Hoặc truy cập link: <a href='https://crm.logiclab.vn'>crm.logiclab.vn</a> để xem chi tiết yêu cầu</p>
                     
                     <p>Trân trọng cảm ơn!</p>
                 ";

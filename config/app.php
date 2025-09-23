@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://crm.cmsedu.vn'),
+    'url' => env('APP_URL', 'https://crm.logiclab.vn'),
 
     /*
     |--------------------------------------------------------------------------

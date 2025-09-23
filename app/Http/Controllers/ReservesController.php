@@ -788,7 +788,7 @@ class ReservesController extends Controller
               <p>Hệ thống CRM - CMS xin thông báo: Anh/chị đã nhận được yêu cầu <strong>bảo lưu ngoài quy định</strong> của bé <strong>$student->name</strong> - [$student->crm_id] - [$student->branch_name]</p>
               <p>Lý do bảo lưu: $reserve_info->note</p>
               <p>Anh/ Chị vui lòng đăng nhập vào hệ thống CRM - CMS để phê duyệt yêu cầu.</p>
-              <p>Hoặc truy cập link: <a href='https://crm.cmsedu.vn'>crm.cmsedu.vn</a> để xem chi tiết yêu cầu và phản hồi trung tâm</p>
+              <p>Hoặc truy cập link: <a href='https://crm.logiclab.vn'>crm.logiclab.vn</a> để xem chi tiết yêu cầu và phản hồi trung tâm</p>
               <p>Trân trọng cảm ơn!</p>";
     $arr_file_attack = explode('|*|',$reserve_info->attached_file);
     $tmp_file = array();

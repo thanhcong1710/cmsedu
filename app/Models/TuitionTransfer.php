@@ -1436,7 +1436,7 @@ class TuitionTransfer extends Model
                         <p>Hệ thống CRM xin thông báo: Anh/chị đã nhận được yêu cầu <strong>chuyển phí</strong> của bé <strong>$transfer_info->from_student_name</strong> $transfer_info->from_branch_name chuyển phí sang bé <strong>$transfer_info->to_student_name</strong> $transfer_info->to_branch_name</p>
                         <p>Nội dung: $transfer_info->note</p>
                         <p>Anh/ Chị vui lòng đăng nhập vào hệ thống CRM để phê duyệt yêu cầu.</p>
-                        <p>Hoặc truy cập link: <a href='https://crm.cmsedu.vn/'>crm.cmsedu.vn</a> để xem chi tiết yêu cầu</p>
+                        <p>Hoặc truy cập link: <a href='https://crm.logiclab.vn/'>crm.logiclab.vn</a> để xem chi tiết yêu cầu</p>
                         <p>Trân trọng cảm ơn!</p>
                     ";
             $mail->sendSingleMail($to, $subject, $body,[$arr_mail_from->cskh]);
@@ -1447,7 +1447,7 @@ class TuitionTransfer extends Model
             $body = "<p>Kính gửi: Phòng CS</p>
                             <p>Hệ thống CRM xin thông báo: Yêu cầu <strong>chuyển phí</strong> của bé <strong>$transfer_info->from_student_name</strong> $transfer_info->from_branch_name chuyển phí sang bé <strong>$transfer_info->to_student_name</strong> $transfer_info->to_branch_name đã bị từ chối phê duyệt!</p>
                             <p>Lý do từ chối: $comment</p>
-                            <p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.cmsedu.vn/'>crm.cmsedu.vn</a> để xem chi tiết.</p>
+                            <p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.logiclab.vn/'>crm.logiclab.vn</a> để xem chi tiết.</p>
                 <p>Trân trọng cảm ơn!</p>";
             $mail->sendSingleMail($to, $subject, $body,[$arr_mail_from->gdtt,$arr_mail_from->cskh]);
         }elseif($transfer_info->status==4){
@@ -1457,7 +1457,7 @@ class TuitionTransfer extends Model
                 <p>Hệ thống CRM xin thông báo: Anh/chị đã nhận được yêu cầu <strong>chuyển phí</strong> của bé <strong>$transfer_info->from_student_name</strong> $transfer_info->from_branch_name chuyển phí sang bé <strong>$transfer_info->to_student_name</strong> $transfer_info->to_branch_name</p>
                 <p>Nội dung: $transfer_info->note</p>
                 <p>Anh/ Chị vui lòng đăng nhập vào hệ thống CRM để phê duyệt yêu cầu.</p>
-                <p>Hoặc truy cập link: <a href='https://crm.cmsedu.vn/'>crm.cmsedu.vn</a> để xem chi tiết yêu cầu</p>
+                <p>Hoặc truy cập link: <a href='https://crm.logiclab.vn/'>crm.logiclab.vn</a> để xem chi tiết yêu cầu</p>
                 <p>Trân trọng cảm ơn!</p>";
             $mail->sendSingleMail($to, $subject, $body);
         }elseif($transfer_info->status==3){
@@ -1467,7 +1467,7 @@ class TuitionTransfer extends Model
             $body = "<p>Kính gửi:  GĐTT $transfer_info->from_branch_name</p>
                 <p>Hệ thống CRM xin thông báo: Yêu cầu <strong>chuyển phí</strong> của bé <strong>$transfer_info->from_student_name</strong> $transfer_info->from_branch_name chuyển phí sang bé <strong>$transfer_info->to_student_name</strong> $transfer_info->to_branch_name đã bị từ chối phê duyệt!</p>
                 <p>Lý do từ chối: $comment</p>
-                <p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.cmsedu.vn/'>crm.cmsedu.vn</a> để xem chi tiết.</p>
+                <p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.logiclab.vn/'>crm.logiclab.vn</a> để xem chi tiết.</p>
                 <p>Trân trọng cảm ơn!</p>";
             $mail->sendSingleMail($to, $subject, $body,['nnquang@logiclab.vn',$arr_mail_from->cskh,$transfer_info->creator_email]);
         }elseif($transfer_info->status==6){
@@ -1475,7 +1475,7 @@ class TuitionTransfer extends Model
             $subject = "[CRM] Kế toán HO đã đồng ý tiếp nhận yêu cầu chuyển phí của bé $transfer_info->from_student_name";
             $body = "<p>Kính gửi: GĐTT $transfer_info->from_branch_name</p>
                     <p>Hệ thống CRM xin thông báo: Yêu cầu <strong>chuyển phí</strong> của bé <strong>$transfer_info->from_student_name</strong> $transfer_info->from_branch_name chuyển phí sang bé <strong>$transfer_info->to_student_name</strong> $transfer_info->to_branch_name đã được tiếp nhận và phê duyệt!</p>
-                    <p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.cmsedu.vn/'>crm.cmsedu.vn</a> để xem chi tiết.</p>
+                    <p>Anh / Chị vui lòng đăng nhập vào hệ thống CRM tại địa chỉ: <a href='https://crm.logiclab.vn/'>crm.logiclab.vn</a> để xem chi tiết.</p>
                 <p>Trân trọng cảm ơn!</p>";
             $mail->sendSingleMail($to, $subject, $body,['nnquang@logiclab.vn',$arr_mail_from->cskh,$transfer_info->creator_email]);
         }

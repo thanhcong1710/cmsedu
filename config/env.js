@@ -22,6 +22,6 @@ export default {
   DOC_TYPE: ['pdf', 'doc', 'docx', 'svg', 'xml', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'],
   APP_NAME: 'Ada',
   APP_ENV: 'local',
-  APP_URL: 'http://crm.cmsedu.vn',
+  APP_URL: 'https://crm.logiclab.vn',
   LMS_STF_ID: 2809
 }

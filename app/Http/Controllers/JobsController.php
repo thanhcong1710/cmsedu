@@ -367,7 +367,7 @@ class JobsController extends Controller
       case 1:
         $result =array(
           'cskh'=>'cskh.hdt@logiclab.vn',
-          'gdtt'=>'anhdang.hdt@logiclab.vn',
+          'gdtt'=>'hanp@hmail.vn',
           'ecl'=>'',
           'ecl_1'=> ''
         );
@@ -375,7 +375,7 @@ class JobsController extends Controller
       case 4:
         $result =array(
           'cskh'=>'cskh.tc@logiclab.vn',
-          'gdtt'=>'haihanguyen.tc@logic.vn',
+          'gdtt'=>'dndiem@logiclab.vn',
           'ecl'=>'',
           'ecl_1'=> ''
         );
@@ -391,7 +391,7 @@ class JobsController extends Controller
       case 6:
         $result =array(
           'cskh'=>'cskh.tk@logiclab.vn',
-          'gdtt'=>'',
+          'gdtt'=>'hanp@hmail.vn',
           'ecl'=>'',
           'ecl_1'=> ''
         );
@@ -399,11 +399,19 @@ class JobsController extends Controller
       case 9:
         $result =array(
         'cskh'=>'cskh.nvc@logiclab.vn',
-        'gdtt'=>'bichphan.nvc@logiclab.vn',
+        'gdtt'=>'thaotran.nvc@logiclab.vn',
         'ecl'=>'',
         'ecl_1'=> ''
         );
         break;
+      case 19:
+        $result =array(
+        'cskh'=>'cskh.hn@logiclab.vn',
+        'gdtt'=>'nampv@logiclab.vn',
+        'ecl'=>'',
+        'ecl_1'=> ''
+        );
+        break;  
       default:
         $result =array(
           'cskh'=>'',
