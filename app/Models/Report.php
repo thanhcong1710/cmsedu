@@ -4515,8 +4515,8 @@ class Report extends Model
                     FROM
                         students AS s 
                         LEFT JOIN term_student_user AS tsu ON tsu.student_id=s.id AND tsu.status=1
-                        LEFT JOIN users AS ue ON u.id = tsu.ec_id
-                        LEFT JOIN users AS uc ON u.id = tsu.cm_id
+                        LEFT JOIN users AS ue ON ue.id = tsu.ec_id
+                        LEFT JOIN users AS uc ON uc.id = tsu.cm_id
                         LEFT JOIN branches AS b ON b.id = tsu.branch_id
                     WHERE
                         $where AND (SELECT count(id) FROM contracts WHERE student_id =s.id AND $cond) >0

@@ -9337,7 +9337,7 @@ class ExelController extends Controller
         if ($session = $request->users_data) {
            
             $p = r::params($request, $session);
-            $query = r::exportLgl01( $p,$request, 0, 1);
+            $query = r::queryReportLgl01( $p,$request, 0, 1);
             $students = u::query($query);
             
             $spreadsheet = new Spreadsheet();
