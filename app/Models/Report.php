@@ -4473,4 +4473,59 @@ class Report extends Model
         }
         return $resp;
     }
+
+    public static function queryReportLgl01($p, $request,$total = 0, $unlimit = false) {
+        $resp = "";
+        $where = " 1 ";
+        if ($p->s != '') {
+            $where .= " AND tsu.branch_id in ($p->s) ";
+        }
+        if($request->type_product){
+            $cond = " product_id >100";
+        } else{
+            $cond = " product_id <100";
+        }
+        if($request->from_date !=''){
+            $where .= " AND (SELECT enrolment_last_date FROM contracts WHERE student_id =s.id AND $cond ORDER BY id DESC LIMIT 1) >= '$request->from_date' ";
+        }
+        if($request->to_date !=''){
+            $where .= " AND (SELECT enrolment_last_date FROM contracts WHERE student_id =s.id AND $cond ORDER BY id DESC LIMIT 1) <= '$request->to_date' ";
+        }
+        if($request->keyword !=''){
+            $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%' OR s.gud_mobile_1 LIKE '%$request->keyword%' )";
+        }
+        if ($total) {
+            $resp = "SELECT
+                        count(DISTINCT s.id) as total
+                    FROM
+                        students AS s 
+                        LEFT JOIN term_student_user AS tsu ON tsu.student_id=s.id AND tsu.status=1
+                    WHERE
+                        $where AND (SELECT count(id) FROM contracts WHERE student_id =s.id AND $cond) >0
+                        AND (SELECT count(id) FROM contracts WHERE student_id =s.id AND $cond AND status !=7) =0 
+            ";
+        } else {
+            $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
+            $resp = "SELECT
+                        s.id, s.crm_id, s.name AS student_name, b.name AS branch_name, CONCAT(ue.full_name,' - ',ue.hrm_id) AS ec_name,
+                        CONCAT(uc.full_name,' - ',uc.hrm_id) AS cm_name,
+                        (SELECT enrolment_last_date FROM contracts WHERE student_id =s.id AND $cond ORDER BY id DESC LIMIT 1) AS enrolment_last_date,
+                        (SELECT p.name FROM contracts AS c LEFT JOIN products AS p ON p.id=c.product_id 
+                            WHERE c.student_id =s.id AND $cond ORDER BY c.id DESC LIMIT 1) AS product_name
+                    FROM
+                        students AS s 
+                        LEFT JOIN term_student_user AS tsu ON tsu.student_id=s.id AND tsu.status=1
+                        LEFT JOIN users AS ue ON u.id = tsu.ec_id
+                        LEFT JOIN users AS uc ON u.id = tsu.cm_id
+                        LEFT JOIN branches AS b ON b.id = tsu.branch_id
+                    WHERE
+                        $where AND (SELECT count(id) FROM contracts WHERE student_id =s.id AND $cond) >0
+                        AND (SELECT count(id) FROM contracts WHERE student_id =s.id AND $cond AND status !=7) =0
+                    ORDER BY s.id DESC";
+            if (!$unlimit) {
+                $resp.= " $lim";
+            }
+        }
+        return $resp;
+    }
 }

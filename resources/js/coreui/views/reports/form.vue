@@ -68,6 +68,9 @@
                             <p class="bc-font" v-if="showBCr13 == true">
                                 <router-link to="/reports/r13" >17. BÁO CÁO CONFIRM</router-link>
                             </p>
+                            <p class="bc-font" v-if="showBCr14 == true">
+                                <router-link to="/reports/lgl01" >18. BÁO CÁO HỌC SINH HẾT PHÍ</router-link>
+                            </p>
                         </div>
                     </b-card>
                 </b-col>
@@ -101,6 +104,7 @@
                 showBCr11:false,
                 showBCr12: false,
                 showBCr13: false,
+                showBCr14: false,
             }
         },
         created() {
@@ -191,6 +195,9 @@
                 }
                 if([55,56,676767, 686868,85858585, 7676767,7777777,'999999999'].indexOf(role)!= -1){
                     this.showBCr13 = true
+                }
+                if(role == '999999999'){
+                    this.showBCr14= true
                 }
             },
         }

@@ -2311,4 +2311,18 @@ class ReportsController extends Controller
 
         return $response->formatResponse($code, $data);
     }
+
+    public function reportLgl01(Request $request) {
+        $data = null;
+        $code = APICode::PERMISSION_DENIED;
+        $response = new Response();
+        if ($session = $request->users_data) {
+            $p = Report::params($request, $session);
+            $code = APICode::SUCCESS;
+            $query = Report::queryReportLgl01( $p,$request);
+            $quary = Report::queryReportLgl01($p,$request, 1);
+            $data = Report::making($query, $quary, $p->p, $p->l);
+        }
+        return $response->formatResponse($code, $data);
+    }
 }

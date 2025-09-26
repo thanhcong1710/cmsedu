@@ -9332,4 +9332,92 @@ class ExelController extends Controller
         }
         exit;
     }
+
+    public function exportLgl01(Request $request) {
+        if ($session = $request->users_data) {
+           
+            $p = r::params($request, $session);
+            $query = r::exportLgl01( $p,$request, 0, 1);
+            $students = u::query($query);
+            
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->mergeCells('A1:H1');
+            $sheet->mergeCells('A2:H2');
+            $sheet->mergeCells('A3:H3');
+            $sheet->mergeCells('A4:H4');
+            $sheet->setCellValue('A1', 'CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB');
+            $sheet->setCellValue('A2', 'BÁO CÁO HỌC SINH HẾT PHÍ');
+            $sheet->getRowDimension('1')->setRowHeight(36);
+            $sheet->getRowDimension('2')->setRowHeight(50);
+            $sheet->getRowDimension('3')->setRowHeight(20);
+            $sheet->getRowDimension('4')->setRowHeight(20);
+            $sheet->getRowDimension('5')->setRowHeight(30);
+
+            $sheet->setCellValue('A5', 'STT');
+            $sheet->setCellValue('B5', 'Trung tâm');
+            $sheet->setCellValue('C5', 'Mã HS');
+            $sheet->setCellValue('D5', 'Tên HS');
+            $sheet->setCellValue('E5', 'Sản Phẩm');
+            $sheet->setCellValue('F5', 'CM');
+            $sheet->setCellValue('G5', 'EC');
+            $sheet->setCellValue('H5', 'Ngày hết phí gần nhất');
+            
+            $sheet->getColumnDimension('A')->setWidth(5);
+            $sheet->getColumnDimension('B')->setWidth(30);
+            $sheet->getColumnDimension('C')->setWidth(30);
+            $sheet->getColumnDimension('D')->setWidth(30);
+            $sheet->getColumnDimension('E')->setWidth(30);
+            $sheet->getColumnDimension('F')->setWidth(30);
+            $sheet->getColumnDimension('G')->setWidth(30);
+            $sheet->getColumnDimension('H')->setWidth(30);
+            
+            ProcessExcel::styleCells($spreadsheet, "A1:H1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
+            ProcessExcel::styleCells($spreadsheet, "A2:H2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "A3:H3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
+            ProcessExcel::styleCells($spreadsheet, "A4:H4", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
+
+            ProcessExcel::styleCells($spreadsheet, "A5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "B5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "C5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "D5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "E5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "F5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "G5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "H5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            
+            for ($i = 0; $i < count($students) ; $i++) {
+                $x = $i + 6;
+                $sheet->setCellValue('A' . $x, $i + 1);
+                $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
+                $sheet->setCellValue('C' . $x, $students[$i]->crm_id);
+                $sheet->setCellValue('D' . $x, $students[$i]->student_name);
+                $sheet->setCellValue('E' . $x, $students[$i]->product_name);
+                $sheet->setCellValue('F' . $x, $students[$i]->cm_name);
+                $sheet->setCellValue('G' . $x, $students[$i]->ec_name);
+                $sheet->setCellValue('H' . $x, $students[$i]->enrolment_last_date);
+                $sheet->getRowDimension($x)->setRowHeight(23);
+                ProcessExcel::styleCells($spreadsheet, "A$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "B$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "C$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "D$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "E$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "F$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "G$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "H$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+            }
+            $writer = new Xlsx($spreadsheet);
+            try {
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="BÁO CÁO HỌC SINH HẾT PHÍ.xlsx"');
+                header('Cache-Control: max-age=0');
+                $writer->save("php://output");
+            } catch (Exception $exception) {
+                throw $exception;
+            }
+        } else {
+            die('Request not found...');
+        }
+        exit;
+    }
 }
