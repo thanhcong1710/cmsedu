@@ -3818,7 +3818,7 @@ class Report extends Model
                             LEFT JOIN students AS s ON s.id=c.student_id 
                             LEFT JOIN term_student_user AS t ON t.student_id=s.id AND t.status=1
                         WHERE s.status>0 AND c.status!=7 AND c.type>0 AND c.summary_sessions>0 $strWhere
-                            AND c.id = (SELECT id FROM contracts WHERE student_id=s.id AND `status`!=7 ORDER BY count_recharge LIMIT 1)
+                            -- AND c.id = (SELECT id FROM contracts WHERE student_id=s.id AND `status`!=7 ORDER BY count_recharge LIMIT 1)
                             AND (SELECT count(id) FROM reserves WHERE contract_id=c.id AND student_id=s.id AND end_date>= CURRENT_DATE AND `start_date`<=CURRENT_DATE AND `status`=2 $cond) >0";
                 if (!$unlimit ) {
                     $resp.= " $lim";
