@@ -1794,7 +1794,7 @@ class ReportsController extends Controller
                     )
             )
             AND (SELECT count(id) FROM reserves WHERE contract_id=c.id AND is_reserved=1 AND `start_date` <= '$end_date' AND `end_date`>='$end_date' AND `status`=2) =0
-            AND (SELECT count(id) FROM contracts WHERE student_id = c.student_id AND `type`>0 AND `status`!=7 AND class_id IS NOT NULL AND id!=c.id) = 0
+            -- AND (SELECT count(id) FROM contracts WHERE student_id = c.student_id AND `type`>0 AND `status`!=7 AND class_id IS NOT NULL AND id!=c.id) = 0
             AND ( c.debt_amount = 0 OR c.foced_is_full_fee_active = 1 )
             AND c.foced_is_full_fee_active != 2
             AND s.id IS NOT NULL
