@@ -245,7 +245,7 @@ export default {
     search(a) {
       this.processing = true
       const data = this.getParamsSearch()
-      const link = "/api/reports/29"
+      const link = "/api/reports/lgl01"
       u.p(link, data, 1)
         .then(response => {
           this.dataReport = response.list;
@@ -266,7 +266,7 @@ export default {
     exportExcel() {
       this.processing = true
       var params = this.getParamsSearch()
-      var urlApi = "/api/export/report29"
+      var urlApi = "/api/export/lgl01"
       var tokenKey = u.token()
       u.g(urlApi, params, 1, 1)
         .then(response => {
