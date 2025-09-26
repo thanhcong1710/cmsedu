@@ -4481,9 +4481,9 @@ class Report extends Model
             $where .= " AND tsu.branch_id in ($p->s) ";
         }
         if($request->type_product){
-            $cond = " product_id >100";
+            $cond = " product_id >= 102";
         } else{
-            $cond = " product_id <100";
+            $cond = " product_id <= 3";
         }
         if($request->from_date !=''){
             $where .= " AND (SELECT enrolment_last_date FROM contracts WHERE student_id =s.id AND $cond ORDER BY id DESC LIMIT 1) >= '$request->from_date' ";
