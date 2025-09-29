@@ -14,6 +14,7 @@
                                     <h4>CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</h4>
                                     <p><i class="fa fa-map-marker"></i> Lô B1.1, Số 2 đường Đặng Thai Mai , Phường Quảng An, Quận Tây Hồ, 
      Thành phố Hà Nội, Việt Nam.</p>
+                                </div>  
                             </div>
                             <div class="print-content">
                                 <h2 class="title">ĐƠN TÁI TỤC</h2>
