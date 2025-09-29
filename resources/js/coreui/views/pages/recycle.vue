@@ -11,10 +11,9 @@
                                     <span class="logo"><img src="/images/print-logo.png" /></span>    
                                 </div>
                                 <div class="h-right">
-                                    <h4>CÔNG TY CỔ PHẦN GIÁO DỤC TƯ DUY VÀ SÁNG TẠO QUỐC TẾ</h4>
-                                    <p><i class="fa fa-map-marker"></i> Tầng 4, tòa 21T2 Hapulico Complex, 81 Vũ Trọng Phụng, Thanh Xuân, Hà Nội</p>
-                                    <p><i class="fa fa-phone"></i>(+84) 24 7356 8806 &nbsp;&nbsp;<i class="fa fa-envelope"></i> cms@cmsedu.vn &nbsp;&nbsp;<i class="fa fa-globe"></i> www.cmsedu.vn</p>    
-                                </div>
+                                    <h4>CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</h4>
+                                    <p><i class="fa fa-map-marker"></i> Lô B1.1, Số 2 đường Đặng Thai Mai , Phường Quảng An, Quận Tây Hồ, 
+     Thành phố Hà Nội, Việt Nam.</p>
                             </div>
                             <div class="print-content">
                                 <h2 class="title">ĐƠN TÁI TỤC</h2>
@@ -108,8 +107,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 field line height mar-top-5">
-                                        Tôi, {{student.parent_name}}, đồng ý cho CMS sử dụng thông tin và hình ảnh của con tôi
-                                        cho các tài liệu truyền thông với điều kiện CMS sẽ không gây bất cứ ảnh hưởng
+                                        Tôi, {{student.parent_name}}, đồng ý cho LogicLab sử dụng thông tin và hình ảnh của con tôi
+                                        cho các tài liệu truyền thông với điều kiện LogicLab sẽ không gây bất cứ ảnh hưởng
                                         nào cho bé.
                                     </div>
                                 </div>
