@@ -13,7 +13,6 @@
  */
 
 import u from '../../utilities/utility'
-import Reportlgl02 from '../../views/reports/reportlgl02.vue';
 
 const routers = u.load({
   name: 'reports',
@@ -275,7 +274,7 @@ const routers = u.load({
       p: '/reports/lgl01',
       n: 'Báo cáo học sinh hết phí'
     },
-    Reportlgl02: {
+    reportlgl02: {
       p: '/reports/lgl02',
       n: 'Báo cáo sử dụng voucher',
     },
