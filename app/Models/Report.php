@@ -4533,7 +4533,7 @@ class Report extends Model
         $resp = "";
         $where = " 1 ";
         if ($p->s != '') {
-            $where .= " AND tsu.branch_id in ($p->s) ";
+            $where .= " AND c.branch_id in ($p->s) ";
         }
         if($request->from_date !=''){
             $where .= " AND l.created_at >= '$request->from_date 00:00:00' ";
