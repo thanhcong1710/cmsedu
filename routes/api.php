@@ -281,6 +281,8 @@ Route::get('reports/student-quantity-report', 'ReportsController@studentQuantity
 Route::get('export/student-quantity-report', 'ReportsController@studentQuantityExport')->middleware('Authentication');
 Route::post('reports/lgl01', 'ReportsController@reportLgl01')->middleware('Authentication');
 Route::get('export/lgl01', 'ExelController@exportLgl01')->middleware('Authentication');
+Route::post('reports/lgl02', 'ReportsController@reportLgl02')->middleware('Authentication');
+Route::get('export/lgl02', 'ExelController@exportLgl02')->middleware('Authentication');
 /** End report Router ======================================================================================================= */
 
 Route::get('recharges/search/students/{branch_id}/{keyword}', 'RechargesController@search')->middleware('Authentication');

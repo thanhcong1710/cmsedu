@@ -13,6 +13,7 @@
  */
 
 import u from '../../utilities/utility'
+import Reportlgl02 from '../../views/reports/reportlgl02.vue';
 
 const routers = u.load({
   name: 'reports',
@@ -272,7 +273,11 @@ const routers = u.load({
     },
     reportlgl01: {
       p: '/reports/lgl01',
-      n: 'Báo Cáo học sinh hết phí'
+      n: 'Báo cáo học sinh hết phí'
+    },
+    Reportlgl02: {
+      p: '/reports/lgl02',
+      n: 'Báo cáo sử dụng voucher',
     },
   }
 })
@@ -349,6 +354,7 @@ export default {
       routers.report_r12,
       routers.report_r13,
       routers.reportlgl01,
+      routers.reportlgl02,
     ]
   }
 };

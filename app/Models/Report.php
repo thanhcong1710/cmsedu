@@ -4528,4 +4528,52 @@ class Report extends Model
         }
         return $resp;
     }
+
+    public static function queryReportLgl02($p, $request,$total = 0, $unlimit = false) {
+        $resp = "";
+        $where = " 1 ";
+        if ($p->s != '') {
+            $where .= " AND tsu.branch_id in ($p->s) ";
+        }
+        if($request->from_date !=''){
+            $where .= " AND l.created_at >= '$request->from_date 00:00:00' ";
+        }
+        if($request->to_date !=''){
+            $where .= " AND l.created_at <= '$request->to_date 00:00:00' ";
+        }
+        if($request->keyword !=''){
+            $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%' OR s.gud_mobile_1 LIKE '%$request->keyword%' )";
+        }
+        if ($total) {
+            $resp = "SELECT
+                        count(DISTINCT s.id) as total
+                    FROM
+                        coupon_logs AS l 
+                        LEFT JOIN contracts AS c ON l.contract_id=c.id
+                        LEFT JOIN students AS s ON s.id=c.student_id
+                    WHERE
+                        $where 
+            ";
+        } else {
+            $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
+            $resp = "SELECT cp.code, 
+                       (SELECT name FROM branches WHERE id=c.branch_id) AS branch_name,
+                       s.name, s.crm_id, s.gud_name1, s.gud_mobile1, CONCAT(u.full_name,' - ',u.hrm_id) AS creator_name,
+                       l.created_at, c.must_charge, c.debt_amount,
+                       (SELECT name FROM  tuition_fee WHERE id=c.tuition_fee_id) AS tuition_fee_name,
+                       (SELECT name FROM products WHERE id=c.product_id) AS product_name
+                    FROM
+                        coupon_logs AS l 
+                        LEFT JOIN contracts AS c ON l.contract_id=c.id
+                        LEFT JOIN students AS s ON s.id=c.student_id
+                        LEFT JOIN coupons AS cp ON cp.id=l.coupon_id
+                        LEFT JOIN users AS u ON u.id=l.creator_id
+                    WHERE
+                        $where ORDER BY l.id DESC";
+            if (!$unlimit) {
+                $resp.= " $lim";
+            }
+        }
+        return $resp;
+    }
 }

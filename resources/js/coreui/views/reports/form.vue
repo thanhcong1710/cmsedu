@@ -71,6 +71,9 @@
                             <p class="bc-font" v-if="showBCr14 == true">
                                 <router-link to="/reports/lgl01" >18. BÁO CÁO HỌC SINH HẾT PHÍ</router-link>
                             </p>
+                            <p class="bc-font" v-if="showBCr15 == true">
+                                <router-link to="/reports/lgl02" >18. BÁO CÁO SỬ DỤNG VOUCHER</router-link>
+                            </p>
                         </div>
                     </b-card>
                 </b-col>
@@ -105,6 +108,7 @@
                 showBCr12: false,
                 showBCr13: false,
                 showBCr14: false,
+                showBCr15: false,
             }
         },
         created() {
@@ -198,6 +202,9 @@
                 }
                 if(role == '999999999'){
                     this.showBCr14= true
+                }
+                if(role == '999999999'){
+                    this.showBCr15= true
                 }
             },
         }
