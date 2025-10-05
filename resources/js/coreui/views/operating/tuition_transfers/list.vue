@@ -594,7 +594,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <b>File đính kèm: ${tuition_transfer.attached_file ? `<a href="/${tuition_transfer.attached_file}">Tải xuống</a></a>` : '<i>Không có file đính kèm nào.</i>'}
+                    <b>File đính kèm: ${tuition_transfer.attached_file ? `<a href="../${tuition_transfer.attached_file}" target="blank" >Tải xuống</a></a>` : '<i>Không có file đính kèm nào.</i>'}
                 </div>`
                 from.forEach((data, index) => {
                     const class_info = data.class_name ? `<div class="info line col-md-12">
