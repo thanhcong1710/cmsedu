@@ -29,24 +29,25 @@
                         >
                         </search>
                       </div>
-                      <!-- <div class="col-sm-3">
+                      <div class="col-sm-3">
                         <div class="form-group">
-                          <label class="filter-label control-label">Hình Thức Đóng Phí</label><br/>
-                          <p class="input-group-addon filter-lbl"><i v-b-tooltip.hover title="Lọc theo hình thức đóng phí 1 hay nhiều lần" class="fa fa-telegram"></i></p>
+                          <label class="filter-label control-label">Trạng thái</label><br/>
                           <select
                             v-model="filter.payload"
                             @change="selectFilter"
                             data-placeholder="Chọn hình thức đóng phí"
                             id="select_payload"
-                            name="search[payload_filter]"
                             class="filter-selection payload form-control"
                           >
-                            <option value="">Tất cả</option>
-                            <option :value="payload.id" v-for="(payload, ind) in list.payloads" :key="ind">{{ payload.name }}</option>
+                            <option value="-1">Tất cả</option>
+                            <option value="0">Chưa duyệt</option>
+                            <option value="1">Đã duyệt</option>
+                            <option value="2">Từ chối</option>
                           </select>
                         </div>
                       </div>
-                      <div class="col-sm-3">
+                      
+                      <!-- <div class="col-sm-3">
                         <div class="form-group">
                           <label class="filter-label control-label">Lọc Theo Sản Phẩm</label><br/>
                           <p class="input-group-addon filter-lbl"><i v-b-tooltip.hover title="Lọc theo sản phẩm" class="fa fa-fort-awesome"></i></p>
@@ -228,7 +229,8 @@ export default {
         keyword: '',
         payload: '',
         product: '',
-        tuition_fee: ''
+        tuition_fee: '',
+        status: ''
       },
       url: {
         page: '/waitapprove/',
@@ -237,7 +239,8 @@ export default {
       },
       cache: {
         branch: 0,
-        keyword: ''
+        keyword: '',
+        status:-1
       },
       html: {
         id: {
@@ -306,6 +309,7 @@ export default {
     link() {
       this.filter.branch = this.cache.branch
       this.filter.keyword = this.cache.keyword
+      this.filter.status = this.cache.status
       const sort = u.jss(this.order)
       const search = u.jss(this.filter)
       const pagination = u.jss({

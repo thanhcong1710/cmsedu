@@ -254,6 +254,9 @@ class WaitchargesController extends Controller
       if ($search->keyword != '') {
         $where.= " AND (s.crm_id LIKE '$search->keyword%' OR s.stu_id LIKE '$search->keyword%' OR s.accounting_id LIKE '$search->keyword%' OR s.name LIKE '%$search->keyword%')";
       }
+      if ($search->status != -1) {
+        $where.= " AND tp.status = ".(int)$search->status;
+      }
       if ($sort->by && $sort->to) {
         $order.= " ORDER BY $sort->by $sort->to";
       }
