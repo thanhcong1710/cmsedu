@@ -33,8 +33,8 @@
                         <div class="form-group">
                           <label class="filter-label control-label">Trạng thái</label><br/>
                           <select
-                            v-model="filter.payload"
-                            @change="selectFilter"
+                            v-model="cache.status"
+                            @change="searching()"
                             data-placeholder="Chọn hình thức đóng phí"
                             id="select_payload"
                             class="filter-selection payload form-control"
