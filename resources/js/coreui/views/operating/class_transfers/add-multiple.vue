@@ -286,8 +286,7 @@
             class_id: "",
             note:'',
             transfer_date:'',
-            // none_before: u.convertDateToString(new Date()),
-            none_before: u.convertDateToString(new Date(Date.now() - 15 * 24 * 60 * 60 * 1000)),
+            none_before: u.convertDateToString(new Date()),
             none_after:'',
             action_transfer_date: date => this.selectTransferDate(date),
           },
@@ -314,6 +313,9 @@
           this.data.from.semesters = response
           this.data.to.semesters = response
       })
+      if (u.session().user.role_id == 999999999){
+        this.data.from.none_before = u.convertDateToString(new Date(Date.now() - 15 * 24 * 60 * 60 * 1000))
+      }
     },
     methods: {
       selectFromBranch(branch) {
