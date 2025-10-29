@@ -1269,7 +1269,10 @@ class ClassTransfer extends Model
         $tmp_class_transfer->created_at = date('Y-m-d H:i:s');
         $reserved_dates = self::getReservedDates_transfer([$st->contract_id]);
         $merged_holi_day = $reserved_dates && isset($reserved_dates[$st->contract_id]) ? array_merge($public_holiday, $reserved_dates[$st->contract_id]) : $public_holiday;
-        $done_sessions = u::calculatorSessions($st->enrolment_start_date, date('Y-m-d', strtotime("-1 days")), $merged_holi_day, $from_class_days);
+        $transfer_date =  data_get($from_info, 'transfer_date');
+        $transfer_date = date('Y-m-d', strtotime($transfer_date . ' -1 days'));
+        $date_process = date('Y-m-d', strtotime("-1 days")) >  $transfer_date ? $transfer_date : date('Y-m-d', strtotime("-1 days"));
+        $done_sessions = u::calculatorSessions($st->enrolment_start_date, $date_process, $merged_holi_day, $from_class_days);
         $done_sessions_total = isset($done_sessions->total) ? $done_sessions->total :0;
         $tmp_class_transfer->amount_transferred = $done_sessions_total < $st->real_sessions && $st->real_sessions ? ceil(($st->real_sessions-$done_sessions_total) * ($st->total_charged/$st->real_sessions)):0;
         $total_sessions = $done_sessions_total > $st->real_sessions ? 0 : $st->real_sessions - $done_sessions_total;
@@ -1362,9 +1365,12 @@ class ClassTransfer extends Model
     foreach($students AS $k=> $st){
       $st = (object)$st;
       if($st->is_valid){
+        $transfer_date =  data_get($from_info, 'transfer_date');
+        $transfer_date = date('Y-m-d', strtotime($transfer_date . ' -1 days'));
+        $date_process = date('Y-m-d', strtotime("-1 days")) >  $transfer_date ? $transfer_date : date('Y-m-d', strtotime("-1 days"));
         $reserved_dates = self::getReservedDates_transfer([$st->contract_id]);
         $merged_holi_day = $reserved_dates && isset($reserved_dates[$st->contract_id]) ? array_merge($public_holiday, $reserved_dates[$st->contract_id]) : $public_holiday;
-        $done_sessions = u::calculatorSessions($st->enrolment_start_date, date('Y-m-d', strtotime("-1 days")), $merged_holi_day, $from_class_days);
+        $done_sessions = u::calculatorSessions($st->enrolment_start_date,  $date_process, $merged_holi_day, $from_class_days);
         $done_sessions_total = isset($done_sessions->total) ? $done_sessions->total :0;
         $amount_transferred = $done_sessions_total < $st->real_sessions && $st->real_sessions ? ceil(($st->real_sessions-$done_sessions_total) * ($st->total_charged/$st->real_sessions)):0;
         $total_sessions = $done_sessions_total > $st->real_sessions ? 0 : $st->real_sessions - $done_sessions_total;
