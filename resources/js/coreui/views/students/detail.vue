@@ -353,7 +353,8 @@ export default {
   },
 
   created() {
-    this.is_view = this.$route.query.view
+    console.log(this.$route.query.view)
+    this.is_view = this.$route.query.view == 1? 1: 0
     u.g(`${this.html.page.url.apis}${this.$route.params.id}`).then((response) => {
       this.student = response.student
       this.tabs = response.tabs
