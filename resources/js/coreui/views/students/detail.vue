@@ -99,7 +99,7 @@
                 </div>
                 <div class="row button-group outdown">
                   <button class="btn btn-sm btn-danger come-back button-back" @click="back()">Quay lại</button>
-                  <router-link v-if="hasPermissionUpsert" class="btn btn-sm btn-success come-back" v-bind:to="{name: 'Cập Nhật Thông Tin Học Sinh', params: {id: student.id}}"><i class="fa fa-pencil"></i> Sửa thông tin</router-link>
+                  <router-link v-if="hasPermissionUpsert && is_view == 0" class="btn btn-sm btn-success come-back" v-bind:to="{name: 'Cập Nhật Thông Tin Học Sinh', params: {id: student.id}}"><i class="fa fa-pencil"></i> Sửa thông tin</router-link>
                   <router-link v-if="hasPermissionChangeDate" style="margin-left: 5px;" class="btn btn-sm btn-warning come-back" v-bind:to="changeBackDate(student.id)"><i class="fa fa-pencil"></i> Sửa ngày xếp lớp</router-link>
                 </div>
               </div>
@@ -335,6 +335,7 @@ export default {
         all:[],
         upload:[],
       }
+      model.is_view = 0
       return model
   },
 
@@ -352,6 +353,7 @@ export default {
   },
 
   created() {
+    this.is_view = this.$route.query.view
     u.g(`${this.html.page.url.apis}${this.$route.params.id}`).then((response) => {
       this.student = response.student
       this.tabs = response.tabs
