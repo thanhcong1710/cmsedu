@@ -13,7 +13,7 @@
                   <i class="fa fa-list-alt"></i> <b class="uppercase">Danh Sách Sản Phẩm / Gói phí</b>
                 </div>
                 <div class="panel">
-                  <div class="col-md-12 apax-form-block" v-show="branches.length">
+                  <div class="col-md-12 apax-form-block">
                     <label class="control-label apax-title">Danh Sách Trung Tâm</label>
                     <select @change="selectBranch" class="form-control input-sm" v-model="branch">
                       <option value="0">
