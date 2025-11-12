@@ -162,7 +162,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <p>Đề nghị Trung tâm CMS <b>{{item.branch_name}}</b> cho tôi được bảo lưu học phí trong thời gian trên. Tôi xác nhận đã đọc và hiểu về quy định bảo lưu của CMS. Tôi cam kết sẽ tuân thủ quy định bảo lưu của CMS và không có bất cứ khiếu nại gì liên quan đến quy định bảo lưu sau này.</p>
+                                        <p>Đề nghị Trung tâm <b>{{item.branch_name}}</b> cho tôi được bảo lưu học phí trong thời gian trên. Tôi xác nhận đã đọc và hiểu về quy định bảo lưu của Logiclab. Tôi cam kết sẽ tuân thủ quy định bảo lưu của Logiclab và không có bất cứ khiếu nại gì liên quan đến quy định bảo lưu sau này.</p>
                                         <p>Xin chân thành cảm ơn!</p>
 
                                     </div>
