@@ -173,6 +173,7 @@ class DiscountCodesController extends Controller
         $dataNew = [];
         if ($data){
             foreach ($data as $item){
+                $item->code = trim($item->code)." (".$item->name.")" ;
                 if ($item->user_limit != 0){
                     if ($item->user_group != 0){
                         $group = $item->user_group;
