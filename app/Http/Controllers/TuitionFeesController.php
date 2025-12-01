@@ -328,6 +328,18 @@ class TuitionFeesController extends Controller
                 if ($obj->p_name == "Bricks4kidz - PreSchool"){
                     $dataNew['bricks4kidz_preschool'][] = $obj;
                 }
+                if ($obj->p_name == "Bricks4kidz - Power Function"){
+                    $dataNew['bricks4kidz_power_function'][] = $obj;
+                }
+                if ($obj->p_name == "Bricks4kidz - Junior Robotics"){
+                    $dataNew['bricks4kidz_junior_robotics'][] = $obj;
+                }
+                if ($obj->p_name == "Bricks4kidz - Micro:bit Programming"){
+                    $dataNew['bricks4kidz_microbit'][] = $obj;
+                }
+                if ($obj->p_name == "Bricks4kidz - Advanced Robotics"){
+                    $dataNew['bricks4kidz_advanced_robotics'][] = $obj;
+                }
             }
         }
         $response = new Response();

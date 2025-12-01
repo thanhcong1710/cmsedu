@@ -178,6 +178,34 @@
                                 <br/>
                               </template>
                             </div>
+                            <div v-if="index == 'bricks4kidz_power_function'">
+                              <template v-for="(bricks4kidz_power_function, acc) in fee">
+                                <input type="checkbox" :id="acc" :value="bricks4kidz_power_function.id" v-model="fee_ids_temp">
+                                <label>{{bricks4kidz_power_function.name}} </label>
+                                <br/>
+                              </template>
+                            </div>
+                            <div v-if="index == 'bricks4kidz_junior_robotics'">
+                              <template v-for="(bricks4kidz_junior_robotics, acc) in fee">
+                                <input type="checkbox" :id="acc" :value="bricks4kidz_junior_robotics.id" v-model="fee_ids_temp">
+                                <label>{{bricks4kidz_junior_robotics.name}} </label>
+                                <br/>
+                              </template>
+                            </div>
+                            <div v-if="index == 'bricks4kidz_microbit'">
+                              <template v-for="(bricks4kidz_microbit, acc) in fee">
+                                <input type="checkbox" :id="acc" :value="bricks4kidz_microbit.id" v-model="fee_ids_temp">
+                                <label>{{bricks4kidz_microbit.name}} </label>
+                                <br/>
+                              </template>
+                            </div>
+                            <div v-if="index == 'bricks4kidz_advanced_robotics'">
+                              <template v-for="(bricks4kidz_advanced_robotics, acc) in fee">
+                                <input type="checkbox" :id="acc" :value="bricks4kidz_advanced_robotics.id" v-model="fee_ids_temp">
+                                <label>{{bricks4kidz_advanced_robotics.name}} </label>
+                                <br/>
+                              </template>
+                            </div>
                           </template>
                         </div>
                       </div>
