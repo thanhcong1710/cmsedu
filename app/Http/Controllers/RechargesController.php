@@ -1097,6 +1097,17 @@ class RechargesController extends Controller
                 ('$coupon_info->id','".(int)$latest_contract->id."', '$createdAt',$user_id)");
             }
           }
+          if ($coupon){
+            $discountCode = u::tachChuoiDiscountCode($coupon);
+            $discountCode = isset($discountCode['ma']) ? $discountCode['ma'] : '';
+            if ($discountCode) {
+              $discountInfo = u::first("SELECT * FROM discount_codes WHERE code='$discountCode'");
+              if($discountInfo){
+                u::query("INSERT INTO discount_code_contracts (contract_id,discount_code_id,discount_code,created_at) VALUES 
+                ('".(int)$latest_contract->id."', '".data_get($discountInfo, 'id')."','$discountCode','".date('Y-m-d H:i:s')."')");
+              }
+            }
+          }
           $latest_contract = u::first("SELECT id, created_at, updated_at, hash_key FROM contracts WHERE hash_key = '$hash_key' ORDER BY id DESC LIMIT 1");
           $contractController = new ContractsController();
           $contractController->createCyberContract($latest_contract->id, $user_id);

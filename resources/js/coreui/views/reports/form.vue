@@ -72,7 +72,13 @@
                                 <router-link to="/reports/lgl01" >18. BÁO CÁO HỌC SINH HẾT PHÍ</router-link>
                             </p>
                             <p class="bc-font" v-if="showBCr15 == true">
-                                <router-link to="/reports/lgl02" >18. BÁO CÁO SỬ DỤNG VOUCHER</router-link>
+                                <router-link to="/reports/lgl02" >19. BÁO CÁO SỬ DỤNG VOUCHER</router-link>
+                            </p>
+                            <p class="bc-font" v-if="showBCr16 == true">
+                                <router-link to="/reports/lgl03" >20. BÁO CÁO TỔNG HỢP GÓI BÁN</router-link>
+                            </p>
+                            <p class="bc-font" v-if="showBCr17 == true">
+                                <router-link to="/reports/lgl04" >21. BÁO CÁO CHI TIẾT GÓI BÁN</router-link>
                             </p>
                         </div>
                     </b-card>
@@ -109,6 +115,8 @@
                 showBCr13: false,
                 showBCr14: false,
                 showBCr15: false,
+                showBCr16: false,
+                showBCr17: false,
             }
         },
         created() {
@@ -205,6 +213,10 @@
                 }
                 if(role == '999999999'){
                     this.showBCr15= true
+                }
+                if(role == '999999999'){
+                    this.showBCr16= true
+                    this.showBCr17= true
                 }
             },
         }

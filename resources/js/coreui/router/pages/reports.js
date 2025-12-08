@@ -278,6 +278,14 @@ const routers = u.load({
       p: '/reports/lgl02',
       n: 'Báo cáo sử dụng voucher',
     },
+    reportlgl03: {
+      p: '/reports/lgl03',
+      n: 'Báo cáo tổng hợp gói bán',
+    },
+    reportlgl04: {
+      p: '/reports/lgl04',
+      n: 'Báo cáo chi tiết gói bán',
+    },
   }
 })
 
@@ -354,6 +362,8 @@ export default {
       routers.report_r13,
       routers.reportlgl01,
       routers.reportlgl02,
+      routers.reportlgl03,
+      routers.reportlgl04,
     ]
   }
 };

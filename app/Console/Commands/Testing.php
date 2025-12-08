@@ -38,20 +38,18 @@ class Testing extends Command
      */
     public function handle()
     {   
-        $data = u::query("SELECT * FROM  students WHERe crm_id LIKE 'LGL%' AND id >103840");
+        $data = u::query("SELECT c.id,c.coupon FROM  contracts AS c LEFT JOIN discount_code_contracts AS dc ON dc.contract_id=c.id WHERE dc.id IS NULL AND coupon IS NOT NULL AND c.created_at >= '2025-11-01 00:00:00' ORDER BY c.id ASC");   
         foreach ($data AS $row){
-            $lastInsertedId = $row->id;
-            $lastCode = u::first("SELECT cms_id FROM students WHERE id < $lastInsertedId ORDER BY id DESC LIMIT 1");
-            $cms_id = (int)data_get($lastCode, 'cms_id')+1;
-            $crm_id = "LGL".str_pad($cms_id, 8, '0', STR_PAD_LEFT);
-            u::query("UPDATE students SET cms_id = '$cms_id', crm_id = '$crm_id' WHERE id = $lastInsertedId");
+            $discountCode = u::tachChuoiDiscountCode(data_get($row, 'coupon'));
+            $discountCode = isset($discountCode['ma']) ? $discountCode['ma'] : '';
+            if ($discountCode) {
+              $discountInfo = u::first("SELECT * FROM discount_codes WHERE code='$discountCode'");
+              if($discountInfo){
+                u::query("INSERT INTO discount_code_contracts (contract_id,discount_code_id,discount_code,created_at) VALUES 
+                ('".(int)data_get($row, 'id')."', '".data_get($discountInfo, 'id')."','$discountCode','".date('Y-m-d H:i:s')."')");
+              }
+            }
+            echo "Processed contract ID: ".data_get($row, 'id')."\n";
         }
-    }
-
-    private function note($content) {
-        $log = ROOT."tests".DS."testing.log";
-        $exc = file_exists($log) ? file_get_contents($log)."\n" : '';
-        file_put_contents($log, $exc.$content.' ('.time().')');
-        echo(file_get_contents($log));
     }
 }

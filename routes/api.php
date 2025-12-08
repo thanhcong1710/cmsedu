@@ -283,6 +283,10 @@ Route::post('reports/lgl01', 'ReportsController@reportLgl01')->middleware('Authe
 Route::get('export/lgl01', 'ExelController@exportLgl01')->middleware('Authentication');
 Route::post('reports/lgl02', 'ReportsController@reportLgl02')->middleware('Authentication');
 Route::get('export/lgl02', 'ExelController@exportLgl02')->middleware('Authentication');
+Route::post('reports/lgl03', 'ReportsController@reportLgl03')->middleware('Authentication');
+Route::get('export/lgl03', 'ExelController@exportLgl03')->middleware('Authentication');
+Route::post('reports/lgl04', 'ReportsController@reportLgl04')->middleware('Authentication');
+Route::get('export/lgl04', 'ExelController@exportLgl04')->middleware('Authentication');
 /** End report Router ======================================================================================================= */
 
 Route::get('recharges/search/students/{branch_id}/{keyword}', 'RechargesController@search')->middleware('Authentication');

@@ -4576,4 +4576,127 @@ class Report extends Model
         }
         return $resp;
     }
+
+    public static function queryReportLgl04($p, $request,$total = 0, $unlimit = false) {
+        $resp = "";
+        $where = " c.must_charge >0  AND c.total_charged >0 ";
+        if ($p->s != '') {
+            $where .= " AND c.branch_id in ($p->s) ";
+        }
+        if($request->from_date !=''){
+            $where .= " AND c.created_at >= '$request->from_date 00:00:00' ";
+        }
+        if($request->to_date !=''){
+            $where .= " AND c.created_at <= '$request->to_date 00:00:00' ";
+        }
+        if($request->keyword !=''){
+            $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%' OR s.gud_mobile_1 LIKE '%$request->keyword%' )";
+        }
+        if($request->typePrice == 1){
+            $where .= " AND d.is_combo = 0 ";
+        }elseif($request->typePrice == 2){
+            $where .= " AND d.is_combo = 1 ";
+        }
+        if($request->typeNew == 1){
+            $where .= " AND c.count_recharge = 0 ";
+        }elseif($request->typeNew == 2){
+            $where .= " AND c.count_recharge > 0 ";
+        }
+        if($request->typePayment == 1){
+            $where .= " AND c.debt_amount >0";
+        }elseif($request->typePayment == 2){
+            $where .= " AND c.debt_amount = 0 ";
+        }
+        if ($total) {
+            $resp = "SELECT
+                        count(DISTINCT c.id) as total
+                   FROM
+                        contracts AS c 
+                        LEFT JOIN discount_code_contracts AS dc ON dc.contract_id=c.id
+                        LEFT JOIN discount_codes AS d ON d.id=dc.discount_code_id
+                        LEFT JOIN students AS s ON s.id=c.student_id
+                    WHERE
+                        $where 
+            ";
+        } else {
+            $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
+            $resp = "SELECT d.code AS discount_code, d.name AS discount_name,
+                       (SELECT name FROM branches WHERE id=c.branch_id) AS branch_name,
+                       s.name AS student_name, s.crm_id,
+                       c.created_at, c.must_charge, c.debt_amount,
+                       (SELECT name FROM  tuition_fee WHERE id=c.tuition_fee_id) AS tuition_fee_name,
+                       c.count_recharge,
+                       (SELECT CONCAT(full_name,' - ',hrm_id) FROM users WHERE id=c.creator_id) AS creator_name
+                    FROM
+                        contracts AS c 
+                        LEFT JOIN discount_code_contracts AS dc ON dc.contract_id=c.id
+                        LEFT JOIN discount_codes AS d ON d.id=dc.discount_code_id
+                        LEFT JOIN students AS s ON s.id=c.student_id
+                    WHERE
+                        $where ORDER BY c.id DESC";
+            if (!$unlimit) {
+                $resp.= " $lim";
+            }
+        }
+        return $resp;
+    }
+
+    public static function queryReportLgl03($p, $request,$total = 0, $unlimit = false) {
+        $resp = "";
+        $where = " c.must_charge >0  AND c.total_charged >0 ";
+        if ($p->s != '') {
+            $where .= " AND c.branch_id in ($p->s) ";
+        }
+        if($request->from_date !=''){
+            $where .= " AND c.created_at >= '$request->from_date 00:00:00' ";
+        }
+        if($request->to_date !=''){
+            $where .= " AND c.created_at <= '$request->to_date 00:00:00' ";
+        }
+        if($request->keyword !=''){
+            $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%' OR s.gud_mobile_1 LIKE '%$request->keyword%' )";
+        }
+        if($request->typePrice == 1){
+            $where .= " AND d.is_combo = 0 ";
+        }elseif($request->typePrice == 2){
+            $where .= " AND d.is_combo = 1 ";
+        }
+        if($request->typeNew == 1){
+            $where .= " AND c.count_recharge = 0 ";
+        }elseif($request->typeNew == 2){
+            $where .= " AND c.count_recharge > 0 ";
+        }
+        if($request->typePayment == 1){
+            $where .= " AND c.debt_amount >0";
+        }elseif($request->typePayment == 2){
+            $where .= " AND c.debt_amount = 0 ";
+        }
+        if ($total) {
+            $resp = "SELECT COUNT(*) as total
+                    FROM (
+                        SELECT d.id, c.branch_id
+                        FROM discount_codes d
+                            LEFT JOIN discount_code_contracts dc ON d.id = dc.discount_code_id
+                            LEFT JOIN contracts c ON c.id = dc.contract_id
+                        WHERE $where
+                            GROUP BY d.id, c.branch_id
+                    ) AS X
+            ";
+        } else {
+            $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
+            $resp = "SELECT d.id, c.branch_id, d.name AS discount_name, d.code AS discount_code, 
+                        count(c.id) AS count_pay, SUM(c.must_charge -c.debt_amount) AS total_pay,
+                       (SELECT name FROM branches WHERE id=c.branch_id) AS branch_name
+                    FROM
+                        discount_codes AS d 
+                        LEFT JOIN discount_code_contracts AS dc ON d.id=dc.discount_code_id
+                        LEFT JOIN contracts AS c ON c.id=dc.contract_id
+                    WHERE
+                        $where GROUP BY d.id,c.branch_id ORDER BY d.id DESC";
+            if (!$unlimit) {
+                $resp.= " $lim";
+            }
+        }
+        return $resp;
+    }
 }

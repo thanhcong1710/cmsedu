@@ -2339,4 +2339,31 @@ class ReportsController extends Controller
         }
         return $response->formatResponse($code, $data);
     }
+
+    public function reportLgl03(Request $request) {
+        $data = null;
+        $code = APICode::PERMISSION_DENIED;
+        $response = new Response();
+        if ($session = $request->users_data) {
+            $p = Report::params($request, $session);
+            $code = APICode::SUCCESS;
+            $query = Report::queryReportLgl03( $p,$request);
+            $quary = Report::queryReportLgl03($p,$request, 1);
+            $data = Report::making($query, $quary, $p->p, $p->l);
+        }
+        return $response->formatResponse($code, $data);
+    }
+    public function reportLgl04(Request $request) {
+        $data = null;
+        $code = APICode::PERMISSION_DENIED;
+        $response = new Response();
+        if ($session = $request->users_data) {
+            $p = Report::params($request, $session);
+            $code = APICode::SUCCESS;
+            $query = Report::queryReportLgl04( $p,$request);
+            $quary = Report::queryReportLgl04($p,$request, 1);
+            $data = Report::making($query, $quary, $p->p, $p->l);
+        }
+        return $response->formatResponse($code, $data);
+    }
 }

@@ -3031,6 +3031,27 @@ class UtilityServiceProvider extends ServiceProvider
         }
         return $name;
     }
+
+    public static function tachChuoiDiscountCode($str) {
+        // Nếu không chứa "(" thì trả về mã = chuỗi gốc, nội dung = rỗng
+        if (strpos($str, '(') === false) {
+            return [
+                'ma' => trim($str),
+                'noi_dung' => ''
+            ];
+        }
+    
+        // Tách theo ký tự "("
+        $parts = explode('(', $str, 2);
+    
+        $ma = trim($parts[0]);
+        $noi_dung = trim(rtrim($parts[1], ')'));
+    
+        return [
+            'ma' => $ma,
+            'noi_dung' => $noi_dung
+        ];
+    }
     
 }
 

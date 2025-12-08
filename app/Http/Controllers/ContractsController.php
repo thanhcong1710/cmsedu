@@ -1129,6 +1129,17 @@ class ContractsController extends Controller
                       $this->createCyberContract($latest_contract->id, $user_id);
                   }
               }
+              if ($coupon){
+                $discountCode = u::tachChuoiDiscountCode($coupon);
+                $discountCode = isset($discountCode['ma']) ? $discountCode['ma'] : '';
+                if ($discountCode) {
+                  $discountInfo = u::first("SELECT * FROM discount_codes WHERE code='$discountCode'");
+                  if($discountInfo){
+                    u::query("INSERT INTO discount_code_contracts (contract_id,discount_code_id,discount_code,created_at) VALUES 
+                    ('".(int)$latest_contract->id."', '".data_get($discountInfo, 'id')."','$discountCode','".date('Y-m-d H:i:s')."')");
+                  }
+                }
+              }
             }
           }else{
               $code=APICode::WRONG_PARAMS;
