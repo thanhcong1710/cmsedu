@@ -255,12 +255,12 @@ class RechargesController extends Controller
       $branches = $search->branch ? (int)$search->branch : $session->branches_ids;
       $where = "WHERE c.count_recharge > 0 AND c.branch_id = s.branch_id AND c.status > 0 ";
       $where.= "AND c.branch_id IN ($branches)";
-      if ($role_id == ROLE_REGION_CEO) {
-        $where.= " AND c.ceo_region_id = $user_id";
-      }
-      if ($role_id == ROLE_BRANCH_CEO) {
-        $where.= " AND c.ceo_branch_id = $user_id";
-      }
+      // if ($role_id == ROLE_REGION_CEO) {
+      //   $where.= " AND c.ceo_region_id = $user_id";
+      // }
+      // if ($role_id == ROLE_BRANCH_CEO) {
+      //   $where.= " AND c.ceo_branch_id = $user_id";
+      // }
       if ($role_id == ROLE_EC_LEADER) {
         $where.= " AND c.ec_leader_id = $user_id";
       }

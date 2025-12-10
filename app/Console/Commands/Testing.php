@@ -38,7 +38,7 @@ class Testing extends Command
      */
     public function handle()
     {   
-        $data = u::query("SELECT c.id,c.coupon FROM  contracts AS c LEFT JOIN discount_code_contracts AS dc ON dc.contract_id=c.id WHERE dc.id IS NULL AND coupon IS NOT NULL AND c.created_at >= '2025-11-01 00:00:00' ORDER BY c.id ASC");   
+        $data = u::query("SELECT c.id,c.coupon FROM  contracts AS c LEFT JOIN discount_code_contracts AS dc ON dc.contract_id=c.id WHERE dc.id IS NULL AND coupon IS NOT NULL AND c.created_at >= '2025-01-01 00:00:00' ORDER BY c.id ASC");   
         foreach ($data AS $row){
             $discountCode = u::tachChuoiDiscountCode(data_get($row, 'coupon'));
             $discountCode = isset($discountCode['ma']) ? $discountCode['ma'] : '';
