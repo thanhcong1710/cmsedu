@@ -3318,6 +3318,7 @@ class Report extends Model
                             s.gud_mobile1,s.gud_email1,
                             r.date_start AS enrolment_start_date,
                             (SELECT  must_charge FROM contracts WHERE id=r.contract_id) AS must_charge,
+                            (SELECT t.price FROM contracts AS c LEFT JOIN tuition_fee AS t ON t.id=c.tuition_fee_id  WHERE c.id=r.contract_id LIMIT 1) AS tuition_fee_amount,
                             s.address, (SELECT name FROM provinces WHERE id=s.province_id) AS province_name,
                             (SELECT name FROM districts WHERE id=s.district_id) AS district_name
                         FROM
