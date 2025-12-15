@@ -3396,7 +3396,7 @@ class Report extends Model
                             (SELECT ins_name FROM teachers WHERE user_id=cls.teacher_id) AS teacher_name, c.enrolment_start_date,c.branch_id,c.product_id,c.id AS contract_id,c.class_id, c.enrolment_last_date, c.summary_sessions,
                              s.gud_mobile1,s.gud_email1, c.enrolment_start_date,
                             c.must_charge,
-                            (SELECT t.price FROM contracts AS c LEFT JOIN tuition_fee AS t ON t.id=c.tuition_fee_id  WHERE c.id=r.contract_id LIMIT 1) AS tuition_fee_amount,
+                            (SELECT t.price FROM contracts AS cc LEFT JOIN tuition_fee AS t ON t.id=cc.tuition_fee_id  WHERE cc.id=c.id LIMIT 1) AS tuition_fee_amount,
                             s.address, (SELECT name FROM provinces WHERE id=s.province_id) AS province_name,
                             (SELECT name FROM districts WHERE id=s.district_id) AS district_name
                         FROM
