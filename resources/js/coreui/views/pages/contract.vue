@@ -199,11 +199,20 @@
                                 <div class="border">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="flex-box">
+                                            <div class="flex-box" v-if="contract.product_id < 100">
                                                 <span>Khóa học đăng ký: &nbsp;&nbsp;</span>
                                                 <span class="label"><input type="checkbox" :checked="is_ucrea" disabled /><i></i>&nbsp;&nbsp; Ucrea</span>
                                                 <span class="label"><input type="checkbox" :checked="is_bright" disabled /><i></i>&nbsp;&nbsp; Bright IG</span>
                                                 <span class="label"><input type="checkbox" :checked="is_blkhole" disabled /><i></i>&nbsp;&nbsp; Black Hole</span>
+                                            </div>
+                                            <div class="flex-box" v-else>
+                                                <span>Khóa học đăng ký: &nbsp;&nbsp;</span>
+                                                <span class="label"><input type="checkbox" :checked="contract.product_id==102" disabled /><i></i>&nbsp;&nbsp; BrickMoto</span>
+                                                <span class="label"><input type="checkbox" :checked="contract.product_id==103" disabled /><i></i>&nbsp;&nbsp; PreSchool</span>
+                                                <span class="label"><input type="checkbox" :checked="contract.product_id==104" disabled /><i></i>&nbsp;&nbsp; Power Function</span>
+                                                <span class="label"><input type="checkbox" :checked="contract.product_id==105" disabled /><i></i>&nbsp;&nbsp; Junior Robotics</span>
+                                                <span class="label"><input type="checkbox" :checked="contract.product_id==106" disabled /><i></i>&nbsp;&nbsp; Micro:bit Programming</span>
+                                                <span class="label"><input type="checkbox" :checked="contract.product_id==107" disabled /><i></i>&nbsp;&nbsp; Advanced Robotics</span>
                                             </div>
                                         </div>
                                     </div>
