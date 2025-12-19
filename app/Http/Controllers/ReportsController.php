@@ -1769,7 +1769,7 @@ class ReportsController extends Controller
             '$report_month' report_month,
             IF(c.enrolment_last_date IS NOT NULL,c.enrolment_last_date,c.end_date) AS last_date,
             (SELECT `enrolment_start_date` FROM `log_contracts_history` WHERE student_id = c.student_id AND enrolment_start_date IS NOT NULL AND `type` <> 0 ORDER BY id LIMIT 1) AS date_start,
-            c.summary_sessions,c.enrolment_start_date
+            c.summary_sessions,c.enrolment_start_date, '$type' AS type
         FROM
             contracts c
             LEFT JOIN students s ON c.student_id = s.id
@@ -1812,13 +1812,13 @@ class ReportsController extends Controller
     public function addItems($list) {
         if ($list) {
             $created_at = date('Y-m-d H:i:s');
-            $query = "INSERT INTO report_full_fee_active (student_id,contract_id, class_id, product_id, cm_id, report_month, branch_id, created_at, creator_id,last_date,date_start,done_session,summary_sessions) VALUES ";
+            $query = "INSERT INTO report_full_fee_active (student_id,contract_id, class_id, product_id, cm_id, report_month, branch_id, created_at, creator_id,last_date,date_start,done_session,summary_sessions,`type`) VALUES ";
             $query_all = "INSERT INTO report_full_fee_active_all (student_id,contract_id, class_id, product_id, cm_id, report_month, branch_id, created_at, creator_id,last_date,date_start,done_session,summary_sessions) VALUES ";
             if (count($list) > 5000) {
                 for($i = 0; $i < 5000; $i++) {
                     $item = $list[$i];
                     $done_session = self::getDoneSessions($item);
-                    $query.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions'),";
+                    $query.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions','$item->type'),";
                     $query_all.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions'),";
                 }
                 $query = substr($query, 0, -1);
@@ -1829,7 +1829,7 @@ class ReportsController extends Controller
             } else {
                 foreach($list as $item) {
                     $done_session = self::getDoneSessions($item);
-                    $query.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions'),";
+                    $query.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions','$item->type'),";
                     $query_all.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions'),";
                 }
                 $query = substr($query, 0, -1);
