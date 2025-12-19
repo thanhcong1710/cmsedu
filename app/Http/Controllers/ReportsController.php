@@ -1732,7 +1732,7 @@ class ReportsController extends Controller
         $result = u::calculatorSessions($data->enrolment_start_date, date('Y-m-d'), $holiDay, $class_days);
         return $result ? $result->total : NULL;
     }
-    public function collectFullFeeActive(Request $request, $month, $branch)
+    public function collectFullFeeActive(Request $request, $month, $branch, $type)
     {
         $data = null;
         $code = APICode::SUCCESS;
@@ -1749,13 +1749,17 @@ class ReportsController extends Controller
         }else{
             $end_date = date('Y-m-t',strtotime($report_month.'-01'));
         }
-        $where = "";
+        if ($type ==1){
+            $where = " AND c.product_id > 100";
+        } else {
+            $where = " AND c.product_id < 100";
+        }
         $where_del = "";
         if (count(explode(',', $branch)) > 0 && $branch != '_') {
             $where = " AND c.branch_id IN ($branch)";
             $where_del = " AND branch_id IN ($branch)";
         }
-        u::query("DELETE FROM report_full_fee_active WHERE report_month = '$report_month' $where_del ");
+        u::query("DELETE FROM report_full_fee_active WHERE report_month = '$report_month' AND type=$type $where_del ");
         $list = u::query("SELECT DISTINCT s.id student_id,
             c.id contract_id,
             s.branch_id,

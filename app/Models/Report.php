@@ -3293,6 +3293,11 @@ class Report extends Model
             if ($p->r != '') {
                 $where .= " AND r.product_id in ($p->r) ";
             }
+            if ($p->e == 1){
+                $where .= " AND r.type = 1" ;
+            } else {
+                $where .= " AND r.type = 0" ;
+            }
             if ($total) {
                 $resp = "SELECT
                             count(DISTINCT student_id) as total
@@ -3348,6 +3353,11 @@ class Report extends Model
             }
             if ($p->r != '') {
                 $where .= " AND c.product_id in ($p->r) ";
+            }
+            if ($p->e == 1){
+                $where .= " AND c.product_id > 100" ;
+            } else {
+                $where .= " AND c.product_id < 100" ;
             }
             if ($total) {
                 $resp = "SELECT

@@ -45,7 +45,8 @@ class ProcessData extends Command
     {
         $report = new ReportsController();
         //update report_full_fee_active
-        $report->collectFullFeeActive( $request,'_','_');
+        $report->collectFullFeeActive( $request,'_','_', 0);
+        $report->collectFullFeeActive( $request,'_','_', 1);
         //update report_get_users
         $report->collectReportGetUser( $request,'_');
         $report->collectReportReserve( $request,'_');

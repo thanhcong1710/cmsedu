@@ -86,6 +86,12 @@
                   <option value="1" >Có sinh nhật trong tháng</option>
                 </select>
               </div>
+              <div class="col-md-3">
+                <select class="form-control" v-model="searchData.type">
+                  <option value="0">Logic Math</option>
+                  <option value="1">Bricks4kidz</option>
+                </select>
+              </div>
             </div>
           </div>
           <div slot="footer" class="text-center">
@@ -235,6 +241,7 @@ export default {
         keyword: "",
         listCms: "",
         listProducts: "",
+        type: 0,
       },
       resource: {
         branchs: [],
@@ -377,6 +384,7 @@ export default {
         keyword: this.searchData.keyword.trim(),
         birthday_mode: this.birthday_mode,
         products: pids,
+        type: this.searchData.type,
       };
       return data;
     },
