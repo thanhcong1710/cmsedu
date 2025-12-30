@@ -419,8 +419,8 @@ export default {
         // u.log('Calculating', value, this.item.total_charged, this.item.must_charge, suma, debt)
         if (suma > parseInt(this.item.must_charge)) {
           this.charge_amount = this.formatAmount(parseInt(this.item.must_charge, 10) - parseInt(this.item.total_charged, 10))
-          this.charge_amount = this.charge_amount > 1000 && this.charge_amount % 1000 > 0 ? ((this.charge_amount / 1000) + 1) * 1000 : this.charge_amount
-          if (this.charge_amount > 1000) {
+          this.charge_amount = this.charge_amount >= 1000 && this.charge_amount % 1000 > 0 ? ((this.charge_amount / 1000) + 1) * 1000 : this.charge_amount
+          if (this.charge_amount >= 1000) {
             this.html.disable.save = false
             this.html.disable.reset = false
           } else {
@@ -428,7 +428,7 @@ export default {
             this.html.disable.reset = true
           }
         } else {
-          if (this.charge_amount > 1000) {
+          if (this.charge_amount >= 1000) {
             this.html.disable.save = false
             this.html.disable.reset = false
           } else {
@@ -496,7 +496,7 @@ export default {
     selectBank() {
       if (this.item && parseInt(this.item.method,10) === 2 && this.item.note !== '') {
         const value = u.fmc(this.charge_amount)
-        if (value.n > 1000) {
+        if (value.n >= 1000) {
           this.html.disable.save = false
         } else {
           this.html.disable.save = true
@@ -506,7 +506,7 @@ export default {
     checkingOnClick() {
       const charge_num = u.fmc(this.charge_amount)
       this.charge_amount = charge_num.s
-      if (charge_num.n > 1000) {
+      if (charge_num.n >= 1000) {
         this.html.disable.save = false
       } else {
         this.html.disable.save = true
