@@ -346,7 +346,7 @@ export default {
   },
 
   methods: {
-    formatAmount: (num) => num && num > 1000 ? u.currency(num, 'đ') : '0đ',
+    formatAmount: (num) => num && num >= 1000 ? u.currency(num, 'đ') : '0đ',
     formatTime: (inputtime) => inputtime ? moment(inputtime).format('YYYY-MM-DD - HH:mm:ss') : '',
     load(charge_id) {
       u.g(`/api/charges/${charge_id}`)
