@@ -344,8 +344,8 @@ export default {
         // u.log('Calculating', value, this.item.total_charged, this.item.must_charge, suma, debt)
         if (suma > parseInt(this.item.must_charge)) {
           this.charge_amount = this.formatAmount(parseInt(this.item.must_charge, 10) - parseInt(this.item.total_charged, 10))
-          this.charge_amount = this.charge_amount > 1000 && this.charge_amount % 1000 > 0 ? ((this.charge_amount / 1000) + 1) * 1000 : this.charge_amount
-          if (this.charge_amount > 1000) {
+          this.charge_amount = this.charge_amount >= 1000 && this.charge_amount % 1000 > 0 ? ((this.charge_amount / 1000) + 1) * 1000 : this.charge_amount
+          if (this.charge_amount >= 1000) {
             this.html.disable.save = false
             this.html.disable.reset = false
           } else {
@@ -353,7 +353,7 @@ export default {
             this.html.disable.reset = true
           }
         } else {
-          if (this.charge_amount > 1000) {
+          if (this.charge_amount >= 1000) {
             this.html.disable.save = false
             this.html.disable.reset = false
           } else {
