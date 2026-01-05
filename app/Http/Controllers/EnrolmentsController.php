@@ -231,7 +231,7 @@ class EnrolmentsController extends Controller
                   UNION ALL
                   SELECT CONCAT(999, c.id) AS id, c.id AS item_id, 'class' AS item_type, c.cls_iscancelled, c.cls_name AS `text`, c.program_id AS parent_id, IF(c.cm_id > 0, IF (c.cls_iscancelled = 'yes', 'fa fa-window-close-o', 'fa fa-file-text-o'), IF (c.cls_iscancelled = 'yes', 'fa fa-close', 'fa fa-user-times')) AS icon
                   FROM classes AS c INNER JOIN programs AS p ON c.program_id = p.id
-                  WHERE p.status > 0 AND p.branch_id IN (0,$branch_id) AND p.semester_id = $semester_id AND c.cls_enddate >= '".date('Y-m-d 00:00:00', strtotime('-90 days'))."'";
+                  WHERE p.status > 0 AND p.branch_id IN (0,$branch_id) AND p.semester_id = $semester_id AND c.cls_enddate >= '".date('Y-m-d 00:00:00', strtotime('-30 days'))."'";
         $class = u::query($query);
         if (count($class)) {
           foreach ($class as $item) {
