@@ -224,17 +224,17 @@
         }
       },
       created(){
-        if (u.authorized()) {
+        // if (u.authorized()) {
           u.a().get('/api/reports/branches').then(response=>{
             this.branches = response.data
           })
-        } else {
-          const session = u.session()          
-          this.branch = parseInt(session.user.branch_id, 10)
-          u.a().get(`api/branches/${this.branch}`).then(response =>{
-            this.selectedBranch = response.data;
-          })
-        }
+        // } else {
+        //   const session = u.session()          
+        //   this.branch = parseInt(session.user.branch_id, 10)
+        //   u.a().get(`api/branches/${this.branch}`).then(response =>{
+        //     this.selectedBranch = response.data;
+        //   })
+        // }
         u.a().get(`/api/all/products`).then(response =>{
           this.products = response.data
         })
