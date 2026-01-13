@@ -225,8 +225,8 @@
       },
       created(){
         if (u.authorized()) {
-          u.a().get('/api/branch/role').then(response => {
-              this.branches = response.data
+          u.a().get('/api/reports/branches').then(response=>{
+            this.branches = response.data
           })
         } else {
           const session = u.session()          
