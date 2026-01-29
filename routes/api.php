@@ -31,15 +31,52 @@ use Illuminate\Support\Facades\DB;
 */
 Route::get('provinces/list', 'ProvincesController@getList');
 Route::get('district/list', 'DistrictsController@getList');
-u::load(['authentication' => [
+u::load([
+  'authentication' => [
     'method' => 'post',
     'router' => 'login',
     'action' => 'submit'
   ],
-  'products', 'books', 'discounts', 'roles', 'classes', 'ranks', 'shifts', 'sessions','reserves', 'branches', 'programs', 'regions', 'zones','ranks', 'contacts', 'semesters', 'termProgramProducts', 'tuitionFees','tuitionTransfers', 'customerCares','termStudentRanks','termTeacherBranches','termStudentUsers', 'termUserBranches', 'publicHolidays', 'provinces','schoolGrades', 'teachers', 'rooms', 'reasons', 'configs', 'scores', 'programCodes', 'pendingRegulations', 'discountsForms','qualities']);
+  'products',
+  'books',
+  'discounts',
+  'roles',
+  'classes',
+  'ranks',
+  'shifts',
+  'sessions',
+  'reserves',
+  'branches',
+  'programs',
+  'regions',
+  'zones',
+  'ranks',
+  'contacts',
+  'semesters',
+  'termProgramProducts',
+  'tuitionFees',
+  'tuitionTransfers',
+  'customerCares',
+  'termStudentRanks',
+  'termTeacherBranches',
+  'termStudentUsers',
+  'termUserBranches',
+  'publicHolidays',
+  'provinces',
+  'schoolGrades',
+  'teachers',
+  'rooms',
+  'reasons',
+  'configs',
+  'scores',
+  'programCodes',
+  'pendingRegulations',
+  'discountsForms',
+  'qualities'
+]);
 Route::get('/all/roles', 'RolesController@getAll');
 Route::get('/all/get-roles', 'RolesController@getSelectAll')->middleware('Authentication');
-Route::get('role/get-role-for-user/{userId}','RolesController@getRoleForUser');
+Route::get('role/get-role-for-user/{userId}', 'RolesController@getRoleForUser');
 Route::get('/role/list', 'RolesController@getList');
 Route::get('/role/{id}', 'RolesController@getRoleDetail');
 Route::put('/role/{id}', 'RolesController@updateRole');
@@ -51,11 +88,11 @@ Route::get('scope/branch/{branch_name}', 'ScopeController@index')->middleware('A
 // Provinces
 Route::get('scope/test/func/{params}/{ses}/{date}', 'ScopeController@test')->middleware('Authentication');
 Route::get('scope/test/transfer/{params}', 'ScopeController@transferTest')->middleware('Authentication');
-Route::put('update_sessions/{class_id}','SessionsController@update')->middleware('Authentication');
+Route::put('update_sessions/{class_id}', 'SessionsController@update')->middleware('Authentication');
 /** Start Students Router ========================================================================================================== */
-Route::get('students/report-by-date','StudentsController@reportByDate')->middleware('Authentication');
-Route::get('students/export-by-date','StudentsController@exportByDate')->middleware('Authentication');
-Route::get('students/export-studying','StudentsController@exportStudying');
+Route::get('students/report-by-date', 'StudentsController@reportByDate')->middleware('Authentication');
+Route::get('students/export-by-date', 'StudentsController@exportByDate')->middleware('Authentication');
+Route::get('students/export-studying', 'StudentsController@exportStudying');
 Route::get('students/list/load/eccms/filter/{branch_id}', 'StudentsController@loadECCM')->middleware('Authentication');
 Route::get('students/list/{pagination}/{search}/{sort}', 'StudentsController@list')->middleware('Authentication');
 Route::get('students/suggest/{key}/{branch_id}', 'StudentsController@suggest')->middleware('Authentication');
@@ -83,10 +120,10 @@ Route::get('students/{id}/reserves', 'ReservesController@getReservesByStudent')-
 Route::get('students/{student_id}/get-charge-list-by-student', 'StudentsController@getChargeListByStudent')->middleware('Authentication');
 Route::post('students/add', 'StudentsController@store')->middleware('Authentication');
 Route::post('students/update/{id}', 'StudentsController@update')->middleware('Authentication');
-Route::get('students/{id}/meta','StudentsController@metadata')->middleware('Authentication');
-Route::post('students/check-edit-exist-information','StudentsController@checkEditExistInformation')->middleware('Authentication');
-Route::get('students/count-students/{branch_id}','StudentsController@countStudents');
-Route::get('students/detail-new/{id}','StudentsController@getDetail');
+Route::get('students/{id}/meta', 'StudentsController@metadata')->middleware('Authentication');
+Route::post('students/check-edit-exist-information', 'StudentsController@checkEditExistInformation')->middleware('Authentication');
+Route::get('students/count-students/{branch_id}', 'StudentsController@countStudents');
+Route::get('students/detail-new/{id}', 'StudentsController@getDetail');
 
 Route::get('student/branch/{id}', 'StudentsController@studentByBranch');
 Route::get('get-student-update/{id}', 'StudentsController@getStudentUpdate')->middleware('Authentication');
@@ -113,8 +150,13 @@ Route::get('contracts/{id}', 'ContractsController@show')->middleware('Authentica
 Route::get('contracts/ecs', 'ContractsController@ecs')->middleware('Authentication');
 Route::post('contracts/add', 'ContractsController@store')->middleware('Authentication');
 Route::post('contracts/quit', 'ContractsController@quit')->middleware('Authentication');
-Route::get('type-student','ContractsController@getType')->middleware('Authentication');
+Route::get('type-student', 'ContractsController@getType')->middleware('Authentication');
 /** End Contracts Router =========================================================================================================== */
+
+/** Start Discount Helper Router =================================================================================================== */
+Route::post('discounts/applicable', 'DiscountHelperController@getApplicableDiscounts')->middleware('Authentication');
+Route::post('discounts/best', 'DiscountHelperController@getBestDiscount')->middleware('Authentication');
+/** End Discount Helper Router ===================================================================================================== */
 
 /** Start Charges Router ========================================================================================================= */
 Route::get('charges/list/{pagination}/{search}/{sort}', 'ChargesController@list')->middleware('Authentication');
@@ -124,7 +166,7 @@ Route::get('charges/{id}', 'ChargesController@detail')->middleware('Authenticati
 Route::post('charges/add', 'ChargesController@store')->middleware('Authentication');
 /** End Charges Router =========================================================================================================== */
 
-Route::post('payment/bycontract','PaymentController@getPaymentByContract')->middleware('Authentication');
+Route::post('payment/bycontract', 'PaymentController@getPaymentByContract')->middleware('Authentication');
 
 /** Start Waitcharges Router ========================================================================================================= */
 Route::get('waitcharges/list/{pagination}/{search}/{sort}', 'WaitchargesController@list')->middleware('Authentication');
@@ -259,8 +301,8 @@ Route::post('reports/branchtransfer', 'ReportsController@branchTransfers')->midd
 Route::post('reports/students', 'ReportsController@students')->middleware('Authentication');
 Route::post('reports/student-withdraw', 'ReportsController@studentWithdraw')->middleware('Authentication');
 Route::get('reports/student-active', 'ReportsController@studentActive')->middleware('Authentication');
-Route::get('export/student-active-by-date','ReportsController@exportStudentActiveByDate')->middleware('Authentication');
-Route::get('export/tuition-fee','ReportsController@exportTuitionFeeByDate')->middleware('Authentication');
+Route::get('export/student-active-by-date', 'ReportsController@exportStudentActiveByDate')->middleware('Authentication');
+Route::get('export/tuition-fee', 'ReportsController@exportTuitionFeeByDate')->middleware('Authentication');
 Route::post('reports/branch_info/{type}', 'ReportsController@getBranchesInfo')->middleware('Authentication');
 Route::post('reports/form-30', 'ReportsController@form30')->middleware('Authentication');
 Route::post('reports/form-31', 'ReportsController@form31')->middleware('Authentication');
@@ -315,17 +357,17 @@ Route::get('contracts', 'ContractsController@index')->middleware('Authentication
 
 Route::get('users/pass/{pass}', 'UsersController@password');
 Route::get('users/list/{page}/{search}', 'UsersController@list')->middleware('Authentication');
-Route::post('users/{user_id}/update-users-profile','UsersController@updateProfile')->middleware('Authentication');
-Route::post('users/{user_id}/update-users-history','UsersController@updateHistory')->middleware('Authentication');
-Route::put('users/{user_id}/sale','UsersController@createEffectSale')->middleware('Authentication');
+Route::post('users/{user_id}/update-users-profile', 'UsersController@updateProfile')->middleware('Authentication');
+Route::post('users/{user_id}/update-users-history', 'UsersController@updateHistory')->middleware('Authentication');
+Route::put('users/{user_id}/sale', 'UsersController@createEffectSale')->middleware('Authentication');
 
 Route::get('user/{id}', 'UsersController@detail')->middleware('Authentication');
 Route::post('user/upload', 'UsersController@upload')->middleware('Authentication');
-Route::post('user/uploadExcel','UsersController@uploadExcel')->middleware('Authentication');
-Route::get('user_excel/exportExcel','UsersController@exportUserToExcel');
-Route::get('user_excel/downloadExample','UsersController@downloadExample');
-Route::get('user_excel/downloadExampleQuit','UsersController@downloadExampleQuit');
-Route::get('users/download-using-guide/{role_id}','UsersController@downloadUsingGuide');
+Route::post('user/uploadExcel', 'UsersController@uploadExcel')->middleware('Authentication');
+Route::get('user_excel/exportExcel', 'UsersController@exportUserToExcel');
+Route::get('user_excel/downloadExample', 'UsersController@downloadExample');
+Route::get('user_excel/downloadExampleQuit', 'UsersController@downloadExampleQuit');
+Route::get('users/download-using-guide/{role_id}', 'UsersController@downloadUsingGuide');
 
 Route::get('/all/products/', 'ProductsController@showAll');
 Route::get('products/semester-id/{semester_id}', 'ProductsController@getProductBySemesterId');
@@ -364,13 +406,13 @@ Route::get('/reserves/{id}/detail', 'ReservesController@detail')->middleware('Au
 Route::get('/reserves/info/{branch_id}', 'ReservesController@getAllData')->middleware('Authentication');
 Route::get('/reserves/students/{class_id}', 'ReservesController@getStudentsForMultiReserve')->middleware('Authentication');
 Route::post('/reserves/multiple', 'ReservesController@createMultiReserve')->middleware('Authentication');
-Route::get('/info/{branch_id}/holidays','InfoController@getHolidays');
-Route::get('/info/{class_id}/classdays','InfoController@getClassDays');
-Route::get('/info/reasons/pendings','InfoController@getPendingReasons');
+Route::get('/info/{branch_id}/holidays', 'InfoController@getHolidays');
+Route::get('/info/{class_id}/classdays', 'InfoController@getClassDays');
+Route::get('/info/reasons/pendings', 'InfoController@getPendingReasons');
 
-Route::get('/reserves-info/requests','ReservesController@getRequests')->middleware('Authentication');
-Route::get('/reserves-info/print/{id}','ReservesController@getPrintData');
-Route::get('/reserves-info/{id}','ReservesController@getListByUserID')->middleware('Authentication');
+Route::get('/reserves-info/requests', 'ReservesController@getRequests')->middleware('Authentication');
+Route::get('/reserves-info/print/{id}', 'ReservesController@getPrintData');
+Route::get('/reserves-info/{id}', 'ReservesController@getListByUserID')->middleware('Authentication');
 
 /*------------------Pending Routes--------------------------------------------------------*/
 Route::get('/pendings', 'PendingsController@getList')->middleware('Authentication');
@@ -380,8 +422,8 @@ Route::put('/pendings/{id}/approve', 'PendingsController@approve')->middleware('
 Route::put('/pendings/{id}/deny', 'PendingsController@deny')->middleware('Authentication');
 Route::get('/pendings/{user_id}', 'PendingsController@getListByUserID');
 Route::post('/pendings', 'PendingsController@create')->middleware('Authentication');
-Route::get('/pendings-info/requests','PendingsController@getRequests')->middleware('Authentication');
-Route::get('/pendings-info/{id}','PendingsController@getListByUserID');
+Route::get('/pendings-info/requests', 'PendingsController@getRequests')->middleware('Authentication');
+Route::get('/pendings-info/{id}', 'PendingsController@getListByUserID');
 
 // Route::get('classes/students/{id}', 'ClassesController@getStudentByClass');
 Route::get('classes/{id}/enrolments', 'ClassesController@getEnrolmentByClass');
@@ -419,66 +461,66 @@ Route::get('tuitions/{id}/branches/', 'TuitionFeesController@getBranch');
 Route::get('tuitions/select/{tuition_id}/load', 'SettingsController@loadInformation')->middleware('Authentication');
 
 Route::get('withdrawals/search/students/{branch_id}/{key}', 'WithdrawalsController@searchStudent')->middleware('Authentication');
-Route::get('withdrawals/all-contract/{student_id}','WithdrawalsController@getAllContractByStudent')->middleware('Authentication');
-Route::post('withdrawals','WithdrawalsController@create')->middleware('Authentication');
-Route::get('withdrawals','WithdrawalsController@getList')->middleware('Authentication');
-Route::get('withdrawals/requests','WithdrawalsController@getRequest')->middleware('Authentication');
-Route::get('withdrawals_refun/requests','WithdrawalsController@getRequestRefun')->middleware('Authentication');
-Route::get('withdrawals/{id}','WithdrawalsController@getListByUserID')->middleware('Authentication');
-Route::get('withdrawals/detail/{id}','WithdrawalsController@getDetail')->middleware('Authentication');
-Route::put('withdrawals/{id}/approve','WithdrawalsController@approve')->middleware('Authentication');
-Route::put('withdrawals/{id}/refun','WithdrawalsController@refun')->middleware('Authentication');
-Route::put('withdrawals/{id}/deny','WithdrawalsController@deny')->middleware('Authentication');
-Route::put('withdrawals/{id}/refun-deny','WithdrawalsController@refunDeny')->middleware('Authentication');
+Route::get('withdrawals/all-contract/{student_id}', 'WithdrawalsController@getAllContractByStudent')->middleware('Authentication');
+Route::post('withdrawals', 'WithdrawalsController@create')->middleware('Authentication');
+Route::get('withdrawals', 'WithdrawalsController@getList')->middleware('Authentication');
+Route::get('withdrawals/requests', 'WithdrawalsController@getRequest')->middleware('Authentication');
+Route::get('withdrawals_refun/requests', 'WithdrawalsController@getRequestRefun')->middleware('Authentication');
+Route::get('withdrawals/{id}', 'WithdrawalsController@getListByUserID')->middleware('Authentication');
+Route::get('withdrawals/detail/{id}', 'WithdrawalsController@getDetail')->middleware('Authentication');
+Route::put('withdrawals/{id}/approve', 'WithdrawalsController@approve')->middleware('Authentication');
+Route::put('withdrawals/{id}/refun', 'WithdrawalsController@refun')->middleware('Authentication');
+Route::put('withdrawals/{id}/deny', 'WithdrawalsController@deny')->middleware('Authentication');
+Route::put('withdrawals/{id}/refun-deny', 'WithdrawalsController@refunDeny')->middleware('Authentication');
 // Route::get('withdrawals/print/{id}', 'WithdrawalsController@getPrintData');
 // Route::put('withdrawals/{id}','WithdrawalsController@update')->middleware('Authentication');
 
-Route::get('tuition-transfers/list/{pagination}/{search}/{sort}','TuitionTransfersController@getList')->middleware('Authentication');
+Route::get('tuition-transfers/list/{pagination}/{search}/{sort}', 'TuitionTransfersController@getList')->middleware('Authentication');
 Route::get('tuition-transfers/suggest-sender/{key}/{branch_id}', 'TuitionTransfersController@suggestSender')->middleware('Authentication');
 Route::get('tuition-transfers/contracts/sender/{student_id}', 'TuitionTransfersController@getAllSenderContracts')->middleware('Authentication');
 Route::get('tuition-transfers/suggest-receiver/{key}/{branch_id}/{excepted_student_id}', 'TuitionTransfersController@suggestReceiver')->middleware('Authentication');
 Route::get('tuition-transfers/contracts/receiver/{student_id}/{from_student_id}', 'TuitionTransfersController@getReceiversLatestContract')->middleware('Authentication');
-Route::post('tuition-transfers/prepare-transfer-data','TuitionTransfersController@prepareTransferData')->middleware('Authentication');
+Route::post('tuition-transfers/prepare-transfer-data', 'TuitionTransfersController@prepareTransferData')->middleware('Authentication');
 Route::get('tuition-transfers/get_all_reasons', 'TuitionTransfersController@getAllReasons')->middleware('Authentication');
-Route::post('tuition-transfers/save','TuitionTransfersController@storeTransfer')->middleware('Authentication');
-Route::post('tuition-transfers/approve/store','TuitionTransfersController@approveTuitionTransfer')->middleware('Authentication');
+Route::post('tuition-transfers/save', 'TuitionTransfersController@storeTransfer')->middleware('Authentication');
+Route::post('tuition-transfers/approve/store', 'TuitionTransfersController@approveTuitionTransfer')->middleware('Authentication');
 Route::get('tuition-transfers/print/{id}', 'TuitionTransfersController@getPrintData');
 //Route::delete('/tuition-transfers/{id}','TuitionTransfersController@delete')->middleware('Authentication');
 
-Route::get('branch-transfers/list/{pagination}/{search}/{sort}','BranchTransfersController@getList')->middleware('Authentication');
+Route::get('branch-transfers/list/{pagination}/{search}/{sort}', 'BranchTransfersController@getList')->middleware('Authentication');
 Route::get('branch-transfers/suggest-passenger/{key}/{branch_id}', 'BranchTransfersController@suggestPassenger')->middleware('Authentication');
 Route::get('branch-transfers/contracts/passenger/{student_id}', 'BranchTransfersController@getAllPassengersContracts')->middleware('Authentication');
 Route::get('branch-transfers/passenger/check/{student_id}/{branch_id}', 'BranchTransfersController@checkToBranch')->middleware('Authentication');
-Route::post('branch-transfers/prepare-transfer-data','BranchTransfersController@prepareTransferData')->middleware('Authentication');
-Route::post('branch-transfers/save','BranchTransfersController@storeTransferedData')->middleware('Authentication');
-Route::post('branch-transfers/approve/store','BranchTransfersController@approveBranchTransfer')->middleware('Authentication');
-Route::get('branch-transfers/print/{branch_transfer_id}','BranchTransfersController@getPrintData')->middleware('Authentication');
+Route::post('branch-transfers/prepare-transfer-data', 'BranchTransfersController@prepareTransferData')->middleware('Authentication');
+Route::post('branch-transfers/save', 'BranchTransfersController@storeTransferedData')->middleware('Authentication');
+Route::post('branch-transfers/approve/store', 'BranchTransfersController@approveBranchTransfer')->middleware('Authentication');
+Route::get('branch-transfers/print/{branch_transfer_id}', 'BranchTransfersController@getPrintData')->middleware('Authentication');
 //Route::delete('/branch-transfers/{id}','BranchTransfersController@delete')->middleware('Authentication');
 
-Route::get('/class-transfers','ClassTransfersController@getList')->middleware('Authentication');
+Route::get('/class-transfers', 'ClassTransfersController@getList')->middleware('Authentication');
 Route::get('/class-transfers/suggest/{key}/{branch_id}/{type}', 'ClassTransfersController@suggestStudent');
-Route::get('/class-transfers/{branch_id}/info/trial','ClassTransfersController@getAllInfoTrial');
-Route::get('/class-transfers/{branch_id}/info','ClassTransfersController@getAllInfo');
-Route::get('/class-transfers/extend/{start}/{end}/{class_id}','ClassTransfersController@getClassExtendInfo');
+Route::get('/class-transfers/{branch_id}/info/trial', 'ClassTransfersController@getAllInfoTrial');
+Route::get('/class-transfers/{branch_id}/info', 'ClassTransfersController@getAllInfo');
+Route::get('/class-transfers/extend/{start}/{end}/{class_id}', 'ClassTransfersController@getClassExtendInfo');
 Route::get('/class-transfers/contracts/{contract_id}', 'ClassTransfersController@getContract');
 Route::get('/class-transfers/print/{id}', 'ClassTransfersController@getPrintData');
-Route::put('/class-transfers/{id}/approve/{mode?}','ClassTransfersController@approve')->middleware('Authentication');
-Route::put('/class-transfers/{id}/deny','ClassTransfersController@deny')->middleware('Authentication');
-Route::get('/class-transfers/requests','ClassTransfersController@getRequest')->middleware('Authentication');
-Route::get('/class-transfers/detail/{id}','ClassTransfersController@getDetail');
-Route::get('/class-transfers/{id}','ClassTransfersController@getListByUserID');
-Route::post('/class-transfers','ClassTransfersController@create')->middleware('Authentication');
-Route::put('/class-transfers/{id}','ClassTransfersController@update')->middleware('Authentication');
-Route::get('/class-transfers/get-student/{class_id}','ClassTransfersController@getStudent')->middleware('Authentication');
-Route::post('/class-transfers/add-multi-student','ClassTransfersController@createMulti')->middleware('Authentication');
-Route::post('/class-transfers/check-multi-student','ClassTransfersController@checkMulti')->middleware('Authentication');
+Route::put('/class-transfers/{id}/approve/{mode?}', 'ClassTransfersController@approve')->middleware('Authentication');
+Route::put('/class-transfers/{id}/deny', 'ClassTransfersController@deny')->middleware('Authentication');
+Route::get('/class-transfers/requests', 'ClassTransfersController@getRequest')->middleware('Authentication');
+Route::get('/class-transfers/detail/{id}', 'ClassTransfersController@getDetail');
+Route::get('/class-transfers/{id}', 'ClassTransfersController@getListByUserID');
+Route::post('/class-transfers', 'ClassTransfersController@create')->middleware('Authentication');
+Route::put('/class-transfers/{id}', 'ClassTransfersController@update')->middleware('Authentication');
+Route::get('/class-transfers/get-student/{class_id}', 'ClassTransfersController@getStudent')->middleware('Authentication');
+Route::post('/class-transfers/add-multi-student', 'ClassTransfersController@createMulti')->middleware('Authentication');
+Route::post('/class-transfers/check-multi-student', 'ClassTransfersController@checkMulti')->middleware('Authentication');
 //Route::delete('/class-transfers/{id}','ClassTransfersController@delete')->middleware('Authentication');
 
 // Route::post('/lms/recall','LMSAPIController@reCallAPI')->middleware('Authentication');
 // Route::post('/lms/{mode?}','LMSAPIController@callAPI')->middleware('Authentication');
 // Route::post('/effect/recall','EffectAPIController@reCallAPI')->middleware('Authentication');
 // Route::post('/effect','EffectAPIController@callAPI')->middleware('Authentication');
-Route::post('/golang','golangAPIController@callAPI')->middleware('Authentication');
+Route::post('/golang', 'golangAPIController@callAPI')->middleware('Authentication');
 
 Route::get('/semesters-listing/current', 'SemestersController@current')->middleware('Authentication');
 Route::get('/semesters-listing/obsolete', 'SemestersController@obsolete')->middleware('Authentication');
@@ -605,8 +647,8 @@ Route::get('teachers/branch/{id}', 'TeachersController@getTeachersByBranch');
 Route::get('branches/{id}/teachers', 'TeachersController@getTeacherListByBranch')->middleware('Authentication');
 
 /** Router for Classes */
-Route::post('classes/update/cm','ClassesController@updateCm')->middleware('Authentication');
-Route::post('classes/bycontract','ClassesController@getClassByContract')->middleware('Authentication');
+Route::post('classes/update/cm', 'ClassesController@updateCm')->middleware('Authentication');
+Route::post('classes/bycontract', 'ClassesController@getClassByContract')->middleware('Authentication');
 
 /** Issues Routes Teacher **/
 Route::get('issues/scores/list', 'IssuesController@getScoresList')->middleware('Authentication');
@@ -651,17 +693,17 @@ Route::delete('scoring_guidelines/{id}', 'ScoringGuidelinesController@remove')->
 Route::get('scoring_guidelines/list/{page}/{search}/{filter}', 'ScoringGuidelinesController@list')->middleware('Authentication');
 
 /** Router Student TransferFee **/
-Route::post('trasfer_fee/student/new','TransferFeeController@toNewStudent')->middleware('Authentication');
-Route::post('trasfer_fee/student/old','TransferFeeController@toOldStudent')->middleware('Authentication');
+Route::post('trasfer_fee/student/new', 'TransferFeeController@toNewStudent')->middleware('Authentication');
+Route::post('trasfer_fee/student/old', 'TransferFeeController@toOldStudent')->middleware('Authentication');
 // Router services cronjob
 Route::get('auto-update-count_days-in-school/', 'AutoCountDaysInSchoolController@updateCountDaysInSchool');
 Route::get('regions/{ids}/branches', 'BranchesController@getAllBranches');
-Route::get('services/check_enrol_fld','ServicesController@checkEnrolByFinalLastDate');
-Route::get('services/update-learning-time/{student_id}/{branch_id}','ServicesController@updateLearningTime')->middleware('Authentication');
+Route::get('services/check_enrol_fld', 'ServicesController@checkEnrolByFinalLastDate');
+Route::get('services/update-learning-time/{student_id}/{branch_id}', 'ServicesController@updateLearningTime')->middleware('Authentication');
 Route::get('services/recalculate/{branch_id}', 'ServicesController@reCalcLearningTime')->middleware('Authentication');
-route::get('services/eff_top_sales/{date}','ServicesController@getEffTopSales');
-route::get('services/eff_top_products/{date}','ServicesController@getEffTopProducts');
-Route::get('services/dashboard/getDashboard/{date}','ServicesController@getEffDashboard');
+route::get('services/eff_top_sales/{date}', 'ServicesController@getEffTopSales');
+route::get('services/eff_top_products/{date}', 'ServicesController@getEffTopProducts');
+Route::get('services/dashboard/getDashboard/{date}', 'ServicesController@getEffDashboard');
 
 /** Ec of branch */
 Route::get('users/get-ec-cm-list', 'BranchesEcController@index')->middleware('Authentication');
@@ -692,9 +734,9 @@ Route::get('ctp/{class_id}/get-ctp-by-class', 'CTPController@getCTPByClass')->mi
 Route::get('ctp/{student_id}/{ctp_id}/get-ctp-info', 'CTPController@getCTPInfo')->middleware('Authentication');
 
 /** Log Manager Transfer */
-Route::post('log_manager_transfer/lists','LogManagerTransferController@lists');
-Route::get('zones/{zone_name}/check-zone-exist','ZonesController@checkExist');
-Route::get('log_manager_transfer/export_excel/{branch_id}/{from_date}/{to_date}/{sources}','LogManagerTransferController@exportExcel');
+Route::post('log_manager_transfer/lists', 'LogManagerTransferController@lists');
+Route::get('zones/{zone_name}/check-zone-exist', 'ZonesController@checkExist');
+Route::get('log_manager_transfer/export_excel/{branch_id}/{from_date}/{to_date}/{sources}', 'LogManagerTransferController@exportExcel');
 
 Route::get('users/{user_id}/get-working-history-list', 'UsersController@getWorkingHistoryList')->middleware('Authentication');
 Route::get('users/{user_id}/get-user-working-history-detail', 'UsersController@getUserWorkingHistoryDetail')->middleware('Authentication');
@@ -706,28 +748,28 @@ Route::put('users/update-user-working', 'UsersController@updateUserWorking')->mi
 Route::get('users/get-user-rank-list', 'UsersController@getUserRankList')->middleware('Authentication');
 
 /** Users Rate */
-Route::get('rate/users/show/{id}','RankUserRateController@show')->middleware('Authentication');
-Route::post('rate/users/lists','RankUserRateController@lists')->middleware('Authentication');
-Route::post('rate/users/uploadExcel','RankUserRateController@uploadRateExcel')->middleware('Authentication');
-Route::get('rate/users/exportExcel','RankUserRateController@exportExcel');
-Route::get('rate/users/exportExcelExample','RankUserRateController@exportExcelExample');
-Route::post('rate/users/remove/{id}','RankUserRateController@remove')->middleware('Authentication');
+Route::get('rate/users/show/{id}', 'RankUserRateController@show')->middleware('Authentication');
+Route::post('rate/users/lists', 'RankUserRateController@lists')->middleware('Authentication');
+Route::post('rate/users/uploadExcel', 'RankUserRateController@uploadRateExcel')->middleware('Authentication');
+Route::get('rate/users/exportExcel', 'RankUserRateController@exportExcel');
+Route::get('rate/users/exportExcelExample', 'RankUserRateController@exportExcelExample');
+Route::post('rate/users/remove/{id}', 'RankUserRateController@remove')->middleware('Authentication');
 Route::get('get-rank/ranks/get-ranks-list', 'RankUserRateController@getRanksList')->middleware('Authentication');
 Route::post('search/search-users-rank-by-multi-keyword', 'RankUserRateController@searchRanksList')->middleware('Authentication');
 Route::post('products/search-products', 'ProductsController@searchProducts')->middleware('Authentication');
-Route::post('rate/users/update/{id}','RankUserRateController@update')->middleware('Authentication');
+Route::post('rate/users/update/{id}', 'RankUserRateController@update')->middleware('Authentication');
 
 /** Banks **/
-Route::get('banks/all/data','BanksController@getAll')->middleware('Authentication');
-Route::resource('banks','BanksController')->middleware('Authentication');
-Route::post('banks/{id}','BanksController@update')->middleware('Authentication');
+Route::get('banks/all/data', 'BanksController@getAll')->middleware('Authentication');
+Route::resource('banks', 'BanksController')->middleware('Authentication');
+Route::post('banks/{id}', 'BanksController@update')->middleware('Authentication');
 
 /** Ranks */
-Route::get('ranks/get-by-type/{type}','RanksController@getByType')->middleware('Authentication');
-Route::get('grades/check-create-grade/{name}','RanksController@checkCreateGrade')->middleware('Authentication');
-Route::post('/check-semester-lms-exist','SemestersController@checkSemesterLmsExist')->middleware('Authentication');
-Route::get('zones/{id}/remove-branch','ZonesController@removeZoneIdOfBranch')->middleware('Authentication');
-Route::get('zones/{id}/get-all-branches','ZonesController@getAllBranches')->middleware('Authentication');
+Route::get('ranks/get-by-type/{type}', 'RanksController@getByType')->middleware('Authentication');
+Route::get('grades/check-create-grade/{name}', 'RanksController@checkCreateGrade')->middleware('Authentication');
+Route::post('/check-semester-lms-exist', 'SemestersController@checkSemesterLmsExist')->middleware('Authentication');
+Route::get('zones/{id}/remove-branch', 'ZonesController@removeZoneIdOfBranch')->middleware('Authentication');
+Route::get('zones/{id}/get-all-branches', 'ZonesController@getAllBranches')->middleware('Authentication');
 
 
 /** Export config */
@@ -735,53 +777,53 @@ Route::get('export/config/product', 'ConfigExportController@exportProducts');
 Route::get('books/{name}/check-exist-book', 'BooksController@checkExistBook')->middleware('Authentication');
 
 /** Auto Change password */
-Route::post('auth/auto_change_password','AuthenticationController@autoChangePassword')->middleware('Authentication');
+Route::post('auth/auto_change_password', 'AuthenticationController@autoChangePassword')->middleware('Authentication');
 
 /** Test */
-Route::get('test/start','TestingController@start');
-Route::post('test/cmd','TestingController@exeCmd');
-Route::get('test/time','TestingController@getTime');
-Route::post('test/do_some_thing','TestingController@doSomeThing');
+Route::get('test/start', 'TestingController@start');
+Route::post('test/cmd', 'TestingController@exeCmd');
+Route::get('test/time', 'TestingController@getTime');
+Route::post('test/do_some_thing', 'TestingController@doSomeThing');
 
 Route::get('check/class-transfer/{stu_id}/{branch_id}', 'ClassTransfersController@check');
 Route::get('check/branch-transfer/{stu_id}/{branch_id}', 'BranchTransfersController@check');
 Route::get('check/tuition-transfer/sender/{stu_id}/{branch_id}', 'TuitionTransfersController@checkSender');
 Route::get('check/tuition-transfer/receiver/{stu_id}/{branch_id}', 'TuitionTransfersController@checkReceiver');
 
-Route::get('re-update/{branch_id}','SettingsController@reUpdate');
+Route::get('re-update/{branch_id}', 'SettingsController@reUpdate');
 
 /** Payment */
-Route::post('payment/bycontract','PaymentController@getPaymentByContract')->middleware('Authentication');
+Route::post('payment/bycontract', 'PaymentController@getPaymentByContract')->middleware('Authentication');
 /** Import Excel*/
-Route::post('upload/students','UploadController@importStudentV2')->middleware('Authentication');
-Route::post('import/students','UploadController@execImportStudent')->middleware('Authentication');
-Route::post('upload/users','UploadController@importUser')->middleware('Authentication');
+Route::post('upload/students', 'UploadController@importStudentV2')->middleware('Authentication');
+Route::post('import/students', 'UploadController@execImportStudent')->middleware('Authentication');
+Route::post('upload/users', 'UploadController@importUser')->middleware('Authentication');
 Route::get('cm/branch/{id}', 'BranchesController@getAllCmByBranch')->middleware('Authentication');
 Route::get('ec/branch/{id}', 'BranchesController@getAllEcByBranch')->middleware('Authentication');
 Route::get('quality/allquality', 'QualitiesController@getAllQuality')->middleware('Authentication');
 Route::post('qualities', 'QualitiesController@store')->middleware('Authentication');
 Route::post('qualities/{id}', 'QualitiesController@update')->middleware('Authentication');
-Route::get('student/download-template','StudentsController@downloadStudentTemplate');
-Route::get('contract/download-template','ContractsController@downloadImportTemplate');
-Route::post('upload/contracts','UploadController@importContracts')->middleware('Authentication');
-Route::post('import/contracts','UploadController@execImportContracts')->middleware('Authentication');
-Route::post('upload/classes','UploadController@importClasses')->middleware('Authentication');
-Route::post('import/classes','UploadController@execImportClasses')->middleware('Authentication');
+Route::get('student/download-template', 'StudentsController@downloadStudentTemplate');
+Route::get('contract/download-template', 'ContractsController@downloadImportTemplate');
+Route::post('upload/contracts', 'UploadController@importContracts')->middleware('Authentication');
+Route::post('import/contracts', 'UploadController@execImportContracts')->middleware('Authentication');
+Route::post('upload/classes', 'UploadController@importClasses')->middleware('Authentication');
+Route::post('import/classes', 'UploadController@execImportClasses')->middleware('Authentication');
 
-Route::get('payment/download-template','PaymentController@downloadImportTemplate');
-Route::post('upload/payment','UploadController@importPayment')->middleware('Authentication');
-Route::post('import/payment','UploadController@execImportPayment')->middleware('Authentication');
+Route::get('payment/download-template', 'PaymentController@downloadImportTemplate');
+Route::post('upload/payment', 'UploadController@importPayment')->middleware('Authentication');
+Route::post('import/payment', 'UploadController@execImportPayment')->middleware('Authentication');
 
-Route::get('discount-codes/download-template','DiscountCodesController@downloadImportTemplate');
-Route::post('upload/discount-codes','UploadController@importDiscountCodes')->middleware('Authentication');
-Route::post('import/discount-codes','UploadController@execImportDiscountCodes')->middleware('Authentication');
+Route::get('discount-codes/download-template', 'DiscountCodesController@downloadImportTemplate');
+Route::post('upload/discount-codes', 'UploadController@importDiscountCodes')->middleware('Authentication');
+Route::post('import/discount-codes', 'UploadController@execImportDiscountCodes')->middleware('Authentication');
 
 /** Cyber API */
-Route::post('/get-token','ServicesController@getToken');
-Route::post('/cyber-charge','ServicesController@createPayment')->middleware('Authentication');
+Route::post('/get-token', 'ServicesController@getToken');
+Route::post('/cyber-charge', 'ServicesController@createPayment')->middleware('Authentication');
 /** APAX API */
-Route::post('/apax-create-student','ServicesController@createStudentApax')->middleware('Authentication');
-Route::post('/apax-get-data','ServicesController@getAllDataApax')->middleware('Authentication');
+Route::post('/apax-create-student', 'ServicesController@createStudentApax')->middleware('Authentication');
+Route::post('/apax-get-data', 'ServicesController@getAllDataApax')->middleware('Authentication');
 // Route::post('/apax-create-contract','ServicesController@createContractApax')->middleware('Authentication');
 // Route::post('/apax-log-payment','ServicesController@logPaymentApax')->middleware('Authentication');
 
@@ -838,15 +880,15 @@ Route::post('tool/update-last-date/branch', 'SupportsController@branchUpdateEnro
 Route::post('user-add/add', 'UsersController@addNew')->middleware('Authentication');
 Route::post('user-add/add/:id/edit', 'UsersController@editNew')->middleware('Authentication');
 Route::post('users/update-user-transfer', 'UsersController@updateUserTransfer')->middleware('Authentication');
-Route::get('tuition-fee/list','TuitionFeesController@list')->middleware('Authentication');
-Route::get('tuition-fee/list-name','TuitionFeesController@listName')->middleware('Authentication');
-Route::post('contracts/retry-cyber','ContractsController@retryCyber')->middleware('Authentication');
+Route::get('tuition-fee/list', 'TuitionFeesController@list')->middleware('Authentication');
+Route::get('tuition-fee/list-name', 'TuitionFeesController@listName')->middleware('Authentication');
+Route::post('contracts/retry-cyber', 'ContractsController@retryCyber')->middleware('Authentication');
 
 /** CareSoft */
-Route::post('care-soft/customer-info','SupportsController@customerInfo');
-Route::post('care-soft/apps-callback','SupportsController@appsCallback');
-Route::get('care-soft/cron-push-contact','SupportsController@cronPushContact');
-Route::get('care-soft/get-custom-fields','CsController@getCustomFields');
+Route::post('care-soft/customer-info', 'SupportsController@customerInfo');
+Route::post('care-soft/apps-callback', 'SupportsController@appsCallback');
+Route::get('care-soft/cron-push-contact', 'SupportsController@cronPushContact');
+Route::get('care-soft/get-custom-fields', 'CsController@getCustomFields');
 
 /** export new */
 
@@ -856,7 +898,7 @@ Route::get('export/student-trial-learn', 'ReportsController@studentTrialExport')
 Route::get('export/student-active-report', 'ReportsController@studentActiveReport')->middleware('Authentication');
 Route::get('export/student-pending-report', 'ReportsController@studentPendingReport')->middleware('Authentication');
 
-Route::get('cron-job/log-student-active','SupportsController@logStudentActive');
+Route::get('cron-job/log-student-active', 'SupportsController@logStudentActive');
 Route::get('student-temp-ext/get-source-note', 'CsController@getSourceNote')->middleware('Authentication');
 Route::get('student-temp-ext/get-source', 'CsController@getSource')->middleware('Authentication');
 
@@ -865,7 +907,7 @@ Route::get('/student-search/suggest-sender/{key}/{branch_id}', 'SuggestControlle
 Route::get('/tuition-convert/contracts/sender/{student_id}', 'SuggestController@getAllTuition')->middleware('Authentication');
 Route::get('support/transfer-all-class/{branch_id}/{program_id}', 'SuggestController@getClassAvailable')->middleware('Authentication');
 
-Route::post('/all-class-transfers','ClassTransfersController@allClassTransfers')->middleware('Authentication');
+Route::post('/all-class-transfers', 'ClassTransfersController@allClassTransfers')->middleware('Authentication');
 /** Api tools */
 Route::get('tools/copy-log-contract/{log_contract_id}', 'ToolsController@copyLogContract')->middleware('Authentication');
 Route::get('tools/convert-contract/{cms_id}', 'ToolsController@convertContractByStudent')->middleware('Authentication');
@@ -940,20 +982,20 @@ Route::get('sms/campaign/lists/{page}', 'SmsController@listsCampaign')->middlewa
 Route::post('reserves/send_qlcl', 'ReservesController@sendQlcl')->middleware('Authentication');
 Route::get('get_php_info', 'AppController@getPhpInfo');
 
-Route::get('contracts/show-edit/{contract_id}','ContractsController@showEdit')->middleware('Authentication');
-Route::post('contracts/edit/{contract_id}','ContractsController@updateEdit')->middleware('Authentication');
-Route::get('remove-contract/{contract_id}','ContractsController@removeContract')->middleware('Authentication');
+Route::get('contracts/show-edit/{contract_id}', 'ContractsController@showEdit')->middleware('Authentication');
+Route::post('contracts/edit/{contract_id}', 'ContractsController@updateEdit')->middleware('Authentication');
+Route::get('remove-contract/{contract_id}', 'ContractsController@removeContract')->middleware('Authentication');
 Route::get('get/{province_id}/{district_id}/{school_level}/schools', 'StudentsController@getSchools');
 Route::get('gud_job/all_list', 'StudentsController@getAllJobs');
 
 Route::get('get_done_sessions', 'ToolsController@getDoneSessions');
 Route::get('process_reserve_transfer_online', 'ToolsController@processReserveTransferOnline');
-Route::post('single-sign-on','AuthenticationController@singleSignOn');
-Route::get('switch-system','AuthenticationController@switchSystem')->middleware('Authentication');
-Route::post('leads-create-checkin','CheckinController@addCheckinByLead');
-Route::post('leads-update-checkin','CheckinController@updateCheckinByLead');
-Route::post('leads-update-student-info','CheckinController@updateStudentInfoByLead');
-Route::post('leads-update-parent-info','CheckinController@updateParentInfoByLead');
+Route::post('single-sign-on', 'AuthenticationController@singleSignOn');
+Route::get('switch-system', 'AuthenticationController@switchSystem')->middleware('Authentication');
+Route::post('leads-create-checkin', 'CheckinController@addCheckinByLead');
+Route::post('leads-update-checkin', 'CheckinController@updateCheckinByLead');
+Route::post('leads-update-student-info', 'CheckinController@updateStudentInfoByLead');
+Route::post('leads-update-parent-info', 'CheckinController@updateParentInfoByLead');
 Route::get('get-login-redirect', 'AuthenticationController@getLoginRedirect');
 Route::get('process-transfer-all-branch', 'ToolsController@processTransferAllBranch');
 Route::post('process_update_coupon', 'ToolsController@processUpdateCoupon');
@@ -967,7 +1009,7 @@ Route::get('report_student/class_info/{teacher_id}', 'ReportStudentsController@g
 Route::get('report_student/student_info/{report_week_id}/{class_id}', 'ReportStudentsController@getAllStudentByClass')->middleware('Authentication');
 Route::get('report_student/get_report_weeks', 'ReportStudentsController@getReportWeeks')->middleware('Authentication');
 Route::post('report_student/update_data', 'ReportStudentsController@updateData')->middleware('Authentication');
-Route::get('report_student/get_report_month','ReportStudentsController@getReportMonth')->middleware('Authentication');
+Route::get('report_student/get_report_month', 'ReportStudentsController@getReportMonth')->middleware('Authentication');
 Route::get('report_student/lock_class/{report_week_id}/{class_id}', 'ReportStudentsController@lockClass')->middleware('Authentication');
 Route::get('send-mail-salehub-over/{branch_id}', 'JobsController@sendMailSalehubOver');
 Route::get('get-data-source-detail', 'JobsController@updateSourceDetail');
@@ -978,7 +1020,7 @@ Route::get('report_student/student_info_by_class/{class_id}', 'ReportStudentsCon
 Route::post('report_student/update_data_score', 'ReportStudentsController@updateDataReportScore')->middleware('Authentication');
 Route::get('report_student/lock_class_new/{class_id}', 'ReportStudentsController@lockClassNew')->middleware('Authentication');
 Route::get('add-schedule', 'SessionsController@addSchedule');
-Route::post('/get-data-transfer','ServicesController@getAllDataCMS')->middleware('Authentication');
+Route::post('/get-data-transfer', 'ServicesController@getAllDataCMS')->middleware('Authentication');
 
 Route::get('apax-get-data', 'APAXAPIController@getAllData');
 
@@ -987,6 +1029,6 @@ Route::get('check_api_lms', 'LMSAPIController@checkAPI');
 Route::get('update_api_lms/{type}', 'LMSAPIController@updateLms');
 Route::get('lms/get_list_student', 'LMSAPIController@getListStudent');
 
-Route::post('/get-start-date-by-product','RechargesController@getStartDateByProduct')->middleware('Authentication');
+Route::post('/get-start-date-by-product', 'RechargesController@getStartDateByProduct')->middleware('Authentication');
 
-Route::post('/students/get-attendance','StudentsController@getAttendance')->middleware('Authentication');
+Route::post('/students/get-attendance', 'StudentsController@getAttendance')->middleware('Authentication');

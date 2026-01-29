@@ -370,6 +370,14 @@
                             </div>
                           </div>
                         </div>
+                        <!-- Auto Discount Display -->
+                        <div class="col-md-12 pad-no" v-if="applied_auto_discount" style="margin-top: 10px;">
+                          <div class="alert alert-success" style="margin-bottom: 10px;">
+                            <strong><i class="fa fa-gift"></i> Giảm trừ tự động:</strong> {{ applied_auto_discount.name }}<br/>
+                            <small>{{ applied_auto_discount.description }}</small><br/>
+                            <small><strong>Số tiền giảm:</strong> {{ format(applied_auto_discount.discount_amount) }}</small>
+                          </div>
+                        </div>
                         <div class="col-md-12 pad-no" :class="html.dom.display.amount">
                           <div class="row">
                             <div class="col-md-6">
@@ -746,6 +754,8 @@ export default {
     }
     model.coupon_list = []
     model.list_shift = []
+    model.auto_discounts = [] // Danh sách auto discounts áp dụng được
+    model.applied_auto_discount = null // Auto discount đang được áp dụng
     return model    
   },
   created(){
@@ -780,6 +790,73 @@ export default {
                 this.coupon_list  = [...response.data.data]
                 this.html.loading.action = false
               })
+    },
+    async loadAutoDiscounts() {
+      // Kiểm tra đủ thông tin để load discounts
+      if (!this.cache.branch || !this.product || !this.cache.tuition_fee) {
+        this.auto_discounts = []
+        this.applied_auto_discount = null
+        return
+      }
+
+      try {
+        // Lấy số tháng từ tên gói phí (ví dụ: "Gói 12 tháng" -> 12)
+        const tuitionFeeName = this.cache.tuition_fee.tuition_fee_name || ''
+        const monthMatch = tuitionFeeName.match(/(\d+)\s*tháng/i)
+        const countRecharge = monthMatch ? parseInt(monthMatch[1]) : 0
+
+        // Lấy tổng tiền (giá sau chiết khấu)
+        const totalAmount = this.data.must_charge_amount || 0
+
+        const response = await u.a().post('/api/discounts/applicable', {
+          branch_id: this.cache.branch,
+          product_id: this.product,
+          count_recharge: countRecharge,
+          total_amount: totalAmount
+        })
+
+        if (response.data.code === 200 && response.data.data) {
+          this.auto_discounts = response.data.data
+          
+          // Tự động áp dụng discount đầu tiên (priority cao nhất)
+          if (this.auto_discounts.length > 0) {
+            this.applyAutoDiscount(this.auto_discounts[0])
+          } else {
+            this.applied_auto_discount = null
+          }
+        }
+      } catch (error) {
+        console.error('Error loading auto discounts:', error)
+        this.auto_discounts = []
+        this.applied_auto_discount = null
+      }
+    },
+    applyAutoDiscount(discount) {
+      if (!discount) {
+        this.applied_auto_discount = null
+        return
+      }
+
+      this.applied_auto_discount = discount
+      
+      // Cập nhật vào phần "Số tiền chiết khấu Khác"
+      const discountAmount = discount.discount_amount || 0
+      this.data.other = discountAmount
+      
+      // Tính lại tổng tiền (logic hiển thị chi tiết nằm trong recalculateDiscount)
+      this.recalculateDiscount()
+      
+      // Thông báo cho user
+      const discountName = discount.name || 'Giảm trừ tự động'
+      const formattedAmount = this.format(discountAmount)
+      
+      this.$notify({
+        group: 'apax-atr',
+        title: 'Giảm trừ tự động',
+        type: 'success',
+        duration: 5000,
+        text: `Đã áp dụng: ${discountName} - Giảm ${formattedAmount}`
+      })
     },
     start() {
       if (u.authorized() || u.session().user.branches.length >1) {
@@ -975,7 +1052,10 @@ export default {
           this.data.must_charge = this.temp.must_charge
       } else {
         this.data.bill_info += `Chiết khấu (${u.pct(this.data.discount_percentage, 1)}%): ${this.format(parseInt((this.cache.tuition_fee.tuition_fee_discount) / 1000 * 1000))}<br/>------------------------------<br/>Giá Thực Thu: ${this.format(parseInt(this.data.discounted_amount))}<br/><br/><br/>`
+        
+        
         this.data.detail += `Chiết khấu (${u.pct(this.data.discount_percentage, 1)}%): ${this.format(parseInt((this.cache.tuition_fee.tuition_fee_discount) / 1000 * 1000))}\n------------------------------\nGiá Thực Thu: ${this.format(parseInt(this.data.discounted_amount))}\n\n\n`
+
         if (parseInt(the_point.n)) {
         this.data.bill_info += `Tiền chiết khấu: ${the_point.s}<br/>`
         this.data.detail += `Giảm trừ theo Mã chiết khấu: ${the_point.s}đ\n`
@@ -1000,6 +1080,38 @@ export default {
         if (tong_khau_tru) {
             this.data.detail += `------------------------------\nTổng khấu trừ: ${this.format(tong_khau_tru)}\n`
             this.data.detail += `\nSố tiền còn lại phải đóng:\n ${this.format(this.data.discounted_amount)} - ${this.format(tong_khau_tru)}\n------------------------------\n = ${this.data.must_charge}`
+        }
+
+        // Auto Discount Display (ở cuối cùng)
+        if (this.applied_auto_discount) {
+            const discount = this.applied_auto_discount
+            const discountName = discount.name || 'Giảm trừ tự động'
+            const discountDesc = discount.description || ''
+            const discountType = discount.discount_type || 'fixed'
+            const discountValue = discount.discount_value || 0
+            const adAmount = discount.discount_amount || 0
+            const formattedADAmount = this.format(adAmount)
+
+            let discountTypeText = ''
+            if (discountType === 'percentage') {
+                discountTypeText = `Giảm ${discountValue}%`
+            } else {
+                discountTypeText = `Giảm ${this.format(discountValue)}`
+            }
+
+            // Append to detail (textarea)
+            this.data.detail += `
+==============================
+🎁 GIẢM TRỪ TỰ ĐỘNG
+==============================
+Chương trình: ${discountName}
+${discountDesc ? 'Mô tả: ' + discountDesc + '\n' : ''}Loại giảm: ${discountTypeText}
+Số tiền được giảm: ${formattedADAmount}
+==============================
+`
+
+            // Append to bill_info (html)
+            this.data.bill_info += `<br/><div style="border: 2px solid #28a745; padding: 10px; margin: 10px 0; background-color: #d4edda; border-radius: 5px;"><strong style="color: #155724;">🎁 GIẢM TRỪ TỰ ĐỘNG</strong><br/><strong>Chương trình:</strong> ${discountName}<br/>${discountDesc ? '<strong>Mô tả:</strong> ' + discountDesc + '<br/>' : ''}<strong>Loại giảm:</strong> ${discountTypeText}<br/><strong style="color: #155724; font-size: 16px;">Số tiền được giảm: ${formattedADAmount}</strong></div>`
         }
       }
     },
@@ -1271,6 +1383,9 @@ export default {
         duration: 3000,
         text: 'Xin vui lòng chọn 1 ngày dự kiến học!'
       })
+      
+      // Load và áp dụng auto discounts
+      this.loadAutoDiscounts()
     },
     selectCustomerType(customer_type_id) {},
     validate() {
@@ -1474,6 +1589,8 @@ export default {
       this.product = ''
       // this.program = ''
       this.tuition_fee = ''
+      this.auto_discounts = [] // Reset auto discounts
+      this.applied_auto_discount = null // Reset applied discount
       if (all) {
         this.cache.branch = selected_branch
         u.set(this.html.config, {
