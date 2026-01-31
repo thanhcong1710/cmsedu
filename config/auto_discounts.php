@@ -37,6 +37,7 @@ return [
             'exclude_bonus_sessions' => [4],
             'discount_type' => 'fixed',
             'discount_value' => 500000,
+            'package_types' => [0],
         ],
         [
             'name' => 'Lì Xì Bính Ngọ',
@@ -50,6 +51,7 @@ return [
             'exclude_bonus_sessions' => [4],
             'discount_type' => 'fixed',
             'discount_value' => 1000000,
+            'package_types' => [0],
         ],
         [
             'name' => 'Lì Xì Bính Ngọ',
@@ -63,6 +65,7 @@ return [
             'exclude_bonus_sessions' => [4],
             'discount_type' => 'fixed',
             'discount_value' => 1000000,
+            'package_types' => [0],
         ],
 
         // ====================================================================
@@ -154,6 +157,7 @@ return [
             'exclude_bonus_sessions' => [4],
             'discount_type' => 'fixed',
             'discount_value' => 500000,
+            'package_types' => [0],
         ],
         [
             'name' => 'Lì Xì Bính Ngọ',
@@ -167,6 +171,7 @@ return [
             'exclude_bonus_sessions' => [4],
             'discount_type' => 'fixed',
             'discount_value' => 500000,
+            'package_types' => [0],
         ],
         [
             'name' => 'Lì Xì Bính Ngọ',
@@ -180,6 +185,7 @@ return [
             'exclude_bonus_sessions' => [4],
             'discount_type' => 'fixed',
             'discount_value' => 1000000,
+            'package_types' => [0],
         ],
 
         // ====================================================================
@@ -197,6 +203,7 @@ return [
             'exclude_bonus_sessions' => [4],
             'discount_type' => 'fixed',
             'discount_value' => 500000,
+            'package_types' => [0],
         ],
         [
             'name' => 'Lì Xì Bính Ngọ',
@@ -210,6 +217,7 @@ return [
             'exclude_bonus_sessions' => [4],
             'discount_type' => 'fixed',
             'discount_value' => 1000000,
+            'package_types' => [0],
         ],
         [
             'name' => 'Lì Xì Bính Ngọ',
@@ -223,6 +231,7 @@ return [
             'exclude_bonus_sessions' => [4],
             'discount_type' => 'fixed',
             'discount_value' => 1000000,
+            'package_types' => [0],
         ],
     ],
 
