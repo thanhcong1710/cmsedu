@@ -852,10 +852,6 @@ export default {
 
       this.applied_auto_discount = discount
       
-      // Cập nhật vào phần "Số tiền chiết khấu Khác"
-      const discountAmount = discount.discount_amount || 0
-      this.data.other = discountAmount
-      
       // Tính lại tổng tiền (logic hiển thị chi tiết nằm trong recalculateDiscount)
       this.recalculateDiscount()
       
@@ -1031,6 +1027,12 @@ export default {
       this.data.new_price_amount = selected_tuition_receivable
       this.data.receivable = `${u.pct(percentage, 1)}%`
       this.data.total_voucher_other = the_voucher.n + the_other.n
+      
+      // Add Auto Discount amount
+      if (this.applied_auto_discount) {
+          this.data.total_voucher_other += this.applied_auto_discount.discount_amount || 0
+      }
+
       this.data.must_charge_amount = this.data.discounted_amount - this.data.total_voucher_other - the_point.n - the_sibling.n
       this.data.must_charge = this.format(this.data.must_charge_amount) 
       this.data.bill_info = ''
@@ -1089,42 +1091,20 @@ export default {
             this.data.bill_info += `Khấu trừ khác: ${the_other.s}<br/><br/><br/>`
             this.data.detail += `Khấu trừ Khác: ${the_other.s}\n`
         }
+        if (this.applied_auto_discount) {
+            const discount = this.applied_auto_discount
+            const adsName = discount.name || 'Giảm trừ tự động'
+            const adsAmount = discount.discount_amount || 0
+            const adsFormatted = this.format(adsAmount)
+
+            this.data.bill_info += `${adsName}: ${adsFormatted}<br/>`
+            this.data.detail += `${adsName}: ${adsFormatted}\n`
+        }
+
         const tong_khau_tru = parseInt(this.data.total_voucher_other, 10) + parseInt(this.data.total_point_sibling, 10) + parseInt(the_point.n);
         if (tong_khau_tru) {
             this.data.detail += `------------------------------\nTổng khấu trừ: ${this.format(tong_khau_tru)}\n`
             this.data.detail += `\nSố tiền còn lại phải đóng:\n ${this.format(this.data.discounted_amount)} - ${this.format(tong_khau_tru)}\n------------------------------\n = ${this.data.must_charge}`
-        }
-
-        // Auto Discount Display (ở cuối cùng)
-        if (this.applied_auto_discount) {
-            const discount = this.applied_auto_discount
-            const discountName = discount.name || 'Giảm trừ tự động'
-            const discountDesc = discount.description || ''
-            const discountType = discount.discount_type || 'fixed'
-            const discountValue = discount.discount_value || 0
-            const adAmount = discount.discount_amount || 0
-            const formattedADAmount = this.format(adAmount)
-
-            let discountTypeText = ''
-            if (discountType === 'percentage') {
-                discountTypeText = `Giảm ${discountValue}%`
-            } else {
-                discountTypeText = `Giảm ${this.format(discountValue)}`
-            }
-
-            // Append to detail (textarea)
-            this.data.detail += `
-==============================
-🎁 GIẢM TRỪ TỰ ĐỘNG
-==============================
-Chương trình: ${discountName}
-${discountDesc ? 'Mô tả: ' + discountDesc + '\n' : ''}Loại giảm: ${discountTypeText}
-Số tiền được giảm: ${formattedADAmount}
-==============================
-`
-
-            // Append to bill_info (html)
-            this.data.bill_info += `<br/><div style="border: 2px solid #28a745; padding: 10px; margin: 10px 0; background-color: #d4edda; border-radius: 5px;"><strong style="color: #155724;">🎁 GIẢM TRỪ TỰ ĐỘNG</strong><br/><strong>Chương trình:</strong> ${discountName}<br/>${discountDesc ? '<strong>Mô tả:</strong> ' + discountDesc + '<br/>' : ''}<strong>Loại giảm:</strong> ${discountTypeText}<br/><strong style="color: #155724; font-size: 16px;">Số tiền được giảm: ${formattedADAmount}</strong></div>`
         }
       }
     },
@@ -1790,6 +1770,7 @@ Số tiền được giảm: ${formattedADAmount}
                     this.data.bonus_amount = this.data.tmp_bonus_amount
                 }
                 this.recalculateDiscount();
+                this.loadAutoDiscounts();
             });
         }
     },
