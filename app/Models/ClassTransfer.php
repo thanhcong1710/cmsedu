@@ -608,7 +608,7 @@ class ClassTransfer extends Model
     $enrolment->enrolment_start_date = $meta_data->new_enrol_start_date;
     $enrolment->enrolment_end_date = $this->getClassEndDate($transfer->to_class_id);
     $enrolment->enrolment_updated_at = $transfer->from_approved_at;
-    $enrolment->enrolment_updator_id = $transfer->from_approver_id;
+    // $enrolment->enrolment_updator_id = $transfer->from_approver_id;
     $enrolment->enrolment_real_sessions = $transfer->session_exchange;
     $enrolment->enrolment_last_date = $contract->end_date;
     $enrolment->enrolment_type = 1;

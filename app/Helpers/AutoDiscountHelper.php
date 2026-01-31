@@ -84,6 +84,30 @@ class AutoDiscountHelper
             }
         }
 
+        // Kiểm tra loại gói (package_types)
+        if (!empty($rule['package_types'])) {
+            $packageType = $contractData['enrolment_updator_id'] ?? 0;
+            if (!in_array($packageType, $rule['package_types'])) {
+                return false;
+            }
+        }
+
+        // Kiểm tra loại gói phí cụ thể (tuition_fee_id)
+        if (!empty($rule['tuition_fee_ids'])) {
+            $tuitionFeeId = $contractData['tuition_fee_id'] ?? 0;
+            if (!in_array($tuitionFeeId, $rule['tuition_fee_ids'])) {
+                return false;
+            }
+        }
+
+        // Kiểm tra loại trừ khi có bonus sessions (exclude_bonus_sessions)
+        if (!empty($rule['exclude_bonus_sessions'])) {
+            $bonusSessions = $contractData['bonus_sessions'] ?? 0;
+            if (in_array($bonusSessions, $rule['exclude_bonus_sessions'])) {
+                return false;
+            }
+        }
+
         return true;
     }
 

@@ -269,6 +269,14 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-6" :class="html.dom.display.tuition_fee">
+                                                            <label class="control-label">Loại gói</label><br/>
+                                                            <div class="form-group">
+                                                                <label class="radio-inline"><input type="radio" value="0" v-model="data.package_type" @change="loadAutoDiscounts"> Thường</label>
+                                                                <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="1" v-model="data.package_type" @change="loadAutoDiscounts"> Combo 1</label>
+                                                                <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="2" v-model="data.package_type" @change="loadAutoDiscounts"> Combo 2</label>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-md-6 ready" :class="html.dom.display.payload">
                                                             <div class="form-group">
                                                                 <label class="control-label">Loại Thu Phí</label>
@@ -820,6 +828,7 @@
                 coupon_amount:0,
                 coupon_session:0,
                 tuition_fee_price_min:0,
+                package_type: 0 // Default contract type: 0: Normal, 1: Combo 1, 2: Combo 2
             }
             model.calling = false
             model.cache = model.data
@@ -897,12 +906,16 @@
 
                     // Lấy tổng tiền (giá sau chiết khấu)
                     const totalAmount = this.data.must_charge_amount || 0
+                    const tuitionFeeId = this.cache.tuition_fee ? this.cache.tuition_fee.tuition_fee_id : 0
 
                     const response = await u.a().post('/api/discounts/applicable', {
                         branch_id: this.cache.branch,
                         product_id: this.product,
                         count_recharge: countRecharge,
-                        total_amount: totalAmount
+                        total_amount: totalAmount,
+                        tuition_fee_id: tuitionFeeId,
+                        enrolment_updator_id: this.data.package_type,
+                        bonus_sessions: this.data.bonus_sessions || 0
                     })
 
                     if (response.data.code === 200 && response.data.data) {
@@ -1641,6 +1654,7 @@ Số tiền được giảm: ${adsFormatted}
                     data.contract.receive = this.receive ? 1 : 0
                     data.contract.sessions = parseInt(this.data.customer_type, 10) === 0 ? 3 : data.contract.sessions
                     data.contract.coupon = _.get(this, 'data.coupon.code')
+                    data.contract.enrolment_updator_id = parseInt(this.data.package_type)
                     data.bonus_sessions = this.data.bonus_sessions
                     data.bonus_amount = this.data.bonus_amount
                     delete data.contract.style
