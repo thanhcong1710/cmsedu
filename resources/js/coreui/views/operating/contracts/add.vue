@@ -273,8 +273,8 @@
                                                             <label class="control-label">Loại gói</label><br/>
                                                             <div class="form-group">
                                                                 <label class="radio-inline"><input type="radio" value="0" v-model="data.package_type" @change="loadAutoDiscounts"> Thường</label>
-                                                                <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="1" v-model="data.package_type" @change="loadAutoDiscounts"> Combo 1</label>
-                                                                <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="2" v-model="data.package_type" @change="loadAutoDiscounts"> Combo 2</label>
+                                                                <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="1" v-model="data.package_type" @change="loadAutoDiscounts"> Combo tích hợp 1</label>
+                                                                <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="2" v-model="data.package_type" @change="loadAutoDiscounts"> Combo tích hợp 2</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 ready" :class="html.dom.display.payload">
