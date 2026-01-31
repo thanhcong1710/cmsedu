@@ -86,8 +86,8 @@ class AutoDiscountHelper
 
         // Kiểm tra loại gói (package_types)
         if (!empty($rule['package_types'])) {
-            $packageType = (int)$contractData['enrolment_updator_id'] ?? 0;
-            if (!in_array($packageType, $rule['package_types'])) {
+            $packageType = $contractData['enrolment_updator_id'] ?? 0;
+            if (!in_array((int)$packageType, $rule['package_types'])) {
                 return false;
             }
         }
