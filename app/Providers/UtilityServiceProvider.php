@@ -1499,7 +1499,10 @@ class UtilityServiceProvider extends ServiceProvider
                         $available_ids = implode(',', $available_ids);
                         $old_tuition_fee = self::first("SELECT t.*, p.name product_name FROM tuition_fee t LEFT JOIN products p ON t.product_id = p.id WHERE t.id = $old_tuition_fee_id");
                         $new_tuition_fee = self::first("SELECT t.*, p.name product_name FROM tuition_fee t LEFT JOIN products p ON t.product_id = p.id WHERE t.product_id = $new_product_id AND (t.branch_id LIKE '%,$new_branch_id' OR t.branch_id  LIKE '%,$new_branch_id,%' OR t.branch_id LIKE '$new_branch_id,%' OR t.branch_id = '$new_branch_id') AND t.id IN ($available_ids)");
-                        if($old_tuition_fee && $new_tuition_fee){
+                        if($old_tuition_fee){
+                            if(!$new_tuition_fee){
+                                $new_tuition_fee = $old_tuition_fee;
+                            }
                             if ((int)$old_tuition_fee->type === 1 && in_array($new_branch_id, explode(',', $old_tuition_fee->branch_id))) {
                                 $new_tuition_fee = self::first("SELECT t.*, p.name product_name FROM tuition_fee t LEFT JOIN products p ON t.product_id = p.id WHERE t.product_id = $new_product_id AND (t.branch_id LIKE '%,$new_branch_id' OR t.branch_id
                                                     LIKE '%,$new_branch_id,%' OR t.branch_id LIKE '$new_branch_id,%' OR t.branch_id = '$new_branch_id') AND t.type = 1 AND t.id IN ($available_ids)");
