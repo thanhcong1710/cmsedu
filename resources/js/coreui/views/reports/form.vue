@@ -218,6 +218,29 @@
                     this.showBCr16= true
                     this.showBCr17= true
                 }
+                if([1500].indexOf(role)!= -1){
+                    this.showBC01a1= true
+                    this.showBC01b1= true
+                    this.showBC01b2= true
+                    this.showBC01b3= true
+                    this.showBC02a= true
+                    this.showBC02b= true
+                    this.showBCr01= true
+                    this.showBCr04= true
+                    this.showBCr05= true
+                    this.showBCr06= true
+                    this.showBCr07= true
+                    this.showBCr08= true
+                    this.showBCr09= true
+                    this.showBCr10= true
+                    this.showBCr11= true
+                    this.showBCr12= true
+                    this.showBCr13= true
+                    this.showBCr14= true
+                    this.showBCr15= true
+                    this.showBCr16= true
+                    this.showBCr17= true
+                }
             },
         }
     }
