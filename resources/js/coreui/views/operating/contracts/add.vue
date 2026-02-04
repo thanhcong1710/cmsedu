@@ -449,6 +449,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-12 pad-no" style="margin-top: 10px;">
+                                                    <div class="form-group">
+                                                        <label class="control-label">
+                                                            <input type="checkbox" v-model="is_auto_apply_discount" @change="handleAutoDiscountChange"> Áp dụng giảm trừ tự động
+                                                        </label>
+                                                    </div>
+                                                </div>
                                                 <!-- Auto Discount Display -->
                                                 <div class="col-md-12 pad-no" v-if="applied_auto_discount" style="margin-top: 10px;">
                                                     <div class="alert alert-success" style="margin-bottom: 10px;">
@@ -854,6 +861,7 @@
             model.coupon_list = []
             model.list_shift = []
             model.auto_discounts = [] // Danh sách auto discounts áp dụng được
+            model.is_auto_apply_discount = true // Mặc định áp dụng giảm trừ tự động
             model.applied_auto_discount = null // Auto discount đang được áp dụng
             return model
         },
@@ -892,6 +900,12 @@
             },
             async loadAutoDiscounts() {
                 // Kiểm tra đủ thông tin để load discounts
+                if (!this.is_auto_apply_discount) {
+                    this.auto_discounts = []
+                    this.applied_auto_discount = null
+                    this.recalculateDiscount()
+                    return
+                }
                 if (!this.cache.branch || !this.product || !this.cache.tuition_fee) {
                     this.auto_discounts = []
                     this.applied_auto_discount = null
@@ -958,6 +972,15 @@
                     duration: 5000,
                     text: `Đã áp dụng: ${discountName} - Giảm ${formattedAmount}`
                 })
+            },
+            handleAutoDiscountChange() {
+                if (this.is_auto_apply_discount) {
+                    this.loadAutoDiscounts()
+                } else {
+                    this.auto_discounts = []
+                    this.applied_auto_discount = null
+                    this.recalculateDiscount()
+                }
             },
             changeMonth(value){
 
