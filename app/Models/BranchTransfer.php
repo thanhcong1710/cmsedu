@@ -460,9 +460,9 @@ class BranchTransfer extends Model
         $arr_txt_accounting_id = explode('.',$contract->accounting_id);
         $branch_to_info = u::first("SELECT accounting_id FROM branches WHERE id=$branch_id");
         $receiver_contract->accounting_id = isset($arr_txt_accounting_id[3])? $branch_to_info->accounting_id.'.'.date('y').'.PNH.'.(9000000+(int)$arr_txt_accounting_id[3]):'';
-        $receiver_contract->product_id = $product_id;
+        $receiver_contract->product_id = data_get($real_transfer_data,'receive_tuition_fee.product_id' ) ?? $product_id;
         $receiver_contract->program_id = 0;
-        $receiver_contract->product_name = $product_name;
+        $receiver_contract->product_name = data_get($real_transfer_data,'receive_tuition_fee.product_name' ) ?? $product_name;
         $receiver_contract->program_name = 'Chưa chọn chương trình học';
         $receiver_contract->class_name = 'Chưa xếp lớp';
         if ($contract->contract_type == 0) {

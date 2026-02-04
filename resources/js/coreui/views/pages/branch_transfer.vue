@@ -112,14 +112,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-sm-12">
                                         <div class="input-line">
                                             <span class="label">Chương trình học: {{item.product_name}}</span>
                                             <i class="doted"></i>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="input-line">
