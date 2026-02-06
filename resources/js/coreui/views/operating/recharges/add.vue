@@ -865,6 +865,7 @@ export default {
       }
 
       this.applied_auto_discount = discount
+      const discountAmount = discount.discount_amount || 0
       
       // Tính lại tổng tiền (logic hiển thị chi tiết nằm trong recalculateDiscount)
       this.recalculateDiscount()
