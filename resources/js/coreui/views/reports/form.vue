@@ -81,7 +81,7 @@
                                 <router-link to="/reports/lgl04" >21. BÁO CÁO CHI TIẾT GÓI BÁN</router-link>
                             </p>
                             <p class="bc-font" v-if="showBCr18 == true">
-                                <router-link to="/reports/lgl05" >22. BÁO CÁO PHÂN BỔ DOANH THU</router-link>
+                                <router-link to="/reports/lgl05" >22. BÁO CÁO PHÂN BỔ DOANH THU </router-link>
                             </p>
                         </div>
                     </b-card>
