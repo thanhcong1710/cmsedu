@@ -41,11 +41,11 @@ class Report extends Model
         $fd = $fd . ' 00:00:00';
         $td = $td . ' 23:59:59';
         // dd($request->all());
-        $limit  = $request->limit ? (int)$request->limit : 20;
-        $page   = $request->page ? (int)$request->page : 1;
-        $page   = $page ? $page : 1;
+        $limit = $request->limit ? (int) $request->limit : 20;
+        $page = $request->page ? (int) $request->page : 1;
+        $page = $page ? $page : 1;
         $offset = ($page - 1) * $limit;
-        $keyword      = trim($request->keyword);
+        $keyword = trim($request->keyword);
         $authorizeKey = $request->headers->get('Authorization');
         $arrBranchAllow = [];
         $arrProducts = array();
@@ -106,30 +106,32 @@ class Report extends Model
 
         self::$fd = $fd;
         self::$td = $td;
-        self::$strLimit   = $strLimit;
-        self::$productIds = implode(',', $arrProducts);;
-        self::$keyword    = $keyword;
-        self::$branchIds  = implode(',', $arrBranchIds);
+        self::$strLimit = $strLimit;
+        self::$productIds = implode(',', $arrProducts);
+        ;
+        self::$keyword = $keyword;
+        self::$branchIds = implode(',', $arrBranchIds);
     }
 
-    private static function getScope($scope, $branches = []) {
+    private static function getScope($scope, $branches = [])
+    {
         $resp = $branches;
         if ($scope) {
-            $is_zone = count(array_filter($scope, function($item) {
-                return (int)$item > 9000;
+            $is_zone = count(array_filter($scope, function ($item) {
+                return (int) $item > 9000;
             }));
-            $is_region = count(array_filter($scope, function($item) {
-                return (int)$item > 3000;
+            $is_region = count(array_filter($scope, function ($item) {
+                return (int) $item > 3000;
             }));
             $branch_list = [];
             if ($is_zone) {
                 $zone_list = [];
                 $branch_list = [];
-                foreach($scope as $itm) {
-                    if ((int)$itm > 9000) {
-                        $zone_list[] = (int)$itm - 9000;
+                foreach ($scope as $itm) {
+                    if ((int) $itm > 9000) {
+                        $zone_list[] = (int) $itm - 9000;
                     } else {
-                        $branch_list[] = (int)$itm;
+                        $branch_list[] = (int) $itm;
                     }
                 }
                 if (count($zone_list)) {
@@ -152,11 +154,11 @@ class Report extends Model
             } elseif ($is_region) {
                 $region_list = [];
                 $branch_list = [];
-                foreach($scope as $itm) {
-                    if ((int)$itm > 3000) {
-                        $region_list[] = (int)$itm - 3000;
+                foreach ($scope as $itm) {
+                    if ((int) $itm > 3000) {
+                        $region_list[] = (int) $itm - 3000;
                     } else {
-                        $branch_list[] = (int)$itm;
+                        $branch_list[] = (int) $itm;
                     }
                 }
                 if (count($region_list)) {
@@ -174,32 +176,33 @@ class Report extends Model
                                 }
                             }
                         }
-                    }else{
+                    } else {
                         $resp = [0];
                     }
                 }
             } else {
                 $resp = [];
                 foreach ($scope as $it) {
-                    $resp[] = (int)$it;
+                    $resp[] = (int) $it;
                 }
             }
         }
         return implode(',', $resp);
     }
 
-    public static function making($query, $quary, $page, $limit) {
+    public static function making($query, $quary, $page, $limit)
+    {
         $data = null;
         $suma = u::first($quary);
         $list = u::query($query);
-        $data = (Object)[];
-        $pagination = (Object)[];
-        $total = $suma && isset($suma->total) ? (int)$suma->total : 0;
+        $data = (Object) [];
+        $pagination = (Object) [];
+        $total = $suma && isset($suma->total) ? (int) $suma->total : 0;
         $pagination->spage = 1;
         $pagination->cpage = $page;
         $pagination->total = $total;
         $pagination->limit = $limit;
-        $pagination->lpage = ($total % $limit) == 0 ? (int)($total / $limit) : (int)($total / $limit) + 1;
+        $pagination->lpage = ($total % $limit) == 0 ? (int) ($total / $limit) : (int) ($total / $limit) + 1;
         $pagination->ppage = $page > 0 ? $page - 1 : 0;
         $pagination->npage = $page < $pagination->lpage ? $page + 1 : $pagination->lpage;
         $data->list = $list;
@@ -207,22 +210,23 @@ class Report extends Model
         return $data;
     }
 
-    public static function params($request, $session, $export = false) {
+    public static function params($request, $session, $export = false)
+    {
         $params = null;
         if ($request && $session) {
-            $params = (Object)[];
+            $params = (Object) [];
             $today = date('Y-m-d');
             $from = isset($request->from) ? $request->from : date('Y-m-d', strtotime('-7 days'));
             $to = isset($request->to) ? $request->to : $today;
             $date = isset($request->date) ? $request->date : date('Y-m');
-            $products = isset($request->products) ? implode(',',$request->products) : null;
-            $cms = isset($request->cms) ? implode(',',$request->cms) : null;
-            $ecs = isset($request->ecs) ? implode(',',$request->ecs) : null;
-            $keyword = isset($request->keyword) ? trim((string)$request->keyword) : null;
-            $type = isset($request->type) ? (int)$request->type : null;
-            $scope = self::getScope($request->scope, explode(',',$session->branches_ids));
-            $page = isset($request->page) ? (int)$request->page : 1;
-            $limit = isset($request->limit) ? (int)$request->limit : 20;
+            $products = isset($request->products) ? implode(',', $request->products) : null;
+            $cms = isset($request->cms) ? implode(',', $request->cms) : null;
+            $ecs = isset($request->ecs) ? implode(',', $request->ecs) : null;
+            $keyword = isset($request->keyword) ? trim((string) $request->keyword) : null;
+            $type = isset($request->type) ? (int) $request->type : null;
+            $scope = self::getScope($request->scope, explode(',', $session->branches_ids));
+            $page = isset($request->page) ? (int) $request->page : 1;
+            $limit = isset($request->limit) ? (int) $request->limit : 20;
             $limit = $export ? 10 * $limit : $limit;
             $point = $export ? 10 * ($page - 1) : ($page - 1) * $limit;
             $params->k = $keyword;
@@ -243,7 +247,8 @@ class Report extends Model
         return $params;
     }
 
-    public static function queryReport01a($p, $total = 0, $unlimit = false) {
+    public static function queryReport01a($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         if ($total) {
             $resp = "SELECT COUNT(b.id) total
@@ -273,18 +278,19 @@ class Report extends Model
                     ) AS total_full_fees
                     FROM branches b LEFT JOIN regions r ON b.region_id = r.id
                     WHERE b.status = 1 AND b.id IN ($p->s)";
-//            die($resp);
+            //            die($resp);
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    
-    public static function queryReport04($p, $total = 0, $unlimit = false) {
+
+    public static function queryReport04($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
-        if($p->s) {
+        if ($p->s) {
             $where .= " AND b.id in ($p->s) ";
         }
         if ($total) {
@@ -315,22 +321,23 @@ class Report extends Model
                     ) AS total_full_fee
             FROM branches b WHERE b.status = 1 $where";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
 
-    public static function queryReport28($p, $total = 0, $unlimit = false) {
+    public static function queryReport28($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
-        if($p->s) {
+        if ($p->s) {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($p->r) {
+        if ($p->r) {
             $where .= " AND c.product_id in ($p->r) ";
         }
-        if($p->c) {
+        if ($p->c) {
             $where .= " AND c.cm_id in ($p->c) ";
         }
         if ($total) {
@@ -362,19 +369,20 @@ class Report extends Model
                         LEFT JOIN classes cl ON c.class_id = cl.id
                     WHERE s.status >0 AND c.status NOT IN (0,7,8) AND c.enrolment_last_date < CURDATE() $where";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
 
-    public static function queryReport29($p, $total = 0, $unlimit = false) {
+    public static function queryReport29($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
-        if($p->s) {
+        if ($p->s) {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($p->r) {
+        if ($p->r) {
             $where .= " AND c.product_id in ($p->r) ";
         }
         if ($total) {
@@ -407,7 +415,7 @@ class Report extends Model
                         LEFT JOIN classes cl ON e.class_id = cl.id
                     WHERE s.status >0 AND e.status > 0 AND e.real_sessions > 0 AND e.last_date <= CURDATE() AND c.count_recharge = -1 AND c.type = 0 AND (SELECT COUNT(x.id) FROM contracts x WHERE x.count_recharge > -1 AND x.student_id = c.student_id) = 0 $where";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
@@ -417,12 +425,12 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = $request->fd ? $request->fd : date('Y-m-d', strtotime(Carbon::now()->startOfMonth()));
         $td = $request->td ? $request->td : date('Y-m-d');
         $branchIds = self::$branchIds;
-        $keyword   = self::$keyword;
+        $keyword = self::$keyword;
         $productIds = self::$productIds;
         $fd = $fd . ' 00:00:00';
         $td = $td . ' 23:59:59';
@@ -514,23 +522,23 @@ class Report extends Model
                     LEFT JOIN users u2 ON r.`approver_id` = u2.`id`
                 $strWhere AND s.status >0 ";
 
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
         if ($rs) {
             foreach ($rs as $k => $v) {
                 $metaData = json_decode($v->meta_data);
-                $amountLeft     = isset($metaData->amount_left) ? $metaData->amount_left : 0;
-                $totalFee       = isset($metaData->total_fee) ? $metaData->total_fee : 0;
-                $totalSession   = isset($metaData->total_session) ? $metaData->total_session : 0;
+                $amountLeft = isset($metaData->amount_left) ? $metaData->amount_left : 0;
+                $totalFee = isset($metaData->total_fee) ? $metaData->total_fee : 0;
+                $totalSession = isset($metaData->total_session) ? $metaData->total_session : 0;
                 $numberReserved = isset($v->session) ? $v->session : 0;
                 $amountReserved = $totalSession > 0 ? (ceil($totalFee / $totalSession) * $numberReserved) : 0;
-                $v->total_session   = $totalSession;
-                $v->total_fee       = $totalFee;
-                $v->session_left    = isset($metaData->session_left) ? $metaData->session_left : 0;
-                $v->amount_left     = $amountLeft;
-                $v->start_date      = isset($metaData->start_date) ? $metaData->start_date : '';
-                $v->end_date        = isset($metaData->end_date) ? $metaData->end_date : '';
+                $v->total_session = $totalSession;
+                $v->total_fee = $totalFee;
+                $v->session_left = isset($metaData->session_left) ? $metaData->session_left : 0;
+                $v->amount_left = $amountLeft;
+                $v->start_date = isset($metaData->start_date) ? $metaData->start_date : '';
+                $v->end_date = isset($metaData->end_date) ? $metaData->end_date : '';
                 $v->amount_reserved = $amountReserved;
                 $v->number_of_session_reserved = isset($metaData->number_of_session_reserved) ? $metaData->number_of_session_reserved : 0;
             }
@@ -546,13 +554,13 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = self::$fd;
         $td = self::$td;
-        $branchIds  = self::$branchIds;
+        $branchIds = self::$branchIds;
         $productIds = self::$productIds;
-        $keyword    = $request->keyword ? trim($request->keyword) : null;
+        $keyword = $request->keyword ? trim($request->keyword) : null;
         $where[] = "c.type <> 0";
         if ($productIds) {
             $where[] = "c.product_id IN ( $productIds )";
@@ -569,7 +577,7 @@ class Report extends Model
         if ($where) {
             $strWhere = ' WHERE ' . implode(' AND ', $where);
         }
-//        $strWhere = '';
+        //        $strWhere = '';
 //        $strLimit = 'LIMIT 0, 20';
         $query = "
                 SELECT
@@ -620,9 +628,9 @@ class Report extends Model
                     LEFT JOIN branches AS b ON c.`branch_id` = b.id
                 $strWhere";
 
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
 
         $return = array(
             'data' => $rs ? $rs : null,
@@ -635,14 +643,14 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = $request->fd ? $request->fd : date('Y-m-d', strtotime(Carbon::now()->startOfMonth()));
         $td = $request->td ? $request->td : date('Y-m-d');
         $fd = $fd ? $fd . ' 00:00:00' : $fd;
         $td = $td ? $td . ' 23:59:59' : $td;
         $branchIds = self::$branchIds;
-        $keyword   = self::$keyword;
+        $keyword = self::$keyword;
         $productIds = self::$productIds;
         $ecId = self::$ecId;
         $cmId = self::$cmId;
@@ -753,9 +761,9 @@ class Report extends Model
                     LEFT JOIN users AS u2 ON tt.approver_id = u2.id
                 $strWhere";
 
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
 
         $return = array(
             'data' => $rs ? $rs : null,
@@ -768,7 +776,7 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = $request->fd;
         if (!$fd) {
@@ -781,7 +789,7 @@ class Report extends Model
         $ec_name = $request->ec_name;
         $cm_name = $request->cm_name;
         $branchIds = self::$branchIds;
-        $keyword   = $request->student_name ? trim($request->student_name) : null;
+        $keyword = $request->student_name ? trim($request->student_name) : null;
 
         $where[] = "e.`status` = 1 AND e.`last_date` > NOW()";
 
@@ -848,9 +856,9 @@ class Report extends Model
                 LEFT JOIN `users` u2 ON tsu.`cm_id` = u2.`id`
              $strWhere";
 
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
 
         $return = array(
             'data' => $rs ? $rs : null,
@@ -863,12 +871,12 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = $request->fd ? $request->fd : date('Y-m-d', strtotime(Carbon::now()->startOfMonth()));
         $td = $request->td ? $request->td : date('Y-m-d');
         $branchIds = self::$branchIds;
-        $keyword   = self::$keyword;
+        $keyword = self::$keyword;
         $productIds = self::$productIds;
         $ecId = self::$ecId;
         $cmId = self::$cmId;
@@ -974,10 +982,10 @@ class Report extends Model
                     LEFT JOIN users AS u3 ON ct.to_approver_id = u3.id
                 $strWhere";
 
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
-//        if ($rs) {
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
+        //        if ($rs) {
 //            foreach ($rs as $k => $v) {
 //                $v->from_effect_id = '';
 //                $fromEffectID = array();
@@ -1006,18 +1014,18 @@ class Report extends Model
         ini_set('max_execution_time', 300);
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = self::$fd;
         $td = self::$td;
         $branchIds = self::$branchIds;
-        $keyword   = self::$keyword;
+        $keyword = self::$keyword;
         $productIds = self::$productIds;
 
         if ($fd && $td) {
             $where[] = "s.created_at >= '$fd' AND s.created_at <= '$td'";
         }
-//        if ($productIds) {
+        //        if ($productIds) {
 //            $where[] = "c.product_id IN ($productIds)";
 //        }
         if ($keyword) {
@@ -1094,9 +1102,9 @@ class Report extends Model
                     LEFT JOIN users AS u3 ON u1.`superior_id` = u3.`hrm_id`
                 $strWhere";
 
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
         if ($rs) {
             foreach ($rs as $k => $v) {
                 switch ($v->contract_status) {
@@ -1175,14 +1183,15 @@ class Report extends Model
     }
 
     //Report 09
-    public static function studentWithdraw($request) {
+    public static function studentWithdraw($request)
+    {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = $request->fd;
         if (!$fd) {
-            $fd = date('Y-m-d',strtotime('-30 days'));
+            $fd = date('Y-m-d', strtotime('-30 days'));
         }
         $td = $request->td;
         if (!$td) {
@@ -1287,9 +1296,9 @@ class Report extends Model
 
         $query = "$queryTemp ORDER BY b.`id` $strLimit";
 
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
 
         $return = array(
             'data' => $rs ? $rs : null,
@@ -1298,18 +1307,19 @@ class Report extends Model
         return $return;
     }
     /**
-    * Get Info Branches
-    * @type 0: report 20 ; 1: report 20b;
-    */
-    public static function branchesInfo($request,$type=1){
-        $params = self::params($request,$request->users_data);
+     * Get Info Branches
+     * @type 0: report 20 ; 1: report 20b;
+     */
+    public static function branchesInfo($request, $type = 1)
+    {
+        $params = self::params($request, $request->users_data);
         // dd($params);
-        $limit = (int)$params->l;
-        $page   = (int)$params->p;
-        $offset = (int)$params->d;
+        $limit = (int) $params->l;
+        $page = (int) $params->p;
+        $offset = (int) $params->d;
         $strLimit = '';
         $strLimit = ($limit && ($offset !== null)) ? " LIMIT $offset, $limit" : '';
-        $where    = [];
+        $where = [];
         $strWhere = '';
         $fd = $params->f;
         $td = $params->t;
@@ -1319,39 +1329,41 @@ class Report extends Model
         $validTodate = strtotime($td);
         // dd($branchIds);
         $whereBrc = '';
-        if($branchIds){
+        if ($branchIds) {
             $whereBrc = " And b.id in ($branchIds)";
         }
 
-        if( $validFromdate and $validTodate ) {
-            $whereCm2m = date('Y-m-d', strtotime(' -2 month',strtotime($fd)));
-            $from_dof_date = date('Y-m-d',strtotime($fd));
-            $to_dof_date   = date('Y-m-d',strtotime($td));
-            $from_dof_date_prev  = date('Y-m-01', strtotime(' -1 month',strtotime($fd)));
-            $to_dof_date_prev    = date('Y-m-t', strtotime(' -1 month', strtotime($td)));
+        if ($validFromdate and $validTodate) {
+            $whereCm2m = date('Y-m-d', strtotime(' -2 month', strtotime($fd)));
+            $from_dof_date = date('Y-m-d', strtotime($fd));
+            $to_dof_date = date('Y-m-d', strtotime($td));
+            $from_dof_date_prev = date('Y-m-01', strtotime(' -1 month', strtotime($fd)));
+            $to_dof_date_prev = date('Y-m-t', strtotime(' -1 month', strtotime($td)));
         } else {
             $whereCm2m = date('Y-m-d', strtotime(' -2 month'));
             $from_dof_date = date('Y-m-01');
             $to_dof_date = date('Y-m-t');
             $from_dof_date_prev = date('Y-m-01', strtotime(' -1 month'));
-            $to_dof_date_prev     = date('Y-m-t', strtotime(' -1 month'));
+            $to_dof_date_prev = date('Y-m-t', strtotime(' -1 month'));
         }
         $productList = [
-            'igarten' => '1', 'april' => '2', 'cdi40' => '3'
+            'igarten' => '1',
+            'april' => '2',
+            'cdi40' => '3'
         ];
-        $arr_field = $type ? ['id','branch_id','cm_id'] : ['id','branch_id'];
+        $arr_field = $type ? ['id', 'branch_id', 'cm_id'] : ['id', 'branch_id'];
         $sqlStudentActive = Student::sqlCountStudentFullfeeActive($from_dof_date, $to_dof_date, '');
-        $sqlClasses = LmsClass::sqlGetClasses($arr_field,$from_dof_date, $to_dof_date, '');
+        $sqlClasses = LmsClass::sqlGetClasses($arr_field, $from_dof_date, $to_dof_date, '');
         $sqlClassesPResult = $sqlStudentPResult = $sqlClassesPResultLess = $sqlClassesPResultPrev = $sqlStudentPResultPrev = '';
 
-        foreach( $productList as $pKey => $pID ) {
-          // Classes
+        foreach ($productList as $pKey => $pID) {
+            // Classes
             $where = " AND tpp.product_id = $pID";
-            $sqlClassesP = LmsClass::sqlGetClasses($arr_field,$from_dof_date,$to_dof_date, $where, true);
+            $sqlClassesP = LmsClass::sqlGetClasses($arr_field, $from_dof_date, $to_dof_date, $where, true);
             $sqlClassesPResult .= $type ? " ( select count(*) from ($sqlClassesP) as cl where cl.cm_id = u.id ) as cls_$pKey ," : " ( select count(*) from ($sqlClassesP) as cl where cl.branch_id = b.id ) as cls_$pKey ,";
             // ClassesPrev
             $where = " AND tpp.product_id = $pID";
-            $sqlClassesPPrev = LmsClass::sqlGetClasses($arr_field,$from_dof_date_prev,$to_dof_date_prev, $where, true);
+            $sqlClassesPPrev = LmsClass::sqlGetClasses($arr_field, $from_dof_date_prev, $to_dof_date_prev, $where, true);
             $sqlClassesPResultPrev .= $type ? " ( select count(*) from ($sqlClassesPPrev) as cl where cl.cm_id = u.id ) as cls_prev_$pKey ," : " ( select count(*) from ($sqlClassesPPrev) as cl where cl.branch_id = b.id ) as cls_prev_$pKey ,";
 
             //Students
@@ -1366,23 +1378,23 @@ class Report extends Model
 
             //Classes Less
             $whereLess = " AND tpp.product_id = $pID";
-            $sqlClassesPLess = LmsClass::sqlGetClasses($arr_field,$from_dof_date,$to_dof_date, $whereLess, true, true);
+            $sqlClassesPLess = LmsClass::sqlGetClasses($arr_field, $from_dof_date, $to_dof_date, $whereLess, true, true);
             $sqlClassesPResultLess .= $type ? " ( select count(*) from ($sqlClassesPLess) as cl where cl.cm_id = u.id ) as cls_less5_$pKey ," : " ( select count(*) from ($sqlClassesPLess) as cl where cl.branch_id = b.id ) as cls_less5_$pKey ,";
 
         }
 
-        $stPending = $type ? Student::sqlCountStudentFullfeePending($to_dof_date,'AND c.cm_id = u.id') : Student::sqlCountStudentFullfeePending($to_dof_date,'AND p.branch_id = b.id');
+        $stPending = $type ? Student::sqlCountStudentFullfeePending($to_dof_date, 'AND c.cm_id = u.id') : Student::sqlCountStudentFullfeePending($to_dof_date, 'AND p.branch_id = b.id');
 
-        $stPendingPrev = $type ? Student::sqlCountStudentFullfeePending($to_dof_date_prev,'AND c.cm_id = u.id') : Student::sqlCountStudentFullfeePending($to_dof_date_prev,'AND p.branch_id = b.id');
+        $stPendingPrev = $type ? Student::sqlCountStudentFullfeePending($to_dof_date_prev, 'AND c.cm_id = u.id') : Student::sqlCountStudentFullfeePending($to_dof_date_prev, 'AND p.branch_id = b.id');
 
         $whereRenew = $type ? " AND c.cm_id = u.id" : " AND s.branch_id = b.id";
-        $renew     = Student::sqlCountRenewStudent($from_dof_date, $to_dof_date, $whereRenew);
-        $renewSuccess     = Student::sqlCountRenewStudent($from_dof_date, $to_dof_date, $whereRenew, true);
+        $renew = Student::sqlCountRenewStudent($from_dof_date, $to_dof_date, $whereRenew);
+        $renewSuccess = Student::sqlCountRenewStudent($from_dof_date, $to_dof_date, $whereRenew, true);
         $renewPrev = Student::sqlCountRenewStudent($from_dof_date_prev, $to_dof_date_prev, $whereRenew);
         $renewPrevSuccess = Student::sqlCountRenewStudent($from_dof_date_prev, $to_dof_date_prev, $whereRenew);
 
         $sql = !$type ?
-        "
+            "
         SELECT
           b.id as b_id,
           b.zone_id as b_zone,
@@ -1416,7 +1428,7 @@ class Report extends Model
           WHERE b.status = 1 $whereBrc
           $strLimit
         " :
-        "
+            "
           SELECT
             b.id as b_id,
             b.zone_id as b_zone,
@@ -1467,26 +1479,28 @@ class Report extends Model
         $data_map = null;
         $totalRecord = 0;
         // echo $sql;die;
-        try{
-            $rs     = DB::select(DB::raw($sql));
-            $total  = DB::select(DB::raw($queryCount));
-            $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
-            if(!empty($rs)){
-                $data_map = array_map(function($item){
-                    $item->cls_asc_april_prev = ($item->student_prev_april > 0 && $item->cls_prev_april > 0) ? round($item->student_prev_april / $item->cls_prev_april,2) : 0;
-                    $item->cls_asc_igarten_prev = ($item->student_prev_igarten > 0 && $item->cls_prev_igarten > 0) ? round($item->student_prev_igarten / $item->cls_prev_igarten,2) : 0;
-                    $item->cls_asc_cdi40_prev = ($item->student_prev_cdi40 > 0 && $item->cls_prev_cdi40 > 0 ) ? round($item->student_prev_cdi40 / $item->cls_prev_cdi40,2) : 0;
-                    $item->cls_asc_april = ( $item->student_april > 0 && $item->cls_april > 0 ) ? round($item->student_april / $item->cls_april,2) : 0;
-                    $item->cls_asc_igarten = ($item->student_igarten > 0 && $item->cls_igarten > 0 ) ? round($item->student_igarten / $item->cls_igarten,2) : 0;
-                    $item->cls_asc_cdi40 = ($item->student_cdi40 > 0 && $item->cls_cdi40 > 0) ? round($item->student_cdi40 / $item->cls_cdi40,2) : 0;
-                    $item->ratioRenew = ( $item->renew_success > 0 && $item->renew > 0 ) ? round((($item->renew_success / $item->renew)*100),2) : 0;
-                    $item->ratioRenewPrev = ( $item->renew_prev_success > 0 && $item->renew_prev > 0 ) ? round((($item->renew_prev_success / $item->renew_prev)*100),2) : 0;
-                    $item->ratioPending = ( $item->student_pending > 0 && $item->student_pending_prev > 0 ) ? round((($item->student_pending / $item->student_pending_prev)*100),2) : 0;
+        try {
+            $rs = DB::select(DB::raw($sql));
+            $total = DB::select(DB::raw($queryCount));
+            $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
+            if (!empty($rs)) {
+                $data_map = array_map(function ($item) {
+                    $item->cls_asc_april_prev = ($item->student_prev_april > 0 && $item->cls_prev_april > 0) ? round($item->student_prev_april / $item->cls_prev_april, 2) : 0;
+                    $item->cls_asc_igarten_prev = ($item->student_prev_igarten > 0 && $item->cls_prev_igarten > 0) ? round($item->student_prev_igarten / $item->cls_prev_igarten, 2) : 0;
+                    $item->cls_asc_cdi40_prev = ($item->student_prev_cdi40 > 0 && $item->cls_prev_cdi40 > 0) ? round($item->student_prev_cdi40 / $item->cls_prev_cdi40, 2) : 0;
+                    $item->cls_asc_april = ($item->student_april > 0 && $item->cls_april > 0) ? round($item->student_april / $item->cls_april, 2) : 0;
+                    $item->cls_asc_igarten = ($item->student_igarten > 0 && $item->cls_igarten > 0) ? round($item->student_igarten / $item->cls_igarten, 2) : 0;
+                    $item->cls_asc_cdi40 = ($item->student_cdi40 > 0 && $item->cls_cdi40 > 0) ? round($item->student_cdi40 / $item->cls_cdi40, 2) : 0;
+                    $item->ratioRenew = ($item->renew_success > 0 && $item->renew > 0) ? round((($item->renew_success / $item->renew) * 100), 2) : 0;
+                    $item->ratioRenewPrev = ($item->renew_prev_success > 0 && $item->renew_prev > 0) ? round((($item->renew_prev_success / $item->renew_prev) * 100), 2) : 0;
+                    $item->ratioPending = ($item->student_pending > 0 && $item->student_pending_prev > 0) ? round((($item->student_pending / $item->student_pending_prev) * 100), 2) : 0;
                     return $item;
-                },$rs);
+                }, $rs);
             }
             // dd($data_map);
-        }catch(Exception $exception){ throw $exception;}
+        } catch (Exception $exception) {
+            throw $exception;
+        }
 
         $return = array(
             'data' => $data_map ? $data_map : null,
@@ -1495,9 +1509,10 @@ class Report extends Model
         return $return;
     }
     /**
-    * Get data form18
-    */
-    public static function reportForm18($request){
+     * Get data form18
+     */
+    public static function reportForm18($request)
+    {
         self::commons($request);
         $strLimit = self::$strLimit;
 
@@ -1512,7 +1527,7 @@ class Report extends Model
 
         $datestring = "$strDateCompare first day of last month";
         $dt = date_create($datestring);
-        $dateComparePrev =  $dt->format('Y-m-d');
+        $dateComparePrev = $dt->format('Y-m-d');
 
         $datePrev = date("Y-m-t", strtotime($dateComparePrev));
         $dateCurr = date("Y-m-t", strtotime($dateCompare));
@@ -1557,20 +1572,20 @@ class Report extends Model
                   $strLimit";
 
         $queryCount = "SELECT count(1) AS total FROM `branches` AS br $strWhereBranch";
-        try{
+        try {
             $results = DB::select(DB::raw($query));
             if ($results) {
                 foreach ($results as $k => $v) {
-                    $totalStudent      = DB::select(DB::raw(self::countStudentByBranchId($v->branch_id, $dateCurr, $where, $where1)));
-                    $totalStudentPrev  = DB::select(DB::raw(self::countStudentByBranchId($v->branch_id, $datePrev, $where, $where1)));
+                    $totalStudent = DB::select(DB::raw(self::countStudentByBranchId($v->branch_id, $dateCurr, $where, $where1)));
+                    $totalStudentPrev = DB::select(DB::raw(self::countStudentByBranchId($v->branch_id, $datePrev, $where, $where1)));
                     $v->total_student = isset($totalStudent[0]->total) ? $totalStudent[0]->total : 0;
                     $v->total_student_prev = isset($totalStudentPrev[0]->total) ? $totalStudentPrev[0]->total : 0;
                 }
             }
             $total = DB::select(DB::raw($queryCount));
-            $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+            $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
 
-        }catch(Exception $exception){
+        } catch (Exception $exception) {
             throw $exception;
         }
         $return = array(
@@ -1618,8 +1633,8 @@ class Report extends Model
                         ) AS x";
     }
     /**
-    * Get data form18
-    */
+     * Get data form18
+     */
     public static function reportForm19($request)
     {
         self::commons($request);
@@ -1631,7 +1646,7 @@ class Report extends Model
         $branches = $branchIds;
         $products = self::$productIds;
         $date = $request->date ? $request->date : date('Y-m-d');
-        $student_num = (int)$request->student_number ? (int)$request->student_number : 5;
+        $student_num = (int) $request->student_number ? (int) $request->student_number : 5;
         $keyword = self::$keyword;
         $ecId = self::$ecId;
         $cmId = self::$cmId;
@@ -1722,12 +1737,12 @@ class Report extends Model
 
         $results = null;
         $totalRecord = 0;
-        try{
+        try {
             $results = DB::select(DB::raw($sql));
             $total = DB::select(DB::raw($sql_count));
-            $totalRecord = count($total) ? (int)count($total) : 0;
+            $totalRecord = count($total) ? (int) count($total) : 0;
 
-        }catch(Exception $exception){
+        } catch (Exception $exception) {
             throw $exception;
         }
         $return = array(
@@ -1741,13 +1756,13 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = $request->fd ? date('Y-m-d', strtotime($request->fd)) : null;
         $td = $request->td ? date('Y-m-d', strtotime($request->td)) : null;
-        $keyword    = self::$keyword;
-        $branchIds  = implode(',',$request->branch_ids?:[]);
-        $productIds = implode(',',$request->product_ids?:[]);
+        $keyword = self::$keyword;
+        $branchIds = implode(',', $request->branch_ids ?: []);
+        $productIds = implode(',', $request->product_ids ?: []);
         $ecId = self::$ecId;
         $cmId = self::$cmId;
 
@@ -1857,12 +1872,12 @@ class Report extends Model
                     $strWhere AND x.dates >=15
                     ORDER BY c.id DESC";
 
-        $rs    = DB::select(DB::raw($query));
+        $rs = DB::select(DB::raw($query));
         $total = DB::select(DB::raw($queryCount));
 
         $return = array(
             'data' => $rs ? $rs : null,
-            'total_record' => $total[0]->total ? (int)$total[0]->total : 0
+            'total_record' => $total[0]->total ? (int) $total[0]->total : 0
         );
         return $return;
     }
@@ -1871,12 +1886,12 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = self::$fd;
         $td = self::$td;
-        $keyword    = self::$keyword;
-        $branchIds  = self::$branchIds;
+        $keyword = self::$keyword;
+        $branchIds = self::$branchIds;
         $productIds = self::$productIds;
         $status = $request->status;
         $ecId = self::$ecId;
@@ -1965,13 +1980,13 @@ class Report extends Model
                     ORDER BY p.created_at DESC
                     ";
 
-        $rs    = DB::select(DB::raw($query));
+        $rs = DB::select(DB::raw($query));
         $total = DB::select(DB::raw($queryCount));
         if ($rs) {
             foreach ($rs as $k => $v) {
                 $start = date_create($v->pending_date);
-                $end   = date_create($v->pending_end_date);
-                $diff  = date_diff($start, $end);
+                $end = date_create($v->pending_end_date);
+                $diff = date_diff($start, $end);
                 $v->total_pending_session = $diff->format('%a');
                 $status = $v->status;
                 switch ($status) {
@@ -1993,7 +2008,7 @@ class Report extends Model
         }
         $return = array(
             'data' => $rs ? $rs : null,
-            'total_record' => isset($total[0]->total) ? (int)$total[0]->total : 0
+            'total_record' => isset($total[0]->total) ? (int) $total[0]->total : 0
         );
         return $return;
     }
@@ -2002,15 +2017,13 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $strWhere2 = '';
         $fd = $request->date;
         if (!$fd) {
             $fd = date('Y-m-d');
-        }
-        else
-        {
+        } else {
             $fd = date('Y-m-d', strtotime($fd)) . " 23:59:59";
         }
         $listBranchs = $request->listBranchs;
@@ -2033,15 +2046,15 @@ class Report extends Model
             $strProductIds = implode(',', $listProducts);
         }
 
-        if($listTypeContract) {
+        if ($listTypeContract) {
             $strTypeContract = implode(',', $listTypeContract);
         }
 
-        if($listTypeCustomer) {
+        if ($listTypeCustomer) {
             $strTypeCustomer = implode(',', $listTypeCustomer);
         }
 
-        if($listTypeFee) {
+        if ($listTypeFee) {
             $strTypeFee = implode(',', $listTypeFee);
         }
 
@@ -2070,17 +2083,17 @@ class Report extends Model
 
         }
 
-        if($strTypeCustomer != null) {
+        if ($strTypeCustomer != null) {
             $where[] = "s.type in ($strTypeCustomer)";
             $where2[] = "s.type in ($strTypeCustomer)";
         }
 
-        if($strTypeContract) {
+        if ($strTypeContract) {
             $where[] = "c.type in ($strTypeContract)";
             $where2[] = "c.type in ($strTypeContract)";
         }
 
-        if($strTypeFee) {
+        if ($strTypeFee) {
             $where[] = "c.status in ($strTypeFee)";
             $where2[] = "c.status in ($strTypeFee)";
         }
@@ -2158,9 +2171,9 @@ class Report extends Model
 
         $query = "$queryTemp ORDER BY s_id $strLimit";
         //echo $query;exit();
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
 
         $return = array(
             'data' => $rs ? $rs : null,
@@ -2170,53 +2183,53 @@ class Report extends Model
         return $return;
     }
 
-  public static function reportForm06($request)
-  {
-    self::commons($request);
+    public static function reportForm06($request)
+    {
+        self::commons($request);
 
 
-    $from_date = $request->fromDate;
-    $to_date = $request->toDate;
+        $from_date = $request->fromDate;
+        $to_date = $request->toDate;
 
 
-    if (!$from_date) {
-      $from_date = date('Y-m-01 00:00:00');
-    }else{
-      $from_date = date('Y-m-d',strtotime($from_date)) . " 00:00:00";
-    }
+        if (!$from_date) {
+            $from_date = date('Y-m-01 00:00:00');
+        } else {
+            $from_date = date('Y-m-d', strtotime($from_date)) . " 00:00:00";
+        }
 
-    if (!$to_date) {
-      $to_date = date('Y-m-d 23:59:59');
-      $pending_date = date('Y-m-d 00:00:00');
-    }else{
-      $to_date = date('Y-m-d',strtotime($to_date)) . " 23:59:59";
-      $pending_date = date('Y-m-d',strtotime($to_date)) . " 00:00:00";
-    }
+        if (!$to_date) {
+            $to_date = date('Y-m-d 23:59:59');
+            $pending_date = date('Y-m-d 00:00:00');
+        } else {
+            $to_date = date('Y-m-d', strtotime($to_date)) . " 23:59:59";
+            $pending_date = date('Y-m-d', strtotime($to_date)) . " 00:00:00";
+        }
 
-    $branch_ids = $request->branch_ids;
-    $product_ids = $request->product_ids;
-    $student_type_ids = $request->customer_type_ids;
-    if(empty($branch_ids)){
-      $branch_ids = u::getBranchIds($request->users_data);
-    }
+        $branch_ids = $request->branch_ids;
+        $product_ids = $request->product_ids;
+        $student_type_ids = $request->customer_type_ids;
+        if (empty($branch_ids)) {
+            $branch_ids = u::getBranchIds($request->users_data);
+        }
 
-    $where = "";
+        $where = "";
 
-    if ($branch_ids) {
-      $branch_ids_string = implode(',', $branch_ids);
-      $where .= " AND t.branch_id IN( $branch_ids_string ) ";
-    }
-    if ($product_ids) {
-      $product_ids_string = implode(',', $product_ids);
-      $where .= " AND t.product_id IN ( $product_ids_string ) ";
-    }
+        if ($branch_ids) {
+            $branch_ids_string = implode(',', $branch_ids);
+            $where .= " AND t.branch_id IN( $branch_ids_string ) ";
+        }
+        if ($product_ids) {
+            $product_ids_string = implode(',', $product_ids);
+            $where .= " AND t.product_id IN ( $product_ids_string ) ";
+        }
 
-    if ($student_type_ids) {
-      $student_type_ids_string = implode(',', $student_type_ids);
-      $where .= " AND t.student_type in ( $student_type_ids_string ) ";
-    }
+        if ($student_type_ids) {
+            $student_type_ids_string = implode(',', $student_type_ids);
+            $where .= " AND t.student_type in ( $student_type_ids_string ) ";
+        }
 
-    $q = "SELECT s.`id` AS student_id, c.id AS contract_id, (0 - t.type) AS student_type, t.name AS student_type_name,
+        $q = "SELECT s.`id` AS student_id, c.id AS contract_id, (0 - t.type) AS student_type, t.name AS student_type_name,
                     c.product_id AS product_id, s.created_at as created_at, s.branch_id as branch_id, c.program_id as program_id,
                     c.enrolment_id AS enrolment_id, s.name AS student_name, s.stu_id AS lms_id, s.accounting_id AS accounting_id
                 FROM
@@ -2280,7 +2293,7 @@ class Report extends Model
                         )
                     )
                 GROUP BY s.id";
-    $query = "
+        $query = "
             SELECT
                 t.lms_id AS lms_id,
                 t.accounting_id AS accounting_id,
@@ -2307,44 +2320,45 @@ class Report extends Model
             (t.created_at BETWEEN '$from_date' AND '$to_date') $where ";
 
 
-    $queryCount = "SELECT COUNT(1) AS total FROM ($query) AS temp";
+        $queryCount = "SELECT COUNT(1) AS total FROM ($query) AS temp";
 
-    $strLimit = self::$strLimit;
-    $total  = DB::select(DB::raw($queryCount));
-    $query = "$query $strLimit";
-    $rs     = DB::select(DB::raw($query));
-    $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
-    $return = array(
-      'list' => $rs ? $rs : null,
-      'total' => $totalRecord,
-      'limit' => $request->limit,
-      'page' => $request->page
-    );
+        $strLimit = self::$strLimit;
+        $total = DB::select(DB::raw($queryCount));
+        $query = "$query $strLimit";
+        $rs = DB::select(DB::raw($query));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
+        $return = array(
+            'list' => $rs ? $rs : null,
+            'total' => $totalRecord,
+            'limit' => $request->limit,
+            'page' => $request->page
+        );
 
-    return $return;
-  }
-
-
-  public static function createQueryReport09($branch_ids, $products, $from_date, $to_date, $limit = null){
-    $where = "";
-    if(!empty($branch_ids)) {
-      $branch_ids_string = is_array($branch_ids) ? implode(',', $branch_ids) : $branch_ids;
-      $where .= " AND c.branch_id IN( $branch_ids_string ) ";
-    }
-    if (!empty($products)) {
-      $product_ids_string = is_array($products) ? implode(',', $products): $products;
-      $where .= " AND c.product_id IN ( $product_ids_string ) ";
-    }
-    $queryDate = "";
-    if(!empty($from_date)){
-      $queryDate .= "AND c.`enrolment_withdraw_date` >= '$from_date' ";
-    }
-    if(!empty($to_date)){
-      $queryDate.=" AND c.`enrolment_withdraw_date` <= '$to_date' ";
+        return $return;
     }
 
-    $where_branch_ids = !empty($branch_ids_string)? "WHERE c.`branch_id` IN ($branch_ids_string)": "";
-    $query = "SELECT
+
+    public static function createQueryReport09($branch_ids, $products, $from_date, $to_date, $limit = null)
+    {
+        $where = "";
+        if (!empty($branch_ids)) {
+            $branch_ids_string = is_array($branch_ids) ? implode(',', $branch_ids) : $branch_ids;
+            $where .= " AND c.branch_id IN( $branch_ids_string ) ";
+        }
+        if (!empty($products)) {
+            $product_ids_string = is_array($products) ? implode(',', $products) : $products;
+            $where .= " AND c.product_id IN ( $product_ids_string ) ";
+        }
+        $queryDate = "";
+        if (!empty($from_date)) {
+            $queryDate .= "AND c.`enrolment_withdraw_date` >= '$from_date' ";
+        }
+        if (!empty($to_date)) {
+            $queryDate .= " AND c.`enrolment_withdraw_date` <= '$to_date' ";
+        }
+
+        $where_branch_ids = !empty($branch_ids_string) ? "WHERE c.`branch_id` IN ($branch_ids_string)" : "";
+        $query = "SELECT
                 s.`id` AS student_id,
                 s.stu_id as lms_id,
                 s.accounting_id,
@@ -2386,42 +2400,42 @@ class Report extends Model
                 $queryDate
             GROUP BY s.`id`
         ";
-    if(!empty($limit)){
-      $query.=" $limit";
+        if (!empty($limit)) {
+            $query .= " $limit";
+        }
+        return $query;
     }
-    return $query;
-  }
 
-  public static function reportForm09($request)
-  {
-    self::commons($request);
+    public static function reportForm09($request)
+    {
+        self::commons($request);
 
-    $branch_ids = $request->branches;
-    $products = $request->products;
-    $from_date = !empty($request->from_date)? date('Y-m-d',strtotime($request->from_date)): null;
-    $to_date = !empty($request->to_date) ? date('Y-m-d',strtotime($request->to_date)): null;
-    $query = self::createQueryReport09($branch_ids, $products, $from_date, $to_date);
-    $queryCount = "SELECT COUNT(1) AS total FROM ($query) AS temp";
-    $strLimit = self::$strLimit;
-    $total  = DB::select(DB::raw($queryCount));
-    $query = "$query $strLimit";
-    $rs     = DB::select(DB::raw($query));
-    $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
-    $return = array(
-      'list' => $rs ? $rs : null,
-      'total' => $totalRecord,
-      'limit' => $request->limit,
-      'page' => $request->page
-    );
+        $branch_ids = $request->branches;
+        $products = $request->products;
+        $from_date = !empty($request->from_date) ? date('Y-m-d', strtotime($request->from_date)) : null;
+        $to_date = !empty($request->to_date) ? date('Y-m-d', strtotime($request->to_date)) : null;
+        $query = self::createQueryReport09($branch_ids, $products, $from_date, $to_date);
+        $queryCount = "SELECT COUNT(1) AS total FROM ($query) AS temp";
+        $strLimit = self::$strLimit;
+        $total = DB::select(DB::raw($queryCount));
+        $query = "$query $strLimit";
+        $rs = DB::select(DB::raw($query));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
+        $return = array(
+            'list' => $rs ? $rs : null,
+            'total' => $totalRecord,
+            'limit' => $request->limit,
+            'page' => $request->page
+        );
 
-    return $return;
-  }
+        return $return;
+    }
 
     public static function reportForm13($request)
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
 
         $listBranchs = $request->branches;
@@ -2434,8 +2448,7 @@ class Report extends Model
         if ($listBranchs) {
 
             $branch_ids_term = [];
-            foreach ($listBranchs as $key => $value)
-            {
+            foreach ($listBranchs as $key => $value) {
                 array_push($branch_ids_term, $value['id']);
             }
             $listBranchs = $branch_ids_term;
@@ -2508,9 +2521,9 @@ class Report extends Model
 
         $query = "$queryTemp ORDER BY c.id $strLimit";
 
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
 
         $return = array(
             'data' => $rs ? $rs : null,
@@ -2524,7 +2537,7 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = $request->fd;
         if (!$fd) {
@@ -2568,9 +2581,9 @@ class Report extends Model
             $strLimit
         ";
         $queryCount = "SELECT COUNT(1) AS total FROM `sales_report` AS s $strWhere";
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
 
         $return = array(
             'data' => $rs ? $rs : null,
@@ -2580,7 +2593,8 @@ class Report extends Model
         return $return;
     }
 
-    public static function queryReport17a($params, $total = 0){
+    public static function queryReport17a($params, $total = 0)
+    {
         if ($total) {
             $resp = "SELECT COUNT(t.region_id) AS total FROM (SELECT s.region_id FROM sales_report s WHERE s.`branch_id` IN ($params->s) AND s.`datetime` >= '$params->f 00:00:00' AND s.`datetime` <= '$params->t 23:59:59' AND s.note = 'total_charge_amount' GROUP BY s.`region_id`) t";
         } else {
@@ -2608,12 +2622,13 @@ class Report extends Model
         return $resp;
     }
 
-    public static function queryReport17b($params, $total = 0){
+    public static function queryReport17b($params, $total = 0)
+    {
         if ($total) {
             $resp = "SELECT COUNT(t.branch_id) AS total FROM (SELECT branch_id FROM sales_report s WHERE s.`branch_id` IN ($params->s) AND s.`datetime` >= '$params->f 00:00:00' AND s.`datetime` <= '$params->t 23:59:59' AND s.note = 'total_charge_amount' GROUP BY s.`branch_id`) t";
         } else {
             $lim = (isset($params->d) && isset($params->l)) ? "LIMIT $params->d, $params->l" : "";
-            $order = isset($params->order)?($params->order?(($params->order == 1)?"ORDER BY amount DESC":"ORDER BY amount ASC"):""):"";
+            $order = isset($params->order) ? ($params->order ? (($params->order == 1) ? "ORDER BY amount DESC" : "ORDER BY amount ASC") : "") : "";
 
             $resp = "SELECT SUM(amount) AS amount,
                         (SELECT `name` FROM branches WHERE id = s.branch_id) AS branch_name
@@ -2633,12 +2648,13 @@ class Report extends Model
         return $resp;
     }
 
-    public static function queryReport17c($params, $total = 0){
+    public static function queryReport17c($params, $total = 0)
+    {
         if ($total) {
             $resp = "SELECT COUNT(t.id) AS total FROM (SELECT COUNT(s.user_id) AS id FROM sales_report s WHERE s.`branch_id` IN ($params->s) AND role_id IN (68, 69) AND s.`datetime` >= '$params->f 00:00:00' AND s.`datetime` <= '$params->t 23:59:59' AND s.note = 'new_charge_amount' GROUP BY s.`user_id`) t";
         } else {
             $lim = (isset($params->d) && isset($params->l)) ? "LIMIT $params->d, $params->l" : "";
-            $order = isset($params->order)?($params->order?(($params->order == 1)?"ORDER BY amount DESC":"ORDER BY amount ASC"):""):"";
+            $order = isset($params->order) ? ($params->order ? (($params->order == 1) ? "ORDER BY amount DESC" : "ORDER BY amount ASC") : "") : "";
 
             $resp = "SELECT SUM(amount) AS amount,
                         (SELECT `full_name` FROM users WHERE id = s.user_id) AS full_name,
@@ -2661,12 +2677,13 @@ class Report extends Model
         return $resp;
     }
 
-    public static function queryReport17d($params, $total = 0){
+    public static function queryReport17d($params, $total = 0)
+    {
         if ($total) {
             $resp = "SELECT COUNT(t.id) AS total FROM (SELECT COUNT(s.user_id) AS id FROM sales_report s WHERE s.`branch_id` IN ($params->s) AND role_id IN (68, 69) AND s.`datetime` >= '$params->f 00:00:00' AND s.`datetime` <= '$params->t 23:59:59' AND s.note = 'new_charge_amount' GROUP BY s.`team`) t";
         } else {
             $lim = (isset($params->d) && isset($params->l)) ? "LIMIT $params->d, $params->l" : "";
-            $order = isset($params->order)?($params->order?(($params->order == 1)?"ORDER BY amount DESC":"ORDER BY amount ASC"):""):"";
+            $order = isset($params->order) ? ($params->order ? (($params->order == 1) ? "ORDER BY amount DESC" : "ORDER BY amount ASC") : "") : "";
 
             $resp = "SELECT COUNT(t.user_id) AS total_staff,
                             (SELECT `full_name` FROM users WHERE hrm_id = t.team LIMIT 1) AS full_name,
@@ -2698,55 +2715,59 @@ class Report extends Model
     }
 
 
-    public static function getMonths($from, $to){
+    public static function getMonths($from, $to)
+    {
         $from_time = strtotime($from);
         $to_time = strtotime($to);
 
-        $from_year = (int)date('Y',$from_time);
-        $to_year = (int)date('Y',$to_time);
+        $from_year = (int) date('Y', $from_time);
+        $to_year = (int) date('Y', $to_time);
 
-        if($to_year > $from_year){
-            $to_month = ($to_year - $from_year) * 12 + (int)date('m',$to_time);
-        }else{
-            $to_month = (int)date('m',$to_time);
+        if ($to_year > $from_year) {
+            $to_month = ($to_year - $from_year) * 12 + (int) date('m', $to_time);
+        } else {
+            $to_month = (int) date('m', $to_time);
         }
 
-        $from_month = (int)date('m',$from_time);
+        $from_month = (int) date('m', $from_time);
 
         return ($to_month - $from_month + 1);
     }
 
-    public static function regionRank($amount, $quantity, $months){
+    public static function regionRank($amount, $quantity, $months)
+    {
         $average = self::average($amount, $quantity, $months);
 
         $rank = 'Loại 3';
-        if($average > 1250000000){
+        if ($average > 1250000000) {
             $rank = 'Loại 1';
-        }else if ($average > 800000000){
+        } else if ($average > 800000000) {
             $rank = 'Loại 2';
         }
         return $rank;
     }
 
-    public static function branchRank($amount, $quantity, $months){
+    public static function branchRank($amount, $quantity, $months)
+    {
         $average = self::average($amount, $quantity, $months);
 
         $rank = 'Loại 3';
-        if($average > 1250000000){
+        if ($average > 1250000000) {
             $rank = 'Loại 1';
-        }else if ($average > 800000000){
+        } else if ($average > 800000000) {
             $rank = 'Loại 2';
         }
         return $rank;
     }
 
-    public static function staffRank($amount, $quantity, $months){
+    public static function staffRank($amount, $quantity, $months)
+    {
         $average = self::average($amount, $quantity, $months);
 
         $rank = 'Loại 3';
-        if($average > 300000000){
+        if ($average > 300000000) {
             $rank = 'Loại 1';
-        }else if ($average > 120000000){
+        } else if ($average > 120000000) {
             $rank = 'Loại 2';
         }
         return $rank;
@@ -2761,11 +2782,11 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $date = date('Y-m-d');
         $branchIds = self::$branchIds;
-        $keyword   = self::$keyword;
+        $keyword = self::$keyword;
         $productIds = self::$productIds;
 
         if ($request->status !== null && $request->status !== '') {
@@ -2854,23 +2875,23 @@ class Report extends Model
                     LEFT JOIN users u2 ON r.`approver_id` = u2.`id`
                 $strWhere AND s.status >0 ";
 
-        $rs     = DB::select(DB::raw($query));
-        $total  = DB::select(DB::raw($queryCount));
-        $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+        $rs = DB::select(DB::raw($query));
+        $total = DB::select(DB::raw($queryCount));
+        $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
         if ($rs) {
             foreach ($rs as $k => $v) {
                 $metaData = json_decode($v->meta_data);
-                $amountLeft     = isset($metaData->amount_left) ? $metaData->amount_left : 0;
-                $totalFee       = isset($metaData->total_fee) ? $metaData->total_fee : 0;
-                $totalSession   = isset($metaData->total_session) ? $metaData->total_session : 0;
+                $amountLeft = isset($metaData->amount_left) ? $metaData->amount_left : 0;
+                $totalFee = isset($metaData->total_fee) ? $metaData->total_fee : 0;
+                $totalSession = isset($metaData->total_session) ? $metaData->total_session : 0;
                 $numberReserved = isset($v->session) ? $v->session : 0;
                 $amountReserved = $totalSession > 0 ? (ceil($totalFee / $totalSession) * $numberReserved) : 0;
-                $v->total_session   = $totalSession;
-                $v->total_fee       = $totalFee;
-                $v->session_left    = isset($metaData->session_left) ? $metaData->session_left : 0;
-                $v->amount_left     = $amountLeft;
-                $v->start_date      = isset($metaData->start_date) ? $metaData->start_date : '';
-                $v->end_date        = isset($metaData->end_date) ? $metaData->end_date : '';
+                $v->total_session = $totalSession;
+                $v->total_fee = $totalFee;
+                $v->session_left = isset($metaData->session_left) ? $metaData->session_left : 0;
+                $v->amount_left = $amountLeft;
+                $v->start_date = isset($metaData->start_date) ? $metaData->start_date : '';
+                $v->end_date = isset($metaData->end_date) ? $metaData->end_date : '';
                 $v->amount_reserved = $amountReserved;
                 $v->number_of_session_reserved = isset($metaData->number_of_session_reserved) ? $metaData->number_of_session_reserved : 0;
             }
@@ -2886,12 +2907,12 @@ class Report extends Model
     {
         self::commons($request);
         $strLimit = self::$strLimit;
-        $where    = array();
+        $where = array();
         $strWhere = '';
         $fd = self::$fd;
         $td = self::$td;
-        $keyword    = self::$keyword;
-        $branchIds  = self::$branchIds;
+        $keyword = self::$keyword;
+        $branchIds = self::$branchIds;
         $productIds = self::$productIds;
         $status = $request->status;
         $ecId = self::$ecId;
@@ -2978,13 +2999,13 @@ class Report extends Model
                     ORDER BY p.created_at DESC
                     ";
 
-        $rs    = DB::select(DB::raw($query));
+        $rs = DB::select(DB::raw($query));
         $total = DB::select(DB::raw($queryCount));
         if ($rs) {
             foreach ($rs as $k => $v) {
                 $start = date_create($v->pending_date);
-                $end   = date_create($v->pending_end_date);
-                $diff  = date_diff($start, $end);
+                $end = date_create($v->pending_end_date);
+                $diff = date_diff($start, $end);
                 $v->total_pending_session = $diff->format('%a');
                 $status = $v->status;
                 switch ($status) {
@@ -3006,7 +3027,7 @@ class Report extends Model
         }
         $return = array(
             'data' => $rs ? $rs : null,
-            'total_record' => isset($total[0]->total) ? (int)$total[0]->total : 0
+            'total_record' => isset($total[0]->total) ? (int) $total[0]->total : 0
         );
         return $return;
     }
@@ -3022,12 +3043,12 @@ class Report extends Model
         $branches = self::$branchIds;
         $products = self::$productIds;
         $date = $request->date ? $request->date : date('Y-m-d');
-        $student_num = (int)$request->student_number ? (int)$request->student_number : 5;
+        $student_num = (int) $request->student_number ? (int) $request->student_number : 5;
         $keyword = self::$keyword;
         $ecId = self::$ecId;
         $cmId = self::$cmId;
 
-        $classId = (int)$request->class_id;
+        $classId = (int) $request->class_id;
         if (!$classId) {
             return array(
                 'data' => [],
@@ -3133,12 +3154,12 @@ class Report extends Model
 
         $results = null;
         $totalRecord = 0;
-        try{
+        try {
             $results = DB::select(DB::raw($query));
             $total = DB::select(DB::raw($queryCount));
-            $totalRecord = isset($total[0]->total) ? (int)$total[0]->total : 0;
+            $totalRecord = isset($total[0]->total) ? (int) $total[0]->total : 0;
 
-        }catch(Exception $exception){
+        } catch (Exception $exception) {
             throw $exception;
         }
         $return = array(
@@ -3147,13 +3168,14 @@ class Report extends Model
         );
         return $return;
     }
-    public static function queryReport33($p, $total = 0, $unlimit = false) {
+    public static function queryReport33($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
-        if($p->s) {
+        if ($p->s) {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($p->r) {
+        if ($p->r) {
             $where .= " AND c.product_id in ($p->r) ";
         }
         if ($total) {
@@ -3186,15 +3208,16 @@ class Report extends Model
                         LEFT JOIN classes cl ON e.class_id = cl.id
                     WHERE s.status >0 AND e.student_id IN (SELECT student_id FROM (SELECT COUNT(id) total, student_id FROM contracts WHERE TYPE = 0 AND count_recharge = -1 AND (contracts.status=5 OR contracts.status =1) GROUP BY student_id) t WHERE t.total >= 2) $where";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function queryReport34($p, $date, $total = 0, $unlimit = false) {
+    public static function queryReport34($p, $date, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
-        if($p->s) {
+        if ($p->s) {
             $where .= " AND b.id in ($p->s) ";
         }
         if ($total) {
@@ -3204,58 +3227,61 @@ class Report extends Model
             $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
             $resp = "SELECT
                         b.name AS branch_name,
-                        (SELECT count(id) FROM students WHERE branch_id = b.id AND status =1  AND created_at > '".$date." 00:00:00' AND created_at < '".$date." 23:59:59') AS count_student
+                        (SELECT count(id) FROM students WHERE branch_id = b.id AND status =1  AND created_at > '" . $date . " 00:00:00' AND created_at < '" . $date . " 23:59:59') AS count_student
                     FROM branches AS b
                     WHERE b.status=1 $where";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function reportForm34($request){
-        $scope = self::getScope($request->scope, explode(',',$request->users_data->branches_ids));
+    public static function reportForm34($request)
+    {
+        $scope = self::getScope($request->scope, explode(',', $request->users_data->branches_ids));
         $where = '';
-        if($scope) {
+        if ($scope) {
             $where .= " AND b.id in ($scope) ";
         }
         $date = $request->date;
         $query = "SELECT
             b.name AS branch_name,
-            (SELECT count(id) FROM students WHERE branch_id = b.id AND status =1  AND created_at > '".$date." 00:00:00' AND created_at < '".$date." 23:59:59') AS count_student
+            (SELECT count(id) FROM students WHERE branch_id = b.id AND status =1  AND created_at > '" . $date . " 00:00:00' AND created_at < '" . $date . " 23:59:59') AS count_student
         FROM branches AS b
         WHERE b.status=1 $where";
         $data = DB::select(DB::raw($query));
         return $data;
     }
-    public static function queryReport34b2($p, $date, $total = 0, $unlimit = false) {
+    public static function queryReport34b2($p, $date, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
-        if($p->s!=='') {
+        if ($p->s !== '') {
             $where .= " AND b.id in ($p->s) ";
         }
         if ($total) {
             $resp = "SELECT COUNT(b.id) total FROM students AS s 
                     LEFT JOIN term_student_user AS t ON t.student_id=s.id AND t.status =1
                     LEFT JOIN branches AS b ON b.id=t.branch_id
-                    WHERE s.status=1 $where AND s.created_at > '".$date." 00:00:00' AND s.created_at < '".$date." 23:59:59'";
+                    WHERE s.status=1 $where AND s.created_at > '" . $date . " 00:00:00' AND s.created_at < '" . $date . " 23:59:59'";
         } else {
             $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
             $resp = "SELECT s.*, b.name AS branch_name
                     FROM students AS s 
                     LEFT JOIN term_student_user AS t ON t.student_id=s.id AND t.status =1
                     LEFT JOIN branches AS b ON b.id=t.branch_id
-                    WHERE s.status=1 $where AND s.created_at > '".$date." 00:00:00' AND s.created_at < '".$date." 23:59:59'";
+                    WHERE s.status=1 $where AND s.created_at > '" . $date . " 00:00:00' AND s.created_at < '" . $date . " 23:59:59'";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function reportForm34b2($request){
-        $scope = self::getScope($request->scope, explode(',',$request->users_data->branches_ids));
+    public static function reportForm34b2($request)
+    {
+        $scope = self::getScope($request->scope, explode(',', $request->users_data->branches_ids));
         $where = '';
-        if($scope!='') {
+        if ($scope != '') {
             $where .= " AND b.id in ($scope) ";
         }
         $date = $request->date;
@@ -3263,23 +3289,24 @@ class Report extends Model
                 FROM students AS s 
                 LEFT JOIN term_student_user AS t ON t.student_id=s.id AND t.status =1
                 LEFT JOIN branches AS b ON b.id=t.branch_id
-                WHERE s.status=1 $where AND s.created_at > '".$date." 00:00:00' AND s.created_at < '".$date." 23:59:59'";
+                WHERE s.status=1 $where AND s.created_at > '" . $date . " 00:00:00' AND s.created_at < '" . $date . " 23:59:59'";
         $data = DB::select(DB::raw($query));
         return $data;
     }
-    public static function queryReport01a1($birthday_mode = false, $p, $total = 0, $unlimit = false) {
+    public static function queryReport01a1($birthday_mode = false, $p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
-        $start_date = $p && isset($p->a) ? date('Y-m-01',strtotime($p->a.'-01')) : date('Y-m-01');
-        if(date('Y-m',strtotime($p->a.'-01')) == date('Y-m')){
+        $start_date = $p && isset($p->a) ? date('Y-m-01', strtotime($p->a . '-01')) : date('Y-m-01');
+        if (date('Y-m', strtotime($p->a . '-01')) == date('Y-m')) {
             $end_date = date('Y-m-d');
-        }else{
-            $end_date = date('Y-m-t',strtotime($p->a.'-01'));
+        } else {
+            $end_date = date('Y-m-t', strtotime($p->a . '-01'));
         }
         $resp = "";
         $month = date('n', strtotime($start_date));
         $extra = $birthday_mode ? " AND MONTH(s.date_of_birth) = '$month' " : '';
-        if($p->a < date('Y-m')){
+        if ($p->a < date('Y-m')) {
             $where = ' AND s.id IS NOT NULL ';
             if ($p->k != '') {
                 $where .= " AND (s.name like '%$p->k%' or s.stu_id like '%$p->k%' or s.crm_id like '%$p->k%' or s.accounting_id like '%$p->k%') ";
@@ -3293,10 +3320,10 @@ class Report extends Model
             if ($p->r != '') {
                 $where .= " AND r.product_id in ($p->r) ";
             }
-            if ($p->e == 1){
-                $where .= " AND r.type = 1" ;
+            if ($p->e == 1) {
+                $where .= " AND r.type = 1";
             } else {
-                $where .= " AND r.type = 0" ;
+                $where .= " AND r.type = 0";
             }
             if ($total) {
                 $resp = "SELECT
@@ -3337,10 +3364,10 @@ class Report extends Model
                             $where $extra GROUP BY s.id
                         ORDER BY r.cm_id ,SUBSTRING_INDEX(s.name, ' ', -1) ";
                 if (!$unlimit) {
-                    $resp.= " $lim";
+                    $resp .= " $lim";
                 }
             }
-        }else{
+        } else {
             $where = ' AND s.id IS NOT NULL ';
             if ($p->k != '') {
                 $where .= " AND (s.name like '%$p->k%' or s.stu_id like '%$p->k%' or s.crm_id like '%$p->k%' or s.accounting_id like '%$p->k%') ";
@@ -3354,10 +3381,10 @@ class Report extends Model
             if ($p->r != '') {
                 $where .= " AND c.product_id in ($p->r) ";
             }
-            if ($p->e == 1){
-                $where .= " AND c.product_id > 100" ;
+            if ($p->e == 1) {
+                $where .= " AND c.product_id > 100";
             } else {
-                $where .= " AND c.product_id < 100" ;
+                $where .= " AND c.product_id < 100";
             }
             if ($total) {
                 $resp = "SELECT
@@ -3444,15 +3471,16 @@ class Report extends Model
                             $where GROUP BY s.id
                         ORDER BY t.cm_id ,SUBSTRING_INDEX(s.name, ' ', -1) ";
                 if (!$unlimit) {
-                    $resp.= " $lim";
+                    $resp .= " $lim";
                 }
             }
         }
         return $resp;
     }
-    public static function queryReport01b1($p, $total = 0, $unlimit = false) {
+    public static function queryReport01b1($p, $total = 0, $unlimit = false)
+    {
         $dt = isset($p->a) ? $p->a : date('Y-m');
-        $where[]  = "";
+        $where[] = "";
         if ($p->s) {
             $where[] = "r.branch_id IN ($p->s)";
         }
@@ -3465,11 +3493,11 @@ class Report extends Model
         if ($p->k) {
             $where[] = "(s.crm_id LIKE '%$p->k%' OR s.accounting_id LIKE '%$p->k%' OR s.name LIKE '%$p->k%')";
         }
-        if($p->ecs) {
-            $where[]= "r.ec_id IN ($p->ecs)";
+        if ($p->ecs) {
+            $where[] = "r.ec_id IN ($p->ecs)";
         }
-        if($p->e > 0) {
-            $where[]= "r.`status` = $p->e";
+        if ($p->e > 0) {
+            $where[] = "r.`status` = $p->e";
         }
         if ($where) {
             $strWhere = implode(' AND ', $where);
@@ -3490,15 +3518,16 @@ class Report extends Model
                     FROM renews_report AS r 
                         LEFT JOIN students AS s ON s.id=r.student_id 
                     WHERE r.id > 0 AND r.`disabled` = 0 $strWhere AND s.status>0 ";
-            if (!$unlimit ) {
-                $resp.= " $lim";
+            if (!$unlimit) {
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function queryReport01b1_success($p, $total = 0) {
+    public static function queryReport01b1_success($p, $total = 0)
+    {
         $dt = isset($p->a) ? $p->a : date('Y-m');
-        $where[]  = "";
+        $where[] = "";
         if ($p->s) {
             $where[] = "r.branch_id IN ($p->s)";
         }
@@ -3511,14 +3540,15 @@ class Report extends Model
         if ($p->k) {
             $where[] = "(s.crm_id LIKE '%$p->k%' OR s.name LIKE '%$p->k%' OR s.accounting_id LIKE '%$p->k%')";
         }
-        if($p->ecs) {
-            $where[]= "r.ec_id IN ($p->ecs)";
+        if ($p->ecs) {
+            $where[] = "r.ec_id IN ($p->ecs)";
         }
-        if($p->e > 0) {
-            if ($p->e != 1) return 0;
-            $where[]= "r.`status` = $p->e";
+        if ($p->e > 0) {
+            if ($p->e != 1)
+                return 0;
+            $where[] = "r.`status` = $p->e";
         } else {
-            $where[]= "r.`status` = 1";
+            $where[] = "r.`status` = 1";
         }
         if ($where) {
             $strWhere = implode(' AND ', $where);
@@ -3529,10 +3559,11 @@ class Report extends Model
         $total = $tt->total;
         return $total;
     }
-    public static function queryReport01b2($p, $total = 0, $unlimit = false) {
+    public static function queryReport01b2($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
-        if($p->s) {
+        if ($p->s) {
             $where .= " AND b.id IN ($p->s) ";
         }
         if ($total) {
@@ -3546,22 +3577,23 @@ class Report extends Model
                     b.name branch_name
                 FROM branches b WHERE b.status = 1 $where";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function summaryReport01b3($p, $total = 0, $unlimit = false) {
+    public static function summaryReport01b3($p, $total = 0, $unlimit = false)
+    {
         $data = null;
         $where = '';
-        if($p->s) {
+        if ($p->s) {
             $where .= " AND r.branch_id IN ($p->s) ";
         }
         $dt = isset($p->a) ? $p->a : date('Y-m');
         if ($dt) {
             $where .= " AND r.renewed_month = '$dt' ";
         }
-        if($p->ecs) {
+        if ($p->ecs) {
             $where .= " AND r.ec_id in ($p->ecs) ";
         }
         $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
@@ -3572,44 +3604,45 @@ class Report extends Model
             WHERE r.id > 0 AND r.`disabled` = 0 $where
             GROUP BY r.ec_id";
         if (!$unlimit) {
-            $query.= " $lim";
+            $query .= " $lim";
         }
-        $query.= ") x";
+        $query .= ") x";
         $summary = u::first($query);
-        $total_item = (int)$summary->total_expired;
-        $success_item = (int)$summary->total_success;
+        $total_item = (int) $summary->total_expired;
+        $success_item = (int) $summary->total_success;
         if ($total_item) {
-            $data = (Object)[];
+            $data = (Object) [];
             $data->total_item = $total_item;
             $data->success_item = $success_item;
             $data->rate_item = round(($success_item / $total_item) * 100, 2);
-        }else{
-            if($p->s){
-                $zone_info= u::first("SELECT zone_id FROM branches WHERE id IN ($p->s)");
-                $tmp_zone_id = $zone_info ? $zone_info->zone_id :1;
-            }else{
-                $tmp_zone_id =1;
+        } else {
+            if ($p->s) {
+                $zone_info = u::first("SELECT zone_id FROM branches WHERE id IN ($p->s)");
+                $tmp_zone_id = $zone_info ? $zone_info->zone_id : 1;
+            } else {
+                $tmp_zone_id = 1;
             }
-            $data = (Object)[];
+            $data = (Object) [];
             $data->total_item = 0;
             $data->success_item = 0;
-            $data->rate_item = $tmp_zone_id==2 ? 75:70;
+            $data->rate_item = $tmp_zone_id == 2 ? 75 : 70;
         }
         return $data;
     }
-    public static function queryReport01b3($p, $total = 0, $unlimit = false) {
+    public static function queryReport01b3($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
         $dt = isset($p->a) ? $p->a : date('Y-m');
-        if($p->s) {
+        if ($p->s) {
             $where .= " AND t.branch_id IN ($p->s) ";
         }
-        if($p->ecs) {
+        if ($p->ecs) {
             $where .= " AND t.user_id in ($p->ecs) ";
         }
-        if($p->a < date('Y-m')){
+        if ($p->a < date('Y-m')) {
             $where .= " AND  t.role_id IN(68,69)  AND (SELECT count(id) FROM report_get_users WHERE user_id = t.user_id AND report_month = '$dt' AND `status`=1)>0 ";
-        }else{
+        } else {
             $where .= " AND t.role_id IN (68,69) AND ( t.status =1 OR
             (t.status=0 AND (SELECT COUNT(id) FROM renews_report WHERE ec_id = t.user_id AND `status` > 0 AND `disabled` = 0 AND renewed_month = '$dt' AND branch_id IN ($p->s))>0))";
         }
@@ -3633,23 +3666,25 @@ class Report extends Model
                     LEFT JOIN branches AS b ON b.id=t.branch_id
                 WHERE u.id > 0  $where";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function dataReport01b3($request, $session ,$unlimit = false){
+    public static function dataReport01b3($request, $session, $unlimit = false)
+    {
         $p = Report::params($request, $session);
-        $query = Report::queryReport01b3($p,0 ,$unlimit);
-        $quary = Report::queryReport01b3($p, 1,$unlimit);
+        $query = Report::queryReport01b3($p, 0, $unlimit);
+        $quary = Report::queryReport01b3($p, 1, $unlimit);
         $data = Report::making($query, $quary, $p->p, $p->l);
-        $data->sumar = Report::summaryReport01b3($p ,0 ,$unlimit);
+        $data->sumar = Report::summaryReport01b3($p, 0, $unlimit);
         return $data;
     }
-    public static function queryReport02a($p, $total = 0, $unlimit = false) {
+    public static function queryReport02a($p, $total = 0, $unlimit = false)
+    {
         $dt = isset($p->a) ? $p->a : date('Y-m');
-        if($dt<date('Y-m')){
-            $where[]  = "";
+        if ($dt < date('Y-m')) {
+            $where[] = "";
             if ($p->s) {
                 $where[] = "r.branch_id IN ($p->s)";
             }
@@ -3659,8 +3694,8 @@ class Report extends Model
             if ($p->k) {
                 $where[] = "(s.crm_id LIKE '%$p->k%' OR s.name LIKE '%$p->k%')";
             }
-            if($p->c) {
-                $where[]= "r.cm_id IN ($p->c)";
+            if ($p->c) {
+                $where[] = "r.cm_id IN ($p->c)";
             }
             if ($where) {
                 $strWhere = implode(' AND ', $where);
@@ -3684,24 +3719,24 @@ class Report extends Model
                         FROM report_pending AS r 
                             LEFT JOIN students AS s ON s.id=r.student_id 
                         WHERE r.report_month = '$dt' $strWhere";
-                if (!$unlimit ) {
-                    $resp.= " $lim";
+                if (!$unlimit) {
+                    $resp .= " $lim";
                 }
             }
-        }else{
-            $where[]  = "";
+        } else {
+            $where[] = "";
             if ($p->s) {
                 $where[] = "c.branch_id IN ($p->s)";
             }
-            
+
             if ($p->r) {
                 $where[] = "c.product_id IN ($p->r)";
             }
             if ($p->k) {
                 $where[] = "(s.crm_id LIKE '%$p->k%' OR s.name LIKE '%$p->k%')";
             }
-            if($p->c) {
-                $where[]= "t.cm_id IN ($p->c)";
+            if ($p->c) {
+                $where[] = "t.cm_id IN ($p->c)";
             }
             if ($where) {
                 $strWhere = implode(' AND ', $where);
@@ -3731,23 +3766,24 @@ class Report extends Model
                         WHERE s.status>0 AND c.status!=7 AND c.class_id IS NULL AND c.type>0 AND c.summary_sessions>0 $strWhere
                             AND c.id = (SELECT id FROM contracts WHERE student_id=s.id AND `status`!=7 ORDER BY count_recharge LIMIT 1)
                             AND (SELECT count(id) FROM reserves WHERE contract_id=c.id AND student_id=s.id AND end_date>= CURRENT_DATE AND `start_date`<=CURRENT_DATE AND `status`=2) =0";
-                if (!$unlimit ) {
-                    $resp.= " $lim";
+                if (!$unlimit) {
+                    $resp .= " $lim";
                 }
             }
         }
-        
+
         return $resp;
     }
-    public static function queryReport02b($p, $total = 0, $unlimit = false) {
+    public static function queryReport02b($p, $total = 0, $unlimit = false)
+    {
         $dt = isset($p->a) ? $p->a : date('Y-m');
-        if($dt<date('Y-m')){
-            $where[]  = "";
+        if ($dt < date('Y-m')) {
+            $where[] = "";
             if ($p->s) {
                 $where[] = "r.branch_id IN ($p->s)";
             }
-            if ($p->e !=-1) {
-                $where[]=" r.is_reserved = $p->e";
+            if ($p->e != -1) {
+                $where[] = " r.is_reserved = $p->e";
             }
             if ($p->r) {
                 $where[] = "r.product_id IN ($p->r)";
@@ -3755,8 +3791,8 @@ class Report extends Model
             if ($p->k) {
                 $where[] = "(s.crm_id LIKE '%$p->k%' OR s.name LIKE '%$p->k%')";
             }
-            if($p->c) {
-                $where[]= "r.cm_id IN ($p->c)";
+            if ($p->c) {
+                $where[] = "r.cm_id IN ($p->c)";
             }
             if ($where) {
                 $strWhere = implode(' AND ', $where);
@@ -3781,18 +3817,18 @@ class Report extends Model
                         FROM report_reserve AS r 
                             LEFT JOIN students AS s ON s.id=r.student_id 
                         WHERE r.report_month ='$dt' $strWhere";
-                if (!$unlimit ) {
-                    $resp.= " $lim";
+                if (!$unlimit) {
+                    $resp .= " $lim";
                 }
             }
-        }else{
-            $where[]  = "";
+        } else {
+            $where[] = "";
             if ($p->s) {
                 $where[] = "c.branch_id IN ($p->s)";
             }
-            $cond="";
-            if ($p->e !=-1) {
-                $cond.=" AND is_reserved = $p->e";
+            $cond = "";
+            if ($p->e != -1) {
+                $cond .= " AND is_reserved = $p->e";
             }
             if ($p->r) {
                 $where[] = "c.product_id IN ($p->r)";
@@ -3800,8 +3836,8 @@ class Report extends Model
             if ($p->k) {
                 $where[] = "(s.crm_id LIKE '%$p->k%' OR s.name LIKE '%$p->k%')";
             }
-            if($p->c) {
-                $where[]= "t.cm_id IN ($p->c)";
+            if ($p->c) {
+                $where[] = "t.cm_id IN ($p->c)";
             }
             if ($where) {
                 $strWhere = implode(' AND ', $where);
@@ -3832,14 +3868,15 @@ class Report extends Model
                         WHERE s.status>0 AND c.status!=7 AND c.type>0 AND c.summary_sessions>0 $strWhere
                             -- AND c.id = (SELECT id FROM contracts WHERE student_id=s.id AND `status`!=7 ORDER BY count_recharge LIMIT 1)
                             AND (SELECT count(id) FROM reserves WHERE contract_id=c.id AND student_id=s.id AND end_date>= CURRENT_DATE AND `start_date`<=CURRENT_DATE AND `status`=2 $cond) >0";
-                if (!$unlimit ) {
-                    $resp.= " $lim";
+                if (!$unlimit) {
+                    $resp .= " $lim";
                 }
             }
         }
         return $resp;
     }
-    public static function report_r01($p, $total = 0, $unlimit = false) {
+    public static function report_r01($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
         $resp = "";
@@ -3881,12 +3918,13 @@ class Report extends Model
                         DATE_FORMAT(sh.created_at,'%Y-%m') = '$p->a'
                         $where ORDER BY sh.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r02($p, $total = 0, $unlimit = false) {
+    public static function report_r02($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
         $resp = "";
@@ -3897,10 +3935,10 @@ class Report extends Model
         if ($p->s != '') {
             $where .= " AND sh.branch_id in ($p->s) ";
         }
-        if($p->f !=''){
+        if ($p->f != '') {
             $where .= " AND DATE_FORMAT(sh.created_at,'%Y-%m-%d') >= '$p->f' ";
         }
-        if($p->t !=''){
+        if ($p->t != '') {
             $where .= " AND DATE_FORMAT(sh.created_at,'%Y-%m-%d') <= '$p->t' ";
         }
         if ($total) {
@@ -3928,12 +3966,13 @@ class Report extends Model
                     WHERE
                         $where ORDER BY sh.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r04($p, $total = 0, $unlimit = false) {
+    public static function report_r04($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = ' s.id IS NOT NULL ';
         if ($p->k != '') {
@@ -3942,10 +3981,10 @@ class Report extends Model
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($p->f !=''){
+        if ($p->f != '') {
             $where .= " AND DATE_FORMAT(c.created_at,'%Y-%m-%d') >= '$p->f' ";
         }
-        if($p->t !=''){
+        if ($p->t != '') {
             $where .= " AND DATE_FORMAT(c.created_at,'%Y-%m-%d') <= '$p->t' ";
         }
         if ($total) {
@@ -3974,12 +4013,13 @@ class Report extends Model
                     WHERE
                         c.count_recharge =0  AND (c.total_charged>0 OR debt_amount=0) AND $where ORDER BY c.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r05($p, $total = 0, $unlimit = false) {
+    public static function report_r05($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = ' s.id IS NOT NULL AND s.source ';
         if ($p->k != '') {
@@ -3988,22 +4028,22 @@ class Report extends Model
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($p->f !=''){
+        if ($p->f != '') {
             $where .= " AND p.charge_date >= '$p->f' ";
         }
-        if($p->t !=''){
+        if ($p->t != '') {
             $where .= " AND p.charge_date <= '$p->t' ";
         }
-        if($p->role_id==68){
-            $where .=" AND c.ec_id=$p->user_id";
+        if ($p->role_id == 68) {
+            $where .= " AND c.ec_id=$p->user_id";
         }
-        if($p->role_id==69){
+        if ($p->role_id == 69) {
             $list_ec = u::query("SELECT u.id FROM users AS u LEFT JOIN users AS u1 ON u1.hrm_id=u.superior_id WHERE u1.id=$p->user_id");
             $list_ec_id = $p->user_id;
-            foreach($list_ec AS $row){
-                $list_ec_id.=",".$row->id;
+            foreach ($list_ec as $row) {
+                $list_ec_id .= "," . $row->id;
             }
-            $where .=" AND c.ec_id IN ( $list_ec_id)";
+            $where .= " AND c.ec_id IN ( $list_ec_id)";
         }
         if ($total) {
             $resp = "SELECT
@@ -4037,12 +4077,13 @@ class Report extends Model
                     WHERE
                        $where ORDER BY p.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r06($p, $request,$total = 0, $unlimit = false) {
+    public static function report_r06($p, $request, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = '';
         $resp = "";
@@ -4050,15 +4091,15 @@ class Report extends Model
         if ($request->source_id != '') {
             $where .= " AND s.source = $request->source_id";
         }
-        if($request->users_data->role_id=='81'){
+        if ($request->users_data->role_id == '81') {
             $where .= " AND (s.source = 32 OR s.source = 27)";
         }
-        if($request->users_data->role_id=='1300'){
+        if ($request->users_data->role_id == '1300') {
             $where .= " AND s.source = 32";
         }
         if ($request->contract_type == 1) {
             $where .= " AND sh.count_recharge=0";
-        }elseif($request->contract_type == 2){
+        } elseif ($request->contract_type == 2) {
             $where .= " AND sh.count_recharge>0";
         }
         if ($p->k != '') {
@@ -4067,10 +4108,10 @@ class Report extends Model
         if ($p->s != '') {
             $where .= " AND sh.branch_id in ($p->s) ";
         }
-        if($p->f !=''){
+        if ($p->f != '') {
             $where .= " AND sh.created_at >= '$p->f' ";
         }
-        if($p->t !=''){
+        if ($p->t != '') {
             $where .= " AND sh.created_at <= '$p->t' ";
         }
         if ($total) {
@@ -4102,37 +4143,38 @@ class Report extends Model
                     WHERE
                         $where ORDER BY sh.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r07($p, $request,$total = 0, $unlimit = false) {
-        $arr_month = explode("_",$request->report_month);
-        $list_report_week = u::query("SELECT * FROM report_weeks WHERE `year`=".$arr_month[0]." AND `group`=".$arr_month[1]." AND `month`=".$arr_month[2]);
+    public static function report_r07($p, $request, $total = 0, $unlimit = false)
+    {
+        $arr_month = explode("_", $request->report_month);
+        $list_report_week = u::query("SELECT * FROM report_weeks WHERE `year`=" . $arr_month[0] . " AND `group`=" . $arr_month[1] . " AND `month`=" . $arr_month[2]);
         $list = "";
-        foreach($list_report_week AS $week){
-            $list.= $list ? ",".$week->id : $week->id;
+        foreach ($list_report_week as $week) {
+            $list .= $list ? "," . $week->id : $week->id;
         }
         $last_report_student_week = u::first("SELECT report_week_id FROM report_students WHERE report_week_id IN($list) ORDER BY id DESC LIMIT 1");
-        $last_report_week_id  = isset($last_report_student_week->report_week_id) ? $last_report_student_week->report_week_id : 0;
+        $last_report_week_id = isset($last_report_student_week->report_week_id) ? $last_report_student_week->report_week_id : 0;
 
         $resp = "";
         $where = " r.report_week_id = $last_report_week_id AND r.is_lock=1 AND r.product_id=1";
         if ($p->k != '') {
             $where .= " AND (s.name like '%$p->k%' or s.stu_id like '%$p->k%' or s.crm_id like '%$p->k%' or s.accounting_id like '%$p->k%') ";
-        } 
-        if ($request->branch_id != -1 && $request->branch_id!=0) {
+        }
+        if ($request->branch_id != -1 && $request->branch_id != 0) {
             $where .= " AND r.branch_id = $request->branch_id ";
         }
-        if ($request->teacher_id != -1 && $request->teacher_id!=0) {
+        if ($request->teacher_id != -1 && $request->teacher_id != 0) {
             $where .= " AND r.teacher_id = $request->teacher_id ";
         }
-        if ($request->class_id != -1 && $request->class_id!=0) {
+        if ($request->class_id != -1 && $request->class_id != 0) {
             $where .= " AND r.class_id = $request->class_id ";
         }
-        if($request->users_data->role_id == 36){
-            $where.=" AND r.teacher_id=".$request->users_data->id;
+        if ($request->users_data->role_id == 36) {
+            $where .= " AND r.teacher_id=" . $request->users_data->id;
         }
         if ($total) {
             $resp = "SELECT
@@ -4156,10 +4198,10 @@ class Report extends Model
                         c.note,(SELECT name FROM products WHERE id=r.product_id) AS product_name,
                         (SELECT score_demo FROM report_student_demo WHERE student_id =r.student_id) AS score_demo,
                         r.report_type, r.comment, r.suggestion, 
-                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=".$list_report_week[0]->id." AND is_lock=1) AS score_week_1,
-                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=".$list_report_week[1]->id." AND is_lock=1) AS score_week_2,
-                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=".$list_report_week[2]->id." AND is_lock=1) AS score_week_3,
-                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=".$list_report_week[3]->id." AND is_lock=1) AS score_week_4,
+                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=" . $list_report_week[0]->id . " AND is_lock=1) AS score_week_1,
+                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=" . $list_report_week[1]->id . " AND is_lock=1) AS score_week_2,
+                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=" . $list_report_week[2]->id . " AND is_lock=1) AS score_week_3,
+                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=" . $list_report_week[3]->id . " AND is_lock=1) AS score_week_4,
                         (SELECT score FROM report_students WHERE student_id=r.student_id ORDER BY id DESC LIMIT 1 ) AS score_week_last
                     FROM
                         report_students AS r
@@ -4171,37 +4213,38 @@ class Report extends Model
                     WHERE
                         $where ORDER BY r.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r08($p, $request,$total = 0, $unlimit = false) {
-        $arr_month = explode("_",$request->report_month);
-        $list_report_week = u::query("SELECT * FROM report_weeks WHERE `year`=".$arr_month[0]." AND `group`=".$arr_month[1]." AND fix_group=1");
+    public static function report_r08($p, $request, $total = 0, $unlimit = false)
+    {
+        $arr_month = explode("_", $request->report_month);
+        $list_report_week = u::query("SELECT * FROM report_weeks WHERE `year`=" . $arr_month[0] . " AND `group`=" . $arr_month[1] . " AND fix_group=1");
         $list = "";
-        foreach($list_report_week AS $week){
-            $list.= $list ? ",".$week->id : $week->id;
+        foreach ($list_report_week as $week) {
+            $list .= $list ? "," . $week->id : $week->id;
         }
         $last_report_student_week = u::first("SELECT report_week_id FROM report_students WHERE report_week_id IN($list) ORDER BY id DESC LIMIT 1");
-        $last_report_week_id  = isset($last_report_student_week->report_week_id) ? $last_report_student_week->report_week_id : 0;
+        $last_report_week_id = isset($last_report_student_week->report_week_id) ? $last_report_student_week->report_week_id : 0;
 
         $resp = "";
         $where = " r.report_week_id = $last_report_week_id AND r.is_lock=1 AND r.product_id!=1";
         if ($p->k != '') {
             $where .= " AND (s.name like '%$p->k%' or s.stu_id like '%$p->k%' or s.crm_id like '%$p->k%' or s.accounting_id like '%$p->k%') ";
-        } 
-        if ($request->branch_id != -1 && $request->branch_id!=0) {
+        }
+        if ($request->branch_id != -1 && $request->branch_id != 0) {
             $where .= " AND r.branch_id = $request->branch_id ";
         }
-        if ($request->teacher_id != -1 && $request->teacher_id!=0) {
+        if ($request->teacher_id != -1 && $request->teacher_id != 0) {
             $where .= " AND r.teacher_id = $request->teacher_id ";
         }
-        if ($request->class_id != -1 && $request->class_id!=0) {
+        if ($request->class_id != -1 && $request->class_id != 0) {
             $where .= " AND r.class_id = $request->class_id ";
         }
-        if($request->users_data->role_id == 36){
-            $where.=" AND r.teacher_id=".$request->users_data->id;
+        if ($request->users_data->role_id == 36) {
+            $where .= " AND r.teacher_id=" . $request->users_data->id;
         }
         if ($total) {
             $resp = "SELECT
@@ -4225,7 +4268,7 @@ class Report extends Model
                         c.note,(SELECT name FROM products WHERE id=r.product_id) AS product_name,
                         (SELECT score_demo FROM report_student_demo WHERE student_id =r.student_id) AS score_demo,
                         r.report_type, r.comment, r.suggestion, 
-                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=".$list_report_week[0]->id." AND is_lock=1) AS score_week_1,
+                        (SELECT score FROM report_students WHERE student_id=r.student_id AND report_week_id=" . $list_report_week[0]->id . " AND is_lock=1) AS score_week_1,
                         (SELECT score FROM report_students WHERE student_id=r.student_id ORDER BY id DESC LIMIT 1 ) AS score_week_last
                     FROM
                         report_students AS r
@@ -4237,25 +4280,26 @@ class Report extends Model
                     WHERE
                         $where ORDER BY r.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r09($p, $request,$total = 0, $unlimit = false) {
+    public static function report_r09($p, $request, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = " s.checked = 1 ";
         if ($p->s != '') {
             $where .= " AND s.branch_id in ($p->s) ";
         }
-        if($request->from_date !=''){
+        if ($request->from_date != '') {
             $where .= " AND s.update_checked >= '$request->from_date 00:00:00' ";
         }
-        if($request->to_date !=''){
+        if ($request->to_date != '') {
             $where .= " AND s.update_checked <= '$request->to_date 23:59:59' ";
         }
-        if($request->users_data->role_id == 81){
-            $where.=" AND s.source IN (27,32)";
+        if ($request->users_data->role_id == 81) {
+            $where .= " AND s.source IN (27,32)";
         }
         if ($total) {
             $resp = "SELECT
@@ -4278,12 +4322,13 @@ class Report extends Model
                     WHERE
                         $where ORDER BY s.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r10($p, $total = 0, $unlimit = false) {
+    public static function report_r10($p, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = ' s.id IS NOT NULL ';
         if ($p->k != '') {
@@ -4292,10 +4337,10 @@ class Report extends Model
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($p->f !=''){
+        if ($p->f != '') {
             $where .= " AND DATE_FORMAT(c.enrolment_start_date,'%Y-%m-%d') >= '$p->f' ";
         }
-        if($p->t !=''){
+        if ($p->t != '') {
             $where .= " AND DATE_FORMAT(c.enrolment_start_date,'%Y-%m-%d') <= '$p->t' ";
         }
         if ($total) {
@@ -4321,12 +4366,13 @@ class Report extends Model
                     WHERE
                     c.type =0  AND c.class_id IS NOT NULL AND c.status!=7 AND $where ORDER BY c.enrolment_start_date DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r11($p,$request, $total = 0, $unlimit = false) {
+    public static function report_r11($p, $request, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = ' s.id IS NOT NULL ';
         if ($p->k != '') {
@@ -4335,10 +4381,10 @@ class Report extends Model
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($request->from !=''){
+        if ($request->from != '') {
             $where .= " AND DATE_FORMAT(c.enrolment_start_date,'%Y-%m-%d') >= '$request->from' ";
         }
-        if($request->to !=''){
+        if ($request->to != '') {
             $where .= " AND DATE_FORMAT(c.enrolment_start_date,'%Y-%m-%d') <= '$request->to' ";
         }
         if ($total) {
@@ -4364,36 +4410,37 @@ class Report extends Model
                     WHERE
                     c.type =0  AND c.class_id IS NOT NULL AND c.status=7 AND $where ORDER BY c.enrolment_start_date DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
-    public static function report_r12($p, $request,$total = 0, $unlimit = false) {
+    public static function report_r12($p, $request, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = " 1 ";
-        if($request->users_data->id == 323){
+        if ($request->users_data->id == 323) {
             if (!empty($request->scope)) {
                 $where .= " AND s.checkin_branch_id in ($p->s) ";
             }
-        }else{
+        } else {
             if ($p->s != '') {
                 $where .= " AND s.checkin_branch_id in ($p->s) ";
             }
         }
-        if($request->from_date !=''){
+        if ($request->from_date != '') {
             $where .= " AND s.checkin_at >= '$request->from_date 00:00:00' ";
         }
-        if($request->to_date !=''){
+        if ($request->to_date != '') {
             $where .= " AND s.checkin_at <= '$request->to_date 23:59:59' ";
         }
-        if($request->from_date_int !=''){
+        if ($request->from_date_int != '') {
             $where .= " AND s.created_at >= '$request->from_date_int 00:00:00' ";
         }
-        if($request->to_date_int !=''){
+        if ($request->to_date_int != '') {
             $where .= " AND s.created_at <= '$request->to_date_int 23:59:59' ";
         }
-        if($request->keyword !=''){
+        if ($request->keyword != '') {
             $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%' OR s.gud_mobile_1 LIKE '%$request->keyword%' )";
         }
         if ($total) {
@@ -4416,13 +4463,14 @@ class Report extends Model
                     WHERE
                         $where ORDER BY s.checkin_at DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
 
-    public static function report_r13($p, $request,$total = 0, $unlimit = false) {
+    public static function report_r13($p, $request, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = " ";
         $where1 = " ";
@@ -4433,25 +4481,25 @@ class Report extends Model
         if ($p->s != '') {
             $where .= " AND t.branch_id in ($p->s) ";
         }
-        if(!empty($request->ecs)){
-            $where .= " AND u.id IN (".implode(",", $request->ecs).") ";
+        if (!empty($request->ecs)) {
+            $where .= " AND u.id IN (" . implode(",", $request->ecs) . ") ";
         }
-        if(!empty($request->sources)){
-            $where1 .= " AND s.source IN (".implode(",", $request->sources).") ";
+        if (!empty($request->sources)) {
+            $where1 .= " AND s.source IN (" . implode(",", $request->sources) . ") ";
         }
-        if(!empty($request->sources_detail)){
-            $where1 .= " AND s.source_detail IN (".implode(",", $request->sources_detail).") ";
+        if (!empty($request->sources_detail)) {
+            $where1 .= " AND s.source_detail IN (" . implode(",", $request->sources_detail) . ") ";
         }
-        if(!empty($request->branch_checkin)){
-            $where1 .= " AND s.checkin_branch_id IN (".implode(",", $request->branch_checkin).") ";
+        if (!empty($request->branch_checkin)) {
+            $where1 .= " AND s.checkin_branch_id IN (" . implode(",", $request->branch_checkin) . ") ";
         }
-        if($request->to_date !=''){
+        if ($request->to_date != '') {
             $where2 .= " AND s.checkin_at <= '$request->to_date 23:59:59' ";
             $where3 .= " AND s.update_checked <= '$request->to_date 23:59:59' ";
             $where4 .= " AND enrolment_start_date <= '$request->to_date 23:59:59' ";
             $where5 .= " AND created_at <= '$request->to_date 23:59:59' ";
         }
-        if($request->from_date !=''){
+        if ($request->from_date != '') {
             $where2 .= " AND s.checkin_at >= '$request->from_date 00:00:00' ";
             $where3 .= " AND s.update_checked >= '$request->from_date 00:00:00' ";
             $where4 .= " AND enrolment_end_date >= '$request->from_date 00:00:00' ";
@@ -4480,30 +4528,31 @@ class Report extends Model
                     WHERE u.status=1 AND t.role_id IN (68,69)
                         $where  ORDER BY t.branch_id";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
 
-    public static function queryReportLgl01($p, $request,$total = 0, $unlimit = false) {
+    public static function queryReportLgl01($p, $request, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = " 1 ";
         if ($p->s != '') {
             $where .= " AND tsu.branch_id in ($p->s) ";
         }
-        if($request->type_product){
+        if ($request->type_product) {
             $cond = " product_id >= 102";
-        } else{
+        } else {
             $cond = " product_id <= 3";
         }
-        if($request->from_date !=''){
+        if ($request->from_date != '') {
             $where .= " AND (SELECT enrolment_last_date FROM contracts WHERE student_id =s.id AND $cond ORDER BY id DESC LIMIT 1) >= '$request->from_date' ";
         }
-        if($request->to_date !=''){
+        if ($request->to_date != '') {
             $where .= " AND (SELECT enrolment_last_date FROM contracts WHERE student_id =s.id AND $cond ORDER BY id DESC LIMIT 1) <= '$request->to_date' ";
         }
-        if($request->keyword !=''){
+        if ($request->keyword != '') {
             $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%' OR s.gud_mobile_1 LIKE '%$request->keyword%' )";
         }
         if ($total) {
@@ -4535,25 +4584,26 @@ class Report extends Model
                         AND (SELECT count(id) FROM contracts WHERE student_id =s.id AND $cond AND status !=7) =0
                     ORDER BY s.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
 
-    public static function queryReportLgl02($p, $request,$total = 0, $unlimit = false) {
+    public static function queryReportLgl02($p, $request, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = " 1 ";
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($request->from_date !=''){
+        if ($request->from_date != '') {
             $where .= " AND l.created_at >= '$request->from_date 00:00:00' ";
         }
-        if($request->to_date !=''){
+        if ($request->to_date != '') {
             $where .= " AND l.created_at <= '$request->to_date 00:00:00' ";
         }
-        if($request->keyword !=''){
+        if ($request->keyword != '') {
             $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%' OR s.gud_mobile_1 LIKE '%$request->keyword%' )";
         }
         if ($total) {
@@ -4583,40 +4633,41 @@ class Report extends Model
                     WHERE
                         $where ORDER BY l.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
 
-    public static function queryReportLgl04($p, $request,$total = 0, $unlimit = false) {
+    public static function queryReportLgl04($p, $request, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = " c.must_charge >0  AND c.total_charged >0 ";
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($request->from_date !=''){
+        if ($request->from_date != '') {
             $where .= " AND c.created_at >= '$request->from_date 00:00:00' ";
         }
-        if($request->to_date !=''){
+        if ($request->to_date != '') {
             $where .= " AND c.created_at <= '$request->to_date 00:00:00' ";
         }
-        if($request->keyword !=''){
+        if ($request->keyword != '') {
             $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%' OR s.gud_mobile_1 LIKE '%$request->keyword%' )";
         }
-        if($request->typePrice == 1){
+        if ($request->typePrice == 1) {
             $where .= " AND d.is_combo = 0 ";
-        }elseif($request->typePrice == 2){
+        } elseif ($request->typePrice == 2) {
             $where .= " AND d.is_combo = 1 ";
         }
-        if($request->typeNew == 1){
+        if ($request->typeNew == 1) {
             $where .= " AND c.count_recharge = 0 ";
-        }elseif($request->typeNew == 2){
+        } elseif ($request->typeNew == 2) {
             $where .= " AND c.count_recharge > 0 ";
         }
-        if($request->typePayment == 1){
+        if ($request->typePayment == 1) {
             $where .= " AND c.debt_amount >0";
-        }elseif($request->typePayment == 2){
+        } elseif ($request->typePayment == 2) {
             $where .= " AND c.debt_amount = 0 ";
         }
         if ($total) {
@@ -4647,40 +4698,41 @@ class Report extends Model
                     WHERE
                         $where ORDER BY c.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
             }
         }
         return $resp;
     }
 
-    public static function queryReportLgl03($p, $request,$total = 0, $unlimit = false) {
+    public static function queryReportLgl03($p, $request, $total = 0, $unlimit = false)
+    {
         $resp = "";
         $where = " c.must_charge >0  AND c.total_charged >0 ";
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
         }
-        if($request->from_date !=''){
+        if ($request->from_date != '') {
             $where .= " AND c.created_at >= '$request->from_date 00:00:00' ";
         }
-        if($request->to_date !=''){
+        if ($request->to_date != '') {
             $where .= " AND c.created_at <= '$request->to_date 00:00:00' ";
         }
-        if($request->keyword !=''){
+        if ($request->keyword != '') {
             $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%' OR s.gud_mobile_1 LIKE '%$request->keyword%' )";
         }
-        if($request->typePrice == 1){
+        if ($request->typePrice == 1) {
             $where .= " AND d.is_combo = 0 ";
-        }elseif($request->typePrice == 2){
+        } elseif ($request->typePrice == 2) {
             $where .= " AND d.is_combo = 1 ";
         }
-        if($request->typeNew == 1){
+        if ($request->typeNew == 1) {
             $where .= " AND c.count_recharge = 0 ";
-        }elseif($request->typeNew == 2){
+        } elseif ($request->typeNew == 2) {
             $where .= " AND c.count_recharge > 0 ";
         }
-        if($request->typePayment == 1){
+        if ($request->typePayment == 1) {
             $where .= " AND c.debt_amount >0";
-        }elseif($request->typePayment == 2){
+        } elseif ($request->typePayment == 2) {
             $where .= " AND c.debt_amount = 0 ";
         }
         if ($total) {
@@ -4706,7 +4758,55 @@ class Report extends Model
                     WHERE
                         $where GROUP BY d.id,c.branch_id ORDER BY d.id DESC";
             if (!$unlimit) {
-                $resp.= " $lim";
+                $resp .= " $lim";
+            }
+        }
+        return $resp;
+    }
+
+    public static function queryReportLgl05($p, $request, $total = 0, $unlimit = false)
+    {
+        $resp = "";
+        $where = " c.class_id IS NOT NULL AND c.status = 6 AND c.debt_amount = 0 AND c.type > 0 ";
+        if ($p->s != '') {
+            $where .= " AND c.branch_id in ($p->s) ";
+        }
+        if ($request->keyword != '') {
+            $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%')";
+        }
+
+        if ($total) {
+            $resp = "SELECT count(DISTINCT c.id) as total
+                   FROM
+                        contracts AS c 
+                        LEFT JOIN students AS s ON s.id=c.student_id
+                    WHERE
+                        $where 
+            ";
+        } else {
+            $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
+            $resp = "SELECT
+                       s.crm_id,
+                       s.name AS student_name,
+                       (SELECT name FROM branches WHERE id=c.branch_id) AS branch_name,
+                       (SELECT name FROM products WHERE id=c.product_id) AS product_name,
+                       c.must_charge AS real_amount,
+                       (c.summary_sessions / 4) + 0 AS real_months,
+                       (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) AS start_date,
+                       DATE_ADD(
+                           DATE_ADD(
+                               (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1), 
+                               INTERVAL (c.summary_sessions DIV 4) MONTH
+                           ), 
+                           INTERVAL (c.summary_sessions MOD 4) WEEK
+                       ) AS end_date
+                    FROM
+                        contracts AS c 
+                        LEFT JOIN students AS s ON s.id=c.student_id
+                    WHERE
+                        $where ORDER BY c.id DESC";
+            if (!$unlimit) {
+                $resp .= " $lim";
             }
         }
         return $resp;

@@ -24,24 +24,25 @@ use App\Services\StudentWithdrawService;
 
 class ReportsController extends Controller
 {
-    private function getScope($scope, $branches = []) {
+    private function getScope($scope, $branches = [])
+    {
         $resp = $branches;
         if ($scope) {
-            $is_zone = count(array_filter($scope, function($item) {
-                return (int)$item > 9000 ;
+            $is_zone = count(array_filter($scope, function ($item) {
+                return (int) $item > 9000;
             }));
-            $is_region = count(array_filter($scope, function($item) {
-                return (int)$item > 3000;
+            $is_region = count(array_filter($scope, function ($item) {
+                return (int) $item > 3000;
             }));
             $branch_list = [];
             if ($is_zone) {
                 $zone_list = [];
                 $branch_list = [];
-                foreach($scope as $itm) {
-                    if ((int)$itm > 9000) {
-                        $zone_list[] = (int)$itm - 9000;
+                foreach ($scope as $itm) {
+                    if ((int) $itm > 9000) {
+                        $zone_list[] = (int) $itm - 9000;
                     } else {
-                        $branch_list[] = (int)$itm;
+                        $branch_list[] = (int) $itm;
                     }
                 }
                 if (count($zone_list)) {
@@ -64,11 +65,11 @@ class ReportsController extends Controller
             } elseif ($is_region) {
                 $region_list = [];
                 $branch_list = [];
-                foreach($scope as $itm) {
-                    if ((int)$itm > 3000) {
-                        $region_list[] = (int)$itm - 3000;
+                foreach ($scope as $itm) {
+                    if ((int) $itm > 3000) {
+                        $region_list[] = (int) $itm - 3000;
                     } else {
-                        $branch_list[] = (int)$itm;
+                        $branch_list[] = (int) $itm;
                     }
                 }
                 if (count($region_list)) {
@@ -91,19 +92,20 @@ class ReportsController extends Controller
             } else {
                 $resp = [];
                 foreach ($scope as $it) {
-                    $resp[] = (int)$it;
+                    $resp[] = (int) $it;
                 }
             }
         }
         return implode(',', $resp);
     }
 
-    private function making($query, $quary, $page, $limit) {
+    private function making($query, $quary, $page, $limit)
+    {
         $data = null;
         $suma = u::first($quary);
         $list = u::query($query);
-        $data = (Object)[];
-        $pagination = (Object)[];
+        $data = (Object) [];
+        $pagination = (Object) [];
         $data->list = [];
         $pagination->spage = 0;
         $pagination->cpage = 0;
@@ -114,12 +116,12 @@ class ReportsController extends Controller
         $pagination->npage = 0;
         $data->paging = $pagination;
         if (count($list)) {
-            $total = $suma && isset($suma->total) ? (int)$suma->total : 0;
+            $total = $suma && isset($suma->total) ? (int) $suma->total : 0;
             $pagination->spage = 1;
             $pagination->cpage = $page;
             $pagination->total = $total;
             $pagination->limit = $limit;
-            $pagination->lpage = ($total % $limit) == 0 ? (int)($total / $limit) : (int)($total / $limit) + 1;
+            $pagination->lpage = ($total % $limit) == 0 ? (int) ($total / $limit) : (int) ($total / $limit) + 1;
             $pagination->ppage = $page > 0 ? $page - 1 : 0;
             $pagination->npage = $page < $pagination->lpage ? $page + 1 : $pagination->lpage;
             $data->list = $list;
@@ -128,10 +130,11 @@ class ReportsController extends Controller
         return $data;
     }
 
-    public function params($request, $session, $isExport = 0) {
+    public function params($request, $session, $isExport = 0)
+    {
         $params = null;
         if ($request && $session) {
-            $params = (Object)[];
+            $params = (Object) [];
             $today = date('Y-m-d');
             $date = isset($request->date) ? $request->date : date('Y-m');
             $from = isset($request->from) ? $request->from : $today;
@@ -142,13 +145,13 @@ class ReportsController extends Controller
             if (!preg_match('#[0-9]{4}-[0-9]{2}-[0-9]{2}$#isu', $to, $matches) || strtotime($to) > time()) {
                 $to = date('Y-m-d');
             }
-            $products = isset($request->products) ? implode(',',$request->products) : null;
-            $cms = isset($request->cms) ? implode(',',$request->cms) : null;
-            $keyword = isset($request->keyword) ? trim((string)$request->keyword) : null;
-            $type = isset($request->type) ? (int)$request->type : null;
-            $scope = $this->getScope($request->scope, explode(',',$session->branches_ids));
-            $page = isset($request->page) ? (int)$request->page : 1;
-            $limit = isset($request->limit) ? (int)$request->limit : 20;
+            $products = isset($request->products) ? implode(',', $request->products) : null;
+            $cms = isset($request->cms) ? implode(',', $request->cms) : null;
+            $keyword = isset($request->keyword) ? trim((string) $request->keyword) : null;
+            $type = isset($request->type) ? (int) $request->type : null;
+            $scope = $this->getScope($request->scope, explode(',', $session->branches_ids));
+            $page = isset($request->page) ? (int) $request->page : 1;
+            $limit = isset($request->limit) ? (int) $request->limit : 20;
             $point = ($page - 1) * $limit;
             $point = $point < 0 ? 0 : $point;
             $params->k = $keyword;
@@ -161,7 +164,7 @@ class ReportsController extends Controller
             $params->p = $page;
             $params->c = $cms;
 
-            if(!$isExport || (isset($request->page) && isset($request->limit))){
+            if (!$isExport || (isset($request->page) && isset($request->limit))) {
                 $params->l = $limit;
                 $params->d = $point;
             }
@@ -169,7 +172,8 @@ class ReportsController extends Controller
         return $params;
     }
 
-    public function report01a(Request $request) {
+    public function report01a(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
@@ -182,18 +186,17 @@ class ReportsController extends Controller
         }
         return $response->formatResponse($code, $data);
     }
-    
-    public function report04(Request $request) {
+
+    public function report04(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
         if ($session = $request->users_data) {
-            if (count($request->branches) > 0) 
-            {
+            if (count($request->branches) > 0) {
                 $branches_term = [];
-                foreach ($request->branches as $key => $value) 
-                {
-                    $branches_term[] =  $value['id'];
+                foreach ($request->branches as $key => $value) {
+                    $branches_term[] = $value['id'];
                 }
                 $request->scope = $branches_term;
             }
@@ -207,7 +210,8 @@ class ReportsController extends Controller
         return $response->formatResponse($code, $data);
     }
 
-    public function report28(Request $request) {
+    public function report28(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
@@ -221,7 +225,8 @@ class ReportsController extends Controller
         return $response->formatResponse($code, $data);
     }
 
-    public function report29(Request $request) {
+    public function report29(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
@@ -242,15 +247,11 @@ class ReportsController extends Controller
         $product_ids = $request->products;
         $date = $request->date;
         $start_date = $request->start;
-        if (empty($branch_ids)) 
-        {
+        if (empty($branch_ids)) {
             $branch_ids = u::getBranchIds($request->users_data);
-        }
-        else
-        {
+        } else {
             $branch_ids_term = [];
-            foreach ($branch_ids as $key => $value) 
-            {
+            foreach ($branch_ids as $key => $value) {
                 array_push($branch_ids_term, $value['id']);
             }
             $branch_ids = $branch_ids_term;
@@ -263,15 +264,15 @@ class ReportsController extends Controller
         }
         if (!$date) {
             $date = date('Y-m-d 23:59:59');
-        }else{
+        } else {
             $date = date('Y-m-d', strtotime($date)) . " 23:59:59";
         }
         if (!$start_date) {
             $start_date = date('Y-m-01 00:00:00');
-        }else{
+        } else {
             $start_date = date('Y-m-d', strtotime($start_date)) . " 00:00:00";
         }
-//        echo $start_date;
+        //        echo $start_date;
 //        echo $date;
         $query = "
             (
@@ -387,46 +388,46 @@ class ReportsController extends Controller
             )
         ";
 
-//        echo $query; die;
+        //        echo $query; die;
 
         $res = DB::select(DB::raw($query));
 
 
-//        $branches = Branch::where('id', 'IN', "($branch_ids_string)");
+        //        $branches = Branch::where('id', 'IN', "($branch_ids_string)");
 //        var_dump($branches);die;
         $query = "SELECT id, `name` FROM branches WHERE id IN ($branch_ids_string)";
         $branches = DB::select(DB::raw($query));
-//        var_dump($branches);die;
+        //        var_dump($branches);die;
 
         $data = [];
-        if(!empty($branches)){
+        if (!empty($branches)) {
             $rows = [];
-            if(!empty($res)){
-                foreach ($res as $re){
-                    if(!isset($rows[$re->branch_id])){
+            if (!empty($res)) {
+                foreach ($res as $re) {
+                    if (!isset($rows[$re->branch_id])) {
                         $rows[$re->branch_id] = [];
                     }
-                    $rows[$re->branch_id]["type".(0 - $re->student_type)] = $re->count_student;
+                    $rows[$re->branch_id]["type" . (0 - $re->student_type)] = $re->count_student;
                 }
             }
 
-            foreach ($branches as $branch){
-                if(!isset($data[$branch->id])){
+            foreach ($branches as $branch) {
+                if (!isset($data[$branch->id])) {
                     $data[$branch->id] = [
                         "name" => $branch->name,
                         "student_types" => []
                     ];
                 }
 
-                if(isset($rows[$branch->id])){
-                    for($i=1; $i < 5; $i++){
-                        if(isset($rows[$branch->id]["type$i"])){
+                if (isset($rows[$branch->id])) {
+                    for ($i = 1; $i < 5; $i++) {
+                        if (isset($rows[$branch->id]["type$i"])) {
                             $data[$branch->id]["student_types"]["type$i"] = $rows[$branch->id]["type$i"];
-                        }else{
+                        } else {
                             $data[$branch->id]["student_types"]["type$i"] = 0;
                         }
                     }
-                }else{
+                } else {
                     $data[$branch->id]['student_types'] = [
                         "type1" => 0,
                         "type2" => 0,
@@ -440,9 +441,9 @@ class ReportsController extends Controller
 
         $result = array_values($data);
 
-//        echo json_encode($rows);die;
+        //        echo json_encode($rows);die;
 
-//        $data = [];
+        //        $data = [];
 //        if (!empty($res)) {
 //            foreach ($res as $re) {
 //                if (isset($data[$re->branch_id])) {
@@ -472,8 +473,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::reportForm03($request);
         if ($data) {
@@ -496,7 +497,7 @@ class ReportsController extends Controller
         $from_date = $request->fromDate;
         $fromDate = strtotime($from_date);
         if (!$fromDate) {
-            $from_date =  $today;
+            $from_date = $today;
         }
 
         // dd($from_date);
@@ -632,7 +633,7 @@ class ReportsController extends Controller
             $from_date = $default_start_date;
         }
         if (!$toDate) {
-            $to_date = date('Y-m-t',strtotime('today'));
+            $to_date = date('Y-m-t', strtotime('today'));
         }
         $q = "SELECT s.id AS student_id,
         s.stu_id AS lms_code,
@@ -721,7 +722,7 @@ class ReportsController extends Controller
         }
         $where .= " AND (ct.created_at BETWEEN '$from_date' AND '$to_date') ";
         Report::commons($request);
-        $strLimit = Report::$strLimit;    
+        $strLimit = Report::$strLimit;
         $q = "SELECT s.id,
                     s.accounting_id as effect_id,
                     s.stu_id AS lms_id,
@@ -747,7 +748,7 @@ class ReportsController extends Controller
                     LEFT JOIN ranks AS rk ON rk.id = ts.rank_id
                     LEFT JOIN users AS rating_creator ON rating_creator.id = ts.creator_id
                 WHERE s.id > 0 $where GROUP BY s.id $strLimit
-            ";  
+            ";
         $queryCount = "SELECT count(1) AS total 
                 FROM students AS s
                     LEFT JOIN contracts AS ct ON ct.student_id = s.id
@@ -762,8 +763,8 @@ class ReportsController extends Controller
                     LEFT JOIN users AS rating_creator ON rating_creator.id = ts.creator_id
                 WHERE s.id > 0 $where
                     GROUP BY s.id";
-        $total  = count(DB::select(DB::raw($queryCount)));
-        $totalRecord = isset($total) ? (int)$total : 0;
+        $total = count(DB::select(DB::raw($queryCount)));
+        $totalRecord = isset($total) ? (int) $total : 0;
         $students = DB::select(DB::raw($q));
         $return = array(
             'data' => $students ? $students : null,
@@ -858,8 +859,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::reportForm10($request);
         if ($data) {
@@ -900,7 +901,7 @@ class ReportsController extends Controller
         }
 
         Report::commons($request);
-        $strLimit = Report::$strLimit;    
+        $strLimit = Report::$strLimit;
 
         $where = "";
 
@@ -942,13 +943,13 @@ class ReportsController extends Controller
             FROM contracts c
                 LEFT JOIN students s ON c.student_id = s.id
             WHERE  c.count_recharge >= 0  $where GROUP BY s.id $strLimit";
-            //echo $q; exit();
-            $queryCount = "select count(1) as total
+        //echo $q; exit();
+        $queryCount = "select count(1) as total
             FROM contracts c
                 LEFT JOIN students s ON c.student_id = s.id
             WHERE  c.count_recharge >= 0  $where GROUP BY s.id";//echo $queryCount; exit();
-        $total  = count(DB::select(DB::raw($queryCount)));
-        $totalRecord = isset($total) ? (int)$total : 0;
+        $total = count(DB::select(DB::raw($queryCount)));
+        $totalRecord = isset($total) ? (int) $total : 0;
         $students = DB::select(DB::raw($q));
         $return = array(
             'data' => $students ? $students : null,
@@ -985,7 +986,7 @@ class ReportsController extends Controller
             $to_date = $today;
         }
         Report::commons($request);
-        $strLimit = Report::$strLimit; 
+        $strLimit = Report::$strLimit;
 
         $where = "";
 
@@ -1028,26 +1029,26 @@ class ReportsController extends Controller
                 LEFT JOIN students s ON c.student_id = s.id
             WHERE  c.count_recharge >= 0  $where GROUP BY s.id $strLimit";
         //return $q;
-         $queryCount = "select count(1) as total
+        $queryCount = "select count(1) as total
             FROM contracts c
                 LEFT JOIN students s ON c.student_id = s.id
             WHERE  c.count_recharge >= 0  $where GROUP BY s.id";//echo $queryCount; exit();
-        $total  = count(DB::select(DB::raw($queryCount)));
-        $totalRecord = isset($total) ? (int)$total : 0;
+        $total = count(DB::select(DB::raw($queryCount)));
+        $totalRecord = isset($total) ? (int) $total : 0;
         $students = DB::select(DB::raw($q));
         $return = array(
             'data' => $students ? $students : null,
             'total_record' => $totalRecord
         );
-        return $return;       
+        return $return;
     }
 
     public function reportForm13(Request $request)
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::reportForm13($request);
         if ($data) {
@@ -1063,8 +1064,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = [
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         ];
         $data = Report::reportForm14($request);
         if ($data) {
@@ -1082,13 +1083,13 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = [
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         ];
         $data = Report::reportForm15($request);
         if ($data) {
             $responseData['code'] = $code;
-            $responseData['data']= $data['data'];
+            $responseData['data'] = $data['data'];
             $responseData['total'] = $data['total_record'];
         }
         return response()->json($responseData);
@@ -1101,12 +1102,12 @@ class ReportsController extends Controller
         $response = new Response();
         if ($session = $request->users_data) {
             $p = $this->params($request, $session);
-            if(isset($request->from) && $request->from){
+            if (isset($request->from) && $request->from) {
                 $date = '';
 
-                try{
+                try {
                     $date = strtotime($request->from);
-                }catch (\Exception $exception){
+                } catch (\Exception $exception) {
                     $date = strtotime(date('Y-m-d'));
                 }
 
@@ -1129,16 +1130,16 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = $this->params($request, $session);
 
-            if(isset($request->sort)){
+            if (isset($request->sort)) {
                 $p->order = $request->sort;
             }
 
-            if(isset($request->from) && $request->from){
+            if (isset($request->from) && $request->from) {
                 $date = '';
 
-                try{
+                try {
                     $date = strtotime($request->from);
-                }catch (\Exception $exception){
+                } catch (\Exception $exception) {
                     $date = strtotime(date('Y-m-d'));
                 }
 
@@ -1162,16 +1163,16 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = $this->params($request, $session);
 
-            if(isset($request->sort)){
+            if (isset($request->sort)) {
                 $p->order = $request->sort;
             }
 
-            if(isset($request->from) && $request->from){
+            if (isset($request->from) && $request->from) {
                 $date = '';
 
-                try{
+                try {
                     $date = strtotime($request->from);
-                }catch (\Exception $exception){
+                } catch (\Exception $exception) {
                     $date = strtotime(date('Y-m-d'));
                 }
 
@@ -1187,23 +1188,24 @@ class ReportsController extends Controller
         return $response->formatResponse($code, $data);
     }
 
-    public function reportForm17d(Request $request){
+    public function reportForm17d(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
         if ($session = $request->users_data) {
             $p = $this->params($request, $session);
 
-            if(isset($request->sort)){
+            if (isset($request->sort)) {
                 $p->order = $request->sort;
             }
 
-            if(isset($request->from) && $request->from){
+            if (isset($request->from) && $request->from) {
                 $date = '';
 
-                try{
+                try {
                     $date = strtotime($request->from);
-                }catch (\Exception $exception){
+                } catch (\Exception $exception) {
                     $date = strtotime(date('Y-m-d'));
                 }
 
@@ -1219,14 +1221,14 @@ class ReportsController extends Controller
         return $response->formatResponse($code, $data);
     }
     /**
-    * Report Form18
-    */
+     * Report Form18
+     */
     public function reportForm18(Request $request)
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::reportForm18($request);
         if ($data) {
@@ -1243,8 +1245,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = [
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         ];
 
         $data = Report::reportForm19($request);
@@ -1262,8 +1264,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::reserves($request);
         if ($data) {
@@ -1279,8 +1281,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::registers($request);
         if ($data) {
@@ -1296,8 +1298,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::tuitionTransfers($request);
         if ($data) {
@@ -1313,8 +1315,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::renewals($request);
         if ($data) {
@@ -1330,8 +1332,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::branchTransfers($request);
         if ($data) {
@@ -1347,8 +1349,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::students($request);
         if ($data) {
@@ -1365,8 +1367,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::studentWithdraw($request);
         if ($data) {
@@ -1378,20 +1380,22 @@ class ReportsController extends Controller
         return response()->json($responseData);
     }
     /**
-    * Get data report form 20
-    */
-    public function getBranchesInfo(Request $request,$type){
+     * Get data report form 20
+     */
+    public function getBranchesInfo(Request $request, $type)
+    {
         // dd($request->all());
-        $data = Report::branchesInfo($request,$type);
+        $data = Report::branchesInfo($request, $type);
         return response()->json($this->responseData($data));
     }
     /**
-    * form response data
-    */
-    private function responseData(array $data){
+     * form response data
+     */
+    private function responseData(array $data)
+    {
         $responseData = [
-            'code'   => APICode::SUCCESS,
-            'data'   => [
+            'code' => APICode::SUCCESS,
+            'data' => [
                 'code' => APICode::SUCCESS,
                 'list' => isset($data['data']) ? $data['data'] : [],
                 'total_record' => isset($data['total_record']) ? $data['total_record'] : 0
@@ -1404,8 +1408,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::form30($request);
         if ($data) {
@@ -1421,8 +1425,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::reportForm31($request);
         if ($data) {
@@ -1438,8 +1442,8 @@ class ReportsController extends Controller
     {
         $code = APICode::SUCCESS;
         $responseData = array(
-            'code'   => $code,
-            'data'   => array()
+            'code' => $code,
+            'data' => array()
         );
         $data = Report::reportForm32($request);
         if ($data) {
@@ -1450,7 +1454,8 @@ class ReportsController extends Controller
         }
         return response()->json($responseData);
     }
-    public function report33(Request $request) {
+    public function report33(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
@@ -1463,9 +1468,10 @@ class ReportsController extends Controller
         }
         return $response->formatResponse($code, $data);
     }
-    public function report34(Request $request) {
+    public function report34(Request $request)
+    {
         $date = $request->date;
-        if(!$date){
+        if (!$date) {
             $date = date('Y-m-d');
         }
         $data = null;
@@ -1474,15 +1480,16 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::queryReport34($p,$date);
-            $quary = Report::queryReport34($p,$date, 1);
+            $query = Report::queryReport34($p, $date);
+            $quary = Report::queryReport34($p, $date, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
         return $response->formatResponse($code, $data);
     }
-    public function report34b2(Request $request) {
+    public function report34b2(Request $request)
+    {
         $date = $request->date;
-        if(!$date){
+        if (!$date) {
             $date = date('Y-m-d');
         }
         $data = null;
@@ -1491,14 +1498,15 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::queryReport34b2($p,$date);
-            $quary = Report::queryReport34b2($p,$date, 1);
+            $query = Report::queryReport34b2($p, $date);
+            $quary = Report::queryReport34b2($p, $date, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
         return $response->formatResponse($code, $data);
     }
 
-    public function studentActive(Request $request){
+    public function studentActive(Request $request)
+    {
 
         $data = StudentReportService::getStudentActiveReportByDate($request->all(), true);
         $response = new Response();
@@ -1507,18 +1515,19 @@ class ReportsController extends Controller
 
     public function exportStudentActiveByDate(Request $request, StudentReportService $service)
     {
-        $template = new  \App\Templates\Exports\StudentActive;
+        $template = new \App\Templates\Exports\StudentActive;
         $params = $request->all();
         $list = false;
-        if (!empty($params["list"])){
-            $template = new  \App\Templates\Exports\StudentActiveList;
+        if (!empty($params["list"])) {
+            $template = new \App\Templates\Exports\StudentActiveList;
             $list = true;
         }
 
         $service->exportStudentByDate1($params, $template, $list);
     }
 
-    public function tuitionFee(Request $request){
+    public function tuitionFee(Request $request)
+    {
 
         $data = TuitionFeeService::getTuitionFeeReportByDate($request->all());
         $response = new Response();
@@ -1532,7 +1541,8 @@ class ReportsController extends Controller
         $service->exportByDate($params, $template, $data);
     }
 
-    public function studentHistory(Request $request){
+    public function studentHistory(Request $request)
+    {
 
         $data = StudentHistoryService::getStudentHistoryReportByDate($request->all());
         $response = new Response();
@@ -1546,15 +1556,16 @@ class ReportsController extends Controller
         $service->exportByDate($params, $template, $data);
     }
 
-    public function percentage(Request $request, $export = false){
+    public function percentage(Request $request, $export = false)
+    {
         $listDays = [];
-        if (!empty($request->start_date)){
-            $listDays = u::getDaysWeekInOnceMonth($request->start_date,$request->end_date);
+        if (!empty($request->start_date)) {
+            $listDays = u::getDaysWeekInOnceMonth($request->start_date, $request->end_date);
         }
         $week = sizeof($listDays);
-        $month = $week +1;
-        array_push($listDays,["from"=>$request->start_date,"to"=>$request->end_date]);
-        $data = TuitionFeeService::getTuitionPercentageReportByDate($request->all(), $listDays, $week ,$month);
+        $month = $week + 1;
+        array_push($listDays, ["from" => $request->start_date, "to" => $request->end_date]);
+        $data = TuitionFeeService::getTuitionPercentageReportByDate($request->all(), $listDays, $week, $month);
         if ($export)
             return $data;
         $response = new Response();
@@ -1568,15 +1579,16 @@ class ReportsController extends Controller
         $service->exportPercentageByDate($params, $template, $data);
     }
 
-    public function semester(Request $request, $export = false){
+    public function semester(Request $request, $export = false)
+    {
         $listDays = [];
-        if (!empty($request->start_date)){
-            $listDays = u::getDaysWeekInOnceMonth($request->start_date,$request->end_date);
+        if (!empty($request->start_date)) {
+            $listDays = u::getDaysWeekInOnceMonth($request->start_date, $request->end_date);
         }
         $week = sizeof($listDays);
-        $month = $week +1;
-        array_push($listDays,["from"=>$request->start_date,"to"=>$request->end_date]);
-        $data = SemesterService::getTuitionPercentageReportByDate($request->all(), $listDays, $week ,$month);
+        $month = $week + 1;
+        array_push($listDays, ["from" => $request->start_date, "to" => $request->end_date]);
+        $data = SemesterService::getTuitionPercentageReportByDate($request->all(), $listDays, $week, $month);
         if ($export)
             return $data;
         $response = new Response();
@@ -1590,7 +1602,8 @@ class ReportsController extends Controller
         $service->exportPercentageByDate($params, $template, $data);
     }
 
-    public function studentRenewals(Request $request, $export = false){
+    public function studentRenewals(Request $request, $export = false)
+    {
         $data = RenewalsService::getReportByDate($request->all(), $export);
         if ($export)
             return $data;
@@ -1605,7 +1618,8 @@ class ReportsController extends Controller
         $service->exportRenewalsByDate($params, $template, $data);
     }
 
-    public function export28(Request $request, RenewalsService $service, \App\Templates\Exports\Report28 $template) {
+    public function export28(Request $request, RenewalsService $service, \App\Templates\Exports\Report28 $template)
+    {
         $data = null;
         $params = $request->all();
         if ($session = $request->users_data) {
@@ -1616,7 +1630,7 @@ class ReportsController extends Controller
         }
 
         $dataNew = [];
-        foreach ($data as $item){
+        foreach ($data as $item) {
             $item->contract_type_name = u::getContractTypeName($item->customer_type);
             $dataNew[] = $item;
         }
@@ -1624,25 +1638,25 @@ class ReportsController extends Controller
         $service->exportReport28ByDate($params, $template, $dataNew);
     }
 
-    public function studentQuantityReport(Request $request, $export = false, $listExport = false){
+    public function studentQuantityReport(Request $request, $export = false, $listExport = false)
+    {
         $today = date('Y-m-d');
         $listDays = [];
         $list = (!empty($request->list)) ? true : false;
 
         if ($listExport)
-            $list  = $listExport;
+            $list = $listExport;
 
-        if (!empty($request->start_date)){
-            if ($today >=  $request->start_date && $today <= $request->end_date){
+        if (!empty($request->start_date)) {
+            if ($today >= $request->start_date && $today <= $request->end_date) {
                 $listDays = u::getDaysWeekInOnceMonth($request->start_date, $today);
-            }
-            else
+            } else
                 $listDays = u::getDaysWeekInOnceMonth($request->start_date, $request->end_date);
         }
         $week = sizeof($listDays);
-        $month = $week +1;
-        array_push($listDays,["from"=>$request->start_date,"to"=>$request->end_date]);
-        $data = StudentQuantity::getDataReportByDate($request->all(), $listDays, $week ,$month, $list);
+        $month = $week + 1;
+        array_push($listDays, ["from" => $request->start_date, "to" => $request->end_date]);
+        $data = StudentQuantity::getDataReportByDate($request->all(), $listDays, $week, $month, $list);
 
         if ($export)
             return $data;
@@ -1662,7 +1676,8 @@ class ReportsController extends Controller
         $service->exportDataByDate($params, $template, $data, $list);
     }
 
-    public function studentWithdrawNew(Request $request, $export = false){
+    public function studentWithdrawNew(Request $request, $export = false)
+    {
         $data = StudentWithdrawService::getReportByDate($request->all(), $export);
         if ($export)
             return $data;
@@ -1670,7 +1685,8 @@ class ReportsController extends Controller
         return $response->formatResponseForce(APICode::SUCCESS, $data);
     }
 
-    public function studentWithdrawExport(Request $request, StudentWithdrawService $service, \App\Templates\Exports\StudentWithdraw $template){
+    public function studentWithdrawExport(Request $request, StudentWithdrawService $service, \App\Templates\Exports\StudentWithdraw $template)
+    {
         $data = self::studentWithdrawNew($request, true);
         $service->exportDataByDate($request->all(), $template, $data);
     }
@@ -1711,22 +1727,23 @@ class ReportsController extends Controller
             $query = Report::queryReport01a1($birthday_mode, $p);
             $quary = Report::queryReport01a1($birthday_mode, $p, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
-            $list =$data->list;
-            foreach($list AS $k=>$row){
+            $list = $data->list;
+            foreach ($list as $k => $row) {
                 $list[$k]->done_session = isset($row->done_session) ? $row->done_session : self::getDoneSessions($row);
             }
-            $data->list =$list;
+            $data->list = $list;
         }
 
         return $response->formatResponse($code, $data);
     }
-    public function getDoneSessions($data){
+    public function getDoneSessions($data)
+    {
         $tmp_holiDay = u::getPublicHolidays(0, $data->branch_id, $data->product_id);
         $reserved_dates = JobsController::getReservedDates_transfer($data->contract_id);
         if (!empty($reserved_dates)) {
-          $holiDay = array_merge($tmp_holiDay, $reserved_dates);
-        }else{
-          $holiDay = $tmp_holiDay;
+            $holiDay = array_merge($tmp_holiDay, $reserved_dates);
+        } else {
+            $holiDay = $tmp_holiDay;
         }
         $class_days = u::getClassDays($data->class_id);
         $result = u::calculatorSessions($data->enrolment_start_date, date('Y-m-d'), $holiDay, $class_days);
@@ -1738,18 +1755,18 @@ class ReportsController extends Controller
         $code = APICode::SUCCESS;
         $response = new Response();
 
-        if($month && $month!="_"){
-            $report_month = (int)$month > 9 ? date("Y").'-'.(int)$month : date("Y").'-0'.(int)$month;
-        }else{
-            $report_month = date('Y-m',time()-7*3600);
+        if ($month && $month != "_") {
+            $report_month = (int) $month > 9 ? date("Y") . '-' . (int) $month : date("Y") . '-0' . (int) $month;
+        } else {
+            $report_month = date('Y-m', time() - 7 * 3600);
         }
-        $start_date = date('Y-m-01',strtotime($report_month.'-01'));
-        if(date('Y-m',strtotime($report_month.'-01')) == date('Y-m')){
+        $start_date = date('Y-m-01', strtotime($report_month . '-01'));
+        if (date('Y-m', strtotime($report_month . '-01')) == date('Y-m')) {
             $end_date = date('Y-m-d');
-        }else{
-            $end_date = date('Y-m-t',strtotime($report_month.'-01'));
+        } else {
+            $end_date = date('Y-m-t', strtotime($report_month . '-01'));
         }
-        if ($type ==1){
+        if ($type == 1) {
             $where = " AND c.product_id > 100";
         } else {
             $where = " AND c.product_id < 100";
@@ -1809,17 +1826,18 @@ class ReportsController extends Controller
         }
         return $response->formatResponse($code, $data);
     }
-    public function addItems($list) {
+    public function addItems($list)
+    {
         if ($list) {
             $created_at = date('Y-m-d H:i:s');
             $query = "INSERT INTO report_full_fee_active (student_id,contract_id, class_id, product_id, cm_id, report_month, branch_id, created_at, creator_id,last_date,date_start,done_session,summary_sessions,`type`) VALUES ";
             $query_all = "INSERT INTO report_full_fee_active_all (student_id,contract_id, class_id, product_id, cm_id, report_month, branch_id, created_at, creator_id,last_date,date_start,done_session,summary_sessions) VALUES ";
             if (count($list) > 5000) {
-                for($i = 0; $i < 5000; $i++) {
+                for ($i = 0; $i < 5000; $i++) {
                     $item = $list[$i];
                     $done_session = self::getDoneSessions($item);
-                    $query.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions','$item->type'),";
-                    $query_all.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions'),";
+                    $query .= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions','$item->type'),";
+                    $query_all .= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions'),";
                 }
                 $query = substr($query, 0, -1);
                 u::query($query);
@@ -1827,10 +1845,10 @@ class ReportsController extends Controller
                 u::query($query_all);
                 self::addItems(array_slice($list, 5000));
             } else {
-                foreach($list as $item) {
+                foreach ($list as $item) {
                     $done_session = self::getDoneSessions($item);
-                    $query.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions','$item->type'),";
-                    $query_all.= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions'),";
+                    $query .= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions','$item->type'),";
+                    $query_all .= "('$item->student_id', '$item->contract_id', '$item->class_id', '$item->product_id', '$item->cm_id', '$item->report_month', '$item->branch_id', '$created_at', 99999,'$item->last_date','$item->date_start','$done_session','$item->summary_sessions'),";
                 }
                 $query = substr($query, 0, -1);
                 u::query($query);
@@ -1840,7 +1858,8 @@ class ReportsController extends Controller
         }
     }
 
-    public function report01b1(Request $request) {
+    public function report01b1(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
@@ -1857,7 +1876,8 @@ class ReportsController extends Controller
         return $response->formatResponse($code, $data);
     }
 
-    public function report01b2(Request $request) {
+    public function report01b2(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
@@ -1914,21 +1934,22 @@ class ReportsController extends Controller
         }
         return $response->formatResponse($code, $data);
     }
-    public function addItemUser($list) {
+    public function addItemUser($list)
+    {
         if ($list) {
             $created_at = date('Y-m-d H:i:s');
             $query = "INSERT INTO report_get_users (user_id, role_id, branch_id, report_month, created_at, `status`) VALUES ";
             if (count($list) > 5000) {
-                for($i = 0; $i < 5000; $i++) {
+                for ($i = 0; $i < 5000; $i++) {
                     $item = $list[$i];
-                    $query.= "('$item->user_id', '$item->role_id', '$item->branch_id', '$item->report_month', '$created_at', 1),";
+                    $query .= "('$item->user_id', '$item->role_id', '$item->branch_id', '$item->report_month', '$created_at', 1),";
                 }
                 $query = substr($query, 0, -1);
                 u::query($query);
                 self::addItemUser(array_slice($list, 5000));
             } else {
-                foreach($list as $item) {
-                    $query.= "('$item->user_id', '$item->role_id', '$item->branch_id', '$item->report_month', '$created_at', 1),";
+                foreach ($list as $item) {
+                    $query .= "('$item->user_id', '$item->role_id', '$item->branch_id', '$item->report_month', '$created_at', 1),";
                 }
                 $query = substr($query, 0, -1);
                 u::query($query);
@@ -1942,10 +1963,10 @@ class ReportsController extends Controller
         $code = APICode::SUCCESS;
         $response = new Response();
 
-        if($month && $month!="_"){
-            $report_month = (int)$month > 9 ? date("Y").'-'.(int)$month : date("Y").'-0'.(int)$month;
-        }else{
-            $report_month = date('Y-m',time()-7*3600);
+        if ($month && $month != "_") {
+            $report_month = (int) $month > 9 ? date("Y") . '-' . (int) $month : date("Y") . '-0' . (int) $month;
+        } else {
+            $report_month = date('Y-m', time() - 7 * 3600);
         }
         $list = u::query("SELECT
             t.*,
@@ -1961,21 +1982,22 @@ class ReportsController extends Controller
         }
         return $response->formatResponse($code, $data);
     }
-    public function addItemPending($list) {
+    public function addItemPending($list)
+    {
         if ($list) {
             $created_at = date('Y-m-d H:i:s');
             $query = "INSERT INTO report_pending (student_id, branch_id, product_id, cm_id, ec_id, contract_id,report_month,`sessions`,created_at ,tuition_fee_id,`start_date`,end_date) VALUES ";
             if (count($list) > 5000) {
-                for($i = 0; $i < 5000; $i++) {
+                for ($i = 0; $i < 5000; $i++) {
                     $item = $list[$i];
-                    $query.= "('$item->student_id', '$item->branch_id', '$item->product_id', '$item->cm_id', '$item->ec_id', '$item->contract_id', '$item->report_month', '$item->sessions', '$created_at' , '$item->tuition_fee_id', '$item->start_date', '$item->end_date'),";
+                    $query .= "('$item->student_id', '$item->branch_id', '$item->product_id', '$item->cm_id', '$item->ec_id', '$item->contract_id', '$item->report_month', '$item->sessions', '$created_at' , '$item->tuition_fee_id', '$item->start_date', '$item->end_date'),";
                 }
                 $query = substr($query, 0, -1);
                 u::query($query);
                 self::addItemUser(array_slice($list, 5000));
             } else {
-                foreach($list as $item) {
-                    $query.= "('$item->student_id', '$item->branch_id', '$item->product_id', '$item->cm_id', '$item->ec_id', '$item->contract_id', '$item->report_month', '$item->sessions', '$created_at', '$item->tuition_fee_id', '$item->start_date', '$item->end_date'),";
+                foreach ($list as $item) {
+                    $query .= "('$item->student_id', '$item->branch_id', '$item->product_id', '$item->cm_id', '$item->ec_id', '$item->contract_id', '$item->report_month', '$item->sessions', '$created_at', '$item->tuition_fee_id', '$item->start_date', '$item->end_date'),";
                 }
                 $query = substr($query, 0, -1);
                 u::query($query);
@@ -1989,12 +2011,12 @@ class ReportsController extends Controller
         $code = APICode::SUCCESS;
         $response = new Response();
 
-        if($month && $month!="_"){
-            $report_month = (int)$month > 9 ? date("Y").'-'.(int)$month : date("Y").'-0'.(int)$month;
-        }else{
-            $report_month = date('Y-m',time()-7*3600);
+        if ($month && $month != "_") {
+            $report_month = (int) $month > 9 ? date("Y") . '-' . (int) $month : date("Y") . '-0' . (int) $month;
+        } else {
+            $report_month = date('Y-m', time() - 7 * 3600);
         }
-        $date = date('Y-m-d',time()-7*3600);
+        $date = date('Y-m-d', time() - 7 * 3600);
         $list = u::query("SELECT DISTINCT s.id AS student_id,c.branch_id,c.product_id,t.cm_id,t.ec_id,
                 c.tuition_fee_id,c.summary_sessions AS `sessions`,c.start_date, c.end_date,c.id AS contract_id,c.tuition_fee_id,
                 '$report_month' report_month
@@ -2010,21 +2032,22 @@ class ReportsController extends Controller
         }
         return $response->formatResponse($code, $data);
     }
-    public function addItemReserve($list) {
+    public function addItemReserve($list)
+    {
         if ($list) {
             $created_at = date('Y-m-d H:i:s');
             $query = "INSERT INTO report_reserve (student_id, branch_id, product_id, cm_id, ec_id, contract_id,report_month,`sessions`,created_at, is_reserved,tuition_fee_id) VALUES ";
             if (count($list) > 5000) {
-                for($i = 0; $i < 5000; $i++) {
+                for ($i = 0; $i < 5000; $i++) {
                     $item = $list[$i];
-                    $query.= "('$item->student_id', '$item->branch_id', '$item->product_id', '$item->cm_id', '$item->ec_id', '$item->contract_id', '$item->report_month', '$item->sessions', '$created_at','$item->is_reserved','$item->tuition_fee_id'),";
+                    $query .= "('$item->student_id', '$item->branch_id', '$item->product_id', '$item->cm_id', '$item->ec_id', '$item->contract_id', '$item->report_month', '$item->sessions', '$created_at','$item->is_reserved','$item->tuition_fee_id'),";
                 }
                 $query = substr($query, 0, -1);
                 u::query($query);
                 self::addItemUser(array_slice($list, 5000));
             } else {
-                foreach($list as $item) {
-                    $query.= "('$item->student_id', '$item->branch_id', '$item->product_id', '$item->cm_id', '$item->ec_id', '$item->contract_id', '$item->report_month', '$item->sessions', '$created_at','$item->is_reserved','$item->tuition_fee_id'),";
+                foreach ($list as $item) {
+                    $query .= "('$item->student_id', '$item->branch_id', '$item->product_id', '$item->cm_id', '$item->ec_id', '$item->contract_id', '$item->report_month', '$item->sessions', '$created_at','$item->is_reserved','$item->tuition_fee_id'),";
                 }
                 $query = substr($query, 0, -1);
                 u::query($query);
@@ -2038,12 +2061,12 @@ class ReportsController extends Controller
         $code = APICode::SUCCESS;
         $response = new Response();
 
-        if($month && $month!="_"){
-            $report_month = (int)$month > 9 ? date("Y").'-'.(int)$month : date("Y").'-0'.(int)$month;
-        }else{
-            $report_month = date('Y-m',time()-7*3600);
+        if ($month && $month != "_") {
+            $report_month = (int) $month > 9 ? date("Y") . '-' . (int) $month : date("Y") . '-0' . (int) $month;
+        } else {
+            $report_month = date('Y-m', time() - 7 * 3600);
         }
-        $date = date('Y-m-d',time()-7*3600);
+        $date = date('Y-m-d', time() - 7 * 3600);
         $list = u::query("SELECT DISTINCT s.id AS student_id,c.branch_id,c.product_id,t.cm_id,t.ec_id,
                 c.tuition_fee_id,c.summary_sessions AS `sessions`,c.start_date, c.end_date,c.id AS contract_id,c.tuition_fee_id,
                 (SELECT is_reserved FROM reserves WHERE contract_id=c.id AND student_id=s.id AND end_date>= '$date' AND `start_date`<='$date' AND `status`=2 LIMIT 1) AS is_reserved,
@@ -2070,16 +2093,16 @@ class ReportsController extends Controller
             $cms = isset($request->cms) ? implode(',', $request->cms) : null;
             $p->c = $cms;
             $code = APICode::SUCCESS;
-            $query = Report::report_r01( $p);
-            $quary = Report::report_r01( $p, 1);
+            $query = Report::report_r01($p);
+            $quary = Report::report_r01($p, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
-            $summary = (object)array(
-                'must_charge'=>0,
-                'total_charged'=>0,
+            $summary = (object) array(
+                'must_charge' => 0,
+                'total_charged' => 0,
             );
-            foreach($data->list AS $row){
-                $summary->must_charge += (int)$row->must_charge;
-                $summary->total_charged += (int)$row->total_charged;
+            foreach ($data->list as $row) {
+                $summary->must_charge += (int) $row->must_charge;
+                $summary->total_charged += (int) $row->total_charged;
             }
             $data->summary = $summary;
         }
@@ -2096,16 +2119,16 @@ class ReportsController extends Controller
             $cms = isset($request->cms) ? implode(',', $request->cms) : null;
             $p->c = $cms;
             $code = APICode::SUCCESS;
-            $query = Report::report_r02( $p);
-            $quary = Report::report_r02( $p, 1);
+            $query = Report::report_r02($p);
+            $quary = Report::report_r02($p, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
-            $summary = (object)array(
-                'must_charge'=>0,
-                'total_charged'=>0,
+            $summary = (object) array(
+                'must_charge' => 0,
+                'total_charged' => 0,
             );
-            foreach($data->list AS $row){
-                $summary->must_charge += (int)$row->must_charge;
-                $summary->total_charged += (int)$row->total_charged;
+            foreach ($data->list as $row) {
+                $summary->must_charge += (int) $row->must_charge;
+                $summary->total_charged += (int) $row->total_charged;
             }
             $data->summary = $summary;
         }
@@ -2120,8 +2143,8 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r04( $p);
-            $quary = Report::report_r04( $p, 1);
+            $query = Report::report_r04($p);
+            $quary = Report::report_r04($p, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
 
@@ -2135,16 +2158,16 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r05( $p);
-            $quary = Report::report_r05( $p, 1);
+            $query = Report::report_r05($p);
+            $quary = Report::report_r05($p, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
-            $summary = (object)array(
-                'must_charge'=>0,
-                'amount'=>0,
+            $summary = (object) array(
+                'must_charge' => 0,
+                'amount' => 0,
             );
-            foreach($data->list AS $row){
-                $summary->must_charge += (int)$row->must_charge;
-                $summary->amount += (int)$row->amount;
+            foreach ($data->list as $row) {
+                $summary->must_charge += (int) $row->must_charge;
+                $summary->amount += (int) $row->amount;
             }
             $data->summary = $summary;
         }
@@ -2159,18 +2182,18 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r06( $p,$request);
-            $quary = Report::report_r06( $p,$request, 1);
+            $query = Report::report_r06($p, $request);
+            $quary = Report::report_r06($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
-            $summary = (object)array(
-                'must_charge'=>0,
-                'total_charged'=>0,
-                'ban_cheo'=>0,
-                'thuc_thu'=>0
+            $summary = (object) array(
+                'must_charge' => 0,
+                'total_charged' => 0,
+                'ban_cheo' => 0,
+                'thuc_thu' => 0
             );
-            foreach($data->list AS $row){
-                $summary->must_charge += (int)$row->must_charge;
-                $summary->total_charged += (int)$row->total_charged;
+            foreach ($data->list as $row) {
+                $summary->must_charge += (int) $row->must_charge;
+                $summary->total_charged += (int) $row->total_charged;
                 // $summary->ban_cheo += $row->count_recharge ==0 && $row->pre_branch ? (int)$row->amount/2 : 0;
                 // $summary->thuc_thu += $row->count_recharge ==0 && $row->pre_branch ? (int)$row->amount/2 : (int)$row->amount;
                 $summary->thuc_thu += $row->amount;
@@ -2182,9 +2205,9 @@ class ReportsController extends Controller
     }
     public function report_r07(Request $request)
     {
-        if(!$request->report_month){
+        if (!$request->report_month) {
             $report_week_info = u::first("SELECT * FROM report_weeks WHERE start_date <= CURRENT_DATE AND end_date >= CURRENT_DATE");
-            $request->report_month = $report_week_info->year."_".$report_week_info->group."_".$report_week_info->month;
+            $request->report_month = $report_week_info->year . "_" . $report_week_info->group . "_" . $report_week_info->month;
         }
         $data = null;
         $code = APICode::PERMISSION_DENIED;
@@ -2192,28 +2215,28 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r07( $p,$request);
-            $quary = Report::report_r07( $p,$request, 1);
+            $query = Report::report_r07($p, $request);
+            $quary = Report::report_r07($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
             $arr_group = [
-                '1'=>'I',
-                '2'=>'II',
-                '3'=>'III',
-                '4'=>'IV'
+                '1' => 'I',
+                '2' => 'II',
+                '3' => 'III',
+                '4' => 'IV'
             ];
-            $arr_month = \explode('_',$request->report_month);
-            $start_date = u::first("SELECT `start_date` FROM report_weeks WHERE year='".$arr_month[0]."' AND `group`='".$arr_month[1]."' AND month='".$arr_month[2]."' ORDER BY `start_date` ASC LIMIT 1");
-            $end_date = u::first("SELECT `end_date` FROM report_weeks WHERE year='".$arr_month[0]."' AND `group`='".$arr_month[1]."' AND month='".$arr_month[2]."' ORDER BY `end_date` DESC LIMIT 1");
-            $data->title_report =  "Năm ".$arr_month[0]." quý ". $arr_group[$arr_month[1]]." tháng ".$arr_month[2]." (Từ ngày $start_date->start_date đến ngày $end_date->end_date)";
+            $arr_month = \explode('_', $request->report_month);
+            $start_date = u::first("SELECT `start_date` FROM report_weeks WHERE year='" . $arr_month[0] . "' AND `group`='" . $arr_month[1] . "' AND month='" . $arr_month[2] . "' ORDER BY `start_date` ASC LIMIT 1");
+            $end_date = u::first("SELECT `end_date` FROM report_weeks WHERE year='" . $arr_month[0] . "' AND `group`='" . $arr_month[1] . "' AND month='" . $arr_month[2] . "' ORDER BY `end_date` DESC LIMIT 1");
+            $data->title_report = "Năm " . $arr_month[0] . " quý " . $arr_group[$arr_month[1]] . " tháng " . $arr_month[2] . " (Từ ngày $start_date->start_date đến ngày $end_date->end_date)";
         }
 
         return $response->formatResponse($code, $data);
     }
     public function report_r08(Request $request)
     {
-        if(!$request->report_month){
+        if (!$request->report_month) {
             $report_week_info = u::first("SELECT * FROM report_weeks WHERE end_date <= CURRENT_DATE AND fix_group=1 LIMIT 1");
-            $request->report_month = $report_week_info->year."_".$report_week_info->group;
+            $request->report_month = $report_week_info->year . "_" . $report_week_info->group;
         }
         $data = null;
         $code = APICode::PERMISSION_DENIED;
@@ -2221,19 +2244,19 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r08( $p,$request);
-            $quary = Report::report_r08( $p,$request, 1);
+            $query = Report::report_r08($p, $request);
+            $quary = Report::report_r08($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
             $arr_group = [
-                '1'=>'I',
-                '2'=>'II',
-                '3'=>'III',
-                '4'=>'IV'
+                '1' => 'I',
+                '2' => 'II',
+                '3' => 'III',
+                '4' => 'IV'
             ];
-            $arr_month = \explode('_',$request->report_month);
-            $start_date = u::first("SELECT `start_date` FROM report_weeks WHERE year='".$arr_month[0]."' AND `group`='".$arr_month[1]."' ORDER BY `start_date` ASC LIMIT 1");
-            $end_date = u::first("SELECT `end_date` FROM report_weeks WHERE year='".$arr_month[0]."' AND `group`='".$arr_month[1]."' ORDER BY `end_date` DESC LIMIT 1");
-            $data->title_report =  "Năm ".$arr_month[0]." quý ". $arr_group[$arr_month[1]]." (Từ ngày $start_date->start_date đến ngày $end_date->end_date)";
+            $arr_month = \explode('_', $request->report_month);
+            $start_date = u::first("SELECT `start_date` FROM report_weeks WHERE year='" . $arr_month[0] . "' AND `group`='" . $arr_month[1] . "' ORDER BY `start_date` ASC LIMIT 1");
+            $end_date = u::first("SELECT `end_date` FROM report_weeks WHERE year='" . $arr_month[0] . "' AND `group`='" . $arr_month[1] . "' ORDER BY `end_date` DESC LIMIT 1");
+            $data->title_report = "Năm " . $arr_month[0] . " quý " . $arr_group[$arr_month[1]] . " (Từ ngày $start_date->start_date đến ngày $end_date->end_date)";
         }
 
         return $response->formatResponse($code, $data);
@@ -2246,8 +2269,8 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r09( $p,$request);
-            $quary = Report::report_r09( $p,$request, 1);
+            $query = Report::report_r09($p, $request);
+            $quary = Report::report_r09($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
 
@@ -2261,8 +2284,8 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r10( $p);
-            $quary = Report::report_r10( $p, 1);
+            $query = Report::report_r10($p);
+            $quary = Report::report_r10($p, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
 
@@ -2276,8 +2299,8 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r11( $p,$request);
-            $quary = Report::report_r11( $p,$request, 1);
+            $query = Report::report_r11($p, $request);
+            $quary = Report::report_r11($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
 
@@ -2292,8 +2315,8 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r12( $p,$request);
-            $quary = Report::report_r12( $p,$request, 1);
+            $query = Report::report_r12($p, $request);
+            $quary = Report::report_r12($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
 
@@ -2308,64 +2331,83 @@ class ReportsController extends Controller
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::report_r13( $p,$request);
-            $quary = Report::report_r13( $p,$request, 1);
+            $query = Report::report_r13($p, $request);
+            $quary = Report::report_r13($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
 
         return $response->formatResponse($code, $data);
     }
 
-    public function reportLgl01(Request $request) {
+    public function reportLgl01(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::queryReportLgl01( $p,$request);
-            $quary = Report::queryReportLgl01($p,$request, 1);
+            $query = Report::queryReportLgl01($p, $request);
+            $quary = Report::queryReportLgl01($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
         return $response->formatResponse($code, $data);
     }
 
-    public function reportLgl02(Request $request) {
+    public function reportLgl02(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::queryReportLgl02( $p,$request);
-            $quary = Report::queryReportLgl02($p,$request, 1);
+            $query = Report::queryReportLgl02($p, $request);
+            $quary = Report::queryReportLgl02($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
         return $response->formatResponse($code, $data);
     }
 
-    public function reportLgl03(Request $request) {
+    public function reportLgl03(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::queryReportLgl03( $p,$request);
-            $quary = Report::queryReportLgl03($p,$request, 1);
+            $query = Report::queryReportLgl03($p, $request);
+            $quary = Report::queryReportLgl03($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
         return $response->formatResponse($code, $data);
     }
-    public function reportLgl04(Request $request) {
+    public function reportLgl04(Request $request)
+    {
         $data = null;
         $code = APICode::PERMISSION_DENIED;
         $response = new Response();
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
             $code = APICode::SUCCESS;
-            $query = Report::queryReportLgl04( $p,$request);
-            $quary = Report::queryReportLgl04($p,$request, 1);
+            $query = Report::queryReportLgl04($p, $request);
+            $quary = Report::queryReportLgl04($p, $request, 1);
+            $data = Report::making($query, $quary, $p->p, $p->l);
+        }
+        return $response->formatResponse($code, $data);
+    }
+
+    public function reportLgl05(Request $request)
+    {
+        $data = null;
+        $code = APICode::PERMISSION_DENIED;
+        $response = new Response();
+        if ($session = $request->users_data) {
+            $p = Report::params($request, $session);
+            $code = APICode::SUCCESS;
+            $query = Report::queryReportLgl05($p, $request);
+            $quary = Report::queryReportLgl05($p, $request, 1);
             $data = Report::making($query, $quary, $p->p, $p->l);
         }
         return $response->formatResponse($code, $data);

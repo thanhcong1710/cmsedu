@@ -80,6 +80,9 @@
                             <p class="bc-font" v-if="showBCr17 == true">
                                 <router-link to="/reports/lgl04" >21. BÁO CÁO CHI TIẾT GÓI BÁN</router-link>
                             </p>
+                            <p class="bc-font" v-if="showBCr18 == true">
+                                <router-link to="/reports/lgl05" >22. BÁO CÁO PHÂN BỔ DOANH THU</router-link>
+                            </p>
                         </div>
                     </b-card>
                 </b-col>
@@ -117,6 +120,7 @@
                 showBCr15: false,
                 showBCr16: false,
                 showBCr17: false,
+                showBCr18: false,
             }
         },
         created() {
@@ -217,6 +221,7 @@
                 if(role == '999999999'){
                     this.showBCr16= true
                     this.showBCr17= true
+                    this.showBCr18= true
                 }
                 if([1500].indexOf(role)!= -1){
                     this.showBC01a1= true
@@ -240,6 +245,7 @@
                     this.showBCr15= true
                     this.showBCr16= true
                     this.showBCr17= true
+                    this.showBCr18= true
                 }
             },
         }
@@ -252,7 +258,7 @@
         padding: 20px;
         p {
             border-bottom: 1px dashed grey;
-            margin-buttom: 5px;
+            margin-bottom: 5px;
             color: #9c0200;
         }
         p span {

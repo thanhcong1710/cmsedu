@@ -513,7 +513,7 @@ class ExelController extends Controller
 
 
         $branches = DB::select(DB::raw($q));
-//        echo $q;die;
+        //        echo $q;die;
         for ($j = 0; $j < count($branches); $j++) {
 
             $y = $j + 5;
@@ -539,7 +539,7 @@ class ExelController extends Controller
             $sheet->setCellValue('F' . $y, $branches[$j]->total_full_fees);
             $sheet->setCellValue('G' . $y, $ascFullfee);
             $sheet->setCellValue('H' . $y, $progressC . '%');
-//            ProcessExcel::styleCells($spreadsheet, "$st:$en", "51BCBB", "black", 11, '', true, "center", "center", true);
+            //            ProcessExcel::styleCells($spreadsheet, "$st:$en", "51BCBB", "black", 11, '', true, "center", "center", true);
 
             $st = 'A' . $y;
             ProcessExcel::styleCells($spreadsheet, "$st", "FFFFFF", "black", 11, '', true, "left", "center", true);
@@ -606,7 +606,7 @@ class ExelController extends Controller
         $sheet->getColumnDimension("M")->setWidth(24);
         $sheet->getColumnDimension("N")->setWidth(24);
 
-//      dd($branch, $fromDate, $toDate);
+        //      dd($branch, $fromDate, $toDate);
 
         $branch_id = '';
         if ($branch != '_') {
@@ -662,7 +662,7 @@ class ExelController extends Controller
                                 LEFT JOIN programs as pg on ct.program_id = pg.id
                                 LEFT JOIN term_student_rank as tsr on tsr.student_id = st.id
                                 left join users as us on us.id = tsr.creator_id $c"));
-//        dd($students);
+        //        dd($students);
         for ($i = 0; $i < count($students); $i++) {
             $x = $i + 6;
             $sheet->setCellValue('A' . $x, $i + 1);
@@ -1035,12 +1035,12 @@ class ExelController extends Controller
 
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object)[];
+            $response = (object) [];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object)[];
+            $sinformation = (object) [];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -1203,11 +1203,11 @@ class ExelController extends Controller
         $res = DB::select(DB::raw($query));
 
 
-//        $branches = Branch::where('id', 'IN', "($branch_ids_string)");
+        //        $branches = Branch::where('id', 'IN', "($branch_ids_string)");
 //        var_dump($branches);die;
         $query = "SELECT id, `name` FROM branches WHERE id IN ($branch_ids_string)";
         $branches = DB::select(DB::raw($query));
-//        var_dump($branches);die;
+        //        var_dump($branches);die;
 
         $data = [];
         if (!empty($branches)) {
@@ -1464,7 +1464,7 @@ class ExelController extends Controller
 
             ";
         $students = DB::select(DB::raw($q));
-//        echo $q;die;
+        //        echo $q;die;
 //        dd($students);
         // return $students;
         $list_branch = DB::select(DB::raw("SELECT br.* from branches as br $where_branch"));
@@ -1965,12 +1965,12 @@ class ExelController extends Controller
 
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object)[];
+            $response = (object) [];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object)[];
+            $sinformation = (object) [];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -2160,7 +2160,7 @@ class ExelController extends Controller
         }
 
         ProcessExcel::styleCells($spreadsheet, "A7:A$x", "ffffff", "000", 9, 0, true, "right", "center", false);
-//        ProcessExcel::styleCells($spreadsheet, "B7:I$x", "ffffff", "000", 9, 0, true, "left", "center", false);
+        //        ProcessExcel::styleCells($spreadsheet, "B7:I$x", "ffffff", "000", 9, 0, true, "left", "center", false);
         ProcessExcel::styleCells($spreadsheet, "J7:J$x", "ffffff", "000", 9, 0, true, "right", "center", false);
         ProcessExcel::styleCells($spreadsheet, "K7:M$x", "ffffff", "000", 9, 0, true, "left", "center", false);
 
@@ -3580,8 +3580,10 @@ class ExelController extends Controller
                 $ma_tt = str_replace("\t", "", $ma_tt);
 
                 $branch = DB::select("SELECT name from branches where accounting_id = '$ma_tt'");
-                if ($branch) $name = $branch[0]->name;
-                else $name = trim($data[$i]->ma_tt);
+                if ($branch)
+                    $name = $branch[0]->name;
+                else
+                    $name = trim($data[$i]->ma_tt);
                 $sheet->setCellValue("A$x", trim($data[$i]->ma_nv));
                 $sheet->setCellValue("B$x", trim($data[$i]->ten_nv));
                 $sheet->setCellValue("C$x", trim($data[$i]->doanhso));
@@ -3668,8 +3670,10 @@ class ExelController extends Controller
                 $ma_tt = str_replace("\t", "", $ma_tt);
 
                 $branch = DB::select("SELECT name from branches where accounting_id = '$ma_tt'");
-                if ($branch) $name = $branch[0]->name;
-                else $name = trim($data[$i]->ma_tt);
+                if ($branch)
+                    $name = $branch[0]->name;
+                else
+                    $name = trim($data[$i]->ma_tt);
                 $sheet->setCellValue("A$x", trim($data[$i]->ma_nv));
                 $sheet->setCellValue("B$x", trim($data[$i]->ten_nv));
                 $sheet->setCellValue("C$x", trim($data[$i]->doanhso));
@@ -3760,8 +3764,10 @@ class ExelController extends Controller
                 $ma_tt = str_replace("\t", "", $ma_tt);
 
                 $branch = DB::select("SELECT name from branches where accounting_id = '$ma_tt'");
-                if ($branch) $name = $branch[0]->name;
-                else $name = trim($data[$i]->ma_tt);
+                if ($branch)
+                    $name = $branch[0]->name;
+                else
+                    $name = trim($data[$i]->ma_tt);
                 $sheet->setCellValue("D$x", trim($name));
                 ProcessExcel::styleCells($spreadsheet, "A$x:D$x", "add8e6", "black", 11, '', true, "left", "center", true);
                 ProcessExcel::styleCells($spreadsheet, "C$x", "add8e6", "black", 11, '', true, "center", "center", true);
@@ -4479,12 +4485,12 @@ class ExelController extends Controller
         $conditions[] = "c.debt_amount > 0";
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object)[];
+            $response = (object) [];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object)[];
+            $sinformation = (object) [];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -4686,12 +4692,12 @@ class ExelController extends Controller
 
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object)[];
+            $response = (object) [];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object)[];
+            $sinformation = (object) [];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -4754,7 +4760,7 @@ class ExelController extends Controller
             GROUP BY p.contract_id
         ";
 
-//        echo $query;
+        //        echo $query;
         $pendings = DB::select(DB::raw($query));
 
         for ($i = 0; $i < count($pendings); $i++) {
@@ -4777,7 +4783,7 @@ class ExelController extends Controller
             $sheet->setCellValue('P' . $x, $pendings[$i]->sessions);
 
 
-//            $st = "A" . $x;
+            //            $st = "A" . $x;
 //            $ed = "Q" . $x;
             ProcessExcel::styleCells($spreadsheet, "A6:A$x", "ffffff", "000", 9, 0, true, "right", "center", false);
             ProcessExcel::styleCells($spreadsheet, "B6:B$x", "ffffff", "000", 9, 0, true, "left", "center", false);
@@ -5019,12 +5025,12 @@ class ExelController extends Controller
 
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object)[];
+            $response = (object) [];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object)[];
+            $sinformation = (object) [];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -5764,7 +5770,7 @@ class ExelController extends Controller
                   ( $inMonthPrev ) AS total_student_prev
                 FROM
                   branches AS b WHERE b.status = 1 $where";
-//              echo $q;die;
+        //              echo $q;die;
         $branches = DB::select(DB::raw($q));
 
         $spreadsheet = new Spreadsheet();
@@ -6008,7 +6014,9 @@ class ExelController extends Controller
 
 
         $productList = [
-            'igarten' => '1', 'april' => '2', 'cdi40' => '3'
+            'igarten' => '1',
+            'april' => '2',
+            'cdi40' => '3'
         ];
 
         $sqlStudentActive = Student::sqlCountStudentFullfeeActive($from_dof_date, $to_dof_date, '');
@@ -6082,7 +6090,7 @@ class ExelController extends Controller
           branches as b
           WHERE b.status = 1 $whereBrc
         ";
-//        echo $sql;die;
+        //        echo $sql;die;
         $branches = DB::select(DB::raw($sql));
 
         $x = 6;
@@ -6174,7 +6182,7 @@ class ExelController extends Controller
             $x++;
         }
 
-//      echo $x;die;
+        //      echo $x;die;
         $total_hn = count($branches) + 7;
         $total_hcm = count($branches) + 8;
         $total_other = count($branches) + 9;
@@ -6418,7 +6426,9 @@ class ExelController extends Controller
 
 
         $productList = [
-            'igarten' => '1', 'april' => '2', 'cdi40' => '3'
+            'igarten' => '1',
+            'april' => '2',
+            'cdi40' => '3'
         ];
 
         $sqlStudentActive = Student::sqlCountStudentFullfeeActive($from_dof_date, $to_dof_date, '');
@@ -6487,7 +6497,7 @@ class ExelController extends Controller
             WHERE tub.role_id in (55,56)
             AND b.status = 1 $whereBrc
           ";
-//        echo $sql;die;
+        //        echo $sql;die;
         $branches = DB::select(DB::raw($sql));
 
         $x = 6;
@@ -6571,7 +6581,7 @@ class ExelController extends Controller
 
             $st = "A" . $n;
             $ed = "AG" . $n;
-//            ProcessExcel::styleCells($spreadsheet, "$st:$ed", "FFFFFF", "black", 9, 0, 3, "center", "center", true);
+            //            ProcessExcel::styleCells($spreadsheet, "$st:$ed", "FFFFFF", "black", 9, 0, 3, "center", "center", true);
 //            ProcessExcel::styleCells($spreadsheet, "B$x", "FFFFFF", "black", 9, 0, 3, "left", "center", false);
             $x++;
         }
@@ -6923,7 +6933,7 @@ class ExelController extends Controller
             $product_ids = explode(',', str_replace('[', '', str_replace(']', '', $re->products)));
             foreach ($holidays as $key => $holiday) {
                 if (in_array($key, $product_ids)) {
-                    $holidays[$key]['list'][] = (Object)[
+                    $holidays[$key]['list'][] = (Object) [
                         'name' => $re->name,
                         'zone' => $re->zone_name,
                         'start_date' => $re->start_date,
@@ -6937,7 +6947,7 @@ class ExelController extends Controller
 
         $sheetIndex = 0;
 
-//        dd($holidays);
+        //        dd($holidays);
 
         foreach ($holidays as $holiday) {
             if ($sheetIndex > 0) {
@@ -7033,7 +7043,7 @@ class ExelController extends Controller
         $sheet->mergeCells('A3:L3');
         ProcessExcel::styleCells($spreadsheet, "A3:L3", "ffffff", "000", 20, 1, true, "center", "center", false);
 
-//        $sheet->setCellValue('A4', 'Từ ngày ' . date('d/m/Y', strtotime($startDate)) . ' đến ngày ' . date('d/m/Y',strtotime($endDate)));
+        //        $sheet->setCellValue('A4', 'Từ ngày ' . date('d/m/Y', strtotime($startDate)) . ' đến ngày ' . date('d/m/Y',strtotime($endDate)));
         $sheet->setCellValue('A4', 'Ngày xuất báo cáo ' . date('d/m/Y'));
         $sheet->mergeCells('A4:L4');
         ProcessExcel::styleCells($spreadsheet, "A4:L4", "ffffff", "000", 11, 0, true, "center", "center", false);
@@ -7109,7 +7119,7 @@ class ExelController extends Controller
         }
         exit;
     }
-    
+
     public function exportStudentCares($params)
     {
         $columns = [
@@ -7167,10 +7177,11 @@ class ExelController extends Controller
             exit;
         }
     }
-    public function export01a1(Request $request) {
+    public function export01a1(Request $request)
+    {
         if ($session = $request->users_data) {
             $birthday_mode = $request->birthday_mode;
-            $birthday_mode = $birthday_mode ? true: false;
+            $birthday_mode = $birthday_mode ? true : false;
             $p = r::params($request, $session);
             $query = r::queryReport01a1($birthday_mode, $p, 0, 1);
             $students = u::query($query);
@@ -7216,7 +7227,7 @@ class ExelController extends Controller
             $sheet->setCellValue('Q5', 'Số buổi còn lại /Number of lessons left');
             $sheet->setCellValue('R5', 'Ngày kết thúc dự kiến/Expected end date');
             $sheet->setCellValue('S5', 'Ngày bắt đầu/Start date');
-            if(in_array($request->users_data->role_id,['999999999'])){
+            if (in_array($request->users_data->role_id, ['999999999'])) {
                 $sheet->setCellValue('T5', 'Số điện thoại');
             }
             $sheet->setCellValue('U5', 'Giá trị gói phí');
@@ -7273,14 +7284,14 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "Q5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "R5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "S5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            if(in_array($request->users_data->role_id,['999999999'])){
+            if (in_array($request->users_data->role_id, ['999999999'])) {
                 ProcessExcel::styleCells($spreadsheet, "T5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             }
             ProcessExcel::styleCells($spreadsheet, "U5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "X5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "V5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "W5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            for ($i = 0; $i < count($students) ; $i++) {
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
@@ -7299,11 +7310,11 @@ class ExelController extends Controller
                 $sheet->setCellValue('O' . $x, $students[$i]->count_recharge);
                 $sheet->setCellValue('P' . $x, $students[$i]->enrolment_start_date_official_contract);
                 $done_session = isset($students[$i]->done_session) ? $students[$i]->done_session : $report_controller->getDoneSessions($students[$i]);
-                $sheet->setCellValue('Q' . $x, $students[$i]->summary_sessions-$done_session);
+                $sheet->setCellValue('Q' . $x, $students[$i]->summary_sessions - $done_session);
                 $sheet->setCellValue('R' . $x, $students[$i]->enrolment_last_date);
                 $sheet->setCellValue('S' . $x, $students[$i]->enrolment_start_date);
-                if($request->users_data->role_id=='999999999'){
-                    $sheet->setCellValue('T' . $x, "'".$students[$i]->gud_mobile1);
+                if ($request->users_data->role_id == '999999999') {
+                    $sheet->setCellValue('T' . $x, "'" . $students[$i]->gud_mobile1);
                 }
                 $sheet->setCellValue('U' . $x, $students[$i]->tuition_fee_amount);
                 $sheet->setCellValue('V' . $x, $students[$i]->must_charge);
@@ -7327,7 +7338,8 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function export01b1(Request $request) {
+    public function export01b1(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
             $query = r::queryReport01b1($p, 0, 1);
@@ -7337,7 +7349,7 @@ class ExelController extends Controller
 
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
-            
+
             $sheet->mergeCells('A1:M1');
             $sheet->mergeCells('A2:M2');
             $sheet->mergeCells('A3:M3');
@@ -7350,7 +7362,7 @@ class ExelController extends Controller
             $sheet->getRowDimension('4')->setRowHeight(30);
             $sheet->getRowDimension('4')->setRowHeight(30);
             $sheet->setCellValue('A3', 'Tính tới tháng: ' . substr($p->a, 0, 7));
-            $sheet->setCellValue('A4', 'THÀNH CÔNG/TỔNG SỐ: '.$success_total.'/'.count($students));
+            $sheet->setCellValue('A4', 'THÀNH CÔNG/TỔNG SỐ: ' . $success_total . '/' . count($students));
 
             $sheet->setCellValue('A5', 'STT');
             $sheet->setCellValue('B5', 'Mã CMS');
@@ -7365,7 +7377,7 @@ class ExelController extends Controller
             $sheet->setCellValue('K5', 'Số Tiền Tái Phí');
             $sheet->setCellValue('L5', 'Tên EC');
             $sheet->setCellValue('M5', 'Mã EC');
-            if(in_array($request->users_data->role_id,['999999999'])){
+            if (in_array($request->users_data->role_id, ['999999999'])) {
                 $sheet->setCellValue('N5', 'Số điện thoại');
             }
             $sheet->getColumnDimension('A')->setWidth(5);
@@ -7380,9 +7392,9 @@ class ExelController extends Controller
             $sheet->getColumnDimension('J')->setWidth(30);
             $sheet->getColumnDimension('K')->setWidth(20);
             $sheet->getColumnDimension('L')->setWidth(30);
-            $sheet->getColumnDimension('M')->setWidth(20); 
-            if(in_array($request->users_data->role_id,['999999999'])){
-                $sheet->getColumnDimension('N')->setWidth(20); 
+            $sheet->getColumnDimension('M')->setWidth(20);
+            if (in_array($request->users_data->role_id, ['999999999'])) {
+                $sheet->getColumnDimension('N')->setWidth(20);
             }
 
             ProcessExcel::styleCells($spreadsheet, "A1:M1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
@@ -7416,11 +7428,11 @@ class ExelController extends Controller
                 $sheet->setCellValue('G' . $x, $students[$i]->class_name);
                 $sheet->setCellValue('H' . $x, $students[$i]->last_date);
                 $sheet->setCellValue('I' . $x, $students[$i]->status_title);
-                $sheet->setCellValue('J' . $x, $students[$i]->status==1 ? $students[$i]->tuition_fee_name :'');
-                $sheet->setCellValue('K' . $x, $students[$i]->status==1 ? apax_ada_format_number($students[$i]->renew_amount) : '');
+                $sheet->setCellValue('J' . $x, $students[$i]->status == 1 ? $students[$i]->tuition_fee_name : '');
+                $sheet->setCellValue('K' . $x, $students[$i]->status == 1 ? apax_ada_format_number($students[$i]->renew_amount) : '');
                 $sheet->setCellValue('L' . $x, $students[$i]->ec_name);
                 $sheet->setCellValue('M' . $x, $students[$i]->ec_hrm_id);
-                if(in_array($request->users_data->role_id,['999999999'])){
+                if (in_array($request->users_data->role_id, ['999999999'])) {
                     $sheet->setCellValue('N' . $x, $students[$i]->gud_mobile1);
                 }
                 $sheet->getRowDimension($x)->setRowHeight(23);
@@ -7437,7 +7449,7 @@ class ExelController extends Controller
                 ProcessExcel::styleCells($spreadsheet, "K$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "L$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "M$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
-                if(in_array($request->users_data->role_id,['999999999'])){
+                if (in_array($request->users_data->role_id, ['999999999'])) {
                     ProcessExcel::styleCells($spreadsheet, "N$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
                 }
             }
@@ -7455,7 +7467,8 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function export01b2(Request $request) {
+    public function export01b2(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
             $query = r::queryReport01b2($p, 0, 1);
@@ -7497,7 +7510,7 @@ class ExelController extends Controller
                 $sheet->setCellValue('B' . $x, $branches[$i]->branch_name);
                 $sheet->setCellValue('C' . $x, $branches[$i]->total_item);
                 $sheet->setCellValue('D' . $x, $branches[$i]->success_item);
-                $sheet->setCellValue('E' . $x, $branches[$i]->total_item?round(($branches[$i]->success_item)*100/ $branches[$i]->total_item,2):75);
+                $sheet->setCellValue('E' . $x, $branches[$i]->total_item ? round(($branches[$i]->success_item) * 100 / $branches[$i]->total_item, 2) : 75);
 
                 $sheet->getRowDimension($x)->setRowHeight(23);
                 ProcessExcel::styleCells($spreadsheet, "A$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
@@ -7520,10 +7533,11 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function export01b3(Request $request) {
+    public function export01b3(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = Report::params($request, $session);
-            $data = Report::dataReport01b3($request, $session,true);
+            $data = Report::dataReport01b3($request, $session, true);
             $cms = $data->list;
             $total = $data->sumar;
             $spreadsheet = new Spreadsheet();
@@ -7570,11 +7584,11 @@ class ExelController extends Controller
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, isset($cms[$i]->branch_name) ? $cms[$i]->branch_name : '');
                 $sheet->setCellValue('C' . $x, isset($cms[$i]->hrm_id) ? $cms[$i]->hrm_id : '');
-                $sheet->setCellValue('D' . $x, isset($cms[$i]->ec_name) ? $cms[$i]->ec_name  : '');
+                $sheet->setCellValue('D' . $x, isset($cms[$i]->ec_name) ? $cms[$i]->ec_name : '');
                 $sheet->setCellValue('E' . $x, isset($cms[$i]->role_name) ? $cms[$i]->role_name : '');
                 $sheet->setCellValue('F' . $x, isset($cms[$i]->total_renew) ? $cms[$i]->total_renew : '');
                 $sheet->setCellValue('G' . $x, isset($cms[$i]->success_renew) ? $cms[$i]->success_renew : '');
-                $sheet->setCellValue('H' . $x, $cms[$i]->total_renew?round(($cms[$i]->success_renew)*100/ $cms[$i]->total_renew,2)."%":"70%");
+                $sheet->setCellValue('H' . $x, $cms[$i]->total_renew ? round(($cms[$i]->success_renew) * 100 / $cms[$i]->total_renew, 2) . "%" : "70%");
                 $sheet->getRowDimension($x)->setRowHeight(23);
                 ProcessExcel::styleCells($spreadsheet, "A$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "B$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
@@ -7585,19 +7599,19 @@ class ExelController extends Controller
                 ProcessExcel::styleCells($spreadsheet, "G$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "H$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
             }
-            $sheet->setCellValue('A' . ($x+1), "Tổng");
-            $sheet->setCellValue('F' . ($x+1), $total->total_item);
-            $sheet->setCellValue('G' . ($x+1), $total->success_item);
-            $sheet->setCellValue('H' . ($x+1), $total->rate_item."%");
-            $sheet->mergeCells('A'.($x+1).':E'.($x+1));
-            ProcessExcel::styleCells($spreadsheet, "A".($x+1), 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
-            ProcessExcel::styleCells($spreadsheet, "B".($x+1), 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
-            ProcessExcel::styleCells($spreadsheet, "C".($x+1), 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
-            ProcessExcel::styleCells($spreadsheet, "D".($x+1), 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
-            ProcessExcel::styleCells($spreadsheet, "E".($x+1), 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
-            ProcessExcel::styleCells($spreadsheet, "F".($x+1), 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
-            ProcessExcel::styleCells($spreadsheet, "G".($x+1), 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
-            ProcessExcel::styleCells($spreadsheet, "H".($x+1), 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
+            $sheet->setCellValue('A' . ($x + 1), "Tổng");
+            $sheet->setCellValue('F' . ($x + 1), $total->total_item);
+            $sheet->setCellValue('G' . ($x + 1), $total->success_item);
+            $sheet->setCellValue('H' . ($x + 1), $total->rate_item . "%");
+            $sheet->mergeCells('A' . ($x + 1) . ':E' . ($x + 1));
+            ProcessExcel::styleCells($spreadsheet, "A" . ($x + 1), 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "B" . ($x + 1), 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "C" . ($x + 1), 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "D" . ($x + 1), 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "E" . ($x + 1), 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "F" . ($x + 1), 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "G" . ($x + 1), 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "H" . ($x + 1), 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
             $writer = new Xlsx($spreadsheet);
             try {
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -7612,7 +7626,8 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function export02a(Request $request) {
+    public function export02a(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
             $query = r::queryReport02a($p, 0, 1);
@@ -7712,7 +7727,8 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function export02b(Request $request) {
+    public function export02b(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
             $query = r::queryReport02b($p, 0, 1);
@@ -7786,7 +7802,7 @@ class ExelController extends Controller
                 $sheet->setCellValue('J' . $x, $branches[$i]->summary_sessions);
                 $sheet->setCellValue('K' . $x, $branches[$i]->start_date);
                 $sheet->setCellValue('L' . $x, $branches[$i]->end_date);
-                $sheet->setCellValue('M' . $x, $branches[$i]->is_reserved ? "Không giữ chỗ":"Giữ chỗ");
+                $sheet->setCellValue('M' . $x, $branches[$i]->is_reserved ? "Không giữ chỗ" : "Giữ chỗ");
                 $sheet->getRowDimension($x)->setRowHeight(23);
                 ProcessExcel::styleCells($spreadsheet, "A$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "B$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
@@ -7816,11 +7832,12 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function checkinListExport(Request $request) {
+    public function checkinListExport(Request $request)
+    {
         set_time_limit(300);
         if ($session = $request->users_data) {
             $obj_student = new Checkin();
-            $list = $obj_student->getStudentInfo($request,$limit=false);
+            $list = $obj_student->getStudentInfo($request, $limit = false);
             $list = $list->data;
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
@@ -7842,7 +7859,7 @@ class ExelController extends Controller
             $sheet->setCellValue('G4', 'Nguồn');
             $sheet->setCellValue('H4', 'Ngày sinh');
             $sheet->setCellValue('I4', 'Họ Tên Bố Mẹ');
-            if($request->users_data->role_id=='999999999'||$request->users_data->id=='140'){
+            if ($request->users_data->role_id == '999999999' || $request->users_data->id == '140') {
                 $sheet->setCellValue('J4', 'Điện Thoại Phụ Huynh');
             }
             $sheet->setCellValue('K4', 'Địa Chỉ');
@@ -7865,9 +7882,9 @@ class ExelController extends Controller
             $sheet->getColumnDimension('G')->setWidth(20);
             $sheet->getColumnDimension('H')->setWidth(30);
             $sheet->getColumnDimension('I')->setWidth(40);
-            if($request->users_data->role_id=='999999999'||$request->users_data->id=='140'){
+            if ($request->users_data->role_id == '999999999' || $request->users_data->id == '140') {
                 $sheet->getColumnDimension('J')->setWidth(30);
-            }else{
+            } else {
                 $sheet->getColumnDimension('J')->setWidth(0);
             }
             $sheet->getColumnDimension('K')->setWidth(30);
@@ -7904,24 +7921,24 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "S4", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "T4", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             $arr_status_name = array(
-                0=>'CHỜ DUYỆT ĐI',
-                1=>'CHỜ DUYỆT ĐẾN',
-                2=>'ĐÃ CHUYỂN TT',
-                3=>'TT CHUYỂN TỪ CHỐI',
-                4=>'TT NHẬN TỪ CHỐI',
+                0 => 'CHỜ DUYỆT ĐI',
+                1 => 'CHỜ DUYỆT ĐẾN',
+                2 => 'ĐÃ CHUYỂN TT',
+                3 => 'TT CHUYỂN TỪ CHỐI',
+                4 => 'TT NHẬN TỪ CHỐI',
             );
             for ($i = 0; $i < count($list); $i++) {
                 $x = $i + 5;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $list[$i]->name);
                 $sheet->setCellValue('C' . $x, $list[$i]->crm_id);
-                $sheet->setCellValue('D' . $x, $list[$i]->shift_id  > 0 ? 'Đã học thử':'Chưa học thử');
-                $sheet->setCellValue('E' . $x, $list[$i]->gender=='F'?'Nữ':'Nam');
+                $sheet->setCellValue('D' . $x, $list[$i]->shift_id > 0 ? 'Đã học thử' : 'Chưa học thử');
+                $sheet->setCellValue('E' . $x, $list[$i]->gender == 'F' ? 'Nữ' : 'Nam');
                 $sheet->setCellValue('F' . $x, $list[$i]->school);
                 $sheet->setCellValue('G' . $x, $list[$i]->source_name);
                 $sheet->setCellValue('H' . $x, $list[$i]->date_of_birth);
                 $sheet->setCellValue('I' . $x, $list[$i]->gud_name);
-                if($request->users_data->role_id=='999999999'||$request->users_data->id=='140'){
+                if ($request->users_data->role_id == '999999999' || $request->users_data->id == '140') {
                     $sheet->setCellValue('J' . $x, $list[$i]->gud_mobile1);
                 }
                 $sheet->setCellValue('K' . $x, $list[$i]->address);
@@ -7932,8 +7949,8 @@ class ExelController extends Controller
                 $sheet->setCellValue('P' . $x, $list[$i]->created_at);
                 $sheet->setCellValue('Q' . $x, $list[$i]->checkin_at);
                 $sheet->setCellValue('R' . $x, $list[$i]->creator_name);
-                $sheet->setCellValue('S' . $x, $list[$i]->checked==1?'Đã checkin':'Chưa checkin');
-                $sheet->setCellValue('T' . $x, isset($arr_status_name[$list[$i]->status_transfer])?$arr_status_name[$list[$i]->status_transfer]:'');
+                $sheet->setCellValue('S' . $x, $list[$i]->checked == 1 ? 'Đã checkin' : 'Chưa checkin');
+                $sheet->setCellValue('T' . $x, isset($arr_status_name[$list[$i]->status_transfer]) ? $arr_status_name[$list[$i]->status_transfer] : '');
                 $sheet->getRowDimension($x)->setRowHeight(23);
                 ProcessExcel::styleCells($spreadsheet, "A$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "B$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
@@ -7970,10 +7987,11 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function report_r01(Request $request) {
+    public function report_r01(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
-            $query = r::report_r01( $p, 0, 1);
+            $query = r::report_r01($p, 0, 1);
             $students = u::query($query);
 
             $branchs = u::query("SELECT name from branches WHERE id in ($p->s)");
@@ -8010,7 +8028,7 @@ class ExelController extends Controller
             $sheet->setCellValue('K5', 'Số tiền đã đóng');
             $sheet->setCellValue('L5', 'Người tạo checkin');
             $sheet->setCellValue('M5', 'Nguồn chi tiết');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(20);
@@ -8024,7 +8042,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('K')->setWidth(20);
             $sheet->getColumnDimension('L')->setWidth(20);
             $sheet->getColumnDimension('M')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:M1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:M2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:M3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -8043,9 +8061,9 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "K5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "L5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "M5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            $must_charge =0;
-            $total_charged =0;
-            for ($i = 0; $i < count($students) ; $i++) {
+            $must_charge = 0;
+            $total_charged = 0;
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
@@ -8061,14 +8079,14 @@ class ExelController extends Controller
                 $sheet->setCellValue('L' . $x, $students[$i]->creator_checkin_name);
                 $sheet->setCellValue('M' . $x, $students[$i]->source_detail);
                 $sheet->getRowDimension($x)->setRowHeight(23);
-                $must_charge += (int)$students[$i]->must_charge;
-                $total_charged += (int)$students[$i]->total_charged;
+                $must_charge += (int) $students[$i]->must_charge;
+                $total_charged += (int) $students[$i]->total_charged;
             }
-            
-            $sheet->mergeCells('A'.($x+1).':I'.($x+1));
-            $sheet->setCellValue('A' . ($x+1),"Tổng");
-            $sheet->setCellValue('J' . ($x+1), $must_charge);
-            $sheet->setCellValue('K' . ($x+1), $total_charged);
+
+            $sheet->mergeCells('A' . ($x + 1) . ':I' . ($x + 1));
+            $sheet->setCellValue('A' . ($x + 1), "Tổng");
+            $sheet->setCellValue('J' . ($x + 1), $must_charge);
+            $sheet->setCellValue('K' . ($x + 1), $total_charged);
             $writer = new Xlsx($spreadsheet);
             try {
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -8083,18 +8101,19 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function report_r02(Request $request) {
+    public function report_r02(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
-            $query = r::report_r02( $p, 0, 1);
+            $query = r::report_r02($p, 0, 1);
             $students = u::query($query);
-            $summary = (object)array(
-                'must_charge'=>0,
-                'total_charged'=>0,
+            $summary = (object) array(
+                'must_charge' => 0,
+                'total_charged' => 0,
             );
-            foreach($students AS $row){
-                $summary->must_charge += (int)$row->must_charge;
-                $summary->total_charged += (int)$row->total_charged;
+            foreach ($students as $row) {
+                $summary->must_charge += (int) $row->must_charge;
+                $summary->total_charged += (int) $row->total_charged;
             }
             $branchs = u::query("SELECT name from branches WHERE id in ($p->s)");
             $branch_name = '';
@@ -8126,10 +8145,10 @@ class ExelController extends Controller
             $sheet->setCellValue('G5', 'Tên Gói phí');
             $sheet->setCellValue('H5', 'Giá trị gói phí');
             $sheet->setCellValue('I5', 'Số tiền đã đóng');
-            if(in_array($request->users_data->role_id,[1200,'999999999'])){
+            if (in_array($request->users_data->role_id, [1200, '999999999'])) {
                 $sheet->setCellValue('J5', 'SĐT phụ huynh');
             }
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(20);
@@ -8140,7 +8159,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('H')->setWidth(20);
             $sheet->getColumnDimension('I')->setWidth(20);
             $sheet->getColumnDimension('J')->setWidth(20);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:J1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:J2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:J3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -8156,9 +8175,9 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "H5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "I5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "J5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-       
-          
-            for ($i = 0; $i < count($students) ; $i++) {
+
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
@@ -8169,16 +8188,16 @@ class ExelController extends Controller
                 $sheet->setCellValue('G' . $x, $students[$i]->tuition_fee_name);
                 $sheet->setCellValue('H' . $x, $students[$i]->must_charge);
                 $sheet->setCellValue('I' . $x, $students[$i]->total_charged);
-                if(in_array($request->users_data->role_id,[1200,'999999999'])){
+                if (in_array($request->users_data->role_id, [1200, '999999999'])) {
                     $sheet->setCellValue('J' . $x, $students[$i]->gud_mobile1);
                 }
                 $sheet->getRowDimension($x)->setRowHeight(23);
 
             }
-            $sheet->mergeCells('A'.($x+1).':G'.($x+1));
-            $sheet->setCellValue('A' . ($x+1),"Tổng");
-            $sheet->setCellValue('H' . ($x+1), $summary->must_charge);
-            $sheet->setCellValue('I' . ($x+1), $summary->total_charged);
+            $sheet->mergeCells('A' . ($x + 1) . ':G' . ($x + 1));
+            $sheet->setCellValue('A' . ($x + 1), "Tổng");
+            $sheet->setCellValue('H' . ($x + 1), $summary->must_charge);
+            $sheet->setCellValue('I' . ($x + 1), $summary->total_charged);
             $writer = new Xlsx($spreadsheet);
             try {
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -8193,10 +8212,11 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function report_r04(Request $request) {
+    public function report_r04(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
-            $query = r::report_r04( $p, 0, 1);
+            $query = r::report_r04($p, 0, 1);
             $students = u::query($query);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
@@ -8224,10 +8244,10 @@ class ExelController extends Controller
             $sheet->setCellValue('J5', 'Đã đóng');
             $sheet->setCellValue('K5', 'Tư vấn viên');
             $sheet->setCellValue('L5', 'Tình trạng học sinh');
-            if(in_array($request->users_data->role_id,['999999999'])){
+            if (in_array($request->users_data->role_id, ['999999999'])) {
                 $sheet->setCellValue('M5', 'SĐT phụ huynh');
             }
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(20);
             $sheet->getColumnDimension('C')->setWidth(20);
@@ -8241,7 +8261,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('K')->setWidth(20);
             $sheet->getColumnDimension('L')->setWidth(20);
             $sheet->getColumnDimension('M')->setWidth(20);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:M1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:M2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:M3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -8260,9 +8280,9 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "K5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "L5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "M5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-          
-            for ($i = 0; $i < count($students) ; $i++) {
+
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->accounting_id);
@@ -8276,7 +8296,7 @@ class ExelController extends Controller
                 $sheet->setCellValue('J' . $x, $students[$i]->total_charged);
                 $sheet->setCellValue('K' . $x, $students[$i]->ec_name);
                 $sheet->setCellValue('L' . $x, $students[$i]->status_student);
-                if(in_array($request->users_data->role_id,['999999999'])){
+                if (in_array($request->users_data->role_id, ['999999999'])) {
                     $sheet->setCellValue('M' . $x, $students[$i]->gud_mobile1);
                 }
                 $sheet->getRowDimension($x)->setRowHeight(23);
@@ -8296,20 +8316,21 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function report_r05(Request $request) {
+    public function report_r05(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
-            $query = r::report_r05( $p, 0, 1);
+            $query = r::report_r05($p, 0, 1);
             $students = u::query($query);
-            $summary = (object)array(
-                'must_charge'=>0,
-                'amount'=>0,
+            $summary = (object) array(
+                'must_charge' => 0,
+                'amount' => 0,
             );
-            foreach($students AS $row){
-                $summary->must_charge += (int)$row->must_charge;
-                $summary->amount += (int)$row->amount;
-                $summary->ban_cheo += $row->count_recharge ==0 && $row->pre_branch ? (int)$row->amount/2 : 0;
-                $summary->thuc_thu += $row->count_recharge ==0 && $row->pre_branch ? (int)$row->amount/2 : (int)$row->amount;
+            foreach ($students as $row) {
+                $summary->must_charge += (int) $row->must_charge;
+                $summary->amount += (int) $row->amount;
+                $summary->ban_cheo += $row->count_recharge == 0 && $row->pre_branch ? (int) $row->amount / 2 : 0;
+                $summary->thuc_thu += $row->count_recharge == 0 && $row->pre_branch ? (int) $row->amount / 2 : (int) $row->amount;
             }
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
@@ -8351,7 +8372,7 @@ class ExelController extends Controller
             $sheet->setCellValue('X5', 'Trung tâm  bán chéo');
             $sheet->setCellValue('Y5', 'TVV Trung tâm bán chéo');
             $sheet->setCellValue('Z5', 'Doanh số thực thu của  trung tâm');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(30);
@@ -8378,7 +8399,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('X')->setWidth(30);
             $sheet->getColumnDimension('Y')->setWidth(30);
             $sheet->getColumnDimension('Z')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:Z1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:Z2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:Z3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -8410,14 +8431,14 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "X5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "Y5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "Z5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-          
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->charge_date);
                 $sheet->setCellValue('C' . $x, $students[$i]->charge_date);
                 $sheet->setCellValue('D' . $x, $students[$i]->accounting_id);
-                $sheet->setCellValue('E' . $x, $students[$i]->count_recharge ==0 ? 'Mới' : 'Tái tục');
+                $sheet->setCellValue('E' . $x, $students[$i]->count_recharge == 0 ? 'Mới' : 'Tái tục');
                 $sheet->setCellValue('F' . $x, $students[$i]->name);
                 $sheet->setCellValue('G' . $x, $students[$i]->gud_name1);
                 $sheet->setCellValue('H' . $x, $students[$i]->tuition_fee_name);
@@ -8435,20 +8456,20 @@ class ExelController extends Controller
                 $sheet->setCellValue('T' . $x, $students[$i]->amount);
                 $sheet->setCellValue('U' . $x, $students[$i]->debt);
                 $sheet->setCellValue('V' . $x, $students[$i]->contract_accounting);
-                $sheet->setCellValue('W' . $x, $students[$i]->count_recharge ==0 && $students[$i]->pre_branch ? $students[$i]->amount/2 :'');
-                $sheet->setCellValue('X' . $x, $students[$i]->count_recharge ==0 && $students[$i]->pre_branch ? $students[$i]->pre_branch :'');
-                $sheet->setCellValue('Y' . $x, $students[$i]->count_recharge ==0 && $students[$i]->pre_branch ? $students[$i]->pre_ec_name :'');
-                $sheet->setCellValue('Z' . $x, $students[$i]->count_recharge ==0 && $students[$i]->pre_branch ? $students[$i]->amount/2 :$students[$i]->amount);
+                $sheet->setCellValue('W' . $x, $students[$i]->count_recharge == 0 && $students[$i]->pre_branch ? $students[$i]->amount / 2 : '');
+                $sheet->setCellValue('X' . $x, $students[$i]->count_recharge == 0 && $students[$i]->pre_branch ? $students[$i]->pre_branch : '');
+                $sheet->setCellValue('Y' . $x, $students[$i]->count_recharge == 0 && $students[$i]->pre_branch ? $students[$i]->pre_ec_name : '');
+                $sheet->setCellValue('Z' . $x, $students[$i]->count_recharge == 0 && $students[$i]->pre_branch ? $students[$i]->amount / 2 : $students[$i]->amount);
                 $sheet->getRowDimension($x)->setRowHeight(23);
 
             }
-            $sheet->mergeCells('A'.($x+1).':R'.($x+1));
-            $sheet->mergeCells('U'.($x+1).':Z'.($x+1));
-            $sheet->setCellValue('A' . ($x+1),"Tổng");
-            $sheet->setCellValue('S' . ($x+1), $summary->must_charge);
-            $sheet->setCellValue('T' . ($x+1), $summary->amount);
-            $sheet->setCellValue('W' . ($x+1), $summary->ban_cheo);
-            $sheet->setCellValue('Z' . ($x+1), $summary->thuc_thu);
+            $sheet->mergeCells('A' . ($x + 1) . ':R' . ($x + 1));
+            $sheet->mergeCells('U' . ($x + 1) . ':Z' . ($x + 1));
+            $sheet->setCellValue('A' . ($x + 1), "Tổng");
+            $sheet->setCellValue('S' . ($x + 1), $summary->must_charge);
+            $sheet->setCellValue('T' . ($x + 1), $summary->amount);
+            $sheet->setCellValue('W' . ($x + 1), $summary->ban_cheo);
+            $sheet->setCellValue('Z' . ($x + 1), $summary->thuc_thu);
 
             $writer = new Xlsx($spreadsheet);
             try {
@@ -8464,18 +8485,19 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function report_r06(Request $request) {
+    public function report_r06(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
-            $query = r::report_r06( $p,$request, 0, 1);
+            $query = r::report_r06($p, $request, 0, 1);
             $students = u::query($query);
-            $summary = (object)array(
-                'must_charge'=>0,
-                'total_charged'=>0,
+            $summary = (object) array(
+                'must_charge' => 0,
+                'total_charged' => 0,
             );
-            foreach($students AS $row){
-                $summary->must_charge += (int)$row->must_charge;
-                $summary->total_charged += (int)$row->total_charged;
+            foreach ($students as $row) {
+                $summary->must_charge += (int) $row->must_charge;
+                $summary->total_charged += (int) $row->total_charged;
             }
             $branchs = u::query("SELECT name from branches WHERE id in ($p->s)");
             $branch_name = '';
@@ -8510,10 +8532,10 @@ class ExelController extends Controller
             $sheet->setCellValue('J5', 'Loại hợp đồng');
             $sheet->setCellValue('K5', 'Giá trị gói phí');
             $sheet->setCellValue('L5', 'Số tiền đã đóng');
-            if(in_array($request->users_data->role_id,[1200,'999999999'])){
+            if (in_array($request->users_data->role_id, [1200, '999999999'])) {
                 $sheet->setCellValue('M5', 'SĐT phụ huynh');
             }
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(20);
@@ -8527,7 +8549,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('K')->setWidth(20);
             $sheet->getColumnDimension('L')->setWidth(20);
             $sheet->getColumnDimension('M')->setWidth(20);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:M1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:M2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:M3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -8546,8 +8568,8 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "K5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "L5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "M5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-          
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
@@ -8561,16 +8583,16 @@ class ExelController extends Controller
                 $sheet->setCellValue('J' . $x, $students[$i]->contract_type);
                 $sheet->setCellValue('K' . $x, $students[$i]->must_charge);
                 $sheet->setCellValue('L' . $x, $students[$i]->total_charged);
-                if(in_array($request->users_data->role_id,[1200,'999999999'])){
+                if (in_array($request->users_data->role_id, [1200, '999999999'])) {
                     $sheet->setCellValue('M' . $x, $students[$i]->gud_mobile1);
                 }
                 $sheet->getRowDimension($x)->setRowHeight(23);
 
             }
-            $sheet->mergeCells('A'.($x+1).':J'.($x+1));
-            $sheet->setCellValue('A' . ($x+1),"Tổng");
-            $sheet->setCellValue('K' . ($x+1), $summary->must_charge);
-            $sheet->setCellValue('L' . ($x+1), $summary->total_charged);
+            $sheet->mergeCells('A' . ($x + 1) . ':J' . ($x + 1));
+            $sheet->setCellValue('A' . ($x + 1), "Tổng");
+            $sheet->setCellValue('K' . ($x + 1), $summary->must_charge);
+            $sheet->setCellValue('L' . ($x + 1), $summary->total_charged);
             $writer = new Xlsx($spreadsheet);
             try {
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -8585,16 +8607,17 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function report_r07(Request $request) {
+    public function report_r07(Request $request)
+    {
         if ($session = $request->users_data) {
-            if(!$request->report_month){
+            if (!$request->report_month) {
                 $report_week_info = u::first("SELECT * FROM report_weeks WHERE start_date <= CURRENT_DATE AND end_date >= CURRENT_DATE");
-                $request->report_month = $report_week_info->year."_".$report_week_info->group."_".$report_week_info->month;
+                $request->report_month = $report_week_info->year . "_" . $report_week_info->group . "_" . $report_week_info->month;
             }
             $p = r::params($request, $session);
-            $query = r::report_r07( $p,$request, 0, 1);
+            $query = r::report_r07($p, $request, 0, 1);
             $students = u::query($query);
-            
+
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->mergeCells('A1:W1');
@@ -8632,7 +8655,7 @@ class ExelController extends Controller
             $sheet->setCellValue('U5', 'Xếp loại');
             $sheet->setCellValue('V5', 'Nhận xét của GV');
             $sheet->setCellValue('W5', 'Đề xuất của GV');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(30);
@@ -8656,7 +8679,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('U')->setWidth(20);
             $sheet->getColumnDimension('V')->setWidth(30);
             $sheet->getColumnDimension('W')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:W1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:W2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:W3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -8685,14 +8708,15 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "U5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "V5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "W5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-          
+
             $arr_status = [
-                ''=>'',
-                '1'=>"Giỏi",
-                '2'=>"Khá",
-                '3'=>"Trung bình",
-                '4'=>"Yếu"];
-            for ($i = 0; $i < count($students) ; $i++) {
+                '' => '',
+                '1' => "Giỏi",
+                '2' => "Khá",
+                '3' => "Trung bình",
+                '4' => "Yếu"
+            ];
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
@@ -8756,16 +8780,17 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function report_r08(Request $request) {
+    public function report_r08(Request $request)
+    {
         if ($session = $request->users_data) {
-            if(!$request->report_month){
+            if (!$request->report_month) {
                 $report_week_info = u::first("SELECT * FROM report_weeks WHERE start_date <= CURRENT_DATE AND end_date >= CURRENT_DATE");
-                $request->report_month = $report_week_info->year."_".$report_week_info->group."_".$report_week_info->month;
+                $request->report_month = $report_week_info->year . "_" . $report_week_info->group . "_" . $report_week_info->month;
             }
             $p = r::params($request, $session);
-            $query = r::report_r08( $p,$request, 0, 1);
+            $query = r::report_r08($p, $request, 0, 1);
             $students = u::query($query);
-            
+
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->mergeCells('A1:W1');
@@ -8799,7 +8824,7 @@ class ExelController extends Controller
             $sheet->setCellValue('Q5', 'Xếp loại');
             $sheet->setCellValue('R5', 'Nhận xét của GV');
             $sheet->setCellValue('S5', 'Đề xuất của GV');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(30);
@@ -8819,7 +8844,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('Q')->setWidth(20);
             $sheet->getColumnDimension('R')->setWidth(30);
             $sheet->getColumnDimension('S')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:S1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:S2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:S3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -8844,17 +8869,17 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "Q5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "R5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "S5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-          
+
             $arr_status = [
-                ''=>'',
-                '1'=>"Giỏi",
-                '2'=>"Khá",
-                '3'=>"Trung bình",
-                '4'=>"Yếu",
-                '5'=>"Xuất sắc",
-                '6'=>"Trung bình khá"
+                '' => '',
+                '1' => "Giỏi",
+                '2' => "Khá",
+                '3' => "Trung bình",
+                '4' => "Yếu",
+                '5' => "Xuất sắc",
+                '6' => "Trung bình khá"
             ];
-            for ($i = 0; $i < count($students) ; $i++) {
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
@@ -8910,13 +8935,14 @@ class ExelController extends Controller
         }
         exit;
     }
-    public function report_r09(Request $request) {
+    public function report_r09(Request $request)
+    {
         if ($session = $request->users_data) {
-           
+
             $p = r::params($request, $session);
-            $query = r::report_r09( $p,$request, 0, 1);
+            $query = r::report_r09($p, $request, 0, 1);
             $students = u::query($query);
-            
+
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->mergeCells('A1:I1');
@@ -8940,7 +8966,7 @@ class ExelController extends Controller
             $sheet->setCellValue('G5', 'Nguồn');
             $sheet->setCellValue('H5', 'Nguồn chi tiết');
             $sheet->setCellValue('I5', 'Người tích checkin');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(30);
@@ -8948,7 +8974,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('E')->setWidth(30);
             $sheet->getColumnDimension('F')->setWidth(30);
             $sheet->getColumnDimension('G')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:I1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:I2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:I3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -8963,8 +8989,8 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "G5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "H5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "I5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->crm_id);
@@ -9001,10 +9027,11 @@ class ExelController extends Controller
         exit;
     }
 
-    public function report_r10(Request $request) {
+    public function report_r10(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
-            $query = r::report_r10( $p, 0, 1);
+            $query = r::report_r10($p, 0, 1);
             $students = u::query($query);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
@@ -9029,7 +9056,7 @@ class ExelController extends Controller
             $sheet->setCellValue('G5', 'Lớp');
             $sheet->setCellValue('H5', 'Ngày bắt đầu');
             $sheet->setCellValue('I5', 'Ngày kết thúc');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(20);
             $sheet->getColumnDimension('C')->setWidth(20);
@@ -9039,7 +9066,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('G')->setWidth(20);
             $sheet->getColumnDimension('H')->setWidth(20);
             $sheet->getColumnDimension('I')->setWidth(20);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:H1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:H2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:H3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -9054,8 +9081,8 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "G5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "H5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "I5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->accounting_id);
@@ -9066,7 +9093,7 @@ class ExelController extends Controller
                 $sheet->setCellValue('G' . $x, $students[$i]->class_name);
                 $sheet->setCellValue('H' . $x, $students[$i]->enrolment_start_date);
                 $sheet->setCellValue('I' . $x, $students[$i]->enrolment_last_date);
-                
+
             }
             $writer = new Xlsx($spreadsheet);
             try {
@@ -9083,10 +9110,11 @@ class ExelController extends Controller
         exit;
     }
 
-    public function report_r11(Request $request) {
+    public function report_r11(Request $request)
+    {
         if ($session = $request->users_data) {
             $p = r::params($request, $session);
-            $query = r::report_r11( $p,$request, 0, 1);
+            $query = r::report_r11($p, $request, 0, 1);
             $students = u::query($query);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
@@ -9111,7 +9139,7 @@ class ExelController extends Controller
             $sheet->setCellValue('G5', 'Lớp');
             $sheet->setCellValue('H5', 'Ngày bắt đầu');
             $sheet->setCellValue('I5', 'Ngày kết thúc');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(20);
             $sheet->getColumnDimension('C')->setWidth(20);
@@ -9121,7 +9149,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('G')->setWidth(20);
             $sheet->getColumnDimension('H')->setWidth(20);
             $sheet->getColumnDimension('I')->setWidth(20);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:H1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:H2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:H3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -9136,8 +9164,8 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "G5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "H5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "I5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->accounting_id);
@@ -9148,7 +9176,7 @@ class ExelController extends Controller
                 $sheet->setCellValue('G' . $x, $students[$i]->class_name);
                 $sheet->setCellValue('H' . $x, $students[$i]->enrolment_start_date);
                 $sheet->setCellValue('I' . $x, $students[$i]->enrolment_last_date);
-                
+
             }
             $writer = new Xlsx($spreadsheet);
             try {
@@ -9165,13 +9193,14 @@ class ExelController extends Controller
         exit;
     }
 
-    public function report_r12(Request $request) {
+    public function report_r12(Request $request)
+    {
         if ($session = $request->users_data) {
-           
+
             $p = r::params($request, $session);
-            $query = r::report_r12( $p,$request, 0, 1);
+            $query = r::report_r12($p, $request, 0, 1);
             $students = u::query($query);
-            
+
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->mergeCells('A1:H1');
@@ -9194,7 +9223,7 @@ class ExelController extends Controller
             $sheet->setCellValue('F5', 'Thời gian tạo');
             $sheet->setCellValue('G5', 'Thời gian checkin');
             $sheet->setCellValue('H5', 'Trung tâm checkin');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(30);
@@ -9203,7 +9232,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('F')->setWidth(30);
             $sheet->getColumnDimension('G')->setWidth(30);
             $sheet->getColumnDimension('H')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:H1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:H2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:H3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -9217,8 +9246,8 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "F5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "G5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "H5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->crm_id);
@@ -9253,13 +9282,14 @@ class ExelController extends Controller
         exit;
     }
 
-    public function report_r13(Request $request) {
+    public function report_r13(Request $request)
+    {
         if ($session = $request->users_data) {
-           
+
             $p = r::params($request, $session);
-            $query = r::report_r13( $p,$request, 0, 1);
+            $query = r::report_r13($p, $request, 0, 1);
             $students = u::query($query);
-            
+
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->mergeCells('A1:G1');
@@ -9281,7 +9311,7 @@ class ExelController extends Controller
             $sheet->setCellValue('E5', 'ShowUP');
             $sheet->setCellValue('F5', 'DEMO');
             $sheet->setCellValue('G5', 'DEAL');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(30);
@@ -9289,7 +9319,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('E')->setWidth(30);
             $sheet->getColumnDimension('F')->setWidth(30);
             $sheet->getColumnDimension('G')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:G1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:G2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:G3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -9302,12 +9332,12 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "E5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "F5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "G5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
-                $sheet->setCellValue('C' . $x, $students[$i]->full_name." - ".$students[$i]->hrm_id);
+                $sheet->setCellValue('C' . $x, $students[$i]->full_name . " - " . $students[$i]->hrm_id);
                 $sheet->setCellValue('D' . $x, $students[$i]->comfirm);
                 $sheet->setCellValue('E' . $x, $students[$i]->show_up);
                 $sheet->setCellValue('F' . $x, $students[$i]->demo);
@@ -9336,13 +9366,14 @@ class ExelController extends Controller
         exit;
     }
 
-    public function exportLgl01(Request $request) {
+    public function exportLgl01(Request $request)
+    {
         if ($session = $request->users_data) {
-           
+
             $p = r::params($request, $session);
-            $query = r::queryReportLgl01( $p,$request, 0, 1);
+            $query = r::queryReportLgl01($p, $request, 0, 1);
             $students = u::query($query);
-            
+
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->mergeCells('A1:H1');
@@ -9365,7 +9396,7 @@ class ExelController extends Controller
             $sheet->setCellValue('F5', 'CM');
             $sheet->setCellValue('G5', 'EC');
             $sheet->setCellValue('H5', 'Ngày hết phí gần nhất');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(30);
@@ -9374,7 +9405,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('F')->setWidth(30);
             $sheet->getColumnDimension('G')->setWidth(30);
             $sheet->getColumnDimension('H')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:H1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:H2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:H3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -9388,8 +9419,8 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "F5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "G5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "H5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
@@ -9424,13 +9455,14 @@ class ExelController extends Controller
         exit;
     }
 
-    public function exportLgl02(Request $request) {
+    public function exportLgl02(Request $request)
+    {
         if ($session = $request->users_data) {
-           
+
             $p = r::params($request, $session);
-            $query = r::queryReportLgl02( $p,$request, 0, 1);
+            $query = r::queryReportLgl02($p, $request, 0, 1);
             $students = u::query($query);
-            
+
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->mergeCells('A1:H1');
@@ -9458,7 +9490,7 @@ class ExelController extends Controller
             $sheet->setCellValue('K5', 'Gói phí');
             $sheet->setCellValue('L5', 'Số tiền phải đóng');
             $sheet->setCellValue('M5', 'Công nợ');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(30);
@@ -9472,7 +9504,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('K')->setWidth(30);
             $sheet->getColumnDimension('L')->setWidth(30);
             $sheet->getColumnDimension('M')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:M1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:M2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:M3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -9491,8 +9523,8 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "K5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "L5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "M5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->code);
@@ -9537,13 +9569,14 @@ class ExelController extends Controller
         exit;
     }
 
-    public function exportLgl04(Request $request) {
+    public function exportLgl04(Request $request)
+    {
         if ($session = $request->users_data) {
-           
+
             $p = r::params($request, $session);
-            $query = r::queryReportLgl04( $p,$request, 0, 1);
+            $query = r::queryReportLgl04($p, $request, 0, 1);
             $students = u::query($query);
-            
+
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->mergeCells('A1:K1');
@@ -9569,7 +9602,7 @@ class ExelController extends Controller
             $sheet->setCellValue('I5', 'Gói phí');
             $sheet->setCellValue('J5', 'Số tiền phải đóng');
             $sheet->setCellValue('K5', 'Công nợ');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(30);
@@ -9581,7 +9614,7 @@ class ExelController extends Controller
             $sheet->getColumnDimension('I')->setWidth(30);
             $sheet->getColumnDimension('J')->setWidth(30);
             $sheet->getColumnDimension('K')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:K1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:K2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:K3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -9598,14 +9631,14 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "I5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "J5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "K5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
                 $sheet->setCellValue('C' . $x, $students[$i]->student_name);
                 $sheet->setCellValue('D' . $x, $students[$i]->crm_id);
-                $sheet->setCellValue('E' . $x, $students[$i]->discount_code. " (".$students[$i]->discount_name.")");
+                $sheet->setCellValue('E' . $x, $students[$i]->discount_code . " (" . $students[$i]->discount_name . ")");
                 $sheet->setCellValue('F' . $x, $students[$i]->count_recharge == 0 ? "Bán mới" : "Tái tục");
                 $sheet->setCellValue('G' . $x, $students[$i]->creator_name);
                 $sheet->setCellValue('H' . $x, $students[$i]->created_at);
@@ -9640,13 +9673,14 @@ class ExelController extends Controller
         exit;
     }
 
-    public function exportLgl03(Request $request) {
+    public function exportLgl03(Request $request)
+    {
         if ($session = $request->users_data) {
-           
+
             $p = r::params($request, $session);
-            $query = r::queryReportLgl03( $p,$request, 0, 1);
+            $query = r::queryReportLgl03($p, $request, 0, 1);
             $students = u::query($query);
-            
+
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->mergeCells('A1:F1');
@@ -9667,14 +9701,14 @@ class ExelController extends Controller
             $sheet->setCellValue('D5', 'Số lượng bán');
             $sheet->setCellValue('E5', 'Doanh thu');
             $sheet->setCellValue('F5', 'ARPU');
-            
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
             $sheet->getColumnDimension('C')->setWidth(50);
             $sheet->getColumnDimension('D')->setWidth(30);
             $sheet->getColumnDimension('E')->setWidth(30);
             $sheet->getColumnDimension('F')->setWidth(30);
-            
+
             ProcessExcel::styleCells($spreadsheet, "A1:F1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
             ProcessExcel::styleCells($spreadsheet, "A2:F2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "A3:F3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
@@ -9686,15 +9720,15 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "D5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "E5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "F5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
-            
-            for ($i = 0; $i < count($students) ; $i++) {
+
+            for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
                 $sheet->setCellValue('A' . $x, $i + 1);
                 $sheet->setCellValue('B' . $x, $students[$i]->branch_name);
-                $sheet->setCellValue('C' . $x, $students[$i]->discount_code. " (".$students[$i]->discount_name.")");
+                $sheet->setCellValue('C' . $x, $students[$i]->discount_code . " (" . $students[$i]->discount_name . ")");
                 $sheet->setCellValue('D' . $x, $students[$i]->count_pay);
                 $sheet->setCellValue('E' . $x, $students[$i]->total_pay);
-                $sheet->setCellValue('F' . $x, $students[$i]->count_pay >0 ? $students[$i]->total_pay/$students[$i]->count_pay :  '');
+                $sheet->setCellValue('F' . $x, $students[$i]->count_pay > 0 ? $students[$i]->total_pay / $students[$i]->count_pay : '');
                 $sheet->getRowDimension($x)->setRowHeight(23);
                 ProcessExcel::styleCells($spreadsheet, "A$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "B$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
@@ -9702,12 +9736,110 @@ class ExelController extends Controller
                 ProcessExcel::styleCells($spreadsheet, "D$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "E$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "F$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
-                
+
             }
             $writer = new Xlsx($spreadsheet);
             try {
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
                 header('Content-Disposition: attachment;filename="BÁO CÁO TỔNG HỢP GÓI BÁN.xlsx"');
+                header('Cache-Control: max-age=0');
+                $writer->save("php://output");
+            } catch (Exception $exception) {
+                throw $exception;
+            }
+        } else {
+            die('Request not found...');
+        }
+        return $resp;
+    }
+
+    public function exportLgl05(Request $request)
+    {
+        if ($session = $request->users_data) {
+            $p = r::params($request, $session);
+            $query = r::queryReportLgl05($p, $request, 0, 1);
+            $students = u::query($query);
+
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->mergeCells('A1:I1');
+            $sheet->mergeCells('A2:I2');
+            $sheet->mergeCells('A3:I3');
+            $sheet->mergeCells('A4:I4');
+            $sheet->setCellValue('A1', 'CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB');
+            $sheet->setCellValue('A2', 'BÁO CÁO PHÂN BỔ DOANH THU');
+            $sheet->getRowDimension('1')->setRowHeight(36);
+            $sheet->getRowDimension('2')->setRowHeight(50);
+            $sheet->getRowDimension('3')->setRowHeight(20);
+            $sheet->getRowDimension('4')->setRowHeight(20);
+            $sheet->getRowDimension('5')->setRowHeight(30);
+
+            $sheet->setCellValue('A5', 'STT');
+            $sheet->setCellValue('B5', 'Mã học sinh');
+            $sheet->setCellValue('C5', 'Tên học sinh');
+            $sheet->setCellValue('D5', 'Tên trung tâm');
+            $sheet->setCellValue('E5', 'Tên khóa học');
+            $sheet->setCellValue('F5', 'Số tiền thực tế full phí');
+            $sheet->setCellValue('G5', 'Số tháng học thực tế');
+            $sheet->setCellValue('H5', 'Ngày bắt đầu');
+            $sheet->setCellValue('I5', 'Ngày kết thúc');
+
+            $sheet->getColumnDimension('A')->setWidth(5);
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(30);
+            $sheet->getColumnDimension('D')->setWidth(30);
+            $sheet->getColumnDimension('E')->setWidth(30);
+            $sheet->getColumnDimension('F')->setWidth(25);
+            $sheet->getColumnDimension('G')->setWidth(25);
+            $sheet->getColumnDimension('H')->setWidth(20);
+            $sheet->getColumnDimension('I')->setWidth(20);
+
+            ProcessExcel::styleCells($spreadsheet, "A1:I1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
+            ProcessExcel::styleCells($spreadsheet, "A2:I2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "A3:I3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
+            ProcessExcel::styleCells($spreadsheet, "A4:I4", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
+
+            ProcessExcel::styleCells($spreadsheet, "A5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "B5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "C5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "D5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "E5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "F5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "G5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "H5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "I5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+
+            for ($i = 0; $i < count($students); $i++) {
+                $x = $i + 6;
+                $sheet->setCellValue('A' . $x, $i + 1);
+                $sheet->setCellValue('B' . $x, $students[$i]->crm_id);
+                $sheet->setCellValue('C' . $x, $students[$i]->student_name);
+                $sheet->setCellValue('D' . $x, $students[$i]->branch_name);
+                $sheet->setCellValue('E' . $x, $students[$i]->product_name);
+                $sheet->setCellValue('F' . $x, $students[$i]->real_amount);
+
+                $realMonths = (float) $students[$i]->real_months;
+                $formattedMonths = fmod($realMonths, 1) == 0 ? (int) $realMonths : round($realMonths, 1);
+                $sheet->setCellValue('G' . $x, $formattedMonths);
+
+                $sheet->setCellValue('H' . $x, $students[$i]->start_date);
+                $sheet->setCellValue('I' . $x, $students[$i]->end_date);
+
+                $sheet->getRowDimension($x)->setRowHeight(23);
+                ProcessExcel::styleCells($spreadsheet, "A$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "B$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "C$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "D$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "E$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "F$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "G$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "H$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "I$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+            }
+            $writer = new Xlsx($spreadsheet);
+            try {
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="BÁO CÁO PHÂN BỔ DOANH THU.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
             } catch (Exception $exception) {
