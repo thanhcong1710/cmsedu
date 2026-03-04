@@ -846,8 +846,10 @@
          return 'Gói Combo'
         else if (type == 2)
          return 'Accelium'
-         else if (type == 3)
+        else if (type == 3)
          return 'Logicmath'
+        else if (type == 6)
+         return 'Logicmath & Brick4kidz'
        else if (type == 4)
          return 'Brick4kidz'
         else
