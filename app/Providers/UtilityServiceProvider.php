@@ -3022,8 +3022,8 @@ class UtilityServiceProvider extends ServiceProvider
             case 1:
                 $name = 'CMS';
                 break;
-            case 2:
-                $name = 'Accelium';
+            case 5:
+                $name = 'Gói Combo';
                 break;
             case 3:
                 $name = 'Logicmath';

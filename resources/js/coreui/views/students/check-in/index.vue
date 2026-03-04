@@ -842,8 +842,8 @@
         // }
       },
       vshowProductCheckin(type){
-       if (type == 1)
-         return 'CMS'
+       if (type == 5)
+         return 'Gói Combo'
         else if (type == 2)
          return 'Accelium'
          else if (type == 3)
