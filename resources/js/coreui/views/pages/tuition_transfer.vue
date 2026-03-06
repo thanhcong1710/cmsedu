@@ -184,7 +184,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <p>Đề nghị {{item.from_branch_name}} xem xét và tạo điều kiện cho tôi chuyển phí. Tôi đồng ý với điều khoản đã thỏa thuận với CMS trong Nội quy nhập học và cam đoan sẽ không có bất kỳ khiếu nại gì sau này.</p>
+                                        <p>Đề nghị {{item.from_branch_name}} xem xét và tạo điều kiện cho tôi chuyển phí. Tôi đồng ý với điều khoản đã thỏa thuận với Logiclab trong Nội quy nhập học và cam đoan sẽ không có bất kỳ khiếu nại gì sau này.</p>
                                         <p>Xin chân thành cảm ơn!</p>
 
                                     </div>
