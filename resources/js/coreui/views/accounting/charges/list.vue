@@ -107,7 +107,7 @@
                             <option :value="tuition_fee.id" v-for="(tuition_fee, ind) in list.tuition_fees" :key="ind">{{ tuition_fee.name }}</option>
                           </select>
                         </div>
-                      </div> -->
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -123,7 +123,7 @@
             <button @click="listCharged(0)" class="apax-btn full edit"><i class="fa fa-list"></i> {{html.buttons.default}}</button>
             <button @click="listCharged(1)" class="apax-btn full detail"><i class="fa fa-slack"></i> {{html.buttons.waitcharged}}</button>
             <button @click="listCharged(2)" class="apax-btn full print"><i class="fa fa-angellist"></i> {{html.buttons.charged}}</button> -->
-            <button @click="searching" class="apax-btn full edit">
+            <button @click="selectFilter" class="apax-btn full edit">
               <i class="fa fa-filter" aria-hidden="true"></i> Lọc
             </button>
             <button @click="resetFilter" class="apax-btn full"><i class="fa fa-ban"></i> Bỏ lọc</button>
