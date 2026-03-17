@@ -45,6 +45,32 @@
                             <option :value="payload.id" v-for="(payload, ind) in list.payloads" :key="ind">{{ payload.name }}</option>
                           </select>
                         </div>
+                      </div> -->
+                      <div class="col-sm-3">
+                        <label class="filter-label control-label">Khoảng Thời Gian Tạo</label><br/>
+                        <DatePicker
+                          v-model="filter.date_range"
+                          :range="true"
+                          format="YYYY-MM-DD"
+                          placeholder="Chọn khoảng thời gian"
+                          @change="selectFilter"
+                        />
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label class="filter-label control-label">Phương Thức Thanh Toán</label><br/>
+                          <select
+                            v-model="filter.method"
+                            @change="selectFilter"
+                            class="filter-selection form-control"
+                          >
+                            <option value="">Tất cả</option>
+                            <option value="0">Tiền mặt</option>
+                            <option value="1">Chuyển khoản</option>
+                            <option value="2">Quẹt thẻ trả thẳng</option>
+                            <option value="3">Quẹt thẻ trả góp</option>
+                          </select>
+                        </div>
                       </div>
                       <div class="col-sm-3">
                         <div class="form-group">
@@ -194,6 +220,7 @@ import paging from '../../../components/Pagination'
 import search from '../../../components/Search'
 import u from '../../../utilities/utility'
 import suggestion from '../../../components/Selection'
+import DatePicker from '../../../components/DatePicker'
 
 export default {
 
@@ -202,7 +229,8 @@ export default {
   components: {
     suggestion,
     paging,
-    search
+    search,
+    DatePicker
   },
 
 	data(){
@@ -241,7 +269,9 @@ export default {
         keyword: '',
         payload: '',
         product: '',
-        tuition_fee: ''
+        tuition_fee: '',
+        date_range: '',
+        method: ''
       },
       url: {
         page: '/charges/',
@@ -415,6 +445,7 @@ export default {
       const payload_id = this.filter.payload ? parseInt(this.filter.payload, 10) : -1
       const product_id = this.filter.product ? parseInt(this.filter.product, 10) : -1
       const tuition_id = this.filter.tuition_fee ? parseInt(this.filter.tuition_fee, 10) : -1
+      this.get(this.link(), this.load)
     }
  	}
 

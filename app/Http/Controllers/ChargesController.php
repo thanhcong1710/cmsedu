@@ -731,19 +731,27 @@ class ChargesController extends Controller
       $search = json_decode($request->search);
       $session = $request->users_data;
       $role_id = $session->role_id;
-      $branches = $search->branch ? (int)$search->branch : $session->branches_ids;
+      $branches = isset($search->branch) && $search->branch ? (int)$search->branch : $session->branches_ids;
       $where = "AND c.branch_id IN ($branches)";
-      if ($search->payload != '') {
+      if (isset($search->payload) && $search->payload != '') {
         $where.= " AND p.payload = ".(int)$search->payload;
       }
-      if ($search->product != '') {
+      if (isset($search->product) && $search->product != '') {
         $where.= " AND c.product_id = ".(int)$search->product;
       }
-      if ($search->tuition_fee != '') {
+      if (isset($search->tuition_fee) && $search->tuition_fee != '') {
         $where.= " AND c.tuition_fee_id = ".(int)$search->tuition_fee;
       }
-      if ($search->keyword != '') {
+      if (isset($search->keyword) && $search->keyword != '') {
         $where.= " AND (s.crm_id LIKE '$search->keyword%' OR s.stu_id LIKE '$search->keyword%' OR s.accounting_id LIKE '$search->keyword%' OR s.name LIKE '%$search->keyword%')";
+      }
+      if (isset($search->method) && $search->method !== '') {
+        $where.= " AND p.method = ".(int)$search->method;
+      }
+      if (isset($search->date_range) && is_array($search->date_range) && count($search->date_range) == 2 && $search->date_range[0] != '') {
+        $start_date = $search->date_range[0] . ' 00:00:00';
+        $end_date = $search->date_range[1] . ' 23:59:59';
+        $where.= " AND p.created_at >= '$start_date' AND p.created_at <= '$end_date'";
       }
       return $where;
       // return "AND c.must_charge > 0 $where
