@@ -181,7 +181,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Danh sách đánh giá học sinh.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -384,7 +385,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Học Sinh Mới Hàng Tháng.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -547,7 +549,7 @@ class ExelController extends Controller
             $st = 'D' . $y;
             ProcessExcel::styleCells($spreadsheet, "$st", "FFFFFF", "0000ff", 11, 1, true, "center", "center", true);
 
-            // $sheet->getRowDimension("$y")->setRowHeight(20);
+        // $sheet->getRowDimension("$y")->setRowHeight(20);
         }
 
         $writer = new Xlsx($spreadsheet);
@@ -556,7 +558,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Average Classes Size.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -694,7 +697,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Average Classes Size 123.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -877,7 +881,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Danh sách Học Sinh Tái Phí - Chi Tiết.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -946,7 +951,8 @@ class ExelController extends Controller
             $x++;
             if ($branches[$i]->success_item > 0) {
                 $oper = ($branches[$i]->success_item / $branches[$i]->total_item) * 100;
-            } else {
+            }
+            else {
                 $oper = 0;
             }
 
@@ -968,7 +974,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Danh sách tổng hợp học sinh tái phí.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -1035,12 +1042,12 @@ class ExelController extends Controller
 
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object) [];
+            $response = (object)[];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object) [];
+            $sinformation = (object)[];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -1059,7 +1066,8 @@ class ExelController extends Controller
                 exit(json_encode($response));
             }
             $branch_ids = u::getBranchIds($request->users_data);
-        } else {
+        }
+        else {
             $branch_ids_term = [];
             foreach ($branch_ids as $key => $value) {
                 array_push($branch_ids_term, $value->id);
@@ -1077,12 +1085,14 @@ class ExelController extends Controller
 
         if (!$date) {
             $date = date('Y-m-d 23:59:59');
-        } else {
+        }
+        else {
             $date = date('Y-m-d', strtotime($date)) . " 23:59:59";
         }
         if (!$start_date) {
             $start_date = date('Y-m-01 00:00:00');
-        } else {
+        }
+        else {
             $start_date = date('Y-m-d', strtotime($start_date)) . " 00:00:00";
         }
 
@@ -1233,11 +1243,13 @@ class ExelController extends Controller
                     for ($i = 1; $i < 5; $i++) {
                         if (isset($rows[$b->id]["type$i"])) {
                             $data[$b->id]["student_types"]["type$i"] = $rows[$b->id]["type$i"];
-                        } else {
+                        }
+                        else {
                             $data[$b->id]["student_types"]["type$i"] = 0;
                         }
                     }
-                } else {
+                }
+                else {
                     $data[$b->id]['student_types'] = [
                         "type1" => 0,
                         "type2" => 0,
@@ -1276,7 +1288,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO HIỆN TRẠNG TRUNG TÂM.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -1526,7 +1539,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Học Sinh Mới Hàng Tháng.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -1646,12 +1660,14 @@ class ExelController extends Controller
 
             if ($branches[$i]->total_classes > 0 && $branches[$i]->total_teachers > 0) {
                 $sheet->setCellValue('F' . $x, round($branches[$i]->total_classes / $branches[$i]->total_teachers, 2));
-            } else {
+            }
+            else {
                 $sheet->setCellValue('F' . $x, $b);
             }
             if ($branches[$i]->total_full_fee > 0 && $branches[$i]->total_teachers > 0) {
                 $sheet->setCellValue('G' . $x, round($branches[$i]->total_full_fee / $branches[$i]->total_teachers, 2));
-            } else {
+            }
+            else {
                 $sheet->setCellValue('G' . $x, $b);
             }
 
@@ -1676,7 +1692,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO HIỆU SUẤT GIÁO VIÊN.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -1876,7 +1893,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO HIỆU SUẤT PHÒNG HỌC.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -1891,14 +1909,16 @@ class ExelController extends Controller
 
         if (!$from_date) {
             $from_date = date('Y-m-01 00:00:00');
-        } else {
+        }
+        else {
             $from_date = date('Y-m-d', strtotime($from_date)) . " 00:00:00";
         }
 
         if (!$to_date) {
             $to_date = date('Y-m-d 23:59:59');
             $pending_date = date('Y-m-d 00:00:00');
-        } else {
+        }
+        else {
             $to_date = date('Y-m-d', strtotime($to_date)) . " 23:59:59";
             $pending_date = date('Y-m-d', strtotime($to_date)) . " 00:00:00";
         }
@@ -1965,12 +1985,12 @@ class ExelController extends Controller
 
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object) [];
+            $response = (object)[];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object) [];
+            $sinformation = (object)[];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -2179,7 +2199,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO TỔNG SỐ HỌC SINH.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -2358,7 +2379,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO PHÂN LOẠI HỌC SINH.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -2558,7 +2580,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO PHÂN LOẠI CM.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -2777,7 +2800,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO PHÂN LOẠI HỌC SINH.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -2979,7 +3003,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO PHÂN LOẠI CM.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -3110,7 +3135,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Danh sách WITHDRAW.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -3172,7 +3198,8 @@ class ExelController extends Controller
                 $sql = "SELECT *from dbo_fuc_dashboard01_new where invisible = 0 order by ps_no1 desc";
                 $sql_tong = "SELECT *from dbo_fuc_dashboard01_new where invisible = 3";
                 $sql_vung = "SELECT *from dbo_fuc_dashboard01_new where invisible = 4";
-            } else if ($role_id == ROLE_REGION_CEO) {
+            }
+            else if ($role_id == ROLE_REGION_CEO) {
                 $region = DB::select("SELECT * from regions where ceo_id = $id");
                 $region_id = $region[0]->id;
                 $branch_id = DB::select(DB::raw("SELECT hrm_id from branches where zone_id = $region_id"));
@@ -3201,7 +3228,8 @@ class ExelController extends Controller
                     "invisible" => 4,
                     "percent" => floor($sum[0]->ps_no1 / $sum[0]->ps_no1kh * 100)
                 );
-            } else {
+            }
+            else {
                 $branch_id = DB::select("SELECT accounting_id from branches where id in (SELECT branch_id from term_user_branch where user_id = $id)");
                 $accounting_id = $branch_id[0]->accounting_id;
 
@@ -3289,7 +3317,8 @@ class ExelController extends Controller
                     }
 
                 }
-            } else if ($sql && $sql_tong == '' && $sql_vung == '' && $vung) {
+            }
+            else if ($sql && $sql_tong == '' && $sql_vung == '' && $vung) {
                 // $vung = json_encode($vung);
                 // return $vung;
                 $sheet->setCellValue("A5", $vung["ten"]);
@@ -3331,7 +3360,8 @@ class ExelController extends Controller
                     ProcessExcel::styleCells($spreadsheet, "B$x:I$x", "add8e6", "black", 11, '', true, "center", "center", true);
                     ProcessExcel::styleCells($spreadsheet, "A$x", "add8e6", "black", 11, '', true, "left", "center", true);
                 }
-            } else {
+            }
+            else {
                 $data = $conn->select($sql);
                 $sheet->setCellValue('A5', $data[0]->ten);
                 $sheet->setCellValue('B5', $data[0]->ps_no1);
@@ -3355,7 +3385,8 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="Dữ liệu tổng hợp các trung tâm.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
             exit;
@@ -3387,7 +3418,8 @@ class ExelController extends Controller
 
             if (in_array($role_id, [ROLE_SUPER_ADMINISTRATOR, ROLE_ADMINISTRATOR, ROLE_MANAGERS])) {
                 $sql = "SELECT *from dbo_fuc_dashboard01_new where invisible = 0 order by ps_no1 desc limit 5";
-            } else if ($role_id == ROLE_REGION_CEO) {
+            }
+            else if ($role_id == ROLE_REGION_CEO) {
                 $region = DB::select("SELECT * from regions where ceo_id = $id");
                 $region_id = $region[0]->id;
                 $branch_id = DB::select(DB::raw("SELECT hrm_id from branches where zone_id = $region_id"));
@@ -3404,7 +3436,8 @@ class ExelController extends Controller
                 $hrm = '(' . $hrm_id . ')';
 
                 $sql = "SELECT *from dbo_fuc_dashboard01_new where invisible = 0 AND ma_crm in $hrm order by ps_no1 desc limit 5";
-            } else {
+            }
+            else {
                 $branch = DB::select("SELECT hrm_id from branches where id in (SELECT branch_id from term_user_branch where user_id = $id)");
                 $hrm_id = $branch[0]->hrm_id;
 
@@ -3432,7 +3465,8 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="TOP 5 BEST TRUNG TÂM.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
             exit;
@@ -3464,7 +3498,8 @@ class ExelController extends Controller
 
             if (in_array($role_id, [ROLE_SUPER_ADMINISTRATOR, ROLE_ADMINISTRATOR, ROLE_MANAGERS])) {
                 $sql = "SELECT *from dbo_fuc_dashboard01_new where invisible = 0 order by ps_no1 limit 5";
-            } else if ($role_id == ROLE_REGION_CEO) {
+            }
+            else if ($role_id == ROLE_REGION_CEO) {
                 $region = DB::select("SELECT * from regions where ceo_id = $id");
                 $region_id = $region[0]->id;
                 $branch_id = DB::select(DB::raw("SELECT hrm_id from branches where zone_id = $region_id"));
@@ -3481,7 +3516,8 @@ class ExelController extends Controller
                 $hrm = '(' . $hrm_id . ')';
 
                 $sql = "SELECT *from dbo_fuc_dashboard01_new where invisible = 0 AND ma_crm in $hrm order by ps_no1 limit 5";
-            } else {
+            }
+            else {
                 $branch = DB::select("SELECT hrm_id from branches where id in (SELECT branch_id from term_user_branch where user_id = $id)");
 
                 $hrm_id = $branch[0]->hrm_id;
@@ -3511,7 +3547,8 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="TOP 5 BEST TRUNG TÂM.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
             exit;
@@ -3543,7 +3580,8 @@ class ExelController extends Controller
             $sql = '';
             if (in_array($role_id, [ROLE_SUPER_ADMINISTRATOR, ROLE_ADMINISTRATOR, ROLE_MANAGERS])) {
                 $sql = "SELECT *from tbldoanhso_team where ma_nv != '' order by doanhso desc limit 5";
-            } else if ($role_id == ROLE_REGION_CEO) {
+            }
+            else if ($role_id == ROLE_REGION_CEO) {
                 $region = DB::select("SELECT * from regions where ceo_id = $user_id");
                 $region_id = $region[0]->id;
                 $branch_id = DB::select(DB::raw("SELECT accounting_id from branches where zone_id = $region_id"));
@@ -3562,7 +3600,8 @@ class ExelController extends Controller
 
 
                 $sql = "SELECT *from tbldoanhso_team  where ma_tt in $effect order by doanhso desc limit 5";
-            } else {
+            }
+            else {
                 $branch = DB::select(DB::raw("SELECT accounting_id from branches where id in (SELECT branch_id from term_user_branch where user_id = $user_id)"));
                 $branch_id = $branch[0]->accounting_id;
 
@@ -3601,7 +3640,8 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="TOP 5 BEST LEADER.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
             exit;
@@ -3633,7 +3673,8 @@ class ExelController extends Controller
             $sql = '';
             if (in_array($role_id, [ROLE_SUPER_ADMINISTRATOR, ROLE_ADMINISTRATOR, ROLE_MANAGERS])) {
                 $sql = "SELECT *from tbldoanhso_team where ma_nv != '' order by doanhso limit 5";
-            } else if ($role_id == ROLE_REGION_CEO) {
+            }
+            else if ($role_id == ROLE_REGION_CEO) {
                 $region = DB::select("SELECT * from regions where ceo_id = $user_id");
                 $region_id = $region[0]->id;
                 $branch_id = DB::select(DB::raw("SELECT accounting_id from branches where zone_id = $region_id"));
@@ -3652,7 +3693,8 @@ class ExelController extends Controller
 
 
                 $sql = "SELECT *from tbldoanhso_team  where ma_tt in $effect order by doanhso limit 5";
-            } else {
+            }
+            else {
                 $branch = DB::select(DB::raw("SELECT accounting_id from branches where id in (SELECT branch_id from term_user_branch where user_id = $user_id)"));
                 $branch_id = $branch[0]->accounting_id;
 
@@ -3691,7 +3733,8 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="TOP 5 BAD LEADER.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
             exit;
@@ -3723,7 +3766,8 @@ class ExelController extends Controller
             $sql = '';
             if (in_array($role_id, [ROLE_SUPER_ADMINISTRATOR, ROLE_ADMINISTRATOR, ROLE_MANAGERS])) {
                 $sql = "SELECT *from tbldoanhso_sp order by doanhso desc limit 10";
-            } else if ($role_id == ROLE_REGION_CEO) {
+            }
+            else if ($role_id == ROLE_REGION_CEO) {
                 $region = DB::select("SELECT * from regions where ceo_id = $user_id");
                 $region_id = $region[0]->id;
                 $branch_id = DB::select(DB::raw("SELECT accounting_id from branches where zone_id = $region_id"));
@@ -3741,7 +3785,8 @@ class ExelController extends Controller
                 $effect = '(' . $accounting_id . ')';
 
                 $sql = "SELECT *from tbldoanhso_sp where ma_tt in $effect order by doanhso desc limit 10";
-            } else {
+            }
+            else {
                 $branch = DB::select(DB::raw("SELECT accounting_id from branches where id in (SELECT branch_id from term_user_branch where user_id = $user_id)"));
                 $branch_id = $branch[0]->accounting_id;
 
@@ -3781,7 +3826,8 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="TOP 10 BEST SALES.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
             exit;
@@ -3817,7 +3863,8 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="TOP 10 BAD SALES.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
             exit;
@@ -3859,24 +3906,17 @@ class ExelController extends Controller
         }
 
         /*if ($programs && $programs != '_') {
-
-            $where .= " AND pr.id in ($programs)";
-        }
-
-        if ($customerTypes && $customerTypes != '_') {
-
-            $where .= " AND ct.type in ($customerTypes)";
-        }
-
-
-        if ($fromDate) {
-            $where .= " AND pd.created_at >= '$from_date' ";
-        }
-
-
-        if ($toDate) {
-            $where .= " AND pd.created_at <= '$to_date' ";
-        }*/
+         $where .= " AND pr.id in ($programs)";
+         }
+         if ($customerTypes && $customerTypes != '_') {
+         $where .= " AND ct.type in ($customerTypes)";
+         }
+         if ($fromDate) {
+         $where .= " AND pd.created_at >= '$from_date' ";
+         }
+         if ($toDate) {
+         $where .= " AND pd.created_at <= '$to_date' ";
+         }*/
 
 
         $spreadsheet = new Spreadsheet();
@@ -3967,29 +4007,29 @@ class ExelController extends Controller
             $sheet->setCellValue('A' . $x, $i + 1);
             $sheet->setCellValue('B' . $x, $pendings[$i]->branch_name);
             /*$sheet->setCellValue('C' . $x, $pendings[$i]->stu_id);
-            $sheet->setCellValue('D' . $x, $pendings[$i]->accounting_id);
-            $sheet->setCellValue('E' . $x, $pendings[$i]->branch_name);
-            $sheet->setCellValue('F' . $x, $pendings[$i]->program_name);
-            $sheet->setCellValue('G' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('H' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('I' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('J' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('K' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('L' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('M' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('N' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('O' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('P' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('Q' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('R' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('S' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('T' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('U' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('V' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('W' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('X' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('Y' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('Z' . $x, $pendings[$i]->student_name);*/
+             $sheet->setCellValue('D' . $x, $pendings[$i]->accounting_id);
+             $sheet->setCellValue('E' . $x, $pendings[$i]->branch_name);
+             $sheet->setCellValue('F' . $x, $pendings[$i]->program_name);
+             $sheet->setCellValue('G' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('H' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('I' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('J' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('K' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('L' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('M' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('N' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('O' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('P' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('Q' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('R' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('S' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('T' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('U' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('V' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('W' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('X' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('Y' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('Z' . $x, $pendings[$i]->student_name);*/
 
 
             $st = "A" . $x;
@@ -4012,7 +4052,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Báo cáo doanh số.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -4068,13 +4109,11 @@ class ExelController extends Controller
 
         $where .= " AND (c.created_at BETWEEN '$from_date' AND '$to_date')";
         /*if ($fromDate) {
-            $where .= " AND c.created_at >= '$from_date' ";
-        }
-
-
-        if ($toDate) {
-            $where .= " AND c.created_at <= '$to_date' ";
-        }*/
+         $where .= " AND c.created_at >= '$from_date' ";
+         }
+         if ($toDate) {
+         $where .= " AND c.created_at <= '$to_date' ";
+         }*/
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -4178,29 +4217,29 @@ class ExelController extends Controller
             $sheet->setCellValue('A' . $x, $i + 1);
             $sheet->setCellValue('B' . $x, $pendings[$i]->student_name);
             /*$sheet->setCellValue('C' . $x, $pendings[$i]->stu_id);
-            $sheet->setCellValue('D' . $x, $pendings[$i]->accounting_id);
-            $sheet->setCellValue('E' . $x, $pendings[$i]->branch_name);
-            $sheet->setCellValue('F' . $x, $pendings[$i]->program_name);
-            $sheet->setCellValue('G' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('H' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('I' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('J' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('K' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('L' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('M' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('N' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('O' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('P' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('Q' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('R' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('S' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('T' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('U' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('V' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('W' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('X' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('Y' . $x, $pendings[$i]->student_name);
-            $sheet->setCellValue('Z' . $x, $pendings[$i]->student_name);*/
+             $sheet->setCellValue('D' . $x, $pendings[$i]->accounting_id);
+             $sheet->setCellValue('E' . $x, $pendings[$i]->branch_name);
+             $sheet->setCellValue('F' . $x, $pendings[$i]->program_name);
+             $sheet->setCellValue('G' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('H' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('I' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('J' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('K' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('L' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('M' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('N' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('O' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('P' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('Q' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('R' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('S' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('T' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('U' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('V' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('W' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('X' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('Y' . $x, $pendings[$i]->student_name);
+             $sheet->setCellValue('Z' . $x, $pendings[$i]->student_name);*/
 
 
             $st = "A" . $x;
@@ -4223,7 +4262,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO CHUYỂN LỚP - CHUYỂN TRUNG TÂM.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -4339,10 +4379,10 @@ class ExelController extends Controller
         }
 
         /*$c = '';
-        if ($where) {
-            $where = substr($where, 3);
-            $c .= 'AND ' . $where;
-        }*/
+         if ($where) {
+         $where = substr($where, 3);
+         $c .= 'AND ' . $where;
+         }*/
         // return $c;
 
         $pendings = DB::select(DB::raw("SELECT pd.id as pending_id,
@@ -4405,7 +4445,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO CHUYỂN PHÍ.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -4485,12 +4526,12 @@ class ExelController extends Controller
         $conditions[] = "c.debt_amount > 0";
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object) [];
+            $response = (object)[];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object) [];
+            $sinformation = (object)[];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -4510,7 +4551,8 @@ class ExelController extends Controller
             }
 
             $branch_ids = u::getBranchIds($request->users_data);
-        } else {
+        }
+        else {
 
             $branch_ids_term = [];
             foreach ($branch_ids as $key => $value) {
@@ -4607,7 +4649,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO CÔNG NỢ.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -4692,12 +4735,12 @@ class ExelController extends Controller
 
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object) [];
+            $response = (object)[];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object) [];
+            $sinformation = (object)[];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -4802,7 +4845,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO PENDING.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -5011,7 +5055,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO QUÁ HẠN CỌC.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -5025,12 +5070,12 @@ class ExelController extends Controller
 
         if (empty($branch_ids)) {
             $token = $da->tk;
-            $response = (object) [];
+            $response = (object)[];
             $response->message = 'invalid session';
             $response->status = 200;
             $request->authorized = null;
             $check = false;
-            $sinformation = (object) [];
+            $sinformation = (object)[];
             if ($token !== null) {
                 $session = Redis::get($token);
                 if ($session) {
@@ -5127,7 +5172,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BẢNG THEO DÕI HIỆU SUẤT CỦA APAX ENGLISH.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -5281,7 +5327,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO PHÂN LOẠI VÙNG.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -5340,7 +5387,8 @@ class ExelController extends Controller
         $max = 0;
         if ($best) {
             $max = $best;
-        } elseif ($worst) {
+        }
+        elseif ($worst) {
             $max = $worst;
         }
 
@@ -5372,11 +5420,13 @@ class ExelController extends Controller
                     $branche->total_amount = $totalAmount;
                     $branches[] = $branche;
                     $count++;
-                } else {
+                }
+                else {
                     break;
                 }
             }
-        } else {
+        }
+        else {
             foreach ($res as $branche) {
                 $totalAmount = 0;
                 if ($branche->total_amount != null)
@@ -5463,7 +5513,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO PHÂN LOẠI TRUNG TÂM.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -5626,7 +5677,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO PHÂN LOẠI NHÂN VIÊN.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -5703,7 +5755,7 @@ class ExelController extends Controller
             $x = $i + 6;
             foreach ($columns as $index => $column) {
                 $colName = chr($index + 65);
-                $sheet->setCellValue("{$colName}$x", $column['name'] === 'stt' ? $i + 1 : $classes[$i]->{$column['name']});
+                $sheet->setCellValue("{$colName}$x", $column['name'] === 'stt' ? $i + 1 : $classes[$i]->{ $column['name']});
                 ProcessExcel::styleCells($spreadsheet, "{$colName}$x", "FFFFFF", "black", 11, 0, 3, "center", "center", true);
             }
         }
@@ -5721,7 +5773,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Báo cáo số học sinh trong lớp.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -5741,7 +5794,8 @@ class ExelController extends Controller
             $toDate = $endMonth;
             $dateMonthFromPrev = date('Y-m-01', strtotime('first day of last month'));
             $dateMonthToPrev = date('Y-m-t', strtotime('first day of last month'));
-        } else {
+        }
+        else {
             $dateMonthFromPrev = date('Y-m-01', strtotime('first day of last month', strtotime($fromDate)));
             $dateMonthToPrev = date('Y-m-t', strtotime('first day of last month', strtotime($toDate)));
         }
@@ -5834,7 +5888,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="Báo cáo số học sinh Tăng Net.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -5860,7 +5915,8 @@ class ExelController extends Controller
             $to_dof_date = date('Y-m-d', strtotime($to_date));
             $from_dof_date_prev = date('Y-m-01', strtotime(' -1 month', strtotime($from_date)));
             $to_dof_date_prev = date('Y-m-t', strtotime(' -1 month', strtotime($to_date)));
-        } else {
+        }
+        else {
             $whereCm2m = date('Y-m-d', strtotime(' -2 month'));
             $from_dof_date = date('Y-m-01');
             $to_dof_date = date('Y-m-t');
@@ -6250,7 +6306,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO SỐ LIỆU BỘ PHẬN VẬN HÀNH TRUNG TÂM.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -6276,7 +6333,8 @@ class ExelController extends Controller
             $to_dof_date = date('Y-m-d', strtotime($to_date));
             $from_dof_date_prev = date('Y-m-01', strtotime(' -1 month', strtotime($from_date)));
             $to_dof_date_prev = date('Y-m-t', strtotime(' -1 month', strtotime($to_date)));
-        } else {
+        }
+        else {
             $whereCm2m = date('Y-m-d', strtotime(' -2 month'));
             $from_dof_date = date('Y-m-01');
             $to_dof_date = date('Y-m-t');
@@ -6648,7 +6706,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO SỐ LIỆU BỘ PHẬN VẬN HÀNH TRUNG TÂM.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -6772,7 +6831,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO DOANH SỐ THEO TEAM.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -6902,12 +6962,14 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="DANH SÁCH HỌC SINH.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
             exit;
 
-        } else {
+        }
+        else {
 
         }
     }
@@ -6933,7 +6995,7 @@ class ExelController extends Controller
             $product_ids = explode(',', str_replace('[', '', str_replace(']', '', $re->products)));
             foreach ($holidays as $key => $holiday) {
                 if (in_array($key, $product_ids)) {
-                    $holidays[$key]['list'][] = (Object) [
+                    $holidays[$key]['list'][] = (Object)[
                         'name' => $re->name,
                         'zone' => $re->zone_name,
                         'start_date' => $re->start_date,
@@ -7021,7 +7083,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="PUBLIC HOLIDAYS.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -7114,7 +7177,8 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="BÁO CÁO DANH SÁCH HỌC SINH.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
+        }
+        catch (Exception $exception) {
             throw $exception;
         }
         exit;
@@ -7156,7 +7220,7 @@ class ExelController extends Controller
             $position = $pos + 6;
             foreach ($columns as $index => $column) {
                 $colName = chr($index + 65);
-                $sheet->setCellValue("{$colName}$position", $column['name'] === 'stt' ? $pos + 1 : $item->{$column['name']});
+                $sheet->setCellValue("{$colName}$position", $column['name'] === 'stt' ? $pos + 1 : $item->{ $column['name']});
                 ProcessExcel::styleCells($spreadsheet, "{$colName}$position", "FFFFFF", "black", 11, 0, 3, "center", "center", true);
             }
         }
@@ -7172,8 +7236,10 @@ class ExelController extends Controller
             header('Content-Disposition: attachment;filename="' . $fileName . '.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save("php://output");
-        } catch (Exception $exception) {
-        } finally {
+        }
+        catch (Exception $exception) {
+        }
+        finally {
             exit;
         }
     }
@@ -7330,10 +7396,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="Báo cáo học sinh full fee active.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -7459,10 +7527,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="Danh Sách Học Sinh Tới Hạn Tái Phí.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -7525,10 +7595,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="Báo Cáo Tổng Hợp Học Sinh Tới Hạn Tái Phí.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -7618,10 +7690,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="Danh Sách Học Sinh Tới Hạn Tái Phí Theo EC.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -7719,10 +7793,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO CHI TIẾT HỌC SINH PENDING.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -7824,10 +7900,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO CHI TIẾT HỌC SINH BẢO LƯU.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -7884,7 +7962,8 @@ class ExelController extends Controller
             $sheet->getColumnDimension('I')->setWidth(40);
             if ($request->users_data->role_id == '999999999' || $request->users_data->id == '140') {
                 $sheet->getColumnDimension('J')->setWidth(30);
-            } else {
+            }
+            else {
                 $sheet->getColumnDimension('J')->setWidth(0);
             }
             $sheet->getColumnDimension('K')->setWidth(30);
@@ -7979,10 +8058,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="DANH SACH HOC SINH CHECKIN.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -8079,8 +8160,8 @@ class ExelController extends Controller
                 $sheet->setCellValue('L' . $x, $students[$i]->creator_checkin_name);
                 $sheet->setCellValue('M' . $x, $students[$i]->source_detail);
                 $sheet->getRowDimension($x)->setRowHeight(23);
-                $must_charge += (int) $students[$i]->must_charge;
-                $total_charged += (int) $students[$i]->total_charged;
+                $must_charge += (int)$students[$i]->must_charge;
+                $total_charged += (int)$students[$i]->total_charged;
             }
 
             $sheet->mergeCells('A' . ($x + 1) . ':I' . ($x + 1));
@@ -8093,10 +8174,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="THÔNG TIN KHÁCH SALES HUB LÊN GÓI PHÍ TẠI TRUNG TÂM.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -8107,13 +8190,13 @@ class ExelController extends Controller
             $p = r::params($request, $session);
             $query = r::report_r02($p, 0, 1);
             $students = u::query($query);
-            $summary = (object) array(
+            $summary = (object)array(
                 'must_charge' => 0,
                 'total_charged' => 0,
             );
             foreach ($students as $row) {
-                $summary->must_charge += (int) $row->must_charge;
-                $summary->total_charged += (int) $row->total_charged;
+                $summary->must_charge += (int)$row->must_charge;
+                $summary->total_charged += (int)$row->total_charged;
             }
             $branchs = u::query("SELECT name from branches WHERE id in ($p->s)");
             $branch_name = '';
@@ -8204,10 +8287,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="THÔNG TIN KHÁCH MARKETING LÊN GÓI PHÍ TẠI TRUNG TÂM.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -8308,10 +8393,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO HỌC SINH MỚI.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -8322,15 +8409,15 @@ class ExelController extends Controller
             $p = r::params($request, $session);
             $query = r::report_r05($p, 0, 1);
             $students = u::query($query);
-            $summary = (object) array(
+            $summary = (object)array(
                 'must_charge' => 0,
                 'amount' => 0,
             );
             foreach ($students as $row) {
-                $summary->must_charge += (int) $row->must_charge;
-                $summary->amount += (int) $row->amount;
-                $summary->ban_cheo += $row->count_recharge == 0 && $row->pre_branch ? (int) $row->amount / 2 : 0;
-                $summary->thuc_thu += $row->count_recharge == 0 && $row->pre_branch ? (int) $row->amount / 2 : (int) $row->amount;
+                $summary->must_charge += (int)$row->must_charge;
+                $summary->amount += (int)$row->amount;
+                $summary->ban_cheo += $row->count_recharge == 0 && $row->pre_branch ? (int)$row->amount / 2 : 0;
+                $summary->thuc_thu += $row->count_recharge == 0 && $row->pre_branch ? (int)$row->amount / 2 : (int)$row->amount;
             }
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
@@ -8477,10 +8564,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO DOANH SỐ.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -8491,13 +8580,13 @@ class ExelController extends Controller
             $p = r::params($request, $session);
             $query = r::report_r06($p, $request, 0, 1);
             $students = u::query($query);
-            $summary = (object) array(
+            $summary = (object)array(
                 'must_charge' => 0,
                 'total_charged' => 0,
             );
             foreach ($students as $row) {
-                $summary->must_charge += (int) $row->must_charge;
-                $summary->total_charged += (int) $row->total_charged;
+                $summary->must_charge += (int)$row->must_charge;
+                $summary->total_charged += (int)$row->total_charged;
             }
             $branchs = u::query("SELECT name from branches WHERE id in ($p->s)");
             $branch_name = '';
@@ -8599,10 +8688,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="THÔNG TIN KHÁCH MARKETING LÊN GÓI PHÍ TẠI TRUNG TÂM.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -8772,10 +8863,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO TÌNH HÌNH HỌC SINH.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -8927,10 +9020,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO TÌNH HÌNH HỌC SINH IG - BH.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -9018,10 +9113,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO CHECKIN.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -9101,10 +9198,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO HỌC SINH ĐANG HỌC THỬ.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -9184,10 +9283,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO HỌC SINH ĐÃ HỌC THỬ.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -9273,10 +9374,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO CONFIRM HỌC SINH.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -9357,10 +9460,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO CONFIRM.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -9446,10 +9551,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO HỌC SINH HẾT PHÍ.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -9560,10 +9667,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO SỬ DỤNG VOUCHER.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -9664,10 +9773,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO CHI TIẾT GÓI BÁN.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
@@ -9744,10 +9855,12 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO TỔNG HỢP GÓI BÁN.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         return $resp;
@@ -9818,8 +9931,8 @@ class ExelController extends Controller
                 $sheet->setCellValue('E' . $x, $students[$i]->product_name);
                 $sheet->setCellValue('F' . $x, $students[$i]->real_amount);
 
-                $realMonths = (float) $students[$i]->real_months;
-                $formattedMonths = fmod($realMonths, 1) == 0 ? (int) $realMonths : round($realMonths, 1);
+                $realMonths = (float)$students[$i]->real_months;
+                $formattedMonths = fmod($realMonths, 1) == 0 ? (int)$realMonths : round($realMonths, 1);
                 $sheet->setCellValue('G' . $x, $formattedMonths);
 
                 $sheet->setCellValue('H' . $x, $students[$i]->start_date);
@@ -9842,12 +9955,128 @@ class ExelController extends Controller
                 header('Content-Disposition: attachment;filename="BÁO CÁO PHÂN BỔ DOANH THU.xlsx"');
                 header('Cache-Control: max-age=0');
                 $writer->save("php://output");
-            } catch (Exception $exception) {
+            }
+            catch (Exception $exception) {
                 throw $exception;
             }
-        } else {
+        }
+        else {
             die('Request not found...');
         }
         exit;
+    }
+
+    public function chargesExport(Request $request)
+    {
+        $search = json_decode($request->search);
+        $session = $request->users_data;
+        $branches = isset($search->branch) && $search->branch ? (int)$search->branch : $session->branches_ids;
+        $where = "AND c.branch_id IN ($branches)";
+        if (isset($search->payload) && $search->payload != '') {
+            $where .= " AND p.payload = " . (int)$search->payload;
+        }
+        if (isset($search->product) && $search->product != '') {
+            $where .= " AND c.product_id = " . (int)$search->product;
+        }
+        if (isset($search->tuition_fee) && $search->tuition_fee != '') {
+            $where .= " AND c.tuition_fee_id = " . (int)$search->tuition_fee;
+        }
+        if (isset($search->keyword) && $search->keyword != '') {
+            $where .= " AND (s.crm_id LIKE '$search->keyword%' OR s.stu_id LIKE '$search->keyword%' OR s.accounting_id LIKE '$search->keyword%' OR s.name LIKE '%$search->keyword%')";
+        }
+        if (isset($search->method) && $search->method !== '') {
+            $where .= " AND p.method = " . (int)$search->method;
+        }
+        if (isset($search->date_range) && is_array($search->date_range) && count($search->date_range) == 2 && $search->date_range[0] != '') {
+            $start_date = $search->date_range[0] . ' 00:00:00';
+            $end_date = $search->date_range[1] . ' 23:59:59';
+            $where .= " AND p.created_at >= '$start_date' AND p.created_at <= '$end_date'";
+        }
+
+        $query = "SELECT c.id, c.student_id, c.branch_id, c.type AS contract_type, c.payload, c.enrolment_id,
+            c.must_charge, c.debt_amount, c.updated_at, c.total_charged AS charged_total, p.created_at AS charge_date,
+            p.amount AS charge_amount, p.id AS log_id, c.status, p.debt AS debt_amount,
+            p.creator_id, s.name AS student_name, s.crm_id, s.stu_id AS lms_id, s.accounting_id,
+            b.name AS branch_name, t.name AS tuition_fee_name, pr.name AS product_name,
+            u.full_name AS creator_name, p.method AS charge_method
+            FROM contracts AS c
+                LEFT JOIN payment AS p ON c.id = p.contract_id AND p.type = 0
+                LEFT JOIN users AS u ON u.id = p.creator_id
+                LEFT JOIN students AS s ON c.student_id = s.id
+                LEFT JOIN branches AS b ON c.branch_id = b.id
+                LEFT JOIN tuition_fee AS t ON c.tuition_fee_id = t.id
+                LEFT JOIN products AS pr ON c.product_id = pr.id
+            WHERE c.status > 0 AND c.must_charge > 0 $where 
+                AND c.id IN (SELECT contract_id FROM payment) ORDER BY p.id DESC";
+
+        $charges = \DB::select(\DB::raw($query));
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->mergeCells('A1:L1');
+        $sheet->setCellValue('A1', 'DANH SÁCH THU PHÍ');
+        $sheet->getRowDimension('1')->setRowHeight(36);
+        ProcessExcel::styleCells($spreadsheet, "A1:L1", "ffffff", "000", 16, 1, 3, "center", "center", true, 0, 'Calibri');
+
+        $headers = [
+            'A' => ['label' => 'STT', 'width' => 8],
+            'B' => ['label' => 'Tên học sinh', 'width' => 30],
+            'C' => ['label' => 'Mã CMS', 'width' => 15],
+            'D' => ['label' => 'Mã Cyber', 'width' => 15],
+            'E' => ['label' => 'Trung tâm', 'width' => 30],
+            'F' => ['label' => 'Sản phẩm', 'width' => 25],
+            'G' => ['label' => 'Gói phí', 'width' => 30],
+            'H' => ['label' => 'Phương thức', 'width' => 20],
+            'I' => ['label' => 'Số tiền', 'width' => 15],
+            'J' => ['label' => 'Công nợ', 'width' => 15],
+            'K' => ['label' => 'Người thu phí', 'width' => 25],
+            'L' => ['label' => 'Ngày thu phí', 'width' => 20],
+        ];
+
+        foreach ($headers as $col => $header) {
+            $sheet->setCellValue($col . '2', $header['label']);
+            $sheet->getColumnDimension($col)->setWidth($header['width']);
+            ProcessExcel::styleCells($spreadsheet, $col . '2', '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+        }
+
+        $row = 3;
+        $methods = ['Tiền mặt', 'Chuyển khoản', 'Quẹt thẻ trả thẳng', 'Quẹt thẻ trả góp'];
+
+        foreach ($charges as $index => $item) {
+            $methodName = isset($methods[$item->charge_method]) ? $methods[$item->charge_method] : 'Không xác định';
+
+            $sheet->setCellValue('A' . $row, $index + 1);
+            $sheet->setCellValue('B' . $row, $item->student_name);
+            $sheet->setCellValue('C' . $row, $item->crm_id);
+            $sheet->setCellValue('D' . $row, $item->accounting_id);
+            $sheet->setCellValue('E' . $row, $item->branch_name);
+            $sheet->setCellValue('F' . $row, $item->product_name);
+            $sheet->setCellValue('G' . $row, $item->tuition_fee_name);
+            $sheet->setCellValue('H' . $row, $methodName);
+            $sheet->setCellValue('I' . $row, $item->charge_amount);
+            $sheet->setCellValue('J' . $row, $item->debt_amount);
+            $sheet->setCellValue('K' . $row, $item->creator_name);
+            $sheet->setCellValue('L' . $row, $item->charge_date);
+
+            $sheet->getStyle('I' . $row)->getNumberFormat()->setFormatCode('#,##0');
+            $sheet->getStyle('J' . $row)->getNumberFormat()->setFormatCode('#,##0');
+
+            for ($col = 'A'; $col <= 'L'; $col++) {
+                ProcessExcel::styleCells($spreadsheet, $col . $row, 'FFFFFF', '000000', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+            }
+            $row++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        try {
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="Danh sách thu phí.xlsx"');
+            header('Cache-Control: max-age=0');
+            $writer->save("php://output");
+        }
+        catch (Exception $exception) {
+            throw $exception;
+        }
     }
 }

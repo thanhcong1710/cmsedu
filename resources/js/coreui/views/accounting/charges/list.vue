@@ -114,19 +114,23 @@
               </div>
             </div>
           </div>
-          <!-- <div slot="footer" class="text-center">
-            <router-link to="/charges/add-charge">
+          <div slot="footer" class="text-center">
+            <!-- <router-link to="/charges/add-charge">
               <button type="button" class="apax-btn full reset">
                 <i class="fa fa-plus"></i> Thêm mới phiếu thu
               </button>
             </router-link>
             <button @click="listCharged(0)" class="apax-btn full edit"><i class="fa fa-list"></i> {{html.buttons.default}}</button>
             <button @click="listCharged(1)" class="apax-btn full detail"><i class="fa fa-slack"></i> {{html.buttons.waitcharged}}</button>
-            <button @click="listCharged(2)" class="apax-btn full print"><i class="fa fa-angellist"></i> {{html.buttons.charged}}</button>
-            <button @click="extract" class="btn btn-success">
+            <button @click="listCharged(2)" class="apax-btn full print"><i class="fa fa-angellist"></i> {{html.buttons.charged}}</button> -->
+            <button @click="searching" class="apax-btn full edit">
+              <i class="fa fa-filter" aria-hidden="true"></i> Lọc
+            </button>
+            <button @click="resetFilter" class="apax-btn full"><i class="fa fa-ban"></i> Bỏ lọc</button>
+            <button @click="extract" class="apax-btn full edit">
               <i class="fa fa-file-word-o"></i> Trích xuất
             </button>
-          </div> -->
+          </div>
         </b-card>
       </div>
     </div>
@@ -429,7 +433,32 @@ export default {
     },
     loading() {
     },
+    resetFilter() {
+      this.filter = {
+        branch: this.cache.branch,
+        keyword: '',
+        payload: '',
+        product: '',
+        tuition_fee: '',
+        date_range: '',
+        method: ''
+      }
+      this.get(this.link(), this.load)
+    },
     extract() {
+      const searchParams = {
+        branch: this.filter.branch,
+        keyword: this.filter.keyword,
+        payload: this.filter.payload,
+        product: this.filter.product,
+        tuition_fee: this.filter.tuition_fee,
+        date_range: this.filter.date_range,
+        method: this.filter.method
+      }
+      u.apax.$emit('apaxLoading', true)
+      u.getFile('/api/export/charges', searchParams).then(() => {
+        u.apax.$emit('apaxLoading', false)
+      })
     },
     selectBranch(data) {
       if (data) {

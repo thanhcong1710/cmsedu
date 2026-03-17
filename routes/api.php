@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Providers;
+
 use Illuminate\Support\Facades\Route;
 use App\Providers\UtilityServiceProvider as u;
 use App\Models\Contract;
 use Illuminate\Support\Facades\DB;
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
  * ========================================================== *
@@ -20,15 +22,15 @@ use Illuminate\Support\Facades\DB;
  */
 
 /*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+ |--------------------------------------------------------------------------
+ | API Routes
+ |--------------------------------------------------------------------------
+ |
+ | Here is where you can register API routes for your application. These
+ | routes are loaded by the RouteServiceProvider within a group which
+ | is assigned the "api" middleware group. Enjoy building your API!
+ |
+ */
 Route::get('provinces/list', 'ProvincesController@getList');
 Route::get('district/list', 'DistrictsController@getList');
 u::load([
@@ -893,7 +895,7 @@ Route::get('care-soft/cron-push-contact', 'SupportsController@cronPushContact');
 Route::get('care-soft/get-custom-fields', 'CsController@getCustomFields');
 
 /** export new */
-
+Route::get('export/charges', 'ExelController@chargesExport')->middleware('Authentication');
 Route::get('export/student-list-export', 'ReportsController@studentListExport')->middleware('Authentication');
 Route::get('export/student-trial-learn', 'ReportsController@studentTrialExport')->middleware('Authentication');
 
