@@ -3805,7 +3805,9 @@ class Report extends Model
                 $resp = $qtotal;
             } else {
                 $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
-                $resp = "SELECT s.crm_id, s.accounting_id, s.name AS student_name,
+                $resp = "SELECT s.crm_id, s.accounting_id, s.name AS student_name, s.address,
+                            (SELECT name FROM provinces WHERE id = s.province_id) AS province_name,
+                            (SELECT name FROM districts WHERE id = s.district_id) AS district_name,
                             (SELECT name FROM branches WHERE id=r.branch_id) AS branch_name,
                             (SELECT name FROM products WHERE id=r.product_id) AS product_name,
                             (SELECT hrm_id FROM users WHERE id=r.cm_id) AS hrm_id,
@@ -3853,7 +3855,9 @@ class Report extends Model
                 $resp = $qtotal;
             } else {
                 $lim = (isset($p->d) && isset($p->l)) ? "LIMIT $p->d, $p->l" : "";
-                $resp = "SELECT s.crm_id, s.accounting_id, s.name AS student_name,
+                $resp = "SELECT s.crm_id, s.accounting_id, s.name AS student_name, s.address,
+                            (SELECT name FROM provinces WHERE id = s.province_id) AS province_name,
+                            (SELECT name FROM districts WHERE id = s.district_id) AS district_name,
                             (SELECT name FROM branches WHERE id=c.branch_id) AS branch_name,
                             (SELECT name FROM products WHERE id=c.product_id) AS product_name,
                             (SELECT hrm_id FROM users WHERE id=t.cm_id) AS hrm_id,

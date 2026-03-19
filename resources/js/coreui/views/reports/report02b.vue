@@ -132,6 +132,7 @@
                   <th>Mã CMS</th>
                   <th>Mã kế toán</th>
                   <th>Họ tên học sinh</th>
+                  <th>Địa chỉ</th>
                   <th>Sản phẩm</th>
                   <th>Mã NV CM</th>
                   <th>Họ tên CM</th>
@@ -149,6 +150,7 @@
                   <td>{{ item.crm_id }}</td>
                   <td>{{ item.accounting_id }}</td>
                   <td>{{ item.student_name }}</td>
+                  <td>{{ formatAddress(item) }}</td>
                   <td>{{ item.product_name }}</td>
                   <td>{{ item.hrm_id }}</td>
                   <td>{{ item.cm_name }}</td>
@@ -403,6 +405,16 @@ export default {
           this.resource.cms = response;
         });
     },
+    formatAddress(item) {
+      let fullAddress = item.address || '';
+      if (item.district_name) {
+        fullAddress += (fullAddress ? ', ' : '') + item.district_name;
+      }
+      if (item.province_name) {
+        fullAddress += (fullAddress ? ', ' : '') + item.province_name;
+      }
+      return fullAddress;
+    }
   }
 };
 </script>
