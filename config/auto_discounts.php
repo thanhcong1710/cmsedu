@@ -2,24 +2,24 @@
 
 return [
     /*
-    |--------------------------------------------------------------------------
-    | Auto Discount Rules
-    |--------------------------------------------------------------------------
-    |
-    | Cấu hình các chương trình giảm trừ tự động khi nhập học
-    | Mỗi rule có thể áp dụng theo:
-    | - Khoảng thời gian (start_date, end_date)
-    | - Ngày cụ thể trong tháng (apply_on_days: [1, 15, 30])
-    | - Gói phí (tuition_packages: số tháng như 6, 12)
-    | - Sản phẩm (product_ids)
-    | - Chi nhánh (branch_ids)
-    | - Loại giảm: 'fixed' (số tiền cố định) hoặc 'percentage' (%)
-    | - Trạng thái: status (1: Active, 0: Inactive)
-    | - Loại gói: package_types ([0, 1, 2]) // 0: Gói thường, 1: Combo 1, 2: Combo 2
-    | - ID Gói phí: tuition_fee_ids ([1, 2, 3]) // Áp dụng cho các gói phí cụ thể theo ID
-    | - Loại trừ khi có bonus sessions: exclude_bonus_sessions ([4]) // Không áp dụng nếu số buổi bonus là 4
-    |
-    */
+     |--------------------------------------------------------------------------
+     | Auto Discount Rules
+     |--------------------------------------------------------------------------
+     |
+     | Cấu hình các chương trình giảm trừ tự động khi nhập học
+     | Mỗi rule có thể áp dụng theo:
+     | - Khoảng thời gian (start_date, end_date)
+     | - Ngày cụ thể trong tháng (apply_on_days: [1, 15, 30])
+     | - Gói phí (tuition_packages: số tháng như 6, 12)
+     | - Sản phẩm (product_ids)
+     | - Chi nhánh (branch_ids)
+     | - Loại giảm: 'fixed' (số tiền cố định) hoặc 'percentage' (%)
+     | - Trạng thái: status (1: Active, 0: Inactive)
+     | - Loại gói: package_types ([0, 1, 2]) // 0: Gói thường, 1: Combo 1, 2: Combo 2
+     | - ID Gói phí: tuition_fee_ids ([1, 2, 3]) // Áp dụng cho các gói phí cụ thể theo ID
+     | - Loại trừ khi có bonus sessions: exclude_bonus_sessions ([4]) // Không áp dụng nếu số buổi bonus là 4
+     |
+     */
 
     'rules' => [
         // ====================================================================
@@ -81,7 +81,7 @@ return [
             'package_types' => [1],
             'tuition_packages' => [3],
             // 'exclude_bonus_sessions' => [4],
-            'branch_ids'=> [19,14],
+            'branch_ids' => [19, 14],
             'discount_type' => 'fixed',
             'discount_value' => 1000000,
         ],
@@ -233,13 +233,39 @@ return [
             'discount_value' => 1000000,
             'package_types' => [0],
         ],
+
+        // ====================================================================
+        // PRIORITY 0: Product 4 - Extra Discounts
+        // ====================================================================
+        [
+            'name' => 'Ưu đãi Đăng ký sớm',
+            'description' => 'Giảm tự động 15% cho các gói SUMMER đến hết 30/04/2026',
+            'status' => 1,
+            'priority' => 5,
+            'start_date' => '2026-01-01',
+            'end_date' => '2026-04-30',
+            'product_ids' => [4],
+            'discount_type' => 'percentage',
+            'discount_value' => 15,
+        ],
+        [
+            'name' => 'Ưu đãi Đăng ký tháng 5',
+            'description' => 'Giảm tự động 5% cho các gói SUMMER từ 01/05/2026 đến 31/05/2026',
+            'status' => 1,
+            'priority' => 5,
+            'start_date' => '2026-05-01',
+            'end_date' => '2026-05-31',
+            'product_ids' => [4],
+            'discount_type' => 'percentage',
+            'discount_value' => 5,
+        ],
     ],
 
     /*
-    |--------------------------------------------------------------------------
-    | Settings
-    |--------------------------------------------------------------------------
-    */
+     |--------------------------------------------------------------------------
+     | Settings
+     |--------------------------------------------------------------------------
+     */
 
     'allow_multiple' => false,
     'select_by_priority' => true,

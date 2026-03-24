@@ -1603,10 +1603,7 @@
                         mess += ' - Chưa chọn gói học phí<br/>'
                         resp = false
                     }
-                    if(!_.get(this, 'data.coupon.code') && parseInt(_.get(this, 'data.customer_type')) === 1){
-                        mess += ' - Chưa chọn mã chiết khấu giảm giá<br/>'
-                        resp = false
-                    }
+
                 }
                 if (this.data.end_date === '' && !this.receive) {
                     mess += ' - Chưa chọn ngày dự kiến học<br/>'
@@ -1948,7 +1945,7 @@
             selectCoupon(data){
                 if(data){
                     const t_bonus_sessions = this.data.bonus_sessions -  this.data.tmp_bonus_sessions
-                    const t_bonus_amount = this.data.bonus_sessions -  this.data.tmp_bonus_sessions
+                    const t_bonus_amount = this.data.bonus_amount -  this.data.tmp_bonus_amount
                     this.data.bonus_sessions = t_bonus_sessions + data.bonus_sessions
                     this.data.bonus_amount = t_bonus_amount + data.bonus_amount
                     this.data.tmp_bonus_sessions = data.bonus_sessions
@@ -1965,7 +1962,11 @@
                     u.p(`/api/partner_voucher/get_data_voucher`, params).then(response => {
                         this.html.loading.action = false;
                         if(response.status){
-                            this.data.voucher = response.coupon_amount
+                            if (response.percent) {
+                                this.data.voucher = Math.round(this.data.discounted_amount * response.percent / 100);
+                            } else {
+                                this.data.voucher = response.coupon_amount
+                            }
                             this.data.tmp_bonus_sessions = this.data.tmp_bonus_sessions ? this.data.tmp_bonus_sessions:0
                             this.data.tmp_bonus_amount = this.data.tmp_bonus_amount ? this.data.tmp_bonus_amount:0
                             this.data.bonus_sessions = this.data.tmp_bonus_sessions+response.coupon_session
