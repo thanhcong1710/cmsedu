@@ -994,10 +994,16 @@ class IssuesController extends Controller
     }
     public function addStudentCare(Request $request)
     {
-        u::query("INSERT INTO student_care (student_id,class_id,method,note,type_content,created_at,creator_id) VALUES
-         ('$request->student_id','$request->class_id','$request->method','$request->note','$request->type_content','".date('Y-m-d H:i:s')."','".$request->users_data->id."')");
+        DB::table('student_care')->insert([
+            'student_id' => $request->student_id,
+            'class_id' => $request->class_id,
+            'method' => $request->method,
+            'note' => $request->note,
+            'type_content' => $request->type_content,
+            'created_at' => date('Y-m-d H:i:s'),
+            'creator_id' => $request->users_data->id
+        ]);
         return response()->json("ok");
-
     }
     public function getStudentsCare(Request $request, $student_id){
         $response = new Response();
@@ -1034,12 +1040,14 @@ class IssuesController extends Controller
     }
     public function updateStudentCare(Request $request)
     {
-        u::query("UPDATE student_care  SET 
-            method = '$request->method',note='$request->note',type_content='$request->type_content',
-            updated_at='".date('Y-m-d H:i:s')."',updator_id ='".$request->users_data->id."' 
-            WHERE id = $request->log_id");
+        DB::table('student_care')->where('id', $request->log_id)->update([
+            'method' => $request->method,
+            'note' => $request->note,
+            'type_content' => $request->type_content,
+            'updated_at' => date('Y-m-d H:i:s'),
+            'updator_id' => $request->users_data->id
+        ]);
         return response()->json("ok");
-
     }
 }
 
