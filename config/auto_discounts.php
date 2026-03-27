@@ -247,6 +247,7 @@ return [
             'product_ids' => [4],
             'discount_type' => 'percentage',
             'discount_value' => 15,
+            'payment_types' => [1],
         ],
         [
             'name' => 'Ưu đãi Đăng ký tháng 5',
@@ -258,6 +259,20 @@ return [
             'product_ids' => [4],
             'discount_type' => 'percentage',
             'discount_value' => 5,
+            'payment_types' => [1],
+        ],
+        [
+            'name' => 'Ưu đãi Đăng ký trả góp',
+            'description' => 'Giảm tự động 5% cho các gói SUMMER',
+            'status' => 1,
+            'priority' => 5,
+            'start_date' => '2026-01-01',
+            'end_date' => '2026-05-31',
+            'product_ids' => [4],
+            'payment_types' => [2],
+            'discount_type' => 'percentage',
+            'discount_value' => 5,
+            'tuition_packages' => [2],
         ],
     ],
 

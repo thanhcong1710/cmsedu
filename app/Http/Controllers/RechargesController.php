@@ -829,6 +829,7 @@ class RechargesController extends Controller
       $program_label = "'$contract->program'";
       $contract_code = apax_ada_gen_contract_code($student->name, $student->ec_name, $student->branch_name);
       $coupon = trim(strtoupper(isset($contract->coupon) ? $contract->coupon : ''));
+      $import_type = (int) (isset($contract->import_type) ? $contract->import_type : 0);
       $bonus_sessions = (int) $request->bonus_sessions;
       $bonus_amount = (int) $request->bonus_amount;
       if ($cm_id == 0) {
@@ -944,7 +945,8 @@ class RechargesController extends Controller
           `summary_sessions`,
           `action`,
           `shift`,
-          enrolment_updator_id)
+          enrolment_updator_id,
+          import_type)
           VALUES
           ('$contract_code',
           $contract_type,
@@ -997,7 +999,8 @@ class RechargesController extends Controller
           $summary_sessions,
           '$action',
           '$shift',
-          $enrolment_updator_id)";
+          $enrolment_updator_id,
+          $import_type)";
         u::query($insert_query);
         $latest_contract = u::first("SELECT id, created_at, updated_at, hash_key FROM contracts WHERE hash_key = '$hash_key' ORDER BY id DESC LIMIT 1");
         $insert_log_contract_history_query = "INSERT INTO log_contracts_history
@@ -1050,7 +1053,8 @@ class RechargesController extends Controller
           `bonus_amount`,
           `summary_sessions`,
           `action`,
-          `shift`)
+          `shift`,
+          `import_type`)
           VALUES
           ($latest_contract->id,
           '$contract_code',
@@ -1101,7 +1105,8 @@ class RechargesController extends Controller
           $bonus_amount,
           $summary_sessions,
           '$action',
-          '$shift')";
+          '$shift',
+          $import_type)";
         u::query($insert_log_contract_history_query);
         if ($contract->coupon_code) {
           $coupon_info = u::first("SELECT * FROM coupons WHERE code='$contract->coupon_code'");

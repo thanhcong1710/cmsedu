@@ -108,6 +108,14 @@ class AutoDiscountHelper
             }
         }
 
+        // Kiểm tra loại thu phí (payment_types: 1 - Trả thẳng, 2 - Trả góp)
+        $importType = (int)($contractData['import_type'] ?? 0);
+        if ($importType > 0 && !empty($rule['payment_types'])) {
+            if (!in_array($importType, $rule['payment_types'])) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -146,6 +154,7 @@ class AutoDiscountHelper
                     'discount_value' => $rule['discount_value'] ?? 0,
                     'discount_amount' => $discountAmount,
                     'priority' => $rule['priority'] ?? 0,
+                    'payment_types' => $rule['payment_types'] ?? [1, 2],
                 ];
             }
         }

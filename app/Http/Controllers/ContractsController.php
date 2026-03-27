@@ -784,6 +784,7 @@ class ContractsController extends Controller
       $only_give_tuition_fee_transfer = (int) $contract->receive;
       $expected_class = $contract->expected_class;
       $contract_type = (int) $contract->customer_type;
+      $import_type = (int) (isset($contract->import_type) ? $contract->import_type : 0);
       $coupon = trim(strtoupper(isset($contract->coupon) ? $contract->coupon : ''));
       $ec_id = (int) $student->ec_id;
       $cm_id = (int) $student->cm_id;
@@ -949,7 +950,8 @@ class ContractsController extends Controller
             `summary_sessions`,
             `action`,
             shift,
-            enrolment_updator_id)
+            enrolment_updator_id,
+            import_type)
             VALUES
             ('$contract_code',
             $contract_type,
@@ -1001,7 +1003,8 @@ class ContractsController extends Controller
             $summary_sessions,
             '$action',
             '$shift',
-            $enrolment_updator_id)";
+            $enrolment_updator_id,
+            $import_type)";
         $r = u::query($insert_query);
 
         $latest_contract = u::first("SELECT id, created_at, updated_at, hash_key FROM contracts WHERE hash_key = '$hash_key' ORDER BY id DESC LIMIT 1");
@@ -1061,7 +1064,8 @@ class ContractsController extends Controller
               `bonus_amount`,
               `summary_sessions`,
               `action`,
-              `shift`)
+              `shift`,
+              `import_type`)
               VALUES
               ('" . (int) $latest_contract->id . "',
               '$contract_code',
@@ -1115,7 +1119,8 @@ class ContractsController extends Controller
               $bonus_amount,
               $summary_sessions,
               '$action',
-              '$shift')";
+              '$shift',
+              $import_type)";
           u::query($insert_log_contract_history_query);
           if ($contract->coupon_code) {
             $coupon_info = u::first("SELECT * FROM coupons WHERE code='$contract->coupon_code'");

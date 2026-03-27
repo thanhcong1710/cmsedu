@@ -463,6 +463,13 @@
                                                         <small>{{ applied_auto_discount.description }}</small><br/>
                                                         <small><strong>Số tiền giảm:</strong> {{ format(applied_auto_discount.discount_amount) }}</small>
                                                     </div>
+                                                    <div class="form-group" v-if="applied_auto_discount.payment_types && applied_auto_discount.payment_types.length > 0">
+                                                        <label class="control-label"><strong>Loại thu phí:</strong></label>
+                                                        <select class="form-control" v-model="data.import_type" @change="recomputeAmount">
+                                                            <option v-if="applied_auto_discount.payment_types.includes(1)" :value="1">Trả thẳng</option>
+                                                            <option v-if="applied_auto_discount.payment_types.includes(2)" :value="2">Trả góp</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-12 pad-no" :class="html.dom.display.amount">
                                                     <div class="row">
@@ -951,11 +958,20 @@
             applyAutoDiscount(discount) {
                 if (!discount) {
                     this.applied_auto_discount = null
+                    this.data.import_type = 0
                     return
                 }
 
                 this.applied_auto_discount = discount
                 
+                if (discount.payment_types && discount.payment_types.length > 0) {
+                    if (!discount.payment_types.includes(this.data.import_type)) {
+                        this.data.import_type = discount.payment_types[0]
+                    }
+                } else {
+                    this.data.import_type = 0
+                }
+
                 const discountAmount = discount.discount_amount || 0
                 
                 // Tính lại tổng tiền (logic hiển thị chi tiết nằm trong recalculateDiscount)
@@ -1658,6 +1674,7 @@
                     data.contract.sessions = parseInt(this.data.customer_type, 10) === 0 ? 3 : data.contract.sessions
                     data.contract.coupon = _.get(this, 'data.coupon.code')
                     data.contract.enrolment_updator_id = parseInt(this.data.package_type)
+                    data.contract.import_type = this.data.import_type
                     data.bonus_sessions = this.data.bonus_sessions
                     data.bonus_amount = this.data.bonus_amount
                     delete data.contract.style
@@ -1738,7 +1755,8 @@
                     discount_percentage: 0,
                     total_point_sibling: 0,
                     calculated_discount: 0,
-                    total_voucher_other: 0
+                    total_voucher_other: 0,
+                    import_type: 0
                 })
                 this.student = {}
                 u.set(this.html.dom.list, {
