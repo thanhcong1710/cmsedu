@@ -20,6 +20,7 @@ class DiscountHelperController extends Controller
             'enrolment_updator_id' => $request->input('enrolment_updator_id'),
             'tuition_fee_id' => $request->input('tuition_fee_id'),
             'bonus_sessions' => $request->input('bonus_sessions'),
+            'import_type' => $request->input('import_type'),
         ];
 
         $discounts = AutoDiscountHelper::getAllApplicableDiscounts($contractData);
@@ -44,6 +45,7 @@ class DiscountHelperController extends Controller
             'enrolment_updator_id' => $request->input('enrolment_updator_id'),
             'tuition_fee_id' => $request->input('tuition_fee_id'),
             'bonus_sessions' => $request->input('bonus_sessions'),
+            'import_type' => $request->input('import_type'),
         ];
 
         $discount = AutoDiscountHelper::getBestDiscount($contractData);

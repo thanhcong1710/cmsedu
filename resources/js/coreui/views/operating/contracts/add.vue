@@ -451,6 +451,15 @@
                                                 </div>
                                                 <div class="col-md-12 pad-no" style="margin-top: 10px;">
                                                     <div class="form-group">
+                                                        <label class="control-label"><strong>Loại thu phí:</strong></label>
+                                                        <select class="form-control" v-model="data.import_type" @change="loadAutoDiscounts">
+                                                            <option :value="1">Trả thẳng</option>
+                                                            <option :value="2">Trả góp</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 pad-no" style="margin-top: 10px;">
+                                                    <div class="form-group">
                                                         <label class="control-label">
                                                             <input type="checkbox" v-model="is_auto_apply_discount" @change="handleAutoDiscountChange"> Áp dụng giảm trừ tự động
                                                         </label>
@@ -462,13 +471,6 @@
                                                         <strong><i class="fa fa-gift"></i> Giảm trừ tự động:</strong> {{ applied_auto_discount.name }}<br/>
                                                         <small>{{ applied_auto_discount.description }}</small><br/>
                                                         <small><strong>Số tiền giảm:</strong> {{ format(applied_auto_discount.discount_amount) }}</small>
-                                                    </div>
-                                                    <div class="form-group" v-if="applied_auto_discount.payment_types && applied_auto_discount.payment_types.length > 0">
-                                                        <label class="control-label"><strong>Loại thu phí:</strong></label>
-                                                        <select class="form-control" v-model="data.import_type" @change="recomputeAmount">
-                                                            <option v-if="applied_auto_discount.payment_types.includes(1)" :value="1">Trả thẳng</option>
-                                                            <option v-if="applied_auto_discount.payment_types.includes(2)" :value="2">Trả góp</option>
-                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 pad-no" :class="html.dom.display.amount">
@@ -842,7 +844,8 @@
                 coupon_amount:0,
                 coupon_session:0,
                 tuition_fee_price_min:0,
-                package_type: 0 // Default contract type: 0: Normal, 1: Combo 1, 2: Combo 2
+                package_type: 0, // Default contract type: 0: Normal, 1: Combo 1, 2: Combo 2
+                import_type: 1 // Default import type: 1: Full Payment, 2: Installment
             }
             model.calling = false
             model.cache = model.data
@@ -936,6 +939,7 @@
                         total_amount: totalAmount,
                         tuition_fee_id: tuitionFeeId,
                         enrolment_updator_id: this.data.package_type,
+                        import_type: this.data.import_type,
                         bonus_sessions: this.data.bonus_sessions || 0
                     })
 
@@ -958,20 +962,11 @@
             applyAutoDiscount(discount) {
                 if (!discount) {
                     this.applied_auto_discount = null
-                    this.data.import_type = 0
                     return
                 }
 
                 this.applied_auto_discount = discount
                 
-                if (discount.payment_types && discount.payment_types.length > 0) {
-                    if (!discount.payment_types.includes(this.data.import_type)) {
-                        this.data.import_type = discount.payment_types[0]
-                    }
-                } else {
-                    this.data.import_type = 0
-                }
-
                 const discountAmount = discount.discount_amount || 0
                 
                 // Tính lại tổng tiền (logic hiển thị chi tiết nằm trong recalculateDiscount)
