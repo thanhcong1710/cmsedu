@@ -230,14 +230,15 @@
                                     <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="2" v-model="data.package_type" @change="loadAutoDiscounts"> Combo tích hợp 2</label>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-6">
-                              <div class="form-group checkbox-inrow">
-                                <label class="control-label">Tái phí do nhận chuyển phí</label>
-                                <input class="pass-trial" type="checkbox" value="1"
-                                  @change="html.dom.action.receive"
-                                  v-model="receive">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="control-label"><strong>Loại thu phí:</strong></label>
+                                <select class="form-control" v-model="data.import_type" @change="loadAutoDiscounts">
+                                  <option value="1">Trả thẳng</option>
+                                  <option value="2">Trả góp</option>
+                                </select>
                               </div>
-                            </div> -->
+                            </div>
                           </div>
                         </div>
                         <div class="col-md-12 pad-no">
@@ -376,15 +377,6 @@
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="col-md-12 pad-no" style="margin-top: 10px;">
-                          <div class="form-group">
-                            <label class="control-label"><strong>Loại thu phí:</strong></label>
-                            <select class="form-control" v-model="data.import_type" @change="loadAutoDiscounts">
-                              <option :value="1">Trả thẳng</option>
-                              <option :value="2">Trả góp</option>
-                            </select>
                           </div>
                         </div>
                         <div class="col-md-12 pad-no" style="margin-top: 10px;">

@@ -293,6 +293,16 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label"><strong>Loại thu phí:</strong></label>
+                                                                <select class="form-control" v-model="data.import_type" @change="loadAutoDiscounts">
+                                                                    <option value="1">Trả thẳng</option>
+                                                                    <option value="2">Trả góp</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 pad-no amount" :class="html.dom.display.payment">
@@ -447,15 +457,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 pad-no" style="margin-top: 10px;">
-                                                    <div class="form-group">
-                                                        <label class="control-label"><strong>Loại thu phí:</strong></label>
-                                                        <select class="form-control" v-model="data.import_type" @change="loadAutoDiscounts">
-                                                            <option :value="1">Trả thẳng</option>
-                                                            <option :value="2">Trả góp</option>
-                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 pad-no" style="margin-top: 10px;">

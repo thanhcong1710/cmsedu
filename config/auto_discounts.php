@@ -272,7 +272,7 @@ return [
             'payment_types' => [2],
             'discount_type' => 'percentage',
             'discount_value' => 5,
-            'tuition_packages' => [2],
+            'tuition_fee_ids' => [357, 358, 359, 360, 361, 362],
         ],
     ],
 
