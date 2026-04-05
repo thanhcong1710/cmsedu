@@ -1475,6 +1475,7 @@ class StudentsController extends Controller
 
     public function getUsersByBranch($id)
     {
+        die('123');
         $response = [
             'ecs' => [],
             'cms' => []
