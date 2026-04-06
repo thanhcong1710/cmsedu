@@ -1484,7 +1484,7 @@ class StudentsController extends Controller
         } else {
             $cond = "";
         }
-        $ecs_ids = u::query("SELECT CONCAT(u.full_name, ' - ', u.username) ec_name, u.id ec_id FROM users u LEFT JOIN term_user_branch t ON t.user_id = u.id WhERE u.status > 0 AND (t.role_id = 68 OR t.role_id = 69 OR t.role_id = 676767) AND t.branch_id = $id " .$cond);
+        $ecs_ids = u::query("SELECT DISTINCT CONCAT(u.full_name, ' - ', u.username) ec_name, u.id ec_id FROM users u LEFT JOIN term_user_branch t ON t.user_id = u.id WhERE u.status > 0 AND (t.role_id = 68 OR t.role_id = 69 OR t.role_id = 676767) AND t.branch_id = $id " .$cond);
         $cms_ids = u::query("SELECT CONCAT(u.full_name, ' - ', u.username) cm_name, u.id cm_id FROM users u LEFT JOIN term_user_branch t ON t.user_id = u.id WhERE u.status > 0 AND (t.role_id = 55 OR t.role_id = 56) AND t.branch_id = $id");
         $ecs_ids = array_merge([['ec_name' => 'Vui lòng chọn EC', 'ec_id' => '']], $ecs_ids);
         $cms_ids = array_merge([['cm_name' => 'Vui lòng chọn CS', 'cm_id' => '']], $cms_ids);
