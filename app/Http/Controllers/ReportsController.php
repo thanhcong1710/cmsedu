@@ -2429,20 +2429,20 @@ class ReportsController extends Controller
      */
     public function reportStudentFeeSummary(Request $request)
     {
-        $data     = null;
-        $code     = APICode::PERMISSION_DENIED;
+        $data = null;
+        $code = APICode::PERMISSION_DENIED;
         $response = new Response();
 
         if ($session = $request->users_data) {
             $code = APICode::SUCCESS;
 
             // --- Tham số filter ---
-            $branchId    = isset($request->branch_id)    ? (int) $request->branch_id    : 0;
-            $keyword     = isset($request->keyword)      ? trim((string) $request->keyword) : '';
+            $branchId = isset($request->branch_id) ? (int) $request->branch_id : 0;
+            $keyword = isset($request->keyword) ? trim((string) $request->keyword) : '';
             $studentCode = isset($request->student_code) ? trim((string) $request->student_code) : '';
-            $page        = isset($request->page)         ? max(1, (int) $request->page)  : 1;
-            $limit       = isset($request->limit)        ? max(1, (int) $request->limit) : 20;
-            $offset      = ($page - 1) * $limit;
+            $page = isset($request->page) ? max(1, (int) $request->page) : 1;
+            $limit = isset($request->limit) ? max(1, (int) $request->limit) : 20;
+            $offset = ($page - 1) * $limit;
 
             // --- Phân quyền branch ---
             // Nếu không chọn branch thì lấy theo quyền của user
@@ -2481,7 +2481,7 @@ class ReportsController extends Controller
             ";
 
             $totalRow = u::first($countSql);
-            $total    = $totalRow ? (int) $totalRow->total : 0;
+            $total = $totalRow ? (int) $totalRow->total : 0;
 
             // --- Query lấy dữ liệu ---
             $listSql = "
@@ -2504,11 +2504,14 @@ class ReportsController extends Controller
                     s.crm_id         AS student_crm_id,
                     s.accounting_id  AS student_accounting_id,
                     b.name           AS branch_name,
-                    cl.cls_name      AS class_name
+                    cl.cls_name      AS class_name,
+                    c.type           AS contract_type,
+                    c.total_charged  AS total_charged
                 FROM report_student_fee_summary r
                 LEFT JOIN students  s  ON s.id  = r.student_id
                 LEFT JOIN branches  b  ON b.id  = r.branch_id
                 LEFT JOIN classes   cl ON cl.id = r.class_id
+                LEFT JOIN contracts c  ON c.id  = r.contract_id
                 WHERE 1=1
                   {$branchCondition}
                   {$keywordCondition}
@@ -2532,7 +2535,7 @@ class ReportsController extends Controller
             ];
 
             $data = (object) [
-                'list'   => $list ?: [],
+                'list' => $list ?: [],
                 'paging' => $paging,
             ];
         }
@@ -2547,22 +2550,22 @@ class ReportsController extends Controller
      */
     public function exportStudentFeeSummary(Request $request)
     {
-        $code     = APICode::PERMISSION_DENIED;
+        $code = APICode::PERMISSION_DENIED;
         $response = new Response();
 
         if (!$request->users_data) {
             return $response->formatResponse($code, null);
         }
 
-        $session     = $request->users_data;
-        $branchId    = isset($request->branch_id)    ? (int) $request->branch_id    : 0;
-        $keyword     = isset($request->keyword)      ? trim((string) $request->keyword) : '';
+        $session = $request->users_data;
+        $branchId = isset($request->branch_id) ? (int) $request->branch_id : 0;
+        $keyword = isset($request->keyword) ? trim((string) $request->keyword) : '';
         $studentCode = isset($request->student_code) ? trim((string) $request->student_code) : '';
 
-        $allowedBranches  = $session->branches_ids;
-        $branchCondition  = $branchId > 0 ? "AND r.branch_id = {$branchId}" : "AND r.branch_id IN ({$allowedBranches})";
-        $keywordCondition = $keyword      !== '' ? "AND s.name LIKE '%" . addslashes($keyword) . "%'" : '';
-        $codeCondition    = $studentCode  !== '' ? "AND (s.stu_id LIKE '%" . addslashes($studentCode) . "%' OR s.crm_id LIKE '%" . addslashes($studentCode) . "%' OR s.accounting_id LIKE '%" . addslashes($studentCode) . "%')" : '';
+        $allowedBranches = $session->branches_ids;
+        $branchCondition = $branchId > 0 ? "AND r.branch_id = {$branchId}" : "AND r.branch_id IN ({$allowedBranches})";
+        $keywordCondition = $keyword !== '' ? "AND s.name LIKE '%" . addslashes($keyword) . "%'" : '';
+        $codeCondition = $studentCode !== '' ? "AND (s.stu_id LIKE '%" . addslashes($studentCode) . "%' OR s.crm_id LIKE '%" . addslashes($studentCode) . "%' OR s.accounting_id LIKE '%" . addslashes($studentCode) . "%')" : '';
 
         $listSql = "
             SELECT
@@ -2583,11 +2586,14 @@ class ReportsController extends Controller
                 s.crm_id         AS student_crm_id,
                 s.accounting_id  AS student_accounting_id,
                 b.name           AS branch_name,
-                cl.cls_name      AS class_name
+                cl.cls_name      AS class_name,
+                c.type           AS contract_type,
+                c.total_charged  AS total_charged
             FROM report_student_fee_summary r
             LEFT JOIN students  s  ON s.id  = r.student_id
             LEFT JOIN branches  b  ON b.id  = r.branch_id
             LEFT JOIN classes   cl ON cl.id = r.class_id
+            LEFT JOIN contracts c  ON c.id  = r.contract_id
             WHERE 1=1
               {$branchCondition}
               {$keywordCondition}
@@ -2609,20 +2615,20 @@ class ReportsController extends Controller
 
             $headers = [
                 'A3' => 'STT',
-                'B3' => 'TRUNG TÂM',
-                'C3' => 'MÃ LMS',
-                'D3' => 'MÃ CRM',
-                'E3' => 'MÃ KẾ TOÁN',
-                'F3' => 'TÊN HỌC SINH',
-                'G3' => 'MÃ HỢP ĐỒNG',
-                'H3' => 'LỚP',
-                'I3' => 'SỐ TIỀN PHẢI ĐÓNG',
-                'J3' => 'CÔNG NỢ',
-                'K3' => 'TỔNG BUỔI',
-                'L3' => 'BUỔI THỰC TẾ',
-                'M3' => 'BUỔI THƯỞNG',
-                'N3' => 'BUỔI ĐÃ HỌC',
-                'O3' => 'PHÍ CÒN LẠI',
+                'B3' => 'TÊN TRUNG TÂM',
+                'C3' => 'MÃ HỌC SINH CRM',
+                'D3' => 'TÊN HỌC SINH',
+                'E3' => 'LOẠI HỢP ĐỒNG',
+                'F3' => 'PHẢI ĐÓNG',
+                'G3' => 'SỐ TIỀN ĐÃ ĐÓNG',
+                'H3' => 'CÔNG NỢ',
+                'I3' => 'TỔNG SỐ BUỔI ACTIVE',
+                'J3' => 'BUỔI CHÍNH KHÓA',
+                'K3' => 'BUỔI ĐƯỢC TẶNG',
+                'L3' => 'TÊN LỚP',
+                'M3' => 'SỐ BUỔI ĐÃ HỌC',
+                'N3' => 'SỐ BUỔI CÒN LẠI HỌC',
+                'O3' => 'HỌC PHÍ CÒN LẠI',
             ];
             foreach ($headers as $cell => $value) {
                 $sheet->setCellValue($cell, $value);
@@ -2630,20 +2636,23 @@ class ReportsController extends Controller
 
             $row = 4;
             foreach ($list as $i => $item) {
+                $contract_type_name = $item->contract_type != 0 ? 'Bình thường' : 'Chuyển phí';
+                $sessions_left = max(0, $item->real_sessions - $item->done_sessions);
+
                 $sheet->setCellValue('A' . $row, $i + 1);
                 $sheet->setCellValue('B' . $row, $item->branch_name);
-                $sheet->setCellValue('C' . $row, $item->student_lms_id);
-                $sheet->setCellValue('D' . $row, $item->student_crm_id);
-                $sheet->setCellValue('E' . $row, $item->student_accounting_id);
-                $sheet->setCellValue('F' . $row, $item->student_name);
-                $sheet->setCellValue('G' . $row, $item->contract_id);
-                $sheet->setCellValue('H' . $row, $item->class_name);
-                $sheet->setCellValue('I' . $row, $item->must_charge);
-                $sheet->setCellValue('J' . $row, $item->debt_amount);
-                $sheet->setCellValue('K' . $row, $item->summary_sessions);
-                $sheet->setCellValue('L' . $row, $item->real_sessions);
-                $sheet->setCellValue('M' . $row, $item->bonus_sessions);
-                $sheet->setCellValue('N' . $row, $item->done_sessions);
+                $sheet->setCellValue('C' . $row, $item->student_crm_id);
+                $sheet->setCellValue('D' . $row, $item->student_name);
+                $sheet->setCellValue('E' . $row, $contract_type_name);
+                $sheet->setCellValue('F' . $row, $item->must_charge);
+                $sheet->setCellValue('G' . $row, $item->total_charged);
+                $sheet->setCellValue('H' . $row, $item->debt_amount);
+                $sheet->setCellValue('I' . $row, $item->summary_sessions);
+                $sheet->setCellValue('J' . $row, $item->real_sessions);
+                $sheet->setCellValue('K' . $row, $item->bonus_sessions);
+                $sheet->setCellValue('L' . $row, $item->class_name);
+                $sheet->setCellValue('M' . $row, $item->done_sessions);
+                $sheet->setCellValue('N' . $row, $sessions_left);
                 $sheet->setCellValue('O' . $row, $item->left_amount);
                 $row++;
             }

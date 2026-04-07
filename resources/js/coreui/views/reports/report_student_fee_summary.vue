@@ -73,66 +73,38 @@
               <thead>
                 <tr class="text-sm">
                   <th>STT</th>
-                  <th>Mã trung tâm</th>
                   <th>Tên trung tâm</th>
                   <th>Mã học sinh CRM</th>
-                  <th>Mã kế toán</th>
                   <th>Tên học sinh</th>
-                  <th>Ngày sinh</th>
-                  <th>Giới tính</th>
-                  <th>Tên phụ huynh</th>
-                  <th>SĐT phụ huynh</th>
                   <th>Loại hợp đồng</th>
-                  <th>Tên Gói phí</th>
-                  <th>Mã Cyber</th>
-                  <th>Tổng phí</th>
                   <th>Phải đóng</th>
                   <th>Số tiền đã đóng</th>
                   <th>Công nợ</th>
-                  <th>Tổng buổi</th>
+                  <th>Tổng số buổi active</th>
                   <th>Buổi chính khóa</th>
                   <th>Buổi được tặng</th>
-                  <th>Ngày bắt đầu học</th>
-                  <th>Ngày kết thúc dự kiến</th>
-                  <th>Trạng thái hợp đồng</th>
-                  <th>Mã lớp</th>
                   <th>Tên lớp</th>
-                  <th>Tổng số buổi đã học tính đến HT</th>
-                  <th>Khách hàng ngừng học</th>
-                  <th>Ghi chú</th>
+                  <th>Số buổi đã học</th>
+                  <th>Số buổi còn lại học </th>
                   <th>Học phí còn lại</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, index) in dataReport" :key="index">
                   <td>{{ index + 1 + ((pagination.cpage - 1) * pagination.limit) }}</td>
-                  <td>{{ item.branch_code }}</td>
                   <td>{{ item.branch_name }}</td>
-                  <td>{{ item.crm_id }}</td>
-                  <td>{{ item.accounting_id }}</td>
+                  <td>{{ item.student_crm_id }}</td>
                   <td>{{ item.student_name }}</td>
-                  <td>{{ item.date_of_birth }}</td>
-                  <td>{{ item.gender === 'M' ? 'Nam' : 'Nữ' }}</td>
-                  <td>{{ item.parent_name }}</td>
-                  <td>{{ item.parent_mobile }}</td>
-                  <td>{{ item.type !== 0 ? 'Bình thường' : 'Chuyển phí' }}</td>
-                  <td>{{ item.tuition_fee_name }}</td>
-                  <td>{{ item.cyber_code }}</td>
-                  <td>{{ item.total_charged }}</td>
+                  <td>{{ item.contract_type != 0 ? 'Bình thường' : 'Chuyển phí' }}</td>
                   <td>{{ item.must_charge }}</td>
                   <td>{{ item.total_charged }}</td>
                   <td>{{ item.debt_amount }}</td>
                   <td>{{ item.summary_sessions }}</td>
                   <td>{{ item.real_sessions }}</td>
                   <td>{{ item.bonus_sessions }}</td>
-                  <td>{{ item.start_date }}</td>
-                  <td>{{ item.end_date }}</td>
-                  <td>{{ getContractStatusName(item.status) }}</td>
-                  <td>{{ item.class_id }}</td>
-                  <td>{{ item.cls_name }}</td>
+                  <td>{{ item.class_name }}</td>
                   <td>{{ item.done_sessions }}</td>
-                  <td>{{ item.status === 7 ? 'Ngừng học' : '' }}</td>
-                  <td>{{ item.note }}</td>
+                  <td>{{ Math.max(0, item.real_sessions - item.done_sessions) }}</td>
                   <td>{{ item.left_amount }}</td>
                 </tr>
               </tbody>
