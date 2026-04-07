@@ -2412,4 +2412,250 @@ class ReportsController extends Controller
         }
         return $response->formatResponse($code, $data);
     }
+
+    /**
+     * Báo cáo thống kê số phí còn lại theo từng học sinh.
+     * Filter: branch_id, tên học sinh (keyword), mã học sinh (student_code)
+     *
+     * POST /api/reports/student-fee-summary
+     * Body (JSON):
+     *   branch_id      => int|null    (ID trung tâm)
+     *   keyword        => string|null (tên học sinh - tìm LIKE)
+     *   student_code   => string|null (mã học sinh: stu_id hoặc crm_id hoặc accounting_id)
+     *   page           => int         (trang hiện tại, mặc định 1)
+     *   limit          => int         (số bản ghi/trang, mặc định 20)
+     *
+     * Response: { code, data: { list: [...], paging: {...} } }
+     */
+    public function reportStudentFeeSummary(Request $request)
+    {
+        $data     = null;
+        $code     = APICode::PERMISSION_DENIED;
+        $response = new Response();
+
+        if ($session = $request->users_data) {
+            $code = APICode::SUCCESS;
+
+            // --- Tham số filter ---
+            $branchId    = isset($request->branch_id)    ? (int) $request->branch_id    : 0;
+            $keyword     = isset($request->keyword)      ? trim((string) $request->keyword) : '';
+            $studentCode = isset($request->student_code) ? trim((string) $request->student_code) : '';
+            $page        = isset($request->page)         ? max(1, (int) $request->page)  : 1;
+            $limit       = isset($request->limit)        ? max(1, (int) $request->limit) : 20;
+            $offset      = ($page - 1) * $limit;
+
+            // --- Phân quyền branch ---
+            // Nếu không chọn branch thì lấy theo quyền của user
+            $allowedBranches = $session->branches_ids; // CSV string hoặc int
+            $branchCondition = '';
+            if ($branchId > 0) {
+                $branchCondition = "AND r.branch_id = {$branchId}";
+            } else {
+                $branchCondition = "AND r.branch_id IN ({$allowedBranches})";
+            }
+
+            // --- Filter theo tên học sinh ---
+            $keywordCondition = '';
+            if ($keyword !== '') {
+                $kw = addslashes($keyword);
+                $keywordCondition = "AND s.name LIKE '%{$kw}%'";
+            }
+
+            // --- Filter theo mã học sinh ---
+            $codeCondition = '';
+            if ($studentCode !== '') {
+                $sc = addslashes($studentCode);
+                $codeCondition = "AND (s.stu_id LIKE '%{$sc}%' OR s.crm_id LIKE '%{$sc}%' OR s.accounting_id LIKE '%{$sc}%')";
+            }
+
+            // --- Query đếm tổng ---
+            $countSql = "
+                SELECT COUNT(r.id) AS total
+                FROM report_student_fee_summary r
+                LEFT JOIN students s ON s.id = r.student_id
+                LEFT JOIN branches b ON b.id = r.branch_id
+                WHERE 1=1
+                  {$branchCondition}
+                  {$keywordCondition}
+                  {$codeCondition}
+            ";
+
+            $totalRow = u::first($countSql);
+            $total    = $totalRow ? (int) $totalRow->total : 0;
+
+            // --- Query lấy dữ liệu ---
+            $listSql = "
+                SELECT
+                    r.id,
+                    r.student_id,
+                    r.contract_id,
+                    r.branch_id,
+                    r.must_charge,
+                    r.debt_amount,
+                    r.summary_sessions,
+                    r.real_sessions,
+                    r.bonus_sessions,
+                    r.class_id,
+                    r.done_sessions,
+                    r.left_amount,
+                    r.created_at,
+                    s.name           AS student_name,
+                    s.stu_id         AS student_lms_id,
+                    s.crm_id         AS student_crm_id,
+                    s.accounting_id  AS student_accounting_id,
+                    b.name           AS branch_name,
+                    cl.cls_name      AS class_name
+                FROM report_student_fee_summary r
+                LEFT JOIN students  s  ON s.id  = r.student_id
+                LEFT JOIN branches  b  ON b.id  = r.branch_id
+                LEFT JOIN classes   cl ON cl.id = r.class_id
+                WHERE 1=1
+                  {$branchCondition}
+                  {$keywordCondition}
+                  {$codeCondition}
+                ORDER BY r.branch_id ASC, s.name ASC, r.contract_id ASC
+                LIMIT {$offset}, {$limit}
+            ";
+
+            $list = u::query($listSql);
+
+            // --- Build pagination ---
+            $lastPage = ($total > 0 && $limit > 0) ? (int) ceil($total / $limit) : 1;
+            $paging = (object) [
+                'spage' => $total > 0 ? 1 : 0,
+                'cpage' => $page,
+                'total' => $total,
+                'limit' => $limit,
+                'lpage' => $lastPage,
+                'ppage' => $page > 1 ? $page - 1 : 0,
+                'npage' => $page < $lastPage ? $page + 1 : $lastPage,
+            ];
+
+            $data = (object) [
+                'list'   => $list ?: [],
+                'paging' => $paging,
+            ];
+        }
+
+        return $response->formatResponse($code, $data);
+    }
+
+    /**
+     * Export Excel báo cáo thống kê số phí còn lại theo từng học sinh.
+     * GET /api/export/student-fee-summary
+     * Params query string: branch_id, keyword, student_code
+     */
+    public function exportStudentFeeSummary(Request $request)
+    {
+        $code     = APICode::PERMISSION_DENIED;
+        $response = new Response();
+
+        if (!$request->users_data) {
+            return $response->formatResponse($code, null);
+        }
+
+        $session     = $request->users_data;
+        $branchId    = isset($request->branch_id)    ? (int) $request->branch_id    : 0;
+        $keyword     = isset($request->keyword)      ? trim((string) $request->keyword) : '';
+        $studentCode = isset($request->student_code) ? trim((string) $request->student_code) : '';
+
+        $allowedBranches  = $session->branches_ids;
+        $branchCondition  = $branchId > 0 ? "AND r.branch_id = {$branchId}" : "AND r.branch_id IN ({$allowedBranches})";
+        $keywordCondition = $keyword      !== '' ? "AND s.name LIKE '%" . addslashes($keyword) . "%'" : '';
+        $codeCondition    = $studentCode  !== '' ? "AND (s.stu_id LIKE '%" . addslashes($studentCode) . "%' OR s.crm_id LIKE '%" . addslashes($studentCode) . "%' OR s.accounting_id LIKE '%" . addslashes($studentCode) . "%')" : '';
+
+        $listSql = "
+            SELECT
+                r.student_id,
+                r.contract_id,
+                r.branch_id,
+                r.must_charge,
+                r.debt_amount,
+                r.summary_sessions,
+                r.real_sessions,
+                r.bonus_sessions,
+                r.class_id,
+                r.done_sessions,
+                r.left_amount,
+                r.created_at,
+                s.name           AS student_name,
+                s.stu_id         AS student_lms_id,
+                s.crm_id         AS student_crm_id,
+                s.accounting_id  AS student_accounting_id,
+                b.name           AS branch_name,
+                cl.cls_name      AS class_name
+            FROM report_student_fee_summary r
+            LEFT JOIN students  s  ON s.id  = r.student_id
+            LEFT JOIN branches  b  ON b.id  = r.branch_id
+            LEFT JOIN classes   cl ON cl.id = r.class_id
+            WHERE 1=1
+              {$branchCondition}
+              {$keywordCondition}
+              {$codeCondition}
+            ORDER BY b.name ASC, s.name ASC, r.contract_id ASC
+        ";
+
+        $list = u::query($listSql);
+
+        // Dùng PhpSpreadsheet để xuất Excel
+        try {
+            $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $sheet->setCellValue('A1', 'BÁO CÁO THỐNG KÊ PHÍ CÒN LẠI THEO HỌC SINH');
+            $sheet->mergeCells('A1:N1');
+            $sheet->setCellValue('A2', 'Ngày xuất: ' . date('d/m/Y H:i:s'));
+            $sheet->mergeCells('A2:N2');
+
+            $headers = [
+                'A3' => 'STT',
+                'B3' => 'TRUNG TÂM',
+                'C3' => 'MÃ LMS',
+                'D3' => 'MÃ CRM',
+                'E3' => 'MÃ KẾ TOÁN',
+                'F3' => 'TÊN HỌC SINH',
+                'G3' => 'MÃ HỢP ĐỒNG',
+                'H3' => 'LỚP',
+                'I3' => 'SỐ TIỀN PHẢI ĐÓNG',
+                'J3' => 'CÔNG NỢ',
+                'K3' => 'TỔNG BUỔI',
+                'L3' => 'BUỔI THỰC TẾ',
+                'M3' => 'BUỔI THƯỞNG',
+                'N3' => 'BUỔI ĐÃ HỌC',
+                'O3' => 'PHÍ CÒN LẠI',
+            ];
+            foreach ($headers as $cell => $value) {
+                $sheet->setCellValue($cell, $value);
+            }
+
+            $row = 4;
+            foreach ($list as $i => $item) {
+                $sheet->setCellValue('A' . $row, $i + 1);
+                $sheet->setCellValue('B' . $row, $item->branch_name);
+                $sheet->setCellValue('C' . $row, $item->student_lms_id);
+                $sheet->setCellValue('D' . $row, $item->student_crm_id);
+                $sheet->setCellValue('E' . $row, $item->student_accounting_id);
+                $sheet->setCellValue('F' . $row, $item->student_name);
+                $sheet->setCellValue('G' . $row, $item->contract_id);
+                $sheet->setCellValue('H' . $row, $item->class_name);
+                $sheet->setCellValue('I' . $row, $item->must_charge);
+                $sheet->setCellValue('J' . $row, $item->debt_amount);
+                $sheet->setCellValue('K' . $row, $item->summary_sessions);
+                $sheet->setCellValue('L' . $row, $item->real_sessions);
+                $sheet->setCellValue('M' . $row, $item->bonus_sessions);
+                $sheet->setCellValue('N' . $row, $item->done_sessions);
+                $sheet->setCellValue('O' . $row, $item->left_amount);
+                $row++;
+            }
+
+            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="bao-cao-phi-con-lai-hoc-sinh.xlsx"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+        } catch (\Exception $e) {
+            throw $e;
+        }
+        exit;
+    }
 }

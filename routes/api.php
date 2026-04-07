@@ -333,6 +333,8 @@ Route::post('reports/lgl04', 'ReportsController@reportLgl04')->middleware('Authe
 Route::get('export/lgl04', 'ExelController@exportLgl04')->middleware('Authentication');
 Route::post('reports/lgl05', 'ReportsController@reportLgl05')->middleware('Authentication');
 Route::get('export/lgl05', 'ExelController@exportLgl05')->middleware('Authentication');
+Route::post('reports/student-fee-summary', 'ReportsController@reportStudentFeeSummary')->middleware('Authentication');
+Route::get('export/student-fee-summary', 'ReportsController@exportStudentFeeSummary')->middleware('Authentication');
 /** End report Router ======================================================================================================= */
 
 Route::get('recharges/search/students/{branch_id}/{keyword}', 'RechargesController@search')->middleware('Authentication');

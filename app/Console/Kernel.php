@@ -38,7 +38,8 @@ class Kernel extends ConsoleKernel
         '\App\Console\Commands\SendMailCreateContractTransferCheckin',
         '\App\Console\Commands\SendMailRenew',
         '\App\Console\Commands\SendCheckinSaleHub',
-        '\App\Console\Commands\SendMailAttendances'
+        '\App\Console\Commands\SendMailAttendances',
+        '\App\Console\Commands\SyncStudentFeeSummary'
     ];
 
     /**

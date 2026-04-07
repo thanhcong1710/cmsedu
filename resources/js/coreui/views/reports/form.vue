@@ -83,6 +83,9 @@
                             <p class="bc-font" v-if="showBCr18 == true">
                                 <router-link to="/reports/lgl05" >22. BÁO CÁO PHÂN BỔ DOANH THU </router-link>
                             </p>
+                            <p class="bc-font" v-if="showBCStudentFeeSummary == true">
+                                <router-link to="/reports/student-fee-summary" >23. BÁO CÁO THỐNG KÊ SỐ PHÍ CÒN LẠI TỪNG HỌC SINH </router-link>
+                            </p>
                         </div>
                     </b-card>
                 </b-col>
@@ -121,6 +124,7 @@
                 showBCr16: false,
                 showBCr17: false,
                 showBCr18: false,
+                showBCStudentFeeSummary: true,
             }
         },
         created() {
@@ -222,6 +226,7 @@
                     this.showBCr16= true
                     this.showBCr17= true
                     this.showBCr18= true
+                    this.showBCStudentFeeSummary = true
                 }
                 if([1500].indexOf(role)!= -1){
                     this.showBC01a1= true
@@ -246,6 +251,7 @@
                     this.showBCr16= true
                     this.showBCr17= true
                     this.showBCr18= true
+                    this.showBCStudentFeeSummary = true
                 }
             },
         }
