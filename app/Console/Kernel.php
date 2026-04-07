@@ -62,6 +62,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('sendMailCreateContractTransferCheckin:command')->dailyAt('22:00'); 
         // $schedule->command('sendMailRenew:command')->cron('0 8 1 * *');
         // $schedule->command('sendCheckinSaleHub:command')->cron('0 * * * *');
+        $schedule->command('sync:student-fee-summary --chunk=100')->dailyAt('04:00');
     }
 
     /**
