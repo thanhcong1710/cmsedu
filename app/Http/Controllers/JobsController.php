@@ -400,7 +400,7 @@ class JobsController extends Controller
       case 9:
         $result =array(
         'cskh'=>'cskh.nvc@logiclab.vn',
-        'gdtt'=>'thaotran.nvc@logiclab.vn',
+        'gdtt'=>'nhtuong@gmail.com',
         'ecl'=>'',
         'ecl_1'=> ''
         );
