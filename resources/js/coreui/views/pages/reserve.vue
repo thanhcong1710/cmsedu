@@ -91,13 +91,13 @@
                                         </div>
                                     </div> -->
                                 </div>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-sm-12">
                                         <div class="input-line">
                                             <span class="label">Số buổi còn lại ở lớp hiện tại: <b>{{item.done_sessions + item.number_of_session_reserved}}</b> buổi</span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="input-line">
