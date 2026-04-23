@@ -154,9 +154,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <div class="input-line">
-                                            <span class="label">Lý do: <b>{{item.note}}</b></span>
-                                        </div>
+                                        <p>Lý do: <b>{{item.note}}</b></p>
                                     </div>
                                 </div>
                                 <br>
