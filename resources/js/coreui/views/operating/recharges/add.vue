@@ -228,6 +228,7 @@
                                     <label class="radio-inline"><input type="radio" value="0" v-model="data.package_type" @change="loadAutoDiscounts"> Thường</label>
                                     <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="1" v-model="data.package_type" @change="loadAutoDiscounts"> Combo tích hợp 1</label>
                                     <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="2" v-model="data.package_type" @change="loadAutoDiscounts"> Combo tích hợp 2</label>
+                                    <label class="radio-inline" style="margin-left: 10px"><input type="radio" value="3" v-model="data.package_type" @change="loadAutoDiscounts"> Combo tích hợp 3</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
