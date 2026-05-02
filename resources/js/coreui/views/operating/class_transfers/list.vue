@@ -59,7 +59,7 @@
                     </div>
                     <div slot="footer" class="text-center">
                         <router-link v-if="can_create" to="/class-transfers/add-class-transfer"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm mới</button></router-link>
-                        <router-link v-if="can_create" to="/class_transfers/add-multiple"><button type="button" class="btn btn-primary" v-if="['999999999',55,56].indexOf(session.user.role_id)!=-1"><i class="fa fa-plus"></i> Chuyển cả lớp</button></router-link>
+                        <router-link v-if="can_create" to="/class_transfers/add-multiple"><button type="button" class="btn btn-primary" v-if="['999999999',55,56,'686868'].indexOf(session.user.role_id)!=-1"><i class="fa fa-plus"></i> Chuyển cả lớp</button></router-link>
                         <!-- <router-link to="/class-transfers/class-transfer-trial"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Chuyển lớp học trải nghiệm</button></router-link> -->
                         <button class="btn btn-success" @click="filterData(1)"><i class="fa fa-search"></i> Tìm kiếm</button>
                         <button class="btn btn-danger" @click="removeFilter()"><i class="fa fa-ban"></i> Bỏ lọc</button>
