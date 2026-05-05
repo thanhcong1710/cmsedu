@@ -254,7 +254,7 @@ return [
             'description' => 'Giảm tự động 5% cho các gói SUMMER từ 01/05/2026 đến 31/05/2026',
             'status' => 1,
             'priority' => 5,
-            'start_date' => '2026-05-15',
+            'start_date' => '2026-05-16',
             'end_date' => '2026-05-31',
             'product_ids' => [4],
             'discount_type' => 'percentage',
