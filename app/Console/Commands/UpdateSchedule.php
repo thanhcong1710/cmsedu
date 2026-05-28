@@ -41,15 +41,17 @@ class UpdateSchedule extends Command
      */
     public function handle(Request $request)
     {
-        $list_class = u::query("SELECT cl.* FROM classes AS cl LEFT JOIN sessions AS s ON s.class_id=cl.id WHERE cl.cls_iscancelled='no' AND s.class_day=6 AND product_id!=100");
+        $updateDate = '2026-06-07';
+        $classDay =0;
+        $list_class = u::query("SELECT cl.* FROM classes AS cl LEFT JOIN sessions AS s ON s.class_id=cl.id WHERE cl.cls_iscancelled='no' AND s.class_day= $classDay AND product_id!=100 AND cl.cls_enddate>='$updateDate'");
        foreach($list_class AS $class){
-            $check_exit = u::first("SELECT cjrn_id FROM schedules WHERE class_id=".data_get($class, 'id')." AND cjrn_classdate= '2026-05-02'");
+            $check_exit = u::first("SELECT cjrn_id FROM schedules WHERE class_id=".data_get($class, 'id')." AND cjrn_classdate= '$updateDate'");
             if(!$check_exit){
                 $id = u::generateRandomStringOrNumber(9,true);
                 $schedule = new Schedule();
                 $schedule->cjrn_id = $id;
                 $schedule->cls_id = 0;
-                $schedule->cjrn_classdate = '2026-05-02';
+                $schedule->cjrn_classdate = $updateDate;
                 $schedule->class_id = data_get($class, 'id');
                 $schedule->status = 1;
                 $schedule->created_at = date('Y-m-d H:i:s');
