@@ -912,6 +912,7 @@ Route::post('enrolments/student-extend', 'EnrolmentsController@studentExtend')->
 Route::get('/student-search/suggest-sender/{key}/{branch_id}', 'SuggestController@suggestSender')->middleware('Authentication');
 Route::get('/tuition-convert/contracts/sender/{student_id}', 'SuggestController@getAllTuition')->middleware('Authentication');
 Route::get('support/transfer-all-class/{branch_id}/{program_id}', 'SuggestController@getClassAvailable')->middleware('Authentication');
+Route::get('support/transfer-all-class-new/{branch_id}/{program_id}', 'SuggestController@getClassAvailableNew')->middleware('Authentication');
 
 Route::post('/all-class-transfers', 'ClassTransfersController@allClassTransfers')->middleware('Authentication');
 /** Api tools */

@@ -699,7 +699,7 @@ export default {
     },
     selectedProgram(program){
       this.filter.select_month = moment(new Date()).format('YYYY-MM')
-      u.a().get(`/api/support/transfer-all-class/${parseInt(this.cache.branch)}/${program.id}`).then((response) => {
+      u.a().get(`/api/support/transfer-all-class-new/${parseInt(this.cache.branch)}/${program.id}`).then((response) => {
         let data = response.data.data
         this.classOptions  = data
         this.html.disable.filter.classes = false

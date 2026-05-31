@@ -38,4 +38,13 @@ class SuggestController  extends Controller
         $res = $suggest->getListClassAvailable($branch_id, $program_id,$class_id);
         return $response->formatResponse(APICode::SUCCESS, $res);
     }
+
+    public function getClassAvailableNew(Request $request,$branch_id, $program_id)
+    {
+        $class_id = $request->not_in;
+        $response = new Response();
+        $suggest = new Suggest();
+        $res = $suggest->getListClassAvailableNew($branch_id, $program_id,$class_id);
+        return $response->formatResponse(APICode::SUCCESS, $res);
+    }
 }

@@ -109,4 +109,34 @@ class Suggest extends Model
         return $result;
     }
 
+    public function getListClassAvailableNew($branch_id=0, $program_id=0, $class_id = 0){
+        $where = "";
+        if ($class_id !=0)
+            $where = "c.id != $class_id AND ";
+        $result = [];
+        $query = "SELECT
+                c.`cls_name` AS name,
+                c.id AS id,
+                c.program_id AS program_id,
+                (SELECT cjrn_classdate FROM schedules WHERE c.id = class_id AND STATUS = 1 AND cjrn_classdate > CURRENT_DATE() ORDER BY cjrn_classdate ASC LIMIT 1) AS nearest_day
+                FROM
+                classes AS c
+                WHERE
+                $where
+                c.`program_id` IN ($program_id)
+                AND c.cls_iscancelled = 'no'
+                AND c.`cls_enddate` > CURDATE()
+                AND c.cm_id IS NOT NULL
+                AND c.teacher_id IS NOT NULL
+                AND c.cm_id NOT IN (SELECT user_id FROM term_user_branch WHERE role_id IN (55, 56) AND branch_id = $branch_id AND STATUS = 0)
+                AND c.teacher_id NOT IN (SELECT user_id FROM term_user_branch WHERE role_id = 36 AND branch_id = $branch_id AND STATUS = 0)
+                ";
+
+        $res = DB::select(DB::raw($query));
+        if(!empty($res)){
+            $result = array_values($res);
+        }
+        return $result;
+    }
+
 }
