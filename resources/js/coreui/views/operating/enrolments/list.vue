@@ -755,7 +755,7 @@ export default {
       const resp = []
       if (start_dates.length) {
         start_dates.map(item => {
-          if (this.moment(item.cjrn_classdate).isSameOrAfter(student.contract_start_date)) {
+          //if (this.moment(item.cjrn_classdate).isSameOrAfter(student.contract_start_date)) {
             // if (student.st_last_date == null){
               resp.push(item)
             // }
@@ -765,7 +765,7 @@ export default {
             //     resp.push(item)
             //   }
             // }
-          }
+          //}
           return item
         })
       }
