@@ -240,7 +240,7 @@
                                         <div class="flex-box">
                                             <strong>Lưu ý:</strong>
                                             <div class="note">
-                                                <p>1. Với các trường hợp bảo lưu theo quy định, GĐTT ký duyệt đơn bảo lưu và chuyển lại đơn bảo lưu scan cho QA&IC.</p>
+                                                <p>1. Với các trường hợp bảo lưu theo quy định, GĐKD ký duyệt đơn bảo lưu và chuyển lại đơn bảo lưu scan cho QA&IC.</p>
                                                 <p>2. Với các trường hợp bảo lưu ngoài quy định, đơn bảo lưu phải được cấp công ty phê duyệt.</p>
                                                 <p>3. Đơn bảo lưu phải có chữ ký của phụ huynh mới được chấp nhận là hợp lệ; trong trường hợp bất khả kháng, PH không thể tới TT, phải đính kèm xác nhận của Phụ huynh qua tin nhắn/email.  Đơn bảo lưu học phí theo quy định của nội quy nhập học sẽ được xét duyệt và trả lời trong 07 ngày làm việc.</p>
                                                 <p>4. Phụ huynh học sinh nộp lại hóa đơn/phiếu thu học phí gốc cho CSKH, nhân viên CSKH đính kèm hóa đơn theo đơn này.</p>

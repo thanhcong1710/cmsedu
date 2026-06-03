@@ -199,7 +199,7 @@
                                     <thead>
                                         <tr>
                                             <th><strong>Phụ huynh HS</strong><i>Ký, ghi rõ họ tên</i></th>
-                                            <th><strong>GĐTT</strong><i>Ký, ghi rõ họ tên</i></th>
+                                            <th><strong>GĐKD</strong><i>Ký, ghi rõ họ tên</i></th>
                                             <th><strong>Kế toán trưởng</strong><i>Ký, ghi rõ họ tên</i></th>
                                             <th><strong>P. Tổng Giám Đốc</strong><i>Ký, ghi rõ họ tên</i></th>
                                         </tr>
