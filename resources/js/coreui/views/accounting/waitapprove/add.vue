@@ -445,7 +445,7 @@ export default {
 
   methods: {
     checkViewAction(){
-        if(this.item.tmp_status==0 && [84,'999999999'].indexOf(u.session().user.role_id)> -1){
+        if(this.item.tmp_status==0 && [84,83,'999999999'].indexOf(u.session().user.role_id)> -1){
             return true
         }else {
             return false
