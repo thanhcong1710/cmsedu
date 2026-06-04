@@ -364,7 +364,8 @@ class WaitchargesController extends Controller
             s.gud_name1,s.address, s.name,s.id AS student_id,
             (SELECT number_of_months FROM tuition_fee WHERE id = c.tuition_fee_id) AS number_of_months,
             (SELECT name FROM products WHERe id=c.product_id) AS product_name, tp.note,
-            '' AS text_2, '' AS text_amount, '' AS text_amount_words,'' AS text_3,'' AS text_debt_amount, tp.charge_date
+            '' AS text_2, '' AS text_amount, '' AS text_amount_words,'' AS text_3,'' AS text_debt_amount, tp.charge_date,
+            (SELECT name FROM branches WHERE id=c.branch_id) AS branch_name
           FROM tmp_payment AS tp
             LEFT JOIN contracts AS c ON tp.contract_id=c.id
             LEFT JOIN students AS s ON c.student_id = s.id

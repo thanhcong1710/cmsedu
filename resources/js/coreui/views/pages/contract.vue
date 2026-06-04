@@ -10,7 +10,11 @@
                                 <div class="h-left">
                                     <span class="logo"><img src="/images/print-logo.png" /></span>
                                 </div>
-                                <div class="h-right">
+                                <div class="h-right" v-if="student.branch_name=='Trung tâm - Phú Nhuận'">
+                                    <h4>LOGIC LAB PHÚ NHUẬN</h4>
+                                    <p><i class="fa fa-map-marker"></i> 14 Hoa Sữa, Phường Cầu Kiệu, Thành Phố Hồ Chí Minh.</p>
+                                </div>
+                                <div class="h-right" v-else>
                                     <h4>CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</h4>
                                     <p><i class="fa fa-map-marker"></i> Lô B1.1, Số 2 đường Đặng Thai Mai , Phường Quảng An, Quận Tây Hồ, 
      Thành phố Hà Nội, Việt Nam.</p>
@@ -269,7 +273,11 @@
                                 <div class="h-left">
                                     <span class="logo"><img src="/images/print-logo.png" /></span>
                                 </div>
-                                <div class="h-right">
+                                <div class="h-right" v-if="student.branch_name=='Trung tâm - Phú Nhuận'">
+                                    <h4>LOGIC LAB PHÚ NHUẬN</h4>
+                                    <p><i class="fa fa-map-marker"></i> 14 Hoa Sữa, Phường Cầu Kiệu, Thành Phố Hồ Chí Minh.</p>
+                                </div>
+                                <div class="h-right" v-else>
                                    <h4>CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</h4>
                                     <p><i class="fa fa-map-marker"></i> Lô B1.1, Số 2 đường Đặng Thai Mai , Phường Quảng An, Quận Tây Hồ, 
      Thành phố Hà Nội, Việt Nam.</p>
