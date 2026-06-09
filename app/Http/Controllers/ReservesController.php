@@ -111,7 +111,7 @@ class ReservesController extends Controller
     $reserve->program_id = $data->program_id;
     $reserve->product_id = $data->product_id;
     $reserve->class_id = $data->class_id;
-    $reserve->is_reserved = $data->is_reserved;
+    $reserve->is_reserved = $reserve->product_id ==4 ? 1 : $data->is_reserved;
     $reserve->creator_id = $data->users_data->id;
     $reserve->created_at = date('Y-m-d H:i:s');
     $reserve->meta_data = json_encode($data->meta_data);
