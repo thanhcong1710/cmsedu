@@ -253,7 +253,7 @@
                                 <br>
                                 <h3>IV. ĐĂNG KÝ KHÓA HỌC</h3>
                                 <div class="row">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-12" v-if="contract.branch_name != 'Trung tâm - Phú Nhuận'">
                                         <span>Nay, tôi làm đơn này kính mong Ban Giám đốc Trung tâm cho cháu: {{student.name}} được nhập học tại {{contract.branch_name}}. </span>
                                     </div>
                                     <div class="col-sm-12">
@@ -389,8 +389,10 @@
                                 </div>
                                 <p style="margin-bottom: 0px;">+	Tiền mặt: Liên phiếu thu tiền có đủ chữ ký của Trưởng chi nhánh, đóng dấu trung tâm LogicLab và dấu “Đã thu tiền”.</p>
                                 <p style="margin-bottom: 0px;">+	Chuyển khoản:</p>
-                                <p style="margin-bottom: 0px;">Tên công ty: CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</p>
-                                <p style="margin-bottom: 0px;">Số TK: 79806789 </p>
+                                <p style="margin-bottom: 0px;" v-if="contract.branch_name != 'Trung tâm - Phú Nhuận'">Tên công ty: CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB</p>
+                                <p style="margin-bottom: 0px;" v-else>Tên công ty: CÔNG TY TNHH THREEOAK GROUP</p>
+                                <p style="margin-bottom: 0px;" v-if="contract.branch_name != 'Trung tâm - Phú Nhuận'">Số TK: 79806789 </p>
+                                <p style="margin-bottom: 0px;" v-else>Số TK: 1976790390 </p>
                                 <p style="margin-bottom: 0px;">Ngân hàng: Ngân hàng Techcombank</p>
                                 <div class="row">
                                     <div class="col-sm-6">
