@@ -358,7 +358,7 @@ class SessionsController extends Controller
             $data = [];
             $sql = "SELECT c.`cls_name`,(SELECT COUNT(cjrn_id) FROM schedules WHERE class_id= $id) AS num_session,
             s.`class_day`,(SELECT COUNT(id) FROM `contracts` WHERE class_id= $id) AS actived_student,
-            s.`branch_id`, s.`id` as session_id,s.`start_date`,c.product_id,c.cls_startdate
+            s.`branch_id`, s.`id` as session_id,c.cls_startdate AS `start_date`,c.product_id,c.cls_startdate
              FROM classes AS c
              LEFT JOIN `sessions` s 
              ON s.class_id = c.id WHERE c.id = $id";
