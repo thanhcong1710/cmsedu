@@ -689,7 +689,7 @@ class EnrolmentsController extends Controller
                     $pending_condition
                     $where ";
         $conditionTimeGetClassDate = "";
-        if ($is_trial){
+        if ($class_info->product_id ==100){
           $conditionTimeGetClassDate= " AND cjrn_classdate >= '".date('Y-m-d', strtotime('-7 day'))."' AND cjrn_classdate <= '".date('Y-m-d', strtotime('+7 day'))."' ";
         } else{
           $conditionTimeGetClassDate= " AND cjrn_classdate >= '".date('Y-m-d', strtotime('-30 day'))."' AND cjrn_classdate <= '".date('Y-m-d', strtotime('+30 day'))."' ";
