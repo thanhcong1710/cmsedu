@@ -688,8 +688,13 @@ class EnrolmentsController extends Controller
                         AND s.waiting_status=0
                     $pending_condition
                     $where ";
-        // $conditionTimeGetClassDate = $session->role_id == '999999999' ? " ": " AND cjrn_classdate >= CURRENT_DATE ";
         $conditionTimeGetClassDate = "";
+        if ($is_trial){
+          $conditionTimeGetClassDate= " AND cjrn_classdate >= '".date('Y-m-d','-7 day')."' AND cjrn_classdate >= '".date('Y-m-d','+7 day')."' ";
+        } else{
+          $conditionTimeGetClassDate= " AND cjrn_classdate >= '".date('Y-m-d','-30 day')."' AND cjrn_classdate >= '".date('Y-m-d','+30 day')."' ";
+        }
+        // $conditionTimeGetClassDate = $session->role_id == '999999999' ? " ": " AND cjrn_classdate >= CURRENT_DATE ";
         $classdate = u::query("SELECT cls_id, cjrn_id, cjrn_classdate FROM schedules WHERE class_id = $class_id $conditionTimeGetClassDate AND `status` > 0 ORDER BY cjrn_classdate ASC");
         $product_id = $class_info->product_id;
         $holidays = u::getPublicHolidays($class_id, 0, $product_id);
