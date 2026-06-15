@@ -182,7 +182,7 @@ class JobsController extends Controller
     $cond = $branch_id ? " AND id=$branch_id " : "";
     $cond_stu = $student_id ? " AND c.student_id= $student_id" : "";
     $branches = u::query("SELECT id FROM branches WHERE `status`=1 $cond ");
-    $arr_product = [1, 2, 3, 102, 103,104,105, 106,107];
+    $arr_product = [1, 2, 3, 4, 102, 103,104,105, 106,107];
     foreach ($branches as $branch) {
       foreach($arr_product AS $i){
         $branch_id = $branch->id;
