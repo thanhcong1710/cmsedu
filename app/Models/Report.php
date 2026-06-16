@@ -4772,7 +4772,7 @@ class Report extends Model
     {
         $resp = "";
         $where = " ((c.class_id IS NOT NULL AND c.status = 6 AND c.debt_amount = 0 AND c.type > 0)  OR 
-            (c.class_id IS NULL AND c.status !=7  AND c.debt_amount = 0 AND c.type > 0))";
+            (c.class_id IS NULL AND c.status !=7  AND c.debt_amount = 0 AND c.type > 0 AND (SELECT count(id) FROM log_contracts_history WHERE contract_id=c.id AND status=6)>0))";
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
         }
