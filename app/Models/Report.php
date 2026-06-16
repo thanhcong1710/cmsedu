@@ -4771,7 +4771,8 @@ class Report extends Model
     public static function queryReportLgl05($p, $request, $total = 0, $unlimit = false)
     {
         $resp = "";
-        $where = " c.class_id IS NOT NULL AND c.status = 6 AND c.debt_amount = 0 AND c.type > 0 ";
+        $where = " ((c.class_id IS NOT NULL AND c.status = 6 AND c.debt_amount = 0 AND c.type > 0)  OR 
+            (c.class_id IS NULL AND c.status !=7  AND c.debt_amount = 0 AND c.type > 0))";
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
         }
