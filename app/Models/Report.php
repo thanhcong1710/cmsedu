@@ -4796,7 +4796,7 @@ class Report extends Model
                        (SELECT name FROM branches WHERE id=c.branch_id) AS branch_name,
                        (SELECT name FROM products WHERE id=c.product_id) AS product_name,
                        c.must_charge AS real_amount,
-                       (c.summary_sessions / 4) + 0 AS real_months,
+                       ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) / 4) + 0 AS real_months,
                        (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) AS start_date,
                        DATE_ADD(
                            DATE_ADD(
