@@ -4801,9 +4801,9 @@ class Report extends Model
                        DATE_ADD(
                            DATE_ADD(
                                (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1), 
-                               INTERVAL (c.summary_sessions DIV 4) MONTH
+                               INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) DIV 4) MONTH
                            ), 
-                           INTERVAL (c.summary_sessions MOD 4) WEEK
+                           INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) MOD 4) WEEK
                        ) AS end_date
                     FROM
                         contracts AS c 
