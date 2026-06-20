@@ -94,7 +94,7 @@ import u from '../../utilities/utility'
         if(status==1){
           return "Có đi học";
         }else if(status==0){
-          return "Không điểm danh";
+          return "Nghỉ học";
         }else if(status==2){
           return "Vắng mặt";
         }else if(status==3){
