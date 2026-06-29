@@ -137,8 +137,8 @@ class Attendances extends Model
         $query ="SELECT (SELECT program_id FROM `term_user_class` WHERE cls_name = c.cls_name LIMIT 1) program_id,
                 (SELECT product_id FROM `term_user_class` WHERE cls_name = c.cls_name LIMIT 1) product_id,
                 (SELECT branch_id FROM `term_user_class` WHERE cls_name = c.cls_name LIMIT 1) branch_id,
-                (SELECT id FROM `contracts` WHERE class_id = $classId AND student_id =  $studentId AND STATUS = 6) enrolment_id,
-                (SELECT id FROM `contracts` WHERE class_id = $classId AND student_id =  $studentId AND STATUS = 6) contract_id
+                (SELECT id FROM `contracts` WHERE class_id = $classId AND student_id =  $studentId AND STATUS = 6 ORDER BY id DESC LIMIT 1) enrolment_id,
+                (SELECT id FROM `contracts` WHERE class_id = $classId AND student_id =  $studentId AND STATUS = 6 ORDER BY id DESC LIMIT 1) contract_id
                 FROM `classes` c WHERE c.id = $classId";
         $data = u::query($query);
 
