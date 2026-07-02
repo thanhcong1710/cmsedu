@@ -541,7 +541,7 @@
                                         </div>
                                         <div class="col-sm-6 center">
                                             <p class="center"><b>Thay mặt BLĐ công ty</b></p>
-                                            <p class="center">GĐKD</p>
+                                            <p class="center">Giám đốc</p>
                                             <p class="center"><i>(Ký, đóng dấu TT)</i></p>
                                         </div>
                                         <div class="col-sm-6 center">
@@ -622,7 +622,7 @@
                                         </div>
                                         <div class="col-sm-6 center">
                                             <p class="center"><b>Thay mặt BLĐ công ty</b></p>
-                                            <p class="center">GĐKD</p>
+                                            <p class="center">Giám đốc</p>
                                             <p class="center"><i>(Ký, đóng dấu TT)</i></p>
                                         </div>
                                         <div class="col-sm-6 center">

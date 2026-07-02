@@ -81,7 +81,7 @@
                                 </div>
                                 <div style="display: flex">
                                     <div class="h-left" style="width: 33%">
-                                        <div class="center">Giám đốc TT</div>
+                                        <div class="center">Giám đốc</div>
                                         <p class="center">(Ký, họ tên, đóng dấu)</p>
                                     </div>
                                     <div class="h-left" style="width: 33%">
