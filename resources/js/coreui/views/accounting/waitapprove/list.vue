@@ -99,7 +99,7 @@
         </div>
         <b-card header>
           <div slot="header">
-            <i class="fa fa-list"></i> <b class="uppercase">Danh sách chờ duyệt đóng phí</b>
+            <i class="fa fa-list"></i> <b class="uppercase">Danh sách chờ duyệt đóng phí.</b>
           </div>
           <div v-show="action.loading" class="ajax-load content-loading">
             <div class="load-wrapper">
