@@ -89,7 +89,7 @@ class BranchTransfer extends Model
 				(SELECT CONCAT(`full_name`, ' - ', `username`) FROM users WHERE id = clt.creator_id) creator_name, 
 					(SELECT CONCAT(`full_name`, ' - ', `username`) FROM users WHERE id = clt.from_approver_id) from_om_name, 
 				(SELECT CONCAT(`full_name`, ' - ', `username`) FROM users WHERE id = clt.to_approver_id OR (clt.branh_id=2 AND id=140) LIMIT 1) to_om_name, 
-        (SELECT CONCAT(`full_name`, ' - ', `username`) FROM users WHERE id = clt.accounting_approver_id OR id =1689) accounting_name, 
+        (SELECT CONCAT(`full_name`, ' - ', `username`) FROM users WHERE id = clt.accounting_approver_id OR id =1689 LIMIT 1) accounting_name, 
 				(SELECT `accounting_id` FROM students WHERE id = clt.student_id) student_act, 
 					(SELECT `cms_id` FROM students WHERE id = clt.student_id) student_cms, 
 					(SELECT `crm_id` FROM students WHERE id = clt.student_id) student_crm, 
