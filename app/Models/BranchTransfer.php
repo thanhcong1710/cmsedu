@@ -73,7 +73,6 @@ class BranchTransfer extends Model
         }
         $limit .= " LIMIT $offset, $pagination->limit";
       }
-      if ()
       $query = "SELECT
 				clt.*, 
 				s.`accounting_id` accounting_id,
