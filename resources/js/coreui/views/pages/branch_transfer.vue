@@ -176,7 +176,7 @@
                                             <th><strong>Xác nhận của Phụ huynh</strong><i>Ký ghi rõ họ tên</i></th>
                                             <th><strong>Xác nhận của CSKH</strong><i>Ký ghi rõ họ tên</i></th>
                                             <th><strong>Xác Nhận Của Kế toán</strong><i>Ký ghi rõ họ tên</i></th>
-                                            <th><strong>Phê duyệt của GĐKD</strong><i>Ký ghi rõ họ tên</i></th>
+                                            <th><strong>Phê duyệt của GĐ</strong><i>Ký ghi rõ họ tên</i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
