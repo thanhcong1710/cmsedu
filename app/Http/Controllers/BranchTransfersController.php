@@ -120,8 +120,8 @@ class BranchTransfersController
           '' AS charge_date,
           '' AS total_charged,
           (SELECT full_name FROM users WHERE id=bt.creator_id) AS creator_name,
-          (SELECT full_name FROM users WHERE id=bt.accounting_approver_id) AS accounting_name,
-          (SELECT full_name FROM users WHERE id=bt.to_approver_id) AS to_approver_name,
+          (SELECT full_name FROM users WHERE id=bt.accounting_approver_id OR id =1689 LIMIT 1) AS accounting_name,
+          (SELECT full_name FROM users WHERE id=bt.to_approver_id OR (bt.from_branch_id=2 AND id=140) LIMIT 1) AS to_approver_name,
           DATE_FORMAT(bt.created_at , '%H:%i %d/%m/%Y') AS created_date,
           DATE_FORMAT(bt.accounting_approved_at , '%H:%i %d/%m/%Y') AS account_approved_date,
           DATE_FORMAT(bt.to_approved_at , '%H:%i %d/%m/%Y') AS to_approved_date
