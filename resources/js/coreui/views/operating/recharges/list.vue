@@ -163,7 +163,7 @@
                       <td><router-link v-b-tooltip.hover class="link-me" :title="`${html.page.title}`" :to="`${html.page.url.link}${item.id}`">{{index+1 + (html.pagination.cpage-1)*html.pagination.limit}}</router-link></td>                      
                       <td><router-link v-b-tooltip.hover class="link-me" :title="`${html.page.title}`" :to="`${html.page.url.link}${item.id}`">{{item.crm_id}}</router-link></td>
                       <td><router-link v-b-tooltip.hover class="link-me" :title="`${html.page.title}`" :to="`${html.page.url.link}${item.id}`">{{item.student_name}}</router-link></td>
-                      <td><router-link v-b-tooltip.hover class="link-me" :title="`${html.page.title}`" :to="`${html.page.url.link}${item.id}`">{{item.accounting_id}}</router-link></td>                      
+                      <td><router-link v-b-tooltip.hover class="link-me" :title="`${html.page.title}`" :to="`${html.page.url.link}${item.id}`">{{item.code}}</router-link></td>                      
                       <td><router-link v-b-tooltip.hover class="link-me" :title="`${html.page.title}`" :to="`${html.page.url.link}${item.id}`">{{item.contract_type | contractType}}</router-link></td>
                       <td><router-link v-b-tooltip.hover class="link-me" :title="`${html.page.title}`" :to="`${html.page.url.link}${item.id}`">{{item.branch_name}} - {{item.region_name}}</router-link></td>
                       <td><router-link v-b-tooltip.hover class="link-me" :title="`${html.page.title}`" :to="`${html.page.url.link}${item.id}`">{{item.contract_ec_name}}</router-link></td>

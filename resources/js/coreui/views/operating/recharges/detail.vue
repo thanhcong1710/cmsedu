@@ -467,7 +467,7 @@
                         <tr v-for="(item, index) in contracts" :key="index">
                           <td><div v-b-tooltip.hover title="Nhấp vào để xem chi tiết" class="link-me" @click="load(item.id)">{{item.code}}</div></td>
                           <td><div v-b-tooltip.hover title="Nhấp vào để xem chi tiết" class="link-me" @click="load(item.id)">{{student.type | customerType}}</div></td>
-                          <td><div v-b-tooltip.hover title="Nhấp vào để xem chi tiết" class="link-me" @click="load(item.id)">{{item.accounting_id}}</div></td>
+                          <td><div v-b-tooltip.hover title="Nhấp vào để xem chi tiết" class="link-me" @click="load(item.id)">{{item.code}}</div></td>
                           <td><div v-b-tooltip.hover title="Nhấp vào để xem chi tiết" class="link-me" @click="load(item.id)">{{item.type | contractType}}</div></td>
                           <td><div v-b-tooltip.hover title="Nhấp vào để xem chi tiết" class="link-me" @click="load(item.id)">{{item.contract_ec_name}}</div></td>
                           <td><div v-b-tooltip.hover title="Nhấp vào để xem chi tiết" class="link-me" @click="load(item.id)">{{item.contract_cm_name}}</div></td>
