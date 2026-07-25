@@ -301,6 +301,9 @@ class LMSAPIController
                 "Authorization:$token",
             ];
             $resp = $this->callAPI($url, $method, $params, $header, 0, false);
+            if (data_get($resp, 'status') == 'SUCCESS' && isset($resp->result->classSeq)) {
+                u::query("UPDATE classes SET id_lms= '" . $resp->result->classSeq . "' WHERE id=$class_id");
+            }
             if ($pre_teacher_id) {
                 $list_student = u::query("SELECT student_id FROM contracts WHERE class_id=$class_id AND status!=7");
                 foreach ($list_student as $student) {

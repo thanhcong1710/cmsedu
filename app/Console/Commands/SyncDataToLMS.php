@@ -79,7 +79,7 @@ class SyncDataToLMS extends Command
 
         if ($type === 'all' || $type === 'class') {
             $this->info('Syncing classes...');
-            $classes = u::query("SELECT id 
+            $classes = u::query("SELECT id, id_lms 
                 FROM
                     classes 
                 WHERE
@@ -89,7 +89,11 @@ class SyncDataToLMS extends Command
                     AND cls_enddate >= CURRENT_DATE");
             foreach ($classes as $class) {
                 try {
-                    $lmsApi->updateClassLMS($class->id);
+                    if ($class->id_lms) {
+                        $lmsApi->updateClassLMS($class->id);
+                    } else {
+                        $lmsApi->createClassLMS($class->id);
+                    }
                     $this->line("Class ID {$class->id} synced.");
                 } catch (\Exception $e) {
                     $this->error("Failed to sync Class ID {$class->id}: " . $e->getMessage());
@@ -99,7 +103,9 @@ class SyncDataToLMS extends Command
 
         if ($type === 'all' || $type === 'student') {
             $this->info('Syncing students...');
-            $students = u::query("SELECT DISTINCT student_id AS id FROM contracts WHERE product_id IN (1,2,3,100) AND class_id IS NOT NULL");
+            $students = u::query("SELECT DISTINCT student_id AS id FROM contracts 
+                WHERE product_id IN (1,2,3,100) AND class_id IS NOT NULL 
+                AND branch_id IN (1, 2, 4, 5, 6, 7, 9, 14, 19) AND status=6");
             foreach ($students as $student) {
                 try {
                     $lmsApi->updateStudentLMS($student->id);
