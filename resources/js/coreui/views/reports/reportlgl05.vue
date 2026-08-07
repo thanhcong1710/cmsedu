@@ -35,6 +35,16 @@
                 >
                 <i class="mx-input-min-icon fa fa-search"></i>
               </div>
+              <div class="col-md-3">
+                <date-picker
+                  style="width:100%;"
+                  v-model="searchData.dateRange"
+                  :lang="datepickerOptions.lang"
+                  format="YYYY-MM-DD"
+                  range
+                  placeholder="Chọn thời gian bắt đầu"
+                ></date-picker>
+              </div>
             </div>
           </div>
           <div slot="footer" class="text-center">
@@ -159,6 +169,7 @@ export default {
       searchData: {
         listBranchs: "",
         keyword: "",
+        dateRange: "",
       },
       resource: {
         branchs: [],
@@ -269,11 +280,15 @@ export default {
           ids.push(item.id);
         });
       }
+      const from_date = this.searchData.dateRange!='' && this.searchData.dateRange[0] ?`${u.dateToString(this.searchData.dateRange[0])}`:''
+      const to_date = this.searchData.dateRange!='' && this.searchData.dateRange[1] ?`${u.dateToString(this.searchData.dateRange[1])}`:''
       const data = {
         scope: ids,
         limit: this.pagination.limit,
         page: this.pagination.cpage,
         keyword: this.searchData.keyword.trim(),
+        from_date: from_date,
+        to_date: to_date,
       };
       return data;
     },

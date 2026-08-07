@@ -4779,6 +4779,12 @@ class Report extends Model
         if ($request->keyword != '') {
             $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%')";
         }
+        if ($request->from_date != '') {
+            $where .= " AND (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) >= '$request->from_date 00:00:00' ";
+        }
+        if ($request->to_date != '') {
+            $where .= " AND (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) <= '$request->to_date 23:59:59' ";
+        }
 
         if ($total) {
             $resp = "SELECT count(DISTINCT c.id) as total
