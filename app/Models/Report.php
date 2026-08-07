@@ -4771,7 +4771,7 @@ class Report extends Model
     public static function queryReportLgl05($p, $request, $total = 0, $unlimit = false)
     {
         $resp = "";
-        $where = " ((c.class_id IS NOT NULL AND c.status = 6 AND c.debt_amount = 0 AND c.type > 0)  OR 
+        $where = " (c.branch_id !=2 OR (c.branch_id=2 AND c.created_at>'2026-05-01 00:00:00')) AND ((c.class_id IS NOT NULL AND c.status = 6 AND c.debt_amount = 0 AND c.type > 0)  OR 
             (c.class_id IS NULL AND c.status !=7  AND c.debt_amount = 0 AND c.type > 0 AND (SELECT count(id) FROM log_contracts_history WHERE contract_id=c.id AND status=6)>0))";
         if ($p->s != '') {
             $where .= " AND c.branch_id in ($p->s) ";
