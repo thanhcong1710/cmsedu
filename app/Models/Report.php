@@ -4797,8 +4797,8 @@ class Report extends Model
                        (SELECT name FROM products WHERE id=c.product_id) AS product_name,
                        c.must_charge AS real_amount,
                        ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) / 4) + 0 AS real_months,
-                       (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) AS start_date,
-                       DATE_SUB(
+                       DATE_FORMAT((SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1), '%d/%m/%Y') AS start_date,
+                       DATE_FORMAT(DATE_SUB(
                            DATE_ADD(
                                DATE_ADD(
                                    (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1), 
@@ -4807,7 +4807,7 @@ class Report extends Model
                                INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) MOD 4) WEEK
                            ),
                            INTERVAL 1 DAY
-                       ) AS end_date
+                       ), '%d/%m/%Y') AS end_date
                     FROM
                         contracts AS c 
                         LEFT JOIN students AS s ON s.id=c.student_id
