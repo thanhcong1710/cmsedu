@@ -4780,10 +4780,10 @@ class Report extends Model
             $where .= " AND (s.name LIKE '%$request->keyword%' OR s.crm_id LIKE '%$request->keyword%')";
         }
         if ($request->from_date != '') {
-            $where .= " AND (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) >= '$request->from_date 00:00:00' ";
+            $where .= " AND (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY enrolment_start_date ASC LIMIT 1) >= '$request->from_date 00:00:00' ";
         }
         if ($request->to_date != '') {
-            $where .= " AND (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) <= '$request->to_date 23:59:59' ";
+            $where .= " AND (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY enrolment_start_date ASC LIMIT 1) <= '$request->to_date 23:59:59' ";
         }
 
         if ($total) {
@@ -4803,14 +4803,14 @@ class Report extends Model
                        (SELECT name FROM products WHERE id=c.product_id) AS product_name,
                        c.must_charge AS real_amount,
                        ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) / 4) + 0 AS real_months,
-                       DATE_FORMAT((SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1), '%d/%m/%Y') AS start_date,
+                       DATE_FORMAT((SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY enrolment_start_date ASC LIMIT 1), '%d/%m/%Y') AS start_date,
                        DATE_FORMAT(DATE_SUB(
                            DATE_ADD(
                                DATE_ADD(
-                                   (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1), 
-                                   INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) DIV 4) MONTH
+                                   (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY enrolment_start_date ASC LIMIT 1), 
+                                   INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY enrolment_start_date ASC LIMIT 1) DIV 4) MONTH
                                ), 
-                               INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) MOD 4) WEEK
+                               INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY enrolment_start_date ASC LIMIT 1) MOD 4) WEEK
                            ),
                            INTERVAL 1 DAY
                        ), '%d/%m/%Y') AS end_date
