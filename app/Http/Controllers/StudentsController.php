@@ -845,7 +845,8 @@ class StudentsController extends Controller
               (SELECT cl.cls_name FROM classes cl WHERE cl.id = c.class_id LIMIT 1) class_name,
               c.total_sessions, c.real_sessions,c.bonus_sessions,c.summary_sessions, c.expected_class, c.bill_info, c.receivable, c.must_charge,
               CONCAT(u.full_name, ' - ', u.username) creator, pr.name product_name, pg.name program_name,
-              t.name tuition_fee_name, t.price tuition_fee_price, b.name branch_name, c.total_discount, c.reserved_sessions, c.reservable_sessions
+              t.name tuition_fee_name, t.price tuition_fee_price, b.name branch_name, c.total_discount, c.reserved_sessions, c.reservable_sessions,
+              (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) AS pre_enrolment_start_date
             FROM contracts c
               LEFT JOIN students s ON c.student_id = s.id
               LEFT JOIN users u ON c.creator_id = u.id

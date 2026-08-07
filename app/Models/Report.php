@@ -4798,12 +4798,15 @@ class Report extends Model
                        c.must_charge AS real_amount,
                        ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) / 4) + 0 AS real_months,
                        (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) AS start_date,
-                       DATE_ADD(
+                       DATE_SUB(
                            DATE_ADD(
-                               (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1), 
-                               INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) DIV 4) MONTH
-                           ), 
-                           INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) MOD 4) WEEK
+                               DATE_ADD(
+                                   (SELECT enrolment_start_date FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1), 
+                                   INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) DIV 4) MONTH
+                               ), 
+                               INTERVAL ((SELECT summary_sessions FROM log_contracts_history WHERE contract_id = c.id AND enrolment_start_date IS NOT NULL ORDER BY id ASC LIMIT 1) MOD 4) WEEK
+                           ),
+                           INTERVAL 1 DAY
                        ) AS end_date
                     FROM
                         contracts AS c 

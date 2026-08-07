@@ -25,6 +25,7 @@
                 <th class="width-150">Số tiền phải đóng</th>
                 <th class="width-100">Ngày dự kiến học</th>
                 <th class="width-100">Ngày dự kiến kết thúc</th>
+                <th class="width-100">Ngày đầu tiên xếp lớp</th>
                 <th class="width-100">Số buổi đã bảo lưu bình thường </th>
                 <th class="width-100">Số buổi được bảo lưu bình thường</th>
               </tr>
@@ -47,6 +48,7 @@
                 <td>{{contract.must_charge|formatMoney}}</td>
                 <td>{{contract.start_date}}</td>
                 <td>{{contract.end_date}}</td>
+                <td>{{contract.pre_enrolment_start_date}}</td>
                 <td>{{contract.reserved_sessions | formatNumber}}</td>
                 <td>{{contract.reservable_sessions | formatNumber}}</td>
               </tr>
