@@ -49,19 +49,13 @@ class LMSAPIController
     }
     public function getTokenLMS()
     {
-        if (ENVIRONMENT == 'product') {
-            $url = env('LMS_API_URL', 'https://lms-vn.cmsedu.net') . "/api/v1/auth/sys/token.do";
-        } else {
-            $url = env('LMS_API_URL', 'https://lms-vn.cmsedu.net') . "/api/v1/auth/sys/token.do";
-        }
-        $method = 'POST';
-        $params = [
-            "sysId" => "crm",
-            "accessKey" => "g2hEsGwT5ud9Ts",
+        // Tạm thời luôn dùng token fake
+        return (object)[
+            'status' => 'SUCCESS',
+            'result' => (object)[
+                'accessToken' => 'fake-token-for-crm-integration'
+            ]
         ];
-        $header = [];
-        $resp = $this->callAPI($url, $method, $params, $header, 0, false);
-        return $resp;
     }
     public function createBranchLMS($branch_id)
     {
