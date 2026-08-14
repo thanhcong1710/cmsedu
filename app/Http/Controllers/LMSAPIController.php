@@ -50,9 +50,9 @@ class LMSAPIController
     public function getTokenLMS()
     {
         // Tạm thời luôn dùng token fake
-        return (object)[
+        return (object) [
             'status' => 'SUCCESS',
-            'result' => (object)[
+            'result' => (object) [
                 'accessToken' => 'fake-token-for-crm-integration'
             ]
         ];
@@ -209,7 +209,7 @@ class LMSAPIController
             FROM classes AS cl
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
-        if (in_array($class_info->product_id, [1, 2, 3, 100])  && 1==2) {
+        if (in_array($class_info->product_id, [1, 2, 3, 100]) && 1 == 2) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
@@ -240,6 +240,7 @@ class LMSAPIController
                 "clsStat" => $class_info->cls_iscancelled == 'no' ? 'US001' : 'US002',
                 "clsType" => $clsType,
                 "cntrId" => $class_info->branch_id_lms,
+                "product_id" => $class_info->product_id
             ];
             $header = [
                 "Authorization:$token",
@@ -259,7 +260,7 @@ class LMSAPIController
             FROM classes AS cl
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
-        if (in_array($class_info->product_id, [1, 2, 3, 100])   && 1==2) {
+        if (in_array($class_info->product_id, [1, 2, 3, 100]) && 1 == 2) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
@@ -290,7 +291,8 @@ class LMSAPIController
                 "clsStat" => $class_info->cls_iscancelled == 'no' ? 'US001' : 'US002',
                 "clsType" => $clsType,
                 "cntrId" => $class_info->branch_id_lms,
-                "classSeq" => (int) $class_info->id_lms
+                "classSeq" => (int) $class_info->id_lms,
+                "product_id" => $class_info->product_id
             ];
             $header = [
                 "Authorization:$token",
@@ -318,7 +320,7 @@ class LMSAPIController
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
                 LEFT JOIN branches AS b ON b.id=c.branch_id
             WHERE c.id=$contract_id");
-        if ($student_info && in_array($student_info->product_id, [1, 2, 3, 100])   && 1==2) {
+        if ($student_info && in_array($student_info->product_id, [1, 2, 3, 100]) && 1 == 2) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
