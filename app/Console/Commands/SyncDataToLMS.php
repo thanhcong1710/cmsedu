@@ -57,16 +57,24 @@ class SyncDataToLMS extends Command
 
         if ($type === 'all' || $type === 'teacher') {
             $this->info('Syncing teachers...');
-            $teachers = u::query("SELECT t.id,t.user_id FROM teachers As t WHERE t.user_id IN (
-                SELECT DISTINCT
-                    teacher_id 
+            $teachers = u::query("SELECT
+                    t.id,
+                    t.user_id , tu.branch_id
                 FROM
-                    classes 
+                    teachers AS t 
+                    LEFT JOIN term_user_branch AS tu ON tu.user_id=t.user_id
+                    LEFT JOIN users AS u On u.id=t.user_id
                 WHERE
-                    product_id IN (1, 2, 3, 100) 
-                    AND branch_id IN (1, 2, 4, 5, 6, 7, 9, 14, 19) 
-                    AND cls_iscancelled = 'no' 
-                    AND cls_enddate >= CURRENT_DATE )");
+                    t.user_id IN (
+                        SELECT DISTINCT
+                            teacher_id 
+                        FROM
+                            classes 
+                        WHERE
+                            product_id IN (1, 2, 3, 100) 
+                            AND branch_id IN (1, 2, 4, 5, 6, 7, 9, 14, 19) 
+                            AND cls_iscancelled = 'no' 
+                    AND cls_enddate >= CURRENT_DATE) AND u.status=1 ORDER BY branch_id");
             foreach ($teachers as $teacher) {
                 try {
                     $lmsApi->updateTeacherLMS($teacher->id);
@@ -103,12 +111,45 @@ class SyncDataToLMS extends Command
 
         if ($type === 'all' || $type === 'student') {
             $this->info('Syncing students...');
-            $students = u::query("SELECT DISTINCT student_id AS id FROM contracts 
-                WHERE product_id IN (1,2,3,100) AND class_id IS NOT NULL 
-                AND branch_id IN (1, 2, 4, 5, 6, 7, 9, 14, 19) AND status=6");
+            $students = u::query("SELECT DISTINCT
+                    c.student_id AS id,
+                    s.id_lms,
+                    (
+                        SELECT
+                            id 
+                        FROM
+                            contracts 
+                        WHERE
+                            student_id = s.id 
+                            AND product_id IN (1, 2, 3, 100) 
+                            AND class_id IS NOT NULL 
+                        ORDER BY
+                            count_recharge DESC,
+                            id DESC 
+                    LIMIT 1) AS latest_contract_id 
+                FROM
+                    contracts c
+                    JOIN students s ON s.id = c.student_id 
+                WHERE
+                    c.product_id IN (1, 2, 3, 100) 
+                    AND c.class_id IS NOT NULL 
+                    AND c.branch_id IN (1, 2, 4, 5, 6, 7, 9, 14, 19) 
+                    AND c.STATUS = 6 
+                    AND c.class_id IN (SELECT id
+                                FROM
+                                    classes 
+                                WHERE
+                                    product_id IN (1, 2, 3, 100) 
+                                    AND branch_id IN (1, 2, 4, 5, 6, 7, 9, 14, 19) 
+                                    AND cls_iscancelled = 'no' 
+                                    AND cls_enddate >= CURRENT_DATE)");
             foreach ($students as $student) {
                 try {
-                    $lmsApi->updateStudentLMS($student->id);
+                    if ($student->id_lms) {
+                        $lmsApi->updateStudentLMS($student->id);
+                    } elseif ($student->latest_contract_id) {
+                        $lmsApi->createStudentLMS($student->latest_contract_id);
+                    }
                     $this->line("Student ID {$student->id} synced.");
                 } catch (\Exception $e) {
                     $this->error("Failed to sync Student ID {$student->id}: " . $e->getMessage());

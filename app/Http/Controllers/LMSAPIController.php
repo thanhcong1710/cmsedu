@@ -173,7 +173,7 @@ class LMSAPIController
     public function updateTeacherLMS($teacher_id)
     {
         $teacher_info = u::first("SELECT t.*, u.status,u.email,u.phone,tb.is_head_teacher,tb.branch_id,
-            (SELECT id_lms FROM branches WHERE id=tb.branch_id) AS branch_id_lms
+            (SELECT id_lms FROM branches WHERE id=tb.branch_id) AS branch_id_lms, u.hrm_id
             FROM teachers AS t
                 LEFT JOIN users AS u ON t.user_id=u.id 
                 LEFT JOIN term_teacher_branch AS tb ON tb.teacher_id=t.id AND tb.status=1
@@ -200,6 +200,7 @@ class LMSAPIController
             "head" => $teacher_info->is_head_teacher == 1 ? 'Y' : 'N',
             "remark" => "",
             "cntrId" => $teacher_info->branch_id_lms,
+            "hrm_id" => $teacher_info->hrm_id
         ];
         $header = [
             "Authorization:$token",
@@ -214,7 +215,7 @@ class LMSAPIController
             FROM classes AS cl
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
-        if (in_array($class_info->product_id, [1, 2, 3, 100]) && 1==2) {
+        if (in_array($class_info->product_id, [1, 2, 3, 100])) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
@@ -264,7 +265,7 @@ class LMSAPIController
             FROM classes AS cl
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
-        if (in_array($class_info->product_id, [1, 2, 3, 100])  && 1==2) {
+        if (in_array($class_info->product_id, [1, 2, 3, 100])) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
@@ -323,7 +324,7 @@ class LMSAPIController
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
                 LEFT JOIN branches AS b ON b.id=c.branch_id
             WHERE c.id=$contract_id");
-        if ($student_info && in_array($student_info->product_id, [1, 2, 3, 100])  && 1==2) {
+        if ($student_info && in_array($student_info->product_id, [1, 2, 3, 100])) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
@@ -350,7 +351,7 @@ class LMSAPIController
                 "validCd" => "VC005",
                 "stuStat" => 'SS002',
                 "remark" => "",
-                "stuId" => $student_info->accounting_id ? $student_info->accounting_id : $student_info->crm_id,
+                "stuId" => $student_info->crm_id,
             ];
             $header = [
                 "Authorization:$token",
@@ -365,7 +366,7 @@ class LMSAPIController
     {
         $student_info = u::first("SELECT b.id_lms AS branch_id_lms,t.id_lms AS teacher_id_lms,cl.id_lms AS class_id_lms,
             DATE_FORMAT(s.created_at ,'%Y-%m-%d') AS student_created_at,s.name AS student_name,s.date_of_birth,s.gender,
-            c.enrolment_start_date,c.enrolment_last_date,s.accounting_id,c.status AS contract_status,s.id_lms,
+            c.enrolment_start_date,c.enrolment_last_date,s.crm_id,c.status AS contract_status,s.id_lms,
             (SELECT id_lms FROM classes WHERE id =$from_class_id) AS pre_class_id_lms,c.type,cl.is_trial,c.coupon,c.product_id
             FROM contracts AS c
                 LEFT JOIN students AS s ON s.id=c.student_id 
@@ -373,7 +374,7 @@ class LMSAPIController
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
                 LEFT JOIN branches AS b ON b.id=c.branch_id
             WHERE c.student_id=$student_id AND c.product_id IN(1,2,3,100) AND c.class_id IS NOT NULL ORDER BY c.count_recharge DESC,c.id DESC  LIMIT 1");
-        if ($student_info && in_array($student_info->product_id, [1, 2, 3, 100])  && 1==2) {
+        if ($student_info && in_array($student_info->product_id, [1, 2, 3, 100])) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
@@ -402,7 +403,7 @@ class LMSAPIController
                 "hStuSeq" => (int) $student_info->id_lms,
                 "hClassSeq" => $from_class_id ? (int) $student_info->pre_class_id_lms : (int) $student_info->class_id_lms,
                 "moveYn" => $from_class_id ? 'Y' : 'N',
-                "stuId" => $student_info->accounting_id
+                "stuId" => $student_info->crm_id
             ];
             $header = [
                 "Authorization:$token",
