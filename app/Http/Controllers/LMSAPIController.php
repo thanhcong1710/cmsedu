@@ -209,7 +209,7 @@ class LMSAPIController
             FROM classes AS cl
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
-        if (in_array($class_info->product_id, [1, 2, 3, 100]) && 1 == 2) {
+        if (in_array($class_info->product_id, [1, 2, 3, 100])) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
@@ -260,7 +260,7 @@ class LMSAPIController
             FROM classes AS cl
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
             WHERE cl.id=$class_id");
-        if (in_array($class_info->product_id, [1, 2, 3, 100]) && 1 == 2) {
+        if (in_array($class_info->product_id, [1, 2, 3, 100]) ) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
@@ -320,7 +320,7 @@ class LMSAPIController
                 LEFT JOIN teachers AS t ON t.user_id=cl.teacher_id
                 LEFT JOIN branches AS b ON b.id=c.branch_id
             WHERE c.id=$contract_id");
-        if ($student_info && in_array($student_info->product_id, [1, 2, 3, 100]) && 1 == 2) {
+        if ($student_info && in_array($student_info->product_id, [1, 2, 3, 100])) {
             $token = self::getTokenLMS();
             if (data_get($token, 'status') == 'SUCCESS') {
                 $token = $token->result->accessToken;
