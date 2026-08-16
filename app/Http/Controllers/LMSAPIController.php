@@ -130,7 +130,7 @@ class LMSAPIController
     public function createTeacherLMS($teacher_id)
     {
         $teacher_info = u::first("SELECT t.*, u.status,u.email,u.phone,tb.is_head_teacher,tb.branch_id,
-            (SELECT id_lms FROM branches WHERE id=tb.branch_id) AS branch_id_lms
+            (SELECT id_lms FROM branches WHERE id=tb.branch_id) AS branch_id_lms, u.hrm_id
             FROM teachers AS t
                 LEFT JOIN users AS u ON t.user_id=u.id 
                 LEFT JOIN term_teacher_branch AS tb ON tb.teacher_id=t.id AND tb.status=1
@@ -158,6 +158,7 @@ class LMSAPIController
             "head" => $teacher_info->is_head_teacher == 1 ? 'Y' : 'N',
             "remark" => "",
             "cntrId" => $teacher_info->branch_id_lms,
+            "hrm_id" => $teacher_info->hrm_id
         ];
         $header = [
             "Authorization:$token",
