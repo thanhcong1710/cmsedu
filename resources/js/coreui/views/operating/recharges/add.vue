@@ -1788,6 +1788,26 @@ export default {
     },
     checkCoupon(){
         if(this.data.coupon_code!=''){
+            if(this.data.coupon_code.toUpperCase() === 'AP1000'){
+                const tuitionName = this.cache.tuition_fee ? (this.cache.tuition_fee.tuition_fee_name || '').toLowerCase() : '';
+                const tuitionPrice = this.cache.tuition_fee ? parseInt(this.cache.tuition_fee.tuition_fee_price) : 0;
+                
+                let isComboGreaterThan6Months = false;
+                if (tuitionName.includes('combo')) {
+                    const monthMatch = tuitionName.match(/(\d+)\s*tháng/i);
+                    const months = monthMatch ? parseInt(monthMatch[1], 10) : 0;
+                    if (months > 6) {
+                        isComboGreaterThan6Months = true;
+                    }
+                }
+                
+                if (tuitionPrice <= 15000000 && !isComboGreaterThan6Months) {
+                    alert("Giảm trực tiếp 1.000.000đ (Sau chiết khấu) chỉ áp dụng với các khóa học từ 12 tháng trở lên, Combo từ 6 tháng trở lên, các chương trình học 2 buổi/ tuần (từ 6 tháng trở lên)");
+                    this.data.coupon_code = '';
+                    this.data.voucher = 0;
+                    return;
+                }
+            }
             this.html.loading.action = true;
             const params = {
                 coupon_code:this.data.coupon_code,
