@@ -114,6 +114,7 @@
                   <th>Gói phí</th>
                   <th>Số tiền phải đóng</th>
                   <th>Công nợ</th>
+                  <th>Số gói phí mua cùng</th>
                 </tr>
               </thead>
               <tbody>
@@ -129,6 +130,7 @@
                   <td>{{item.tuition_fee_name}}</td>
                   <td>{{item.must_charge | formatMoney}}</td>
                   <td>{{item.debt_amount | formatMoney}}</td>
+                  <td>{{item.concurrent_contracts}}</td>
                 </tr>
               </tbody>
             </table>

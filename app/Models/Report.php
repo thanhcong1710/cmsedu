@@ -4693,7 +4693,8 @@ class Report extends Model
                        c.created_at, c.must_charge, c.debt_amount,
                        (SELECT name FROM  tuition_fee WHERE id=c.tuition_fee_id) AS tuition_fee_name,
                        c.count_recharge,
-                       (SELECT CONCAT(full_name,' - ',hrm_id) FROM users WHERE id=c.creator_id) AS creator_name
+                       (SELECT CONCAT(full_name,' - ',hrm_id) FROM users WHERE id=c.creator_id) AS creator_name,
+                       (SELECT COUNT(*) FROM contracts AS c2 WHERE c2.student_id = c.student_id AND c2.id != c.id AND c2.must_charge > 0 AND c2.total_charged > 0 AND c2.created_at BETWEEN DATE_SUB(c.created_at, INTERVAL 7 DAY) AND DATE_ADD(c.created_at, INTERVAL 7 DAY)) AS concurrent_contracts
                     FROM
                         contracts AS c 
                         LEFT JOIN discount_code_contracts AS dc ON dc.contract_id=c.id

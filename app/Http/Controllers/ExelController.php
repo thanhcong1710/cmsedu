@@ -9694,10 +9694,10 @@ class ExelController extends Controller
 
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
-            $sheet->mergeCells('A1:K1');
-            $sheet->mergeCells('A2:K2');
-            $sheet->mergeCells('A3:K3');
-            $sheet->mergeCells('A4:K4');
+            $sheet->mergeCells('A1:L1');
+            $sheet->mergeCells('A2:L2');
+            $sheet->mergeCells('A3:L3');
+            $sheet->mergeCells('A4:L4');
             $sheet->setCellValue('A1', 'CÔNG TY CỔ PHẦN GIÁO DỤC LOGIC LAB');
             $sheet->setCellValue('A2', 'BÁO CÁO CHI TIẾT GÓI BÁN');
             $sheet->getRowDimension('1')->setRowHeight(36);
@@ -9717,6 +9717,7 @@ class ExelController extends Controller
             $sheet->setCellValue('I5', 'Gói phí');
             $sheet->setCellValue('J5', 'Số tiền phải đóng');
             $sheet->setCellValue('K5', 'Công nợ');
+            $sheet->setCellValue('L5', 'Số gói phí mua cùng');
 
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(30);
@@ -9729,11 +9730,12 @@ class ExelController extends Controller
             $sheet->getColumnDimension('I')->setWidth(30);
             $sheet->getColumnDimension('J')->setWidth(30);
             $sheet->getColumnDimension('K')->setWidth(30);
+            $sheet->getColumnDimension('L')->setWidth(25);
 
-            ProcessExcel::styleCells($spreadsheet, "A1:K1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
-            ProcessExcel::styleCells($spreadsheet, "A2:K2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
-            ProcessExcel::styleCells($spreadsheet, "A3:K3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
-            ProcessExcel::styleCells($spreadsheet, "A4:K4", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
+            ProcessExcel::styleCells($spreadsheet, "A1:L1", NULL, NULL, 16, 1, 3, "center", "center", true, 0, 'Calibri');
+            ProcessExcel::styleCells($spreadsheet, "A2:L2", NULL, NULL, 20, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "A3:L3", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
+            ProcessExcel::styleCells($spreadsheet, "A4:L4", NULL, NULL, 12, 1, 3, "center", "center", true, 0, 'Arial');
 
             ProcessExcel::styleCells($spreadsheet, "A5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "B5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
@@ -9746,6 +9748,7 @@ class ExelController extends Controller
             ProcessExcel::styleCells($spreadsheet, "I5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "J5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
             ProcessExcel::styleCells($spreadsheet, "K5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
+            ProcessExcel::styleCells($spreadsheet, "L5", '223b54', 'FFFFFF', 12, 1, 3, "center", "center", true, 0, 'Cambria');
 
             for ($i = 0; $i < count($students); $i++) {
                 $x = $i + 6;
@@ -9760,6 +9763,7 @@ class ExelController extends Controller
                 $sheet->setCellValue('I' . $x, $students[$i]->tuition_fee_name);
                 $sheet->setCellValue('J' . $x, $students[$i]->must_charge);
                 $sheet->setCellValue('K' . $x, $students[$i]->debt_amount);
+                $sheet->setCellValue('L' . $x, $students[$i]->concurrent_contracts);
                 $sheet->getRowDimension($x)->setRowHeight(23);
                 ProcessExcel::styleCells($spreadsheet, "A$x", 'FFFFFF', '111111', 11, 0, 3, "right", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "B$x", 'FFFFFF', '111111', 11, 0, 3, "left", "center", true, 0, 'Cambria');
@@ -9772,6 +9776,7 @@ class ExelController extends Controller
                 ProcessExcel::styleCells($spreadsheet, "I$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "J$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
                 ProcessExcel::styleCells($spreadsheet, "K$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
+                ProcessExcel::styleCells($spreadsheet, "L$x", 'FFFFFF', '111111', 11, 0, 3, "center", "center", true, 0, 'Cambria');
             }
             $writer = new Xlsx($spreadsheet);
             try {
